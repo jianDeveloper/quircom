@@ -19,19 +19,19 @@ body{
   align-items: center;
   max-width: 1240px;
   margin: auto;
-  padding: 16px;
+  padding: 10px;
 }
 .mainlogo{
   height: 60px;
 }
-.header ul {
-  display:flex;
-  visibility: hidden;
+
+.menu {
+  display:inline-flex;
+  visibility: none;
   padding: 0;
-  
-}
-.header ul li {
   list-style-type: none;
+}
+.menu li {
   padding-left: 10px;
   padding-top: 3px;
   padding-bottom: 3px;
@@ -55,17 +55,20 @@ a{
   text-decoration: none;
   color: black;
 }
-.smallmenu{
-  list-style-type: none;
-  display:fixed;
-  padding: 0;
-  width: 60%;
-  top: 0;
+.smallmenu {
+  position: fixed;
   left: 0;
-  background-color:aquamarine;
+  width: 40%;
+  top: 0;
   height: 100%;
+  border-left: solid 10px;
+  border-left-color: rgb(0, 58, 106);
+  background-color: rgba(255, 107, 15, 0.9);
+}
+.smallmenu ul{
+  list-style-type: none;
+  padding-top: 48px;
 }
 .smallmenu li{
   padding: 16px;
-  margin-left: 10px;
 }
