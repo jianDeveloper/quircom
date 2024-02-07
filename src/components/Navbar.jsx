@@ -5,7 +5,7 @@ import { TiThMenu } from "react-icons/ti";
 import logo1 from '../assets/Icon1.png';
 
 const navBar = () => {
-    const {toggle, setNav} = useState(false)
+    const {nav, setNav} = useState(false);
 
   return (
     <div className='header'>
@@ -20,10 +20,10 @@ const navBar = () => {
         <li><a href='#'>Log In</a></li>
         <li><a href='#' className='active1'>Sign Up</a></li>
       </ul>
-      <div onClick={() => setNav(!toggle)}>
-        {toggle ? <AiOutlineClose size={22}/> : <TiThMenu size={22}/>}
+      <div onClick={() => setNav(!nav)}>
+        {!nav ? <AiOutlineClose size={22}/> : <TiThMenu size={22}/>}
       </div>
-      <div className='smallmenu'>
+      <div className={!nav ? 'smallmenu' : 'smallmenu1'}>
       <img className='mainlogo1' src={logo1}></img>
         <ul>
           <li><a href='#' className='active2'>About us</a></li>

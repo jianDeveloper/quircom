@@ -69,6 +69,10 @@ a{
   border-left-color: rgb(0, 58, 106);
   background-color: rgb(255, 255, 255);
 }
+.smallmenu1 {
+  position: fixed;
+  left: -100%;
+}
 .smallmenu ul{
   list-style-type: none;
   padding-top: 16px;
