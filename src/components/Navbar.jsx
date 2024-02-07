@@ -1,11 +1,12 @@
-import React from 'react'
-import { useState } from "react";
+import React, {useState} from 'react';
 import { AiOutlineClose } from "react-icons/ai";
 import { TiThMenu } from "react-icons/ti";
 
 import logo1 from '../assets/Icon1.png';
 
 const navBar = () => {
+    const {toggle, setNav} = useState(false)
+
   return (
     <div className='header'>
       <img className='mainlogo' src={logo1}></img>
@@ -19,8 +20,8 @@ const navBar = () => {
         <li><a href='#'>Log In</a></li>
         <li><a href='#' className='active1'>Sign Up</a></li>
       </ul>
-      <div>
-        <TiThMenu size={22}/> 
+      <div onClick={() => setNav(!toggle)}>
+        {toggle ? <AiOutlineClose size={22}/> : <TiThMenu size={22}/>}
       </div>
       <div className='smallmenu'>
       <img className='mainlogo1' src={logo1}></img>
