@@ -24,7 +24,11 @@ body{
 .mainlogo{
   height: 60px;
 }
-
+.mainlogo1{
+  height: 60px;
+  margin: 10px;
+  padding-top: 9px;
+}
 .menu {
   display:inline-flex;
   visibility: none;
@@ -63,12 +67,14 @@ a{
   height: 100%;
   border-left: solid 10px;
   border-left-color: rgb(0, 58, 106);
-  background-color: rgba(255, 107, 15, 0.9);
+  background-color: rgb(255, 255, 255);
 }
 .smallmenu ul{
   list-style-type: none;
-  padding-top: 48px;
+  padding-top: 16px;
 }
 .smallmenu li{
   padding: 16px;
+  border-bottom: solid 1px;
+  border-color: orangered;
 }

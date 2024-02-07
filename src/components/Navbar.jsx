@@ -23,7 +23,7 @@ const navBar = () => {
         <TiThMenu size={22}/> 
       </div>
       <div className='smallmenu'>
-      <img className='mainlogo' src={logo1}></img>
+      <img className='mainlogo1' src={logo1}></img>
         <ul>
           <li><a href='#' className='active2'>About us</a></li>
           <li><a href='#'>Careers</a></li>
