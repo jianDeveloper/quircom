@@ -18,15 +18,11 @@ body{
   margin: auto;
   padding: 10px;
 }
-.mainlogo{
-  height: 60px;
-}
 .mainlogo1{
   height: 60px;
   margin: 10px;
   padding-top: 9px;
 }
-
 .active1 {
   background-color: rgb(0, 63, 115);
   border-radius: 15px;

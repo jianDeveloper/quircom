@@ -1,4 +1,5 @@
 import React from 'react'
+import styles from "./styles.js";
 
 import Navbar from './components/Navbar.jsx';
 import About from './components/About.jsx';
@@ -7,11 +8,13 @@ function App() {
   return (
     <div>
       <div>
-        <Navbar />
+          <Navbar />
       </div>
-      <section>
+      <div className={`bg-primary ${styles.flexStart}`}>
+      <div className={`${styles.boxWidth}`}>
         <About />
-      </section>
+      </div>
+    </div>
     </div>
   )
 }
