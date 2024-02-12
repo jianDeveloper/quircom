@@ -10,11 +10,11 @@ function App() {
       <div>
           <Navbar />
       </div>
-      <div className={`bg-primary ${styles.flexStart}`}>
-      <div className={`${styles.boxWidth}`}>
-        <About />
+      <div className={`${styles.flexStart}`}>
+        <div className={`${styles.boxWidth}`}>
+          <About />
+        </div>
       </div>
-    </div>
     </div>
   )
 }
