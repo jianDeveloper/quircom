@@ -2,7 +2,7 @@ import React from 'react'
 import styles from "../styles";
 import biglogo from '../assets/mascot.png'
 
-const About = () => {
+const Hero = () => {
   return (
     <section id="home" className={`flex md:flex-row flex-col ${styles.paddingY}`}>
       <div className={`flex-1 ${styles.flexStart} flex-col xl:px-0 sm:px-16 px-6`}>
@@ -24,7 +24,6 @@ const About = () => {
               <p className="font-poppins font-bold text-[18px] text-white leading-[23.4px]">
                 <a href='#' className="text-gradient">Learn more!</a>
               </p>
-              
             </div>
           </div>
         </div>
@@ -33,10 +32,9 @@ const About = () => {
         <img src={biglogo}  className="w-[43%]  right-0 top-[0] absolute z-[-5]" />
       </div>
       <div className={`flex-1 flex ${styles.flexCenter} md:hidden my-10 relative`}>
-        <img src={biglogo}  className="w-[80%] absolute top-0 right-0" />
+        <img src={biglogo}  className="w-[80%] static top-0 right-0" />
       </div>
-
-    </section> 
+    </section>
   )
   }
-export default About
+export default Hero

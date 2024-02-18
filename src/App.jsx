@@ -2,7 +2,7 @@ import React from 'react'
 import styles from "./styles.js";
 
 import Navbar from './components/Navbar.jsx';
-import About from './components/About.jsx';
+import Hero from './components/Hero.jsx';
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
       </div>
       <div className={`${styles.flexStart}`}>
         <div className={`${styles.boxWidth}`}>
-          <About />
+          <Hero />
         </div>
       </div>
     </div>

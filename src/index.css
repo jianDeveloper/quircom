@@ -18,18 +18,5 @@ body{
   margin: auto;
   padding: 10px;
 }
-.active1 {
-  background-color: #1D5B79;
-  border-radius: 15px;
-  color: white;
-  padding-left: 10px;
-  padding-top: 3px;
-  padding-bottom: 3px;
-  padding-right: 10px;
-}
-.active2 {
-  font-weight:600;
-  font-size: medium;
-  color:  #1D5B79;
-}
+
 
