@@ -25,7 +25,7 @@ const navBar = () => {
       <div onClick={() => setNav(!nav)} className='block md:hidden'>
         {!nav ? <TiThMenu size={22}/> : <AiOutlineClose size={22}/> }
       </div>
-      <div className={nav ? 'fixed left-0 top-0 w-[300px] h-full border-l-solid border-l-[15px] border-l-[#1D5B79] bg-white ease-in-out duration-500' : 'fixed left-[-100%]'}>
+      <div className={nav ? 'fixed md:hidden left-0 top-0 w-[300px] h-full border-l-solid border-l-[15px] border-l-[#1D5B79] bg-white ease-in-out duration-500' : 'fixed left-[-100%]'}>
       <img className='h-[70px] m-[10px] pt-[9px]' src={logo1}></img>
         <ul>
           <li className='p-4 border-b-2 ml-6 mr-6 border-orange-600'>About us</li>

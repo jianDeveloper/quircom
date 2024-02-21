@@ -32,7 +32,7 @@ const Hero = () => {
         <img src={biglogo}  className="w-[43%]  right-0 top-[0] absolute z-[-5]" />
       </div>
       <div className={`flex-1 flex ${styles.flexCenter} md:hidden my-10 relative`}>
-        <img src={biglogo}  className="w-[80%] static top-0 right-0" />
+        <img src={biglogo}  className="w-[80%] absolute top-0 right-0 z-[-5]" />
       </div>
     </section>
   )
