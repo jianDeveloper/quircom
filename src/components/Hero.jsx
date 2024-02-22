@@ -29,7 +29,7 @@ const Hero = () => {
         </div>
       </div>
       <div className={'hidden md:flex'}>
-        <img src={biglogo}  className="w-[43%]  absolute-0 top-[0] absolute z-[-5]" />
+        <img src={biglogo}  className="w-[43%]  right-0 top-[0] absolute z-[-5]" />
       </div>
       <div className={`flex-1 flex ${styles.flexCenter} md:hidden my-10 relative`}>
         <img src={biglogo}  className="w-[80%] absolute top-0 right-0 z-[-5]" />
