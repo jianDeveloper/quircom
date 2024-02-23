@@ -3,9 +3,11 @@ import { AiOutlineClose } from "react-icons/ai";
 import { TiThMenu } from "react-icons/ti";
 
 import logo1 from '../assets/Icon1.png';
+import Modal from './Login';
 
 const navBar = () => {
     const [nav, setNav] = useState(false);
+    const [openLogin, setLogin] = useState(false);
 
   return (
     <div className ='header'>
@@ -16,12 +18,11 @@ const navBar = () => {
         <li className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><a href='#'>Services</a></li>
         <li className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><a href='#'>Testimonials</a></li>
       </ul>
-      <ul className='hidden md:flex'>
-        <li><div>
-          <button className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'>Log In</button>
-        </div></li>
-        <li className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><a href='#' className='text-white bg-[#1D5B79] rounded-[15px] cursor-pointer pl-[10px] pr-[10px] pt-[3px] pb-[5px]'>Sign Up</a></li>
-      </ul>
+      <div className='hidden md:flex '>
+      <button onClick={() => setLogin(true)} className=' pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'>Log In</button>
+      <Modal open={openLogin} onClose={() => setLogin(false)}/>
+      <button className='pt-2 pb-2 pl-3 pr-3 text-center font-bold'><a href='#' className='text-white bg-[#1D5B79] rounded-[15px] cursor-pointer pl-[10px] pr-[10px] pt-[3px] pb-[5px]'>Sign Up</a></button>
+      </div>
       <div onClick={() => setNav(!nav)} className='block md:hidden'>
         {!nav ? <TiThMenu size={22}/> : <AiOutlineClose size={22}/> }
       </div>
