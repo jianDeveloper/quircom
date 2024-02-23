@@ -4,23 +4,22 @@ import Navbar from './components/Navbar.jsx';
 import Hero from './components/Hero.jsx';
 import Careers from './components/Careers.jsx';
 import Testimonials from './components/Testimonials.jsx';
+import Login from './components/Login.jsx';
 
 function App() {
+  
   return (
     <div>
       <div>
           <Navbar />
+          <Login />
       </div>
       <div className={`${styles.flexStart}`}>
         <div className={`${styles.boxWidth}`}>
           <Hero />
-        </div>
-        <div>
           <Careers />
-        </div>
-        <div>
           <Testimonials />
-        </div>
+        </div>         
       </div>
     </div>
   )
