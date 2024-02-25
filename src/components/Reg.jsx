@@ -1,9 +1,8 @@
 import React from 'react'
 
-function Reg() {
+const Reg = () => {
   return (
-    <div>
-        
+    <div id="bgreg" className={`bg-black`}>
 
     </div>
   )

@@ -20,5 +20,7 @@ body{
   margin: auto;
   padding: 10px;
 }
-
+#bgreg {
+  background-image: url(./assets/bgreg.png);
+}
 

@@ -4,6 +4,7 @@ import { TiThMenu } from "react-icons/ti";
 
 import logo1 from '../assets/Icon1.png';
 import Modal from './Login';
+import RegPage from './Reg';
 
 const navBar = () => {
     const [nav, setNav] = useState(false);
@@ -21,7 +22,9 @@ const navBar = () => {
       <div className='hidden md:flex '>
       <button onClick={() => setLogin(true)} className=' pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'>Log In</button>
       <Modal open={openLogin} onClose={() => setLogin(false)}/>
-      <button className='pt-2 pb-2 pl-3 pr-3 text-center font-bold'><a href='#' className='text-white bg-[#1D5B79] rounded-[15px] cursor-pointer pl-[10px] pr-[10px] pt-[3px] pb-[5px]'>Sign Up</a></button>
+      <button className='pt-2 pb-2 pl-3 pr-3 text-center font-bold'>
+        <link to="./Reg.jsx" className='text-white bg-[#1D5B79] rounded-[15px] cursor-pointer pl-[10px] pr-[10px] pt-[3px] pb-[5px]'>Sign Up</link>
+      </button>
       </div>
       <div onClick={() => setNav(!nav)} className='block md:hidden'>
         {!nav ? <TiThMenu size={22}/> : <AiOutlineClose size={22}/> }
