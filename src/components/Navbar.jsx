@@ -4,7 +4,7 @@ import { TiThMenu } from "react-icons/ti";
 
 import logo1 from '../assets/Icon1.png';
 import Modal from './Login';
-import RegPage from './Reg';
+import { Link } from 'react-router-dom';
 
 const navBar = () => {
     const [nav, setNav] = useState(false);
@@ -14,16 +14,16 @@ const navBar = () => {
     <div className ='header'>
       <img className='h-[60px]' src={logo1}></img>
       <ul className='hidden md:flex'>
-        <li className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><a href='#' className='text-[#1D5B79]'>About us</a></li>
-        <li className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><a href='#'>Careers</a></li>
-        <li className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><a href='#'>Services</a></li>
-        <li className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><a href='#'>Testimonials</a></li>
+        <li className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/About"} className='text-[#1D5B79]'>About us</Link></li>
+        <li className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/A"}>Careers</Link></li>
+        <li className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/"}>Services</Link></li>
+        <li className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/"}>Testimonials</Link></li>
       </ul>
       <div className='hidden md:flex '>
       <button onClick={() => setLogin(true)} className=' pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'>Log In</button>
       <Modal open={openLogin} onClose={() => setLogin(false)}/>
       <button className='pt-2 pb-2 pl-3 pr-3 text-center font-bold'>
-        <link to="./Reg.jsx" className='text-white bg-[#1D5B79] rounded-[15px] cursor-pointer pl-[10px] pr-[10px] pt-[3px] pb-[5px]'>Sign Up</link>
+        <a href='#' className='text-white bg-[#1D5B79] rounded-[15px] cursor-pointer pl-[10px] pr-[10px] pt-[3px] pb-[5px]'>Sign Up</a>
       </button>
       </div>
       <div onClick={() => setNav(!nav)} className='block md:hidden'>

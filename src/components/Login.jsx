@@ -1,4 +1,6 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
+
 import logo1 from '../assets/Icon1.png'
 
 const Login = ({open, onClose}) => {
