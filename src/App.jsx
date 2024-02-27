@@ -1,19 +1,19 @@
 import React from 'react'
+import { Route, Routes } from 'react-router-dom';
 
-import styles from "./styles.js";
 import Navbar from './components/Navbar.jsx';
 import Hero from './components/Hero.jsx';
+import Reg from './components/Reg.jsx';
 
 
 function App() {
   return (
     <div>
       <Navbar />
-      <div className={`${styles.flexStart}`}>
-        <div className={`${styles.boxWidth}`}>
-          <Hero />
-        </div>
-      </div>
+      <Routes>
+        <Route exact path='/' element={<Hero />} />
+        <Route exact path='/registration' element={<Reg />} />
+      </Routes>
     </div>
   )
 }
