@@ -3,7 +3,6 @@ import Mascot from '../assets/mascot.png'
 
 const Hero = () => {
   return (
-   
       <div className="max-w-[1240px] h-screen mx-auto flex flex-col mt-6 text-start justify-normal">
         <div className='flex flex-row'>
           <h1 className='md:text-7xl sm:text-6xl text-4xl font-bold pl-6 pr-3 text-[#1D5B79]'>Multi -</h1>

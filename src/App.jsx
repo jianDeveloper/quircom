@@ -2,9 +2,10 @@ import React from 'react'
 import styles from "./styles.js";
 import Navbar from './components/Navbar.jsx';
 import Hero from './components/Hero.jsx';
-import Careers from './components/Careers.jsx';
-import Testimonials from './components/Testimonials.jsx';
+import Services from './components/Services.jsx';
 import Login from './components/Login.jsx';
+import Testimonials from './components/Testimonials.jsx';
+import Stats from './components/Stats.jsx';
 
 function App() {
   
@@ -17,9 +18,9 @@ function App() {
       <div className={`${styles.flexStart}`}>
         <div className={`${styles.boxWidth}`}>
           <Hero />
-          <Careers />
-          <Testimonials />
-        </div>         
+          <Stats />
+          <Services />
+        </div>   
       </div>
     </div>
   )
