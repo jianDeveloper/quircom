@@ -1,8 +1,8 @@
 import React from 'react'
 import Laptop from '../assets/laptop.png'
 import Star from '../assets/star.png'
-import Shield from '../assets/encrypted.png'
-import Plane from '../assets/paper-plane.png'
+import Shield from '../assets/sec.png'
+import Plane from '../assets/plane.png'
 
 const Services = () => {
   return (
@@ -20,26 +20,26 @@ const Services = () => {
         </div>
       </div>
       <div className='flex-col'>
-          <div className='flex-1 flex-col md:ml-10 ml-0 md:mt-0 mt-10 p-6 rounded-[20px]'>
-            <div className='flex flex-row'>
-              <img src={Star} alt="icon" className='w-[10%] h-[20%] object-contain' />
-              <div className='content-center'>
-                <h4>Freelancers Showcasing</h4>
-                <p>Hire with confidence. Work with the best freelance professionals in the field.</p>
+          <div className='flex-1 flex-col md:ml-10 ml-0 md:mt-0 mt-10 p-6 rounded-[20px] bg-gradient-to-r from-cyan-500 to-blue-500'>
+            <div className='flex flex-row items-center'>
+              <img src={Star} alt="icon" className='w-[60px] h-[100px] object-contain p-2 rounded-full' />
+              <div className='mr-10 content-center'>
+                <h4 className='font-semibold text-[#1D5B79] text-[18px] leading-[23px] ml-1'>Freelancers Showcasing</h4>
+                <p className='font-normal text-[#1D5B79] text-[16px] leading-[24px] ml-1'>Hire with confidence. Work with the best freelance professionals in the field.</p>
               </div>
             </div>
-            <div className='flex flex-row'>
-              <img src={Shield} alt="icon" className='w-[10%] h-[20%] object-contain' />
-              <div className='mx-10 content-center'>
-                <h4>Freelancers Showcasing</h4>
-                <p>Hire with confidence. Work with the best freelance professionals in the field.</p>
+            <div className='flex flex-row items-center'>
+              <img src={Shield} alt="icon" className='w-[60px] h-[100px] object-contain p-2' />
+              <div className='mr-10'>
+                <h4 className='font-semibold text-[#1D5B79] text-[18px] leading-[23px] ml-1'>Best Quality Work</h4>
+                <p className='font-normal text-[#1D5B79] text-[16px] leading-[24px] ml-1'>Make informed decisions. Choose a freelancer whose previous work resonates with your project goals and expectations.</p>
               </div>
             </div>
-            <div className='flex flex-row'>
-              <img src={Plane} alt="icon" className='w-[10%] h-[20%] object-contain' />
-              <div className='content-center'>
-                <h4>Freelancers Showcasing</h4>
-                <p>Hire with confidence. Work with the best freelance professionals in the field.</p>
+            <div className='flex flex-row items-center'>
+              <img src={Plane} alt="icon" className='w-[60px] h-[100px] object-contain p-2' />
+              <div className='mr-10'>
+                <h4 className='font-semibold text-[#1D5B79] text-[18px] leading-[23px] ml-1'>Ticket System</h4>
+                <p className='font-normal text-[#1D5B79] text-[16px] leading-[24px] ml-1'>Experience clear and transparent communication. Ensure every project detail is documented and easily accessible.</p>
               </div>
             </div>
           </div>
