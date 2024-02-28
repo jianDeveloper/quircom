@@ -6,9 +6,8 @@ import logo1 from '../assets/Icon1.png'
 const Login = ({open, onClose}) => {
     if(!open) return null
   return (
-    <div className='fixed inset-0 bg-black bg-opacity-20 backdrop-blur-sm ease-in-out duration-1000'>
-        
-    <div className='loginContainer'>
+    <div className='fixed inset-0 bg-black bg-opacity-20 backdrop-blur-sm z-[5] ease-in-out duration-1000'>        
+    <div>
         <div className='absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-[beige] w-[400px] px-[20px] py-[30px] rounded-[10px] shadow-[2px_2px_5px_5px_rgba(0,0,0,0.15)] border-solid border-[1px] border-black'>
             <div on onClick={onClose} className='absolute top-[10px] right-[20px] cursor-pointer w-[10px] h-[10px] text-gray-800 text-center font-semibold text-[20px] ease-in-out duration-1000'>&times;</div>
         <div className='flex-inline justify-center items-center w-full'>
