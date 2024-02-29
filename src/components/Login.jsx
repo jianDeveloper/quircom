@@ -29,7 +29,7 @@ const Login = ({open, onClose}) => {
             </div>
             <div className='mt-[60px]'>
                 <hr className='border-1 border-gray-400' />
-                <span className='text-[12px] font-medium'>Don't have an account? <a className='pl-2 text-[#1D5B79]' href='#'>Sign up</a></span>
+                <span className='text-[12px] font-medium'>Don't have an account? <Link to={'/registration'} onClick={() => setLogin(true)} className='pl-2 text-[#1D5B79]'>Sign up</Link></span>
             </div>
         </div>
          </div>
