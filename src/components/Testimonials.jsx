@@ -2,7 +2,7 @@ import React from 'react'
 
 function Testimonials() {
   return(
-    <div></div>
+    <div>class</div>
   )
 }
 
