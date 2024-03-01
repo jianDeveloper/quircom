@@ -6,7 +6,7 @@ import Plane from '../assets/plane.png'
 
 const Services = () => {
   return (
-    <div className='w-full h-screen bg-[#F5F5DC] py-16 px-4'>
+    <div className='w-full bg-[#F5F5DC] py-16 px-4'>
       <div className='max-w-[1240px] mx-auto grid md:grid-cols-2'>
         <img className='w-[500px] mx-auto my-4' src={Laptop} alt="" />
         <div className='flex flex-col justify-center'>
@@ -21,21 +21,21 @@ const Services = () => {
       </div>
       <div className='flex-col'>
           <div className='flex-1 flex-col md:ml-10 ml-0 md:mt-0 mt-10 p-6 rounded-[20px] bg-gradient-to-r from-cyan-900 to-sky-800'>
-            <div className='flex flex-row items-center m-3 shadow hover:shadow-lg p-2 rounded-[20px] bg-gradient-to-r from-orange-600 via-yellow-500 to-orange-600'>
+            <div className='flex flex-row items-center m-3 shadow hover:shadow-lg p-2 rounded-[20px] bg-gradient-to-r from-red-500 to-orange-500'>
               <img src={Star} alt="icon" className='w-[60px] h-[60px] object-contain p-2 rounded-full' />
               <div className='mr-10 ml-3'>
                 <h4 className='font-semibold text-[#F5F5DC] text-[18px] leading-[23px] ml-1'>Freelancers Showcasing</h4>
                 <p className='font-normal text-[#F5F5DC] text-[16px] leading-[24px] ml-1'>Hire with confidence. Work with the best freelance professionals in the field.</p>
               </div>
             </div>
-            <div className='flex flex-row items-center m-3 rounded-[20px] bg-gradient-to-r from-orange-600 via-yellow-500 to-orange-600'>
+            <div className='flex flex-row items-center m-3 shadow hover:shadow-lg p-2 rounded-[20px] bg-gradient-to-r from-red-500 to-orange-500'>
               <img src={Shield} alt="icon" className='w-[60px] h-[60px] object-contain p-2' />
               <div className='mr-10 ml-3'>
                 <h4 className='font-semibold text-[#F5F5DC] text-[18px] leading-[23px] ml-1'>Best Quality Work</h4>
                 <p className='font-normal text-[#F5F5DC] text-[16px] leading-[24px] ml-1'>Make informed decisions. Choose a freelancer whose previous work resonates with your project goals and expectations.</p>
               </div>
             </div>
-            <div className='flex flex-row items-center m-3 rounded-[20px] bg-gradient-to-r from-orange-600 via-yellow-500 to-orange-600'>
+            <div className='flex flex-row items-center m-3 shadow hover:shadow-lg p-2 rounded-[20px] bg-gradient-to-r from-red-500 to-orange-500'>
               <img src={Plane} alt="icon" className='w-[60px] h-[60px] object-contain p-2' />
               <div className='mr-10 ml-3'>
                 <h4 className='font-semibold text-[#F5F5DC] text-[18px] leading-[23px] ml-1'>Ticket System</h4>

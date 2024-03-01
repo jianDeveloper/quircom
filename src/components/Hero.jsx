@@ -32,7 +32,7 @@ const Hero = () => {
       </div>
       <hr className='border-[#1D5B79] border-2 flex w-full'/>
       <div className={'hidden md:flex'}>
-        <img src={Mascot}  className="w-[43%]  right-0 top-[0] absolute z-[-5]" />
+        <img src={Mascot}  className="w-[40%]  right-0 top-[0] absolute z-[-5]" />
       </div>
       <div className={`flex-1 flex ${styles.flexCenter} md:hidden my-10 relative`}>
         <img src={Mascot}  className="w-[80%] absolute top-0 right-0 z-[-5]" />

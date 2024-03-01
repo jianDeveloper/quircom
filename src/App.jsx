@@ -8,6 +8,7 @@ import Testimonials from './components/Testimonials.jsx';
 import Stats from './components/Stats.jsx';
 import Newsletter from './components/Newsletter.jsx';
 import Subscription from './components/Subscription.jsx';
+import Footer from './components/Footer.jsx';
 
 function App() {
   
@@ -25,7 +26,8 @@ function App() {
           <Subscription />
           <Testimonials />
           <Newsletter />
-        </div>   
+          <Footer />
+        </div> 
       </div>
     </div>
   )
