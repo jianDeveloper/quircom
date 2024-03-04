@@ -7,6 +7,7 @@ import Reg from './components/Reg.jsx';
 import CNav from './Client/CNav.jsx';
 import Footer from './components/Footer.jsx';
 import Stats from './components/Stats.jsx';
+import Services from './components/Services.jsx';
 import Newsletter from './components/Newsletter.jsx';
 import Subscription from './components/Subscription.jsx';
 
@@ -19,6 +20,7 @@ function App() {
         <Navbar />
         <Hero />
         <Stats />
+        <Services/> 
         <Subscription />
         <Newsletter />
         <Footer />
