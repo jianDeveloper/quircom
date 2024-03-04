@@ -22,7 +22,7 @@ const Footer = () => {
             </div>
             <div className='lg:col-span-2 flex justify-between mt-6'>
                 <div>
-                    <h6 className='font-medium text-gray-400'>Solutions</h6>
+                    <h6 className='font-medium text-blue-300'>Solutions</h6>
                     <ul>
                         <li className='py-2 text-sm'>Analytics</li>
                         <li className='py-2 text-sm'>Information Technology</li>
