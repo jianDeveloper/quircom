@@ -7,7 +7,7 @@ const Hero = () => {
     <section className={`flex md:flex-row flex-col h-screen ${styles.paddingY}`}>
       <div className={`${styles.flexStart}`}>
       <div className={`${styles.boxWidth}`}>
-      <div className={`flex-1 ${styles.flexStart} flex-col xl:px-0 sm:px-16 px-6`}>
+      <div className={`flex-1 ${styles.flexStart} flex-col xl:px-0 sm:px-16 px-6 ml-10`}>
         <div className="flex flex-row justify-between items-center w-full">
           <h1 className="flex-1 font-poppins font-extrabold ss:text-[72px] text-[65px] text-[#1D5B79] ss:leading-[100.8px] leading-[75px]">
             Multi-{" "}
