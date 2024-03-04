@@ -7,7 +7,7 @@ const Hero = () => {
     <section className={`flex md:flex-row flex-col h-screen ${styles.paddingY}`}>
       <div className={`${styles.flexStart}`}>
       <div className={`${styles.boxWidth}`}>
-      <div className={`flex-1 ${styles.flexStart} flex-col xl:px-0 sm:px-16 px-6 ml-4`}>
+      <div className={`flex-1 ${styles.flexStart} flex-col xl:px-0 sm:px-16 px-6`}>
         <div className="flex flex-row justify-between items-center w-full">
           <h1 className="flex-1 font-poppins font-extrabold ss:text-[72px] text-[65px] text-[#1D5B79] ss:leading-[100.8px] leading-[75px]">
             Multi-{" "}
@@ -32,7 +32,7 @@ const Hero = () => {
       </div>
       <hr className='border-[#1D5B79] border-2 flex w-full'/>
       <div className={'hidden md:flex'}>
-        <img src={Mascot}  className="w-[43%]  right-0 top-[0] absolute z-[-5]" />
+        <img src={Mascot}  className="w-[40%]  right-0 top-[0] absolute z-[-5]" />
       </div>
       <div className={`flex-1 flex ${styles.flexCenter} md:hidden my-10 relative`}>
         <img src={Mascot}  className="w-[80%] absolute top-0 right-0 z-[-5]" />
