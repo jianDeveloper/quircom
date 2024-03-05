@@ -28,6 +28,7 @@ function App() {
         <Route exact path='/registration' element={ <>
         <Navbar />
         <Reg />
+        <Footer />
         </> } />
         <Route exact path='/client-dashboard' element={<>
         <CNav />

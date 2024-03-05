@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Link } from 'react-router-dom';
+import { Route, Routes, Link } from 'react-router-dom';
 
 import minCD from '../assets/controllerCD.png';
 import logoCD from '../assets/clientNav.png';
@@ -9,11 +9,11 @@ import logoHead from '../assets/clientHead.png';
 const CNav = () => {
   const [controller, setcontroller] = useState(false)
   const Menus = [
-    { title:'Profile', src:"user"},
-    { title:'Dashbord', src:"dboard", gap: true  },
-    { title:'Browse Service', src:"service" },
-    { title:'Tracker', src:"tracker" },
-    { title:'Settings', src:"settings", gap: true }
+    { title:'Profile', src:"user", to:"/client/profile"},
+    { title:'Dashbord', src:"dboard", gap: true, to:"/client/dashboard"},
+    { title:'Browse Service', src:"service", to:"/client/browse-services"},
+    { title:'Tracker', src:"tracker", to:"/client/tracker"},
+    { title:'Settings', src:"settings", gap: true, to:"/client/settings"}
   ]
 
   return (
@@ -29,15 +29,28 @@ const CNav = () => {
         </div>
         <ul className='my-10 py-2 rounded-xl bg-[#F5F5DC] '>
           {Menus.map((menu, index) => (
+            <Link to={menu.to} key={index}>
             <li key={index} className={`text-[#163646] p-4 my-4 font-medium flex items-center gap-x-4 cursor-pointer hover:bg-blue-100 rounded-md ${menu.gap ? 'mt-12' : 'mt-2'}`}>
               <img src={`./src/assets/${menu.src}.png`} className='h-6 w-6' />
               <span className={`${!controller && 'hidden'} origin-left duration-200`}>{menu.title}</span>
             </li>
+            </Link>
           ))}
         </ul>
       </div>
-      <div className='p-7 text-2xl font-semibold'>
-        <h1 className='font-extrabold text-[30px] text-[#1D5B79]'>Dashboard</h1>
+      <div>
+        <Routes>
+          <Route exact path='/client/dashboard' element={ <>
+          <CDashboard />
+          <Footer />
+          </> } />
+          <Route exact path='/registration' element={ <>
+          <Navbar />
+          <Reg />
+          <Footer />
+        </> } />
+
+        </Routes>
         
       </div>
     </div>
