@@ -4,12 +4,12 @@ import { Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar.jsx';
 import Hero from './components/Hero.jsx';
 import Reg from './components/Reg.jsx';
-import CNav from './Client/CNav.jsx';
 import Footer from './components/Footer.jsx';
 import Stats from './components/Stats.jsx';
 import Services from './components/Services.jsx';
 import Newsletter from './components/Newsletter.jsx';
 import Subscription from './components/Subscription.jsx';
+import CNav from './client/CNav.jsx';
 
 function App() {
   
@@ -30,7 +30,7 @@ function App() {
         <Reg />
         <Footer />
         </> } />
-        <Route exact path='/client-dashboard' element={<>
+        <Route exact path='/client' element={<>
         <CNav />
         </>} />
         

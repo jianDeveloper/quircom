@@ -4,6 +4,7 @@ import { Route, Routes, Link } from 'react-router-dom';
 import minCD from '../assets/controllerCD.png';
 import logoCD from '../assets/clientNav.png';
 import logoHead from '../assets/clientHead.png';
+import { CDashboard } from './CDashboard';
 
 
 const CNav = () => {
@@ -11,7 +12,7 @@ const CNav = () => {
   const Menus = [
     { title:'Profile', src:"user", to:"/client/profile"},
     { title:'Dashbord', src:"dboard", gap: true, to:"/client/dashboard"},
-    { title:'Browse Service', src:"service", to:"/client/browse-services"},
+    { title:'Browse Service', src:"service", to:"/client/browse-service"},
     { title:'Tracker', src:"tracker", to:"/client/tracker"},
     { title:'Settings', src:"settings", gap: true, to:"/client/settings"}
   ]
@@ -29,7 +30,7 @@ const CNav = () => {
         </div>
         <ul className='my-10 py-2 rounded-xl bg-[#F5F5DC] '>
           {Menus.map((menu, index) => (
-            <Link to={menu.to} key={index}>
+            <Link to={`${menu.to}`} key={index}>
             <li key={index} className={`text-[#163646] p-4 my-4 font-medium flex items-center gap-x-4 cursor-pointer hover:bg-blue-100 rounded-md ${menu.gap ? 'mt-12' : 'mt-2'}`}>
               <img src={`./src/assets/${menu.src}.png`} className='h-6 w-6' />
               <span className={`${!controller && 'hidden'} origin-left duration-200`}>{menu.title}</span>
@@ -41,13 +42,11 @@ const CNav = () => {
       <div>
         <Routes>
           <Route exact path='/client/dashboard' element={ <>
-          <CDashboard />
-          <Footer />
+          <CNav />
+          <h1>Hello</h1>
+
           </> } />
-          <Route exact path='/registration' element={ <>
-          <Navbar />
-          <Reg />
-          <Footer />
+          <Route exact path='/' element={ <>
         </> } />
 
         </Routes>
