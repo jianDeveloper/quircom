@@ -19,6 +19,11 @@ function App() {
         <Route exact path='/' element={<>
         <Navbar />
         <Hero />
+        <Stats />
+        <Services/> 
+        <Subscription />
+        <Newsletter />
+        <Footer />
         </>} />
         <Route exact path='/registration' element={ <>
         <Navbar />
