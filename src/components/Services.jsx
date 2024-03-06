@@ -19,8 +19,8 @@ const Services = () => {
           <button className='transition ease-in-out delay-150 bg-[#1D5B79] hover:-translate-y-1 hover:scale-110 hover:bg-blue-800 duration-300 w-[200px] rounded-3xl font-medium my-6 mx-auto md:mx-0 py-3 text-white'>Get Started</button>
         </div>
       </div>
-      <div className='flex-col'>
-          <div className='flex-1 flex-col md:ml-10 ml-0 md:mt-0 mt-10 p-6 rounded-[20px] bg-gradient-to-r from-cyan-900 to-sky-800'>
+      <div className='flex-col items-center'>
+          <div className='flex-1 flex-col md:ml-10 ml-0 md:mt-0 mt-10 p-6 rounded-[20px] w-[50%] bg-gradient-to-r from-cyan-900 to-sky-800'>
             <div className='flex flex-row items-center m-3 shadow hover:shadow-lg p-2 rounded-[20px] bg-gradient-to-r from-red-500 to-orange-500'>
               <img src={Star} alt="icon" className='w-[60px] h-[60px] object-contain p-2 rounded-full' />
               <div className='mr-10 ml-3'>

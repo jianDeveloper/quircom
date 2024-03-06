@@ -9,6 +9,7 @@ import Footer from './components/Footer.jsx';
 import Stats from './components/Stats.jsx';
 import Newsletter from './components/Newsletter.jsx';
 import Subscription from './components/Subscription.jsx';
+import Services from './components/Services.jsx'
 
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
         <Navbar />
         <Hero />
         <Stats />
-        <Services/> 
+        <Services/>
         <Subscription />
         <Newsletter />
         <Footer />
