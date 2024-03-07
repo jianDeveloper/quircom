@@ -10,6 +10,7 @@ import Stats from './components/Stats.jsx';
 import Newsletter from './components/Newsletter.jsx';
 import Subscription from './components/Subscription.jsx';
 import Services from './components/Services.jsx'
+import Marketplace from './components/Marketplace.jsx';
 
 
 function App() {
@@ -32,6 +33,9 @@ function App() {
         </> } />
         <Route exact path='/client-dashboard' element={<>
         <CNav />
+        </>} />
+        <Route exact path='/marketplace' element={<>
+        <Marketplace />
         </>} />
 
       </Routes>

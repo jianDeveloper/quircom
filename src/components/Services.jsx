@@ -3,6 +3,7 @@ import Laptop from '../assets/laptop.png'
 import Star from '../assets/star.png'
 import Shield from '../assets/sec.png'
 import Plane from '../assets/plane.png'
+import {Link} from 'react-router-dom'
 
 const Services = () => {
   return (
@@ -20,7 +21,7 @@ const Services = () => {
         </div>
       </div>
       <div className='flex-col items-center'>
-          <div className='flex-1 flex-col md:ml-10 ml-0 md:mt-0 mt-10 p-6 rounded-[20px] w-[50%] bg-gradient-to-r from-cyan-900 to-sky-800'>
+          <div className='flex-1 flex-col md:ml-10 ml-0 md:mt-0 mt-10 p-6 rounded-[20px] bg-gradient-to-r from-cyan-900 to-sky-800'>
             <div className='flex flex-row items-center m-3 shadow hover:shadow-lg p-2 rounded-[20px] bg-gradient-to-r from-red-500 to-orange-500'>
               <img src={Star} alt="icon" className='w-[60px] h-[60px] object-contain p-2 rounded-full' />
               <div className='mr-10 ml-3'>
