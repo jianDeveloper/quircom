@@ -7,8 +7,8 @@ import logo2 from '../assets/Icon2.png';
 const Reg = () => {
   return (
     <section className="">
-      <div className="h-screen" style={{background: `url(${BGreg})`, backgroundRepeat:'no-repeat', backgroundSize:'cover'}}>
-        <div className='absolute mt-[50px] left-[50%] translate-x-[-50%] xl:translate-x-[-100%] md:w-[600px] bg-[beige] w-[450px] px-[20px] py-[30px] rounded-[10px] shadow-[2px_2px_5px_5px_rgba(0,0,0,0.15)] border-solid border-[1px] border-black'>
+      <div className="flex xl:none xl:justify-start h-screen mb-[200px] md:mb-0 justify-center" style={{background: `url(${BGreg})`, backgroundRepeat:'no-repeat', backgroundSize:'cover'}}>
+        <div className='flex flex-col mt-[60px] xl:ml-[150px] md:h-[600px] bg-[beige] bg-opacity-80 md:bg-[beige] w-screen md:w-[650px] px-[20px] py-[30px] rounded-[10px] md:shadow-[2px_2px_5px_5px_rgba(0,0,0,0.15)]'>
         <h2 className='text-center mx-[20px] mt-[10px] text-[30px] text-[#1D5B79] font-extrabold drop-shadow-xl'>Create Account</h2>
           <div className="container mx-auto mt-8">
             <form className="w-full max-w-screen-ss mx-auto">
