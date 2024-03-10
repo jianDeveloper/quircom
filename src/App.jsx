@@ -33,6 +33,18 @@ function App() {
         <Route exact path='/client/dashboard' element={<>
         <CDashboard />
         </>} />
+        <Route exact path='/client/profile' element={<>
+        <CDashboard />
+        </>} />
+        <Route exact path='/client/browse-service' element={<>
+        <CDashboard />
+        </>} />
+        <Route exact path='/client/settings' element={<>
+        <CDashboard />
+        </>} />
+        <Route exact path='/client/tracker' element={<>
+        <CDashboard />
+        </>} />
         
 
       </Routes>
