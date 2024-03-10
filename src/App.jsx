@@ -9,7 +9,7 @@ import Stats from './components/Stats.jsx';
 import Services from './components/Services.jsx';
 import Newsletter from './components/Newsletter.jsx';
 import Subscription from './components/Subscription.jsx';
-import CNav from './client/CNav.jsx';
+import { CDashboard } from './client/CDashboard.jsx';
 
 function App() {
   
@@ -30,8 +30,8 @@ function App() {
         <Reg />
         <Footer />
         </> } />
-        <Route exact path='/client' element={<>
-        <CNav />
+        <Route exact path='/client/dashboard' element={<>
+        <CDashboard />
         </>} />
         
 
