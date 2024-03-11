@@ -8,8 +8,11 @@ import Footer from './components/Footer.jsx';
 import Stats from './components/Stats.jsx';
 import Newsletter from './components/Newsletter.jsx';
 import Subscription from './components/Subscription.jsx';
-import { CDashboard } from './client/CDashboard.jsx';
-import TryApp  from './client/TryApp.jsx';
+import CDashboard  from './client/CDashboard.jsx';
+import CUser from './client/CUser.jsx';
+import CMarketplace from './client/CMarketplace.jsx';
+import CSettings from './client/CSettings.jsx';
+import CTracker from './client/CTracker.jsx';
 
 function App() {
   
@@ -34,16 +37,16 @@ function App() {
         <CDashboard />
         </>} />
         <Route exact path='/client/profile' element={<>
-        <CDashboard />
+        <CUser />
         </>} />
         <Route exact path='/client/browse-service' element={<>
-        <CDashboard />
+        <CMarketplace />
         </>} />
         <Route exact path='/client/settings' element={<>
-        <CDashboard />
+        <CSettings />
         </>} />
         <Route exact path='/client/tracker' element={<>
-        <TryApp />
+        <CTracker />
         </>} />
         
 
