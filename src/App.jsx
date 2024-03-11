@@ -10,6 +10,7 @@ import Services from './components/Services.jsx';
 import Newsletter from './components/Newsletter.jsx';
 import Subscription from './components/Subscription.jsx';
 import { CDashboard } from './client/CDashboard.jsx';
+import TryApp  from './client/TryApp.jsx';
 
 function App() {
   
@@ -43,7 +44,7 @@ function App() {
         <CDashboard />
         </>} />
         <Route exact path='/client/tracker' element={<>
-        <CDashboard />
+        <TryApp />
         </>} />
         
 
