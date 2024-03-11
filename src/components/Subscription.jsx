@@ -1,5 +1,6 @@
 import React from 'react'
 import QRM1 from '../assets/QRM1.png'
+import {Link} from 'react-router-dom'
 
 const Subscription = () => {
     return (
