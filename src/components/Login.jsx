@@ -25,7 +25,7 @@ const Login = ({open, onClose}) => {
                 <a className='text-[12px] font-medium' href='#'>Forgot password?</a>
             </div>
             <div className='mt-[30px] text-center'>
-                <button className='font-bold px-[30px] py-[10px] boreder-none outline-none text-[16px] bg-orange-600 text-white rounded-full'>Login</button>
+                <Link to={'/client/dashboard'}><button className='font-bold px-[30px] py-[10px] boreder-none outline-none text-[16px] bg-orange-600 text-white rounded-full'>Login</button></Link>
             </div>
             <div className='mt-[60px]'>
                 <hr className='border-1 border-gray-400' />
