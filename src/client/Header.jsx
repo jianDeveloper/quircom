@@ -23,7 +23,7 @@ const navBar = () => {
       </ul>
 
       {/* Log-Reg */}
-      <div className='hidden md:flex'>
+      <div className='hidden md:flex '>
       <button onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold'>
         <Link to={'/registration'} className='text-white bg-[#1D5B79] rounded-[15px] cursor-pointer pl-[10px] pr-[10px] pt-[3px] pb-[5px]'>Sign Out</Link>
       </button>
