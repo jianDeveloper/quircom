@@ -57,15 +57,18 @@ function CDashboard() {
     ];
 
   return (
-    <div className='grid-container'>
+    <div className='h-[100vh]'>
       <Header />
+      <div className='flex h-[100vh]'>
       <CNav />
-      <main className='main-container'>
+      <main className='flex-inline mx-10 my-10 w-[100%]'> {/*formatting navbar & body -j*/}
         <div className='flex justify-between'>
             <h1 className='font-extrabold text-[30px] text-[#1D5B79]'>DASHBOARD</h1>
         </div>
 
-        <div className='main-cards'>
+        <div className='grid grid-cols-1 gap-[20px] my-[15px] 
+        md:grid-cols-2 
+        lg:grid-cols-4 '> {/*fixing headbox on dashboard -j*/}
             <div className='card'>
                 <div className='card-inner'>
                     <h3>SERVICES</h3>
@@ -143,7 +146,10 @@ function CDashboard() {
 
         </div>
     </main>
-      
+      </div>
+      <div className="flex justify-center h-8 z-[5] bg-[#163646] text-gray-300 font-bolds">
+      <h1 className='flex py-1'>QUIRCOM © 2024 | All Rights Reserved</h1>
+    </div>
     </div>
   )
 }

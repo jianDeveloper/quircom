@@ -12,12 +12,12 @@ import settingsL from '../assets/settings.png';
 
 
 const CNav = () => {
-  const [controller, setcontroller] = useState(true)
+  const [controller, setcontroller] = useState(false)
 
   return (
-    <aside className='fixed'>
-      <div class={`${controller ? 'w-72': 'w-20'} h-screen p-3 pt-5 bg-orange-600 relative`}>
-        <img className={`flex md:hidden absolute p-[5px] bg-[#1D5B79] cursor-pointer -right-3 top-10 h-6 w-6 border-2 border-orange-600 rounded-full ${!controller && 'rotate-180'}`} 
+    <aside className='flex-col'>
+      <div class={`${controller ? 'w-72': 'w-20'} h-full p-3 pt-5 bg-orange-600 relative`}>
+        <img className={`flex absolute p-[5px] bg-[#1D5B79] cursor-pointer -right-3 top-10 h-6 w-6 border-2 border-orange-600 rounded-full ${!controller && 'rotate-180'}`} 
         src={minCD}
         onClick={()=> setcontroller(!controller)}
         />
