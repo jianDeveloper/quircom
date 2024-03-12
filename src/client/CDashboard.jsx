@@ -2,7 +2,6 @@ import React from 'react';
 import CNav from './CNav';
 
 
-export const CDashboard = () => {
   return (
     <div>
     <div className='flex flex-col'>
