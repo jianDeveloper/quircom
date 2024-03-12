@@ -21,11 +21,6 @@ body{
   padding: 10px;
 }
 
-#bghome{
-  background-image: url(assets/bghome.png);
-  width: 100%;
-}
-
 .icon {
   vertical-align: middle;
   line-height: 1px;
