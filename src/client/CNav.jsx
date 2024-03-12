@@ -33,23 +33,25 @@ const CNav = () => {
               <span className={`${!controller && 'hidden'} origin-left duration-200`}>Profile</span>
             </div>
           </Link>
-          <ul className='flex flex-col justify-between'>
+          
+          <ul className='flex flex-col justify-between gap-y-6'>
+          {controller && <label className='flex justify-center absolute w-[92%] mt-[-35px] text-[20px] font-bold'>Menu</label>}
           <Link to="/client/dashboard">
-            <li className={`text-[#163646] ${!controller && 'px-2 py-2 my-10 hover:rotate-[360deg] duration-500'} p-4 font-medium flex items-center gap-x-4 cursor-pointer hover:bg-blue-200 rounded-md`}>
+            <li className={`text-[#163646] ${!controller && 'px-2 py-2 my-2 hover:rotate-[360deg] duration-500'} p-4 font-medium flex items-center gap-x-4 cursor-pointer hover:bg-blue-200 rounded-md`}>
               <img src={dboardL} className='h-6 w-6' />
               <span className={`${!controller && 'hidden'} origin-left duration-200`}>Dashboard</span>
             </li>
           </Link>
 
           <Link to="/client/browse-service">
-            <li className={`text-[#163646] ${!controller && 'px-2 py-2 my-10 hover:rotate-[360deg] duration-500'} p-4 font-medium flex items-center gap-x-4 cursor-pointer hover:bg-blue-200 rounded-md `}>
+            <li className={`text-[#163646] ${!controller && 'px-2 py-2 my-2 hover:rotate-[360deg] duration-500'} p-4 font-medium flex items-center gap-x-4 cursor-pointer hover:bg-blue-200 rounded-md `}>
               <img src={serviceL} className='h-6 w-6' />
               <span className={`${!controller && 'hidden'} origin-left duration-200`}>Browse Service</span>
             </li>
           </Link>
 
           <Link to="/client/tracker">
-            <li className={`text-[#163646] ${!controller && 'px-2 py-2 my-10 hover:rotate-[360deg] duration-500'} p-4 font-medium flex items-center gap-x-4 cursor-pointer hover:bg-blue-200 rounded-md`}>
+            <li className={`text-[#163646] ${!controller && 'px-2 py-2 my-2 hover:rotate-[360deg] duration-500'} p-4 font-medium flex items-center gap-x-4 cursor-pointer hover:bg-blue-200 rounded-md`}>
               <img src={trackerL} className='h-6 w-6' />
               <span className={`${!controller && 'hidden'} origin-left duration-200`}>Tracker</span>
             </li>
