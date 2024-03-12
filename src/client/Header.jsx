@@ -8,7 +8,7 @@ import logo1 from '../assets/Icon1.png';
 
 
 
-const navBar = () => {
+const Header = () => {
     const [nav, setNav] = useState(false);
     const [openLogin, setLogin] = useState(false);
 
@@ -53,4 +53,4 @@ const navBar = () => {
   )
 }
 
-export default navBar
+export default Header
