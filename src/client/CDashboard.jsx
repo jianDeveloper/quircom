@@ -9,6 +9,7 @@ import
 
 import Header from './Header'
 import CNav from './CNav'
+import CFooter from './CFooter';
 
 function CDashboard() {
     const data = [
@@ -148,9 +149,9 @@ function CDashboard() {
         </div>
     </main>
       </div>
-      <div className="flex justify-center h-8 z-[5] bg-[#163646] text-gray-300 font-bolds">
-      <h1 className='py-1'>QUIRCOM © 2024 | All Rights Reserved</h1>
-    </div>
+      <div className="flex">
+      <CFooter />
+      </div>
     </div>
   )
 }

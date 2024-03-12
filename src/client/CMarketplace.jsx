@@ -14,7 +14,7 @@ function CMarketplace() {
         <h1 className='font-extrabold text-[30px] text-[#1D5B79]'>Marketplace</h1>   
       </main>
       </div>
-      <div className="flex justify-center h-8 z-[5] bg-[#163646] text-gray-300 font-bolds">
+      <div className="flex justify-center h-[50vh] z-[5] bg-[#163646] text-gray-300 font-bolds">
       <h1 className='py-1'>QUIRCOM © 2024 | All Rights Reserved</h1>
     </div>
     </div>
