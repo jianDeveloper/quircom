@@ -9,6 +9,7 @@ import
 
 import Header from './Header'
 import CNav from './CNav'
+import CFooter from './CFooter';
 
 function CDashboard() {
     const data = [
@@ -57,15 +58,19 @@ function CDashboard() {
     ];
 
   return (
-    <div className='grid-container'>
+    <div className=''>
       <Header />
+      <div className='flex h-full'>
       <CNav />
-      <main className='main-container'>
-        <div className='flex justify-between'>
+      <main className='flex-inline mx-10 my-10 w-[100%]'> {/*formatting navbar & body -j*/}
+        <div className='flex'>
             <h1 className='font-extrabold text-[30px] text-[#1D5B79]'>DASHBOARD</h1>
         </div>
-
-        <div className='main-cards'>
+        
+        {/*fixing headbox on dashboard -j*/}
+        <div className='grid grid-cols-1 gap-[20px] my-[15px] 
+        md:grid-cols-2 
+        lg:grid-cols-4 '>
             <div className='card'>
                 <div className='card-inner'>
                     <h3>SERVICES</h3>
@@ -143,7 +148,10 @@ function CDashboard() {
 
         </div>
     </main>
-      
+      </div>
+      <div className="flex">
+      <CFooter />
+      </div>
     </div>
   )
 }

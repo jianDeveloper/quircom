@@ -7,16 +7,17 @@ import mpTop from '../assets/mpTop.jpg'
 function CMarketplace() {
 
   return (
-    <div className='grid-container'>
-        <Header />
-        <CNav />
-        <main className='main-container'>
-            <h1 className='font-extrabold text-[30px] text-[#1D5B79]' >MARKETPLACE</h1>
-            <div className="w-full h-[300px] rounded-md" style={{background: `url(${mpTop})`, backgroundRepeat:'no-repeat', backgroundSize:'cover'}}>
-                <h1 className=''>Freelancing Services</h1>
-                <a href="#">Browsers</a>
-            </div>
-        </main>
+    <div className=''>
+      <Header />
+      <div className='flex'>
+      <CNav />
+      <main className='flex-inline mx-10 my-10 w-[100%]'>
+        <h1 className='font-extrabold text-[30px] text-[#1D5B79]'>Marketplace</h1>   
+      </main>
+      </div>
+      <div className="flex justify-center h-[50vh] z-[5] bg-[#163646] text-gray-300 font-bolds">
+      <h1 className='py-1'>QUIRCOM © 2024 | All Rights Reserved</h1>
+    </div>
     </div>
   )
 }
