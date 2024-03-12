@@ -57,12 +57,12 @@ function CDashboard() {
     ];
 
   return (
-    <div className='h-[100vh]'>
+    <div className=''>
       <Header />
-      <div className='flex h-[100vh]'>
+      <div className='flex h-full'>
       <CNav />
       <main className='flex-inline mx-10 my-10 w-[100%]'> {/*formatting navbar & body -j*/}
-        <div className='flex justify-between'>
+        <div className='flex'>
             <h1 className='font-extrabold text-[30px] text-[#1D5B79]'>DASHBOARD</h1>
         </div>
         
