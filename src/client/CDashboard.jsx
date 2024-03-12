@@ -65,10 +65,11 @@ function CDashboard() {
         <div className='flex justify-between'>
             <h1 className='font-extrabold text-[30px] text-[#1D5B79]'>DASHBOARD</h1>
         </div>
-
+        
+        {/*fixing headbox on dashboard -j*/}
         <div className='grid grid-cols-1 gap-[20px] my-[15px] 
         md:grid-cols-2 
-        lg:grid-cols-4 '> {/*fixing headbox on dashboard -j*/}
+        lg:grid-cols-4 '>
             <div className='card'>
                 <div className='card-inner'>
                     <h3>SERVICES</h3>
@@ -148,7 +149,7 @@ function CDashboard() {
     </main>
       </div>
       <div className="flex justify-center h-8 z-[5] bg-[#163646] text-gray-300 font-bolds">
-      <h1 className='flex py-1'>QUIRCOM © 2024 | All Rights Reserved</h1>
+      <h1 className='py-1'>QUIRCOM © 2024 | All Rights Reserved</h1>
     </div>
     </div>
   )
