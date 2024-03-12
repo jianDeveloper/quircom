@@ -1,7 +1,6 @@
 import React from 'react'
 import Mascot from '../assets/mascot.png'
 import styles from '../styles'
-import {Link} from 'react-router-dom'
 
 const Hero = () => {
   return (
@@ -25,7 +24,7 @@ const Hero = () => {
           <div className={`${styles.flexCenter} flex-col transition ease-in-out delay-150 bg-orange-600 hover:-translate-y-1 hover:scale-110 hover:bg-orange-500 duration-300 w-[100%] h-[100%] rounded-full cursor-pointer`}>
             <div className={`${styles.flexStart} flex-row`}>
               <p className="font-poppins font-bold text-[18px] text-white leading-[23.4px]">
-                <Link to={'/registration'}>Learn more!</Link>
+                <a href='#' className="text-gradient ">Learn more!</a>
               </p>
             </div>
           </div>

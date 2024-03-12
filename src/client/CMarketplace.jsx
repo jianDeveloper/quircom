@@ -2,8 +2,9 @@ import React from 'react'
 
 import Header from './Header'
 import CNav from './CNav'
-import mpTop from '../assets/topmp.jpg';
+
 function CMarketplace() {
+
   return (
     <div className='grid-container'>
         <Header />
@@ -16,7 +17,6 @@ function CMarketplace() {
             </div>
         </main>
     </div>
-    
   )
 }
 

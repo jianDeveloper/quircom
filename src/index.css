@@ -136,7 +136,8 @@ body{
 .main-container {
   grid-area: main;
   overflow-y: auto;
-  margin: 30px 50px;
+  padding: 30px 50px;
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .main-title {

@@ -1,3 +1,4 @@
+import React from 'react'
 import 
 { BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillBellFill}
  from 'react-icons/bs'
@@ -10,50 +11,50 @@ import Header from './Header'
 import CNav from './CNav'
 
 function CDashboard() {
-  const data = [
-    {
-      name: 'Page A',
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: 'Page B',
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: 'Page C',
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: 'Page D',
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: 'Page E',
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: 'Page F',
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: 'Page G',
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
+    const data = [
+      {
+        name: 'Page A',
+        uv: 4000,
+        pv: 2400,
+        amt: 2400,
+      },
+      {
+        name: 'Page B',
+        uv: 3000,
+        pv: 1398,
+        amt: 2210,
+      },
+      {
+        name: 'Page C',
+        uv: 2000,
+        pv: 9800,
+        amt: 2290,
+      },
+      {
+        name: 'Page D',
+        uv: 2780,
+        pv: 3908,
+        amt: 2000,
+      },
+      {
+        name: 'Page E',
+        uv: 1890,
+        pv: 4800,
+        amt: 2181,
+      },
+      {
+        name: 'Page F',
+        uv: 2390,
+        pv: 3800,
+        amt: 2500,
+      },
+      {
+        name: 'Page G',
+        uv: 3490,
+        pv: 4300,
+        amt: 2100,
+      },
+    ];
 
   return (
     <div className='grid-container'>
@@ -67,31 +68,31 @@ function CDashboard() {
         <div className='main-cards'>
             <div className='card'>
                 <div className='card-inner'>
-                    <h3 className='font-bold'>SERVICES</h3>
+                    <h3>SERVICES</h3>
                     <BsFillArchiveFill className='card_icon'/>
                 </div>
-                <h1 className='font-medium'>300</h1>
+                <h1>300</h1>
             </div>
             <div className='card'>
                 <div className='card-inner'>
-                    <h3 className='font-bold'>TASK</h3>
+                    <h3>TASK</h3>
                     <BsFillGrid3X3GapFill className='card_icon'/>
                 </div>
-                <h1 className='font-medium'>12</h1>
+                <h1>12</h1>
             </div>
             <div className='card'>
                 <div className='card-inner'>
-                    <h3 className='font-bold'>FREELANCERS</h3>
+                    <h3>FREELANCERS</h3>
                     <BsPeopleFill className='card_icon'/>
                 </div>
-                <h1 className='font-medium'>33</h1>
+                <h1>33</h1>
             </div>
             <div className='card'>
                 <div className='card-inner'>
-                    <h3 className='font-bold'>NOTIFICATION</h3>
+                    <h3>NOTIFICATION</h3>
                     <BsFillBellFill className='card_icon'/>
                 </div>
-                <h1 className='font-medium'>42</h1>
+                <h1>42</h1>
             </div>
         </div>
 
@@ -141,11 +142,10 @@ function CDashboard() {
             </ResponsiveContainer>
 
         </div>
-      </main>
+    </main>
+      
     </div>
   )
 }
 
 export default CDashboard
-
-
