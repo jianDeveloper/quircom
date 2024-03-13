@@ -1,0 +1,18 @@
+.profileBorder{
+  color: blue;
+  width: 100%;
+}
+
+.profileInfo{
+  border-width: 2px;
+  border-color: orange;
+  border-radius: 10px;
+  color: blue;
+}
+
+.profilePicture{
+  height: 170px;
+  width: 170px;
+  border-radius: 100px;
+  object-fit:cover;
+}
