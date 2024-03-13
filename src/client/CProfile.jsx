@@ -21,7 +21,7 @@ function CProfile() {
               <div className='pictureBorder p-5'>
                   <img className="profilePicture" src={profile} alt="Profile Picture" />
               </div>
-              <div className='profileDetail w-2/5'>
+              <div className='profileDetail w-2/5 '>
                 <div className=''>
                   <h4 className='font-extrabold text-[23px] text-[#1D5B79] my-1'>Jose Protacio Rizal Mercado y Alonzo Realonda</h4>
                 </div>
@@ -34,7 +34,7 @@ function CProfile() {
                   <p className='text-[15px] text-[black] my-1 text-justify '>Phase 11B, Block 73, Lot 12, Wellington Place, Pasong Camachille 2, General Trias, Cavite, Philippines</p>
                 </div>
               </div>
-              <div className='profileSettings ml-auto mr-20 my-auto'>
+              <div className='profileSettings'>
                 <button onClick={() => setNav(false)} className='py-2 px-3 m-auto text-center font-bold'>
                   <Link to={'/registration'} className='buttonSettings text-white bg-[#1D5B79]'>Manage Profile</Link>
                 </button>
