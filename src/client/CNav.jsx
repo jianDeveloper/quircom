@@ -19,7 +19,7 @@ const CNav = () => {
 
   return (
     <aside className='flex items-center'>
-      <div class={`hidden flex-col justify-center items-center ${controller ? 'w-72': 'w-20'} h-[100vh] md:flex p-3 pt-5 bg-orange-600 relative `}>
+      <div class={`hidden flex-col justify-center items-center ${controller ? 'w-72': 'w-20'} h-full md:flex p-3 pt-5 bg-orange-600 relative `}>
         <div className='flex justify-center items-center absolute -right-3 h-20 bg-[#1D5B79] border-2 border-orange-600 rounded-full cursor-pointer' onClick={()=> setcontroller(!controller)}>
           <img className={` p-[2px] bg-[#1D5B79] h-5 w-5 rounded-full ${!controller && 'rotate-180'}`} 
           src={minCD}
