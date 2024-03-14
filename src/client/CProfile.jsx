@@ -54,11 +54,14 @@ function CProfile() {
             <p className=' mx-9 my-2 text-black text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
           </div>
           <div className='profileSummary'>
-          <p className=' mx-9 my-5 text-black text-[23px] font-extrabold'>Summary</p>
+            <p className=' mx-9 my-5 text-black text-[23px] font-extrabold'>Summary</p>
             <p className=' mx-9 my-2 text-black text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
             <p className=' mx-9 my-2 text-black text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
             <p className=' mx-9 my-2 text-black text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
             <p className=' mx-9 my-5 text-black text-[23px] font-extrabold'>Skills</p>
+            <p className=' mx-9 my-2 text-black text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
+            <p className=' mx-9 my-2 text-black text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
+            <p className=' mx-9 my-2 text-black text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
             <p className=' mx-9 my-2 text-black text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
             <p className=' mx-9 my-2 text-black text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
             <p className=' mx-9 my-2 text-black text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>

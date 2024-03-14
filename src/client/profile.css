@@ -69,30 +69,51 @@
 .profileContent{
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap-reverse;
+  flex-wrap: wrap;
   width: 100%;
 }
 
 .profileInfo{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
   flex-basis: 250px;
   flex-grow: 1;
+  overflow-y: scroll;
   border-width: 2px;
   border-color: #FB6D3A;
   border-radius: 10px;
   min-width: 250px;
+  height: 500px;
 }
 
 .profileSummary{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
   flex-basis: 250px;
-  flex-grow: 10;
+  flex-grow: 1;
+  overflow-y: scroll;
   border-width: 2px;
   border-color: #FB6D3A;
   border-radius: 10px;
   min-width: 250px;
+  height: 500px;
+}
+
+.profileInfo::-webkit-scrollbar, .profileSummary::-webkit-scrollbar{
+  width: 10px;
+}
+
+.profileInfo::-webkit-scrollbar-track, .profileSummary::-webkit-scrollbar-track{
+  border: 1px solid #000;
+  border-radius: 50px;
+  background-color: #1d5b79;
+}
+
+.profileInfo::-webkit-scrollbar-thumb, .profileSummary::-webkit-scrollbar-thumb{
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #fb6d3a;
+  border: 1px solid #000;
 }
