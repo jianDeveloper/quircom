@@ -36,9 +36,7 @@ const CNav = () => {
               <span className={`${!controller && 'hidden'} origin-left duration-200`}>Profile</span>
             </div>
           </Link>
-          <div className='flex justify-center'>
-          {controller && <label className='text-center w-[92%] mb-[-35px] text-[20px] text-orange-600 font-bold'>Menu</label>}
-          </div>
+          
           <ul className='flex flex-col justify-between gap-y-6'>      
           <Link to="/client/dashboard">
             <li className={`text-[#163646] ${!controller && 'px-2 py-2 my-2 hover:rotate-[360deg] duration-500'} p-4 font-medium flex items-center gap-x-4 cursor-pointer hover:bg-blue-200 rounded-md`}>
