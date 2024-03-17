@@ -14,6 +14,7 @@ import CMarketplace from './client/CMarketplace.jsx';
 import CProfile from './client/CProfile.jsx';
 import CSettings from './client/CSettings.jsx';
 import CTracker from './client/CTracker.jsx';
+import Billing from './components/Billing.jsx';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Subscription />
         <Newsletter />
         <Footer />
+        <Billing />
         </>} />
         <Route exact path='/registration' element={ <>
         <Navbar />
@@ -50,7 +52,7 @@ function App() {
         <Route exact path='/client/tracker' element={<>
         <CTracker />
         </>} />
-        
+
 
       </Routes>
     </div>
