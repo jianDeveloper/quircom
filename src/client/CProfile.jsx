@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import Header from './Header'
 import CNav from './CNav'
+import CFooter from './CFooter'
 
 import '../client/profile.css'
 
@@ -15,7 +16,7 @@ function CProfile() {
       <Header />
       <div className='flex'>
         <CNav />
-        <main className='flex-inline mx-10 my-10 w-[100%]'>
+        <main className='flex-inline mx-10 my-10 w-[100%] md:mx-[200px]'>
           <div className="userInfo">
             <div className='pictureBorder p-5'>
                 <img className="profilePicture" src={profile} alt="Profile Picture" />
@@ -66,8 +67,8 @@ function CProfile() {
         </div>
         </main>
       </div>
-      <div className="flex justify-center h-8 z-[5] bg-[#163646] text-gray-300 font-bolds">
-        <h1 className='py-1'>QUIRCOM © 2024 | All Rights Reserved</h1>
+      <div className="flex">
+        <CFooter />
       </div>
     </div>
   )

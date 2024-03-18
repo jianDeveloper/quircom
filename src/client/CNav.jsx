@@ -8,6 +8,8 @@ import userL from '../assets/user.png';
 import dboardL from '../assets/dboard.png';
 import serviceL from '../assets/service.png';
 import trackerL from '../assets/tracker.png';
+import notifL from '../assets/bell.png';
+import notif2L from '../assets/bell2.png';
 import settingsL from '../assets/settings.png';
 
 
@@ -36,9 +38,7 @@ const CNav = () => {
               <span className={`${!controller && 'hidden'} origin-left duration-200`}>Profile</span>
             </div>
           </Link>
-          <div className='flex justify-center'>
-          {controller && <label className='text-center w-[92%] mb-[-35px] text-[20px] text-orange-600 font-bold'>Menu</label>}
-          </div>
+          
           <ul className='flex flex-col justify-between gap-y-6'>      
           <Link to="/client/dashboard">
             <li className={`text-[#163646] ${!controller && 'px-2 py-2 my-2 hover:rotate-[360deg] duration-500'} p-4 font-medium flex items-center gap-x-4 cursor-pointer hover:bg-blue-200 rounded-md`}>
@@ -61,12 +61,20 @@ const CNav = () => {
             </li>
           </Link>
           </ul>
+          <ul>
           <Link to="/client/settings">
-            <div className={`text-[#163646] ${!controller && 'px-2 py-2 my-2 hover:rotate-[360deg] duration-500'} p-4 font-medium flex items-center gap-x-4 cursor-pointer hover:bg-blue-200 rounded-md`}>
+            <li className={`text-[#163646] ${!controller && 'px-2 py-2 my-2 hover:rotate-[360deg] duration-500'} p-4 font-medium flex items-center gap-x-4 cursor-pointer hover:bg-blue-200 rounded-md`}>
+              <img src={notifL} className='h-6 w-6' />
+              <span className={`${!controller && 'hidden'} origin-left duration-200`}>Settings</span>
+            </li>
+          </Link>
+          <Link to="/client/settings">
+            <li className={`text-[#163646] ${!controller && 'px-2 py-2 my-2 hover:rotate-[360deg] duration-500'} p-4 font-medium flex items-center gap-x-4 cursor-pointer hover:bg-blue-200 rounded-md`}>
               <img src={settingsL} className='h-6 w-6' />
               <span className={`${!controller && 'hidden'} origin-left duration-200`}>Settings</span>
-            </div>
+            </li>
           </Link>
+          </ul>
         </div>
       </div>
     </aside>
