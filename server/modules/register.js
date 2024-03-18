@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const contactSchema = mongoose.Schema({
+const contactSchema = new mongoose.Schema({
   fName: {
     type: String,
     required: true
@@ -33,7 +33,7 @@ const contactSchema = mongoose.Schema({
     type: String,
     required: true
   }
-},{timeStamps: true});
+},{timeStamps: true, collection: "userRegs"});
 
 const userReg = mongoose.model("userReg", contactSchema);
 
