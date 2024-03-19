@@ -1,83 +1,55 @@
 import React, {useState} from 'react'
 import { Link } from 'react-router-dom';
 
-import minCD from '../assets/controllerCD.png';
-import logoCD from '../assets/clientNav.png';
-import logoHead from '../assets/clientHead.png';
-import userL from '../assets/user.png';
-import dboardL from '../assets/dboard.png';
-import serviceL from '../assets/service.png';
-import trackerL from '../assets/tracker.png';
-import notifL from '../assets/bell.png';
-import notif2L from '../assets/bell2.png';
-import settingsL from '../assets/settings.png';
+import { AiOutlineClose } from "react-icons/ai";
+import { TiThMenu } from "react-icons/ti";
 
+import logo1 from '../assets/Icon1.png';
 
 /**
  * CNav component function
  */
 const CMainNav = () => {
-  const [controller, setcontroller] = useState(false)
+  const [nav, setNav] = useState(false);
+  const [openLogin, setLogin] = useState(false);
+  const [current, setActive] = useState(false);
 
   return (
-    <aside className='flex items-center'>
-      <div class={`hidden flex-col justify-center items-center ${controller ? 'w-72': 'w-20'} h-full md:flex p-3 pt-5 bg-orange-600 relative `}>
-        <div className='flex justify-center items-center absolute -right-3 h-20 bg-[#1D5B79] border-2 border-orange-600 rounded-full cursor-pointer' onClick={()=> setcontroller(!controller)}>
-          <img className={` p-[2px] bg-[#1D5B79] h-5 w-5 rounded-full ${!controller && 'rotate-180'}`} 
-          src={minCD}
-          />
-        </div>
-        <div className='flex gap-x-4 p-2 items-center'>
-          <img src={logoCD} className={`w-[40px] cursor-pointer duration-500 ${controller && 'rotate-[360deg]'}`}/>
-          <img src= {logoHead} className={`${!controller && 'scale-0'} h-[70px] ml-[-15px] duration-300`}/> 
-        </div>
-        <div className={`flex flex-col ${!controller && 'items-center'} justify-between my-10 py-4 rounded-xl bg-[#F5F5DC] h-full w-full `}>
-        <Link to="/client/profile">
-            <div className={`text-[#163646] ${!controller && 'px-2 py-2 my-2 hover:rotate-[360deg] duration-500'} p-4 font-medium flex items-center gap-x-4 cursor-pointer hover:bg-blue-200 rounded-md`}>
-              <img src={userL} className={`h-6 w-6`} />
-              <span className={`${!controller && 'hidden'} origin-left duration-200`}>Profile</span>
-            </div>
-          </Link>
-          
-          <ul className='flex flex-col justify-between gap-y-6'>      
-          <Link to="/client/dashboard">
-            <li className={`text-[#163646] ${!controller && 'px-2 py-2 my-2 hover:rotate-[360deg] duration-500'} p-4 font-medium flex items-center gap-x-4 cursor-pointer hover:bg-blue-200 rounded-md`}>
-              <img src={dboardL} className='h-6 w-6' />
-              <span className={`${!controller && 'hidden'} origin-left duration-200`}>Dashboard</span>
-            </li>
-          </Link>
+    <div className ='headerC bg-orange-600 shadow-md'>
+      <Link to='/client/dashboard'><img className='h-[50px] rounded-full bg-[#f5f5dc] my-[-5px] py-[-5px]' src={logo1}/></Link>
+      <ul className='hidden md:flex bg-[#f5f5dc] rounded-xl px-8'>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/client/dashboard"} className='text-[#1D5B79]'>Dashboard</Link></li>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/client/browse-service"}>Marketplace</Link></li>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/client/tracker"}>Tracker</Link></li>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/client/settings"}>Settings</Link></li>
+      </ul>
 
-          <Link to="/client/browse-service">
-            <li className={`text-[#163646] ${!controller && 'px-2 py-2 my-2 hover:rotate-[360deg] duration-500'} p-4 font-medium flex items-center gap-x-4 cursor-pointer hover:bg-blue-200 rounded-md `}>
-              <img src={serviceL} className='h-6 w-6' />
-              <span className={`${!controller && 'hidden'} origin-left duration-200`}>Browse Service</span>
-            </li>
-          </Link>
+      {/* Log-Reg */}
+      <div className='hidden md:flex '>
+        <button onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold'>
+          <Link to={'/registration'} className='text-[#163646] bg-[#f5f5dc] rounded-[15px] cursor-pointer pl-[10px] pr-[10px] pt-[3px] pb-[5px]'>Log Out</Link>
+        </button>
+      </div>
 
-          <Link to="/client/tracker">
-            <li className={`text-[#163646] ${!controller && 'px-2 py-2 my-2 hover:rotate-[360deg] duration-500'} p-4 font-medium flex items-center gap-x-4 cursor-pointer hover:bg-blue-200 rounded-md`}>
-              <img src={trackerL} className='h-6 w-6' />
-              <span className={`${!controller && 'hidden'} origin-left duration-200`}>Tracker</span>
-            </li>
-          </Link>
-          </ul>
-          <ul>
-          <Link to="/client/settings">
-            <li className={`text-[#163646] ${!controller && 'px-2 py-2 my-2 hover:rotate-[360deg] duration-500'} p-4 font-medium flex items-center gap-x-4 cursor-pointer hover:bg-blue-200 rounded-md`}>
-              <img src={notifL} className='h-6 w-6' />
-              <span className={`${!controller && 'hidden'} origin-left duration-200`}>Settings</span>
-            </li>
-          </Link>
-          <Link to="/client/settings">
-            <li className={`text-[#163646] ${!controller && 'px-2 py-2 my-2 hover:rotate-[360deg] duration-500'} p-4 font-medium flex items-center gap-x-4 cursor-pointer hover:bg-blue-200 rounded-md`}>
-              <img src={settingsL} className='h-6 w-6' />
-              <span className={`${!controller && 'hidden'} origin-left duration-200`}>Settings</span>
-            </li>
-          </Link>
-          </ul>
+      {/* Minimized NavBar */}
+      <div onClick={() => setNav(!nav)} className='block md:hidden'>
+        {!nav ? <TiThMenu color='beige' size={22}/> : <AiOutlineClose size={22} color='beige'/> }
+      </div>
+      <div className={nav ? 'fixed md:hidden left-0 top-0 w-[300px] z-[5] h-full border-l-solid border-l-[15px] border-l-orange-600 bg-white ease-in-out duration-500' : 'fixed left-[-100%]'}>
+      <img className='h-[70px] m-[10px] pt-[9px]' src={logo1} />
+        <ul>
+          <li onClick={() => setNav(false)} className='p-4 border-b-2 ml-6 mr-6 border-[#1D5B79]'><Link to='/client/dashboard'>Dashboard</Link></li>
+          <li onClick={() => setNav(false)} className='p-4 border-b-2 ml-6 mr-6 border-[#1D5B79]'><Link to='/client/browse-service'>Marketplace</Link></li>
+          <li onClick={() => setNav(false)} className='p-4 border-b-2 ml-6 mr-6 border-[#1D5B79]'><Link to='/client/tracker'>Tracker</Link></li>
+          <li onClick={() => setNav(false)} className='p-4 border-b-2 ml-6 mr-6 border-[#1D5B79]'><Link to='client/settings'>Settings</Link></li>
+        </ul>
+        <div className='flex-inline justify-center items-center mt-[50px]'> {/* Log-out */}
+          <button onClick={() => setNav(false)} className='flex mx-auto pt-2 pb-2 pl-3 pr-3 text-center font-bold'>
+            <Link to={'/registration'} className='text-white bg-[#1d5b79] rounded-[15px] cursor-pointer pl-[10px] pr-[10px] pt-[3px] pb-[5px]'>Log Out</Link>
+          </button> 
         </div>
       </div>
-    </aside>
+    </div>
   )
 }
 

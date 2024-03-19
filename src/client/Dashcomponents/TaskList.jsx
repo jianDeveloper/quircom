@@ -4,13 +4,13 @@ const TaskList = () => {
   return (
     <div class="flex flex-col mt-6">
             <div>
-            <h2 class="text-2xl font-semibold leading-tight text-[#1D5B79]">Commissioned</h2>
+            <h2 class="text-2xl font-semibold leading-tight text-gray-200">Commissioned</h2>
             </div>
             <div class=" overflow-x-auto">
             <div
                 class="inline-block min-w-full shadow-md rounded-lg overflow-hidden"
             >
-                <table class="min-w-full leading-normal">
+                <table class="min-w-full leading-normal shadow-md">
                 <thead>
                     <tr>
                     <th

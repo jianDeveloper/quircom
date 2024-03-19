@@ -21,7 +21,6 @@ body{
   padding: 10px;
 }
 
-
 .icon {
   vertical-align: middle;
   line-height: 1px;
@@ -198,17 +197,6 @@ color: rgba(255, 255, 255, 0.95);
       'main';
   }
 
-  #sidebar {
-    display: none;
-  }
-
-  .menu-icon {
-    display: inline;
-  }
-
-  .sidebar-title > span {
-    display: inline;
-  }
 }
 /* Small <= 768px */
   

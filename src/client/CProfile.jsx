@@ -1,22 +1,21 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-import Header from './Header'
-import CNav from './CNav'
+import NavHeader from './CMainNav'
 import CFooter from './CFooter'
 
 import '../client/profile.css'
 
 import profile from '../assets/profile.jpg'
+import BG1 from '../assets/bg1.png';
 
 function CProfile() {
 
   return (
-    <div className=''>
-      <Header />
-      <div className='flex'>
-        <CNav />
-        <main className='flex-inline mx-10 my-10 w-[100%] md:mx-[200px]'>
+    <div className='' style={{background: `url(${BG1})`, backgroundRepeat:'no-repeat', backgroundSize:'cover'}}>
+      <NavHeader />
+      <div className='flex' >
+        <main className='flex-inline mx-10 my-10 w-[100%] md:mx-[300px]'>
           <div className="userInfo">
             <div className='pictureBorder p-5'>
                 <img className="profilePicture" src={profile} alt="Profile Picture" />
@@ -39,30 +38,30 @@ function CProfile() {
                 <Link to={'/registration'} className='buttonSettings text-white bg-[#1D5B79]'>Manage Profile</Link>
               </button>
               <button onClick={() => setNav(false)} className='py-2 px-3 m-auto text-center font-bold'>
-                <Link to={'/registration'} className='buttonSettings text-white bg-[#FB6D3A]'>View Portfolio</Link>
+                <Link to={'/registration'} className='buttonSettings text-[#1D5B79] bg-[#F5F5DC]'>View Portfolio</Link>
               </button>
             </div>
         </div>
         <div className="profileContent">
           <div className='profileInfo '>
-            <p className=' mx-9 my-5 text-black text-[23px] font-extrabold'>Information</p>
-            <p className=' mx-9 my-2 text-black text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
-            <p className=' mx-9 my-2 text-black text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
-            <p className=' mx-9 my-2 text-black text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
-            <p className=' mx-9 my-5 text-black text-[23px] font-extrabold'>Skills</p>
-            <p className=' mx-9 my-2 text-black text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
-            <p className=' mx-9 my-2 text-black text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
-            <p className=' mx-9 my-2 text-black text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
+            <p className=' mx-9 my-5 text-[#13334c] text-[23px] font-extrabold'>Information</p>
+            <p className=' mx-9 my-2 text-[#13334c] text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
+            <p className=' mx-9 my-2 text-[#13334c] text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
+            <p className=' mx-9 my-2 text-[#13334c] text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
+            <p className=' mx-9 my-5 text-[#13334c] text-[23px] font-extrabold'>Skills</p>
+            <p className=' mx-9 my-2 text-[#13334c] text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
+            <p className=' mx-9 my-2 text-[#13334c] text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
+            <p className=' mx-9 my-2 text-[#13334c] text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
           </div>
           <div className='profileSummary'>
-            <p className=' mx-9 my-5 text-black text-[23px] font-extrabold'>Summary</p>
-            <p className=' mx-9 my-2 text-black text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
-            <p className=' mx-9 my-2 text-black text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
-            <p className=' mx-9 my-2 text-black text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
-            <p className=' mx-9 my-5 text-black text-[23px] font-extrabold'>Skills</p>
-            <p className=' mx-9 my-2 text-black text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
-            <p className=' mx-9 my-2 text-black text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
-            <p className=' mx-9 my-2 text-black text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
+            <p className=' mx-9 my-5 text-[#13334c] text-[23px] font-extrabold'>Summary</p>
+            <p className=' mx-9 my-2 text-[#13334c] text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
+            <p className=' mx-9 my-2 text-[#13334c] text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
+            <p className=' mx-9 my-2 text-[#13334c] text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
+            <p className=' mx-9 my-5 text-[#13334c] text-[23px] font-extrabold'>Skills</p>
+            <p className=' mx-9 my-2 text-[#13334c] text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
+            <p className=' mx-9 my-2 text-[#13334c] text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
+            <p className=' mx-9 my-2 text-[#13334c] text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
           </div>
         </div>
         </main>

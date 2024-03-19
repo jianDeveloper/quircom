@@ -8,6 +8,7 @@ import CNav from './CNav'
 import CFooter from './CFooter';
 import TaskList from './Dashcomponents/TaskList';
 
+import BG1 from '../assets/bg1.png';
 import BGmark from '../assets/service.jpg';
 import BGtrack from '../assets/track.jpg';
 import BGsubs from '../assets/subs.jpg';
@@ -15,7 +16,7 @@ import BGsubs from '../assets/subs.jpg';
 function CDashboard() {
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col'style={{background: `url(${BG1})`, backgroundRepeat:'no-repeat', backgroundSize:'cover'}}>
       <Header />
       <div className='flex '>
       <CNav />
@@ -91,7 +92,7 @@ function CDashboard() {
         </div>
     </div>
       </div>
-      <div className="flex-inline">
+      <div className="">
       <CFooter />
       </div>
     </div>
