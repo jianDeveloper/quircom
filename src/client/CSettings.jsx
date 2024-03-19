@@ -7,7 +7,7 @@ function CSettings() {
 
   return (
     <div className=''>
-      <Header />
+      <NavHeader />
       <div className='flex'>
       <div class="mx-4 min-h-screen max-w-screen-xl sm:mx-8 xl:mx-auto">
         <h1 class="border-b py-6 text-4xl font-extrabold text-[30px] text-[#1D5B79]">SETTINGS</h1>

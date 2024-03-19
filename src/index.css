@@ -145,22 +145,8 @@ body{
   justify-content: space-around;
   padding: 8px 15px;
   border-radius: 5px;
-}
-
-.card:first-child {
-  background-color: #2962ff;
-}
-
-.card:nth-child(2) {
-  background-color: #ff6d00;
-}
-
-.card:nth-child(3) {
-  background-color: #2e7d32;
-}
-
-.card:nth-child(4) {
-  background-color: #d50000;
+  border: 3px solid #1d5b79;
+  background-color: white;
 }
 
 .card-inner {
@@ -171,6 +157,7 @@ body{
 
 .card-inner > .card_icon {
   font-size: 25px;
+  color: #1d5b79;
 }
 
 /* End Main  */
@@ -197,17 +184,6 @@ color: rgba(255, 255, 255, 0.95);
       'main';
   }
 
-  #sidebar {
-    display: none;
-  }
-
-  .menu-icon {
-    display: inline;
-  }
-
-  .sidebar-title > span {
-    display: inline;
-  }
 }
 /* Small <= 768px */
   
