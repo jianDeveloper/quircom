@@ -30,31 +30,31 @@ function CDashboard() {
           lg:grid-cols-4 '>
             <div className='card'>
                 <div className='card-inner'>
-                    <h3>SERVICES</h3>
+                    <h3 className='font-bold text-[#1D5B79]'>SERVICES</h3>
                     <BsFillArchiveFill className='card_icon'/>
                 </div>
-                <h1>300</h1>
+                <h1 className='font-medium'>300</h1>
             </div>
             <div className='card'>
                 <div className='card-inner'>
-                    <h3>TASK</h3>
+                    <h3 className='font-bold text-[#1D5B79]'>TASK</h3>
                     <BsFillGrid3X3GapFill className='card_icon'/>
                 </div>
-                <h1>12</h1>
+                <h1 className='font-medium'>12</h1>
             </div>
             <div className='card'>
                 <div className='card-inner'>
-                    <h3>FREELANCERS</h3>
+                    <h3 className='font-bold text-[#1D5B79]'>FREELANCERS</h3>
                     <BsPeopleFill className='card_icon'/>
                 </div>
-                <h1>33</h1>
+                <h1 className='font-medium'>33</h1>
             </div>
             <div className='card'>
                 <div className='card-inner'>
-                    <h3>NOTIFICATION</h3>
+                    <h3 className='font-bold text-[#1D5B79]'>NOTIFICATION</h3>
                     <BsFillBellFill className='card_icon'/>
                 </div>
-                <h1>42</h1>
+                <h1 className='font-medium'>42</h1>
             </div>
         </div>
         <div className='grid grid-cols-1 gap-[20px] my-[15px] 
