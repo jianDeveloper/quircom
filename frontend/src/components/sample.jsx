@@ -1,7 +1,7 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
-import { useQuery } from 'react-query'
-import { getAllData } from '../fetchReg/fetchReg'
+import React from 'react';
+import {Link} from 'react-router-dom';
+import { useQuery } from 'react-query';
+import { getAllData } from '../fetchReg/fetchReg';
 
 import Register from './Registration';
 
@@ -65,7 +65,7 @@ const Reg = () => {
     }
   ];
 
-  const {data, isLoading, isError} = useQuery("userReg", getAllData);
+  const {data, isLoading, isError} = useQuery("userRegs", getAllData);
   console.log(data)
 
   return (
