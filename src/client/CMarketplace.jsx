@@ -48,7 +48,7 @@ const CMarketplace = () => {
         <CCards key={index} image={item.image} subtitle={item.subtitle} title={item.title} author={item.author}  button={item.button}/>
       ))}
         </div>
-      </main>
+      </div>
       </div>
       <div className="">
         <CFooter />
