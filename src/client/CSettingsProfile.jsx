@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import NavHeader from './Header'
 
-function CSettings() {
+function CSettingsProfile() {
 
   return (
     <div className=''>
@@ -27,30 +27,29 @@ function CSettings() {
             <div class="col-span-2 hidden sm:block">
               <ul>
                 <Link to="/client/settings">
-                  <li class="mt-5 cursor-pointer border-l-2 border-l-blue-700 px-2 py-2 font-semibold text-blue-700 transition hover:border-l-blue-700 hover:text-blue-700">Accounts</li>
+                    <li class="mt-5 cursor-pointer border-l-2 border-l-blue-700 px-2 py-2 font-semibold text-blue-700 transition hover:border-l-blue-700 hover:text-blue-700">Accounts</li>
                 </Link>
                 <Link to="/client/settings-profile">
-                  <li class="mt-5 cursor-pointer border-l-2 border-transparent px-2 py-2 font-semibold transition hover:border-l-blue-700 hover:text-blue-700">Profile</li>
+                    <li class="mt-5 cursor-pointer border-l-2 border-transparent px-2 py-2 font-semibold transition hover:border-l-blue-700 hover:text-blue-700">Profile</li>
                 </Link>
                 <Link to="/client/settings-bill">
-                  <li class="mt-5 cursor-pointer border-l-2 border-transparent px-2 py-2 font-semibold transition hover:border-l-blue-700 hover:text-blue-700">Billing</li>
+                    <li class="mt-5 cursor-pointer border-l-2 border-transparent px-2 py-2 font-semibold transition hover:border-l-blue-700 hover:text-blue-700">Billing</li>
                 </Link>
               </ul>
             </div>
 
             <div class="col-span-8 overflow-hidden rounded-xl sm:bg-[#F7F6DF] sm:px-8 sm:shadow">
               <div class="pt-4">
-                <h1 class="py-2 text-2xl font-semibold">Account settings</h1>
+                <h1 class="py-2 text-2xl font-semibold">Profile settings</h1>
                 <p class="font- text-slate-600">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
               </div>
               <hr class="mt-4 mb-8" />
-              <p class="py-2 text-xl font-semibold">Email Address</p>
+              <p class="py-2 text-xl font-semibold">Account Handle</p>
               <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                <p class="text-gray-600">Your email address is <strong>john.doe@company.com</strong></p>
-                <button class="inline-flex text-sm font-semibold text-blue-600 underline decoration-2">Change</button>
+                <p class="text-gray-600">Your account is <strong>John Doe</strong></p>
               </div>
               <hr class="mt-4 mb-8" />
-              <p class="py-2 text-xl font-semibold">Password</p>
+              <p class="py-2 text-xl font-semibold">Portfolio</p>
               <div class="flex items-center">
                 <div class="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-3">
                   <label for="login-password">
@@ -75,7 +74,7 @@ function CSettings() {
               <hr class="mt-4 mb-8" />
 
               <div class="mb-10">
-                <p class="py-2 text-xl font-semibold">Delete Account</p>
+                <p class="py-2 text-xl font-semibold">Delete Portfolio</p>
                 <p class="inline-flex items-center rounded-full bg-rose-100 px-4 py-1 text-rose-600">
                   <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
@@ -96,4 +95,4 @@ function CSettings() {
   )
 }
 
-export default CSettings
+export default CSettingsProfile

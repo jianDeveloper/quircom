@@ -16,6 +16,7 @@ import CSettings from './client/CSettings.jsx';
 import CTracker from './client/CTracker.jsx';
 import Billing from './components/Billing.jsx';
 import CSettingsBill from './client/CSettingsBill.jsx';
+import CSettingsProfile from './client/CSettingsProfile.jsx';
 
 
 
@@ -53,6 +54,9 @@ function App() {
         </>} />
         <Route exact path='/client/settings-bill' element={<>
         <CSettingsBill />
+        </>} />
+        <Route exact path='/client/settings-profile' element={<>
+        <CSettingsProfile />
         </>} />
         <Route exact path='/client/tracker' element={<>
         <CTracker />
