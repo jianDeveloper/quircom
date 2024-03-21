@@ -10,14 +10,49 @@ const UserSchema = new Schema({
     uppercase: true,
     required: true,
   },
-  middleName: {
+  surName: {
     type: String,
     default: "",
     index: true,
     uppercase: true,
     required: true,
   },
-  lastName: {
+  userName: {
+    type: String,
+    default: "",
+    index: true,
+    uppercase: true,
+    required: true,
+  },
+  eMail: {
+    type: String,
+    default: "",
+    index: true,
+    uppercase: true,
+    required: true,
+  },
+  passWord: {
+    type: String,
+    default: "",
+    index: true,
+    uppercase: true,
+    required: true,
+  },
+  contactNum: {
+    type: Number,
+    default: "",
+    index: true,
+    uppercase: true,
+    required: true,
+  },
+  country: {
+    type: String,
+    default: "",
+    index: true,
+    uppercase: true,
+    required: true,
+  },
+  accType: {
     type: String,
     default: "",
     index: true,
