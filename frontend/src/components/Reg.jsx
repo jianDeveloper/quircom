@@ -1,17 +1,58 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
+import axios from 'axios';
+
+const baseURL = import.meta.env.VITE_BASEURL;
+
 
 import BGreg from '../assets/bgreg.png';
 import logo2 from '../assets/Icon2.png';
 
+
 const Reg = () => {
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    surName: '',
+    userName: '',
+    eMail: '',
+    passWord: '',
+    contactNum: '',
+    country: '',
+    accType: '',
+    aggRee: '',
+  });
+
+  const handleChange = (e) => {
+    const target = e.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+  
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+    try {
+      const response = await axios.post(`${baseURL}/api/users`, formData);
+      console.log(response.data);
+      // Handle success (e.g., showing a success message or redirecting the user)
+    } catch (error) {
+      console.error("Error during registration: ", error.response);
+      // Handle error (e.g., showing an error message)
+    }
+  };
+
   return (
     <section className="">
       <div className="flex xl:none xl:justify-start h-screen mb-[200px] md:mb-0 justify-center" style={{background: `url(${BGreg})`, backgroundRepeat:'no-repeat', backgroundSize:'cover'}}>
         <div className='flex flex-col mt-[60px] xl:ml-[150px] md:h-[600px] bg-[beige] bg-opacity-80 md:bg-[beige] w-screen md:w-[650px] px-[20px] py-[30px] rounded-[10px] md:shadow-[2px_2px_5px_5px_rgba(0,0,0,0.15)]'>
         <h2 className='text-center mx-[20px] mt-[10px] text-[30px] text-[#1D5B79] font-extrabold drop-shadow-xl'>Create Account</h2>
           <div className="container mx-auto mt-8">
-            <form className="w-full max-w-screen-ss mx-auto">
+            <form className="w-full max-w-screen-ss mx-auto" onSubmit={handleSubmit}>
               <div className="flex flex-col md:flex-row md:justify-center -mx-3">
                 <div className="w-full md:w-1/2 px-3 mb-4">
                   <label htmlFor="firstName" className="block text-[#1D5B79] text-sm font-bold mb-2">
@@ -21,6 +62,8 @@ const Reg = () => {
                     type="text"
                     id="firstName"
                     name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
                     className="w-full text-[12px] p-3 border rounded"
                     placeholder="Enter your first name"
                   />
@@ -32,7 +75,9 @@ const Reg = () => {
                   <input
                     type="text"
                     id="lastName"
-                    name="lastName"
+                    name="surName"
+                    value={formData.surName}
+                    onChange={handleChange}
                     className="w-full text-[12px] p-3 border rounded"
                     placeholder="Enter your last name"
                   />
@@ -47,7 +92,9 @@ const Reg = () => {
                   <input
                     type="text"
                     id="username"
-                    name="username"
+                    name="userName"
+                    value={formData.userName}
+                    onChange={handleChange}
                     className="w-full text-[12px] p-3 border rounded"
                     placeholder="Enter your username"
                   />
@@ -59,7 +106,9 @@ const Reg = () => {
                   <input
                     type="password"
                     id="password"
-                    name="password"
+                    name="passWord"
+                    value={formData.passWord}
+                    onChange={handleChange}
                     className="w-full p-2 border rounded"
                     placeholder="Enter your password"
                   />
@@ -74,22 +123,26 @@ const Reg = () => {
                   <input
                     type="tel"
                     id="contactNumber"
-                    name="contactNumber"
+                    name="contactNum"
+                    value={formData.contactNum}
+                    onChange={handleChange}
                     className="w-full text-[14px] p-2.5 border rounded"
                     placeholder="Enter your contact number"
                   />
                 </div>
                 <div className="w-full md:w-1/2 px-3 mb-4">
                   <label htmlFor="country" className="block text-[#1D5B79] text-sm font-bold mb-2">
-                    Coountry
+                    Country
                   </label>
                   <select
                     id="country"
                     name="country"
+                    value={formData.country}
+                    onChange={handleChange}
                     className="w-full p-2 border rounded"
                   >
-                    
-                    <option value=" "> </option>
+                    <option value="">Select Country</option>
+                    <option value="Philippines">Philippines</option>
         
                   </select>
                 </div>
@@ -103,7 +156,9 @@ const Reg = () => {
                   <input
                     type="email"
                     id="email"
-                    name="email"
+                    name="eMail"
+                    value={formData.eMail}
+                    onChange={handleChange}
                     className="w-full text-[12px] p-3  border rounded"
                     placeholder="Enter your email"
                   />
@@ -114,9 +169,12 @@ const Reg = () => {
                   </label>
                   <select
                     id="accountType"
-                    name="accountType"
+                    name="accType"
+                    value={formData.accType}
+                    onChange={handleChange}
                     className="w-full p-2 border rounded"
                   >
+                    <option value="">Select Account Type</option>
                     <option value="freelancer">Freelancer</option>
                     <option value="client">Client</option>
                   </select>
@@ -127,7 +185,9 @@ const Reg = () => {
                   <input
                     type="checkbox"
                     id="agree"
-                    name="agreement"
+                    name="aggRee"
+                    checked={formData.aggRee}
+                    onChange={handleChange}
                     className="mr-2"
                   />
                   <label htmlFor="agree" className='text-[14px]'>

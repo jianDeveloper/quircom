@@ -59,6 +59,13 @@ const UserSchema = new Schema({
     uppercase: true,
     required: true,
   },
+  aggRee:{
+    type: Boolean,
+    default: "",
+    index: true,
+    uppercase: true,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("users", UserSchema);
