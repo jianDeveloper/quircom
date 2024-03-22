@@ -9,15 +9,15 @@ const CCards = ({ image, subtitle, title, author, button }) => {
       </CardHeader>
       <CardBody className='flex flex-row justify-between items-center '>
         <div className='flex flex-col'>
-            <Typography className="mb-2 text-orange-600">
-                {subtitle}
-            </Typography>
-            <Typography className="mb-2 text-[#1D5B79] font-bold text-3xl">
-                {title}
-            </Typography>
-            <Typography className='text-[#1D5B79]'>
-                {author}
-            </Typography>
+          <Typography className="mb-2 text-orange-600">
+            {subtitle}
+          </Typography>
+          <Typography className="mb-2 text-[#1D5B79] font-bold text-3xl">
+            {title}
+          </Typography>
+          <Typography className='text-[#1D5B79]'>
+            {author}
+          </Typography>
         </div>
         <Button className='bg-orange-600 h-10 w-50 text-center p-2 '>{button}</Button>
       </CardBody>
