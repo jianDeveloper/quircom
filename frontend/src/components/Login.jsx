@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import logo1 from '../assets/Icon1.png';
@@ -8,19 +8,23 @@ const Login = ({ open, onClose }) => {
   const [eMail, setEmail] = useState('');
   const [passWord, setPassword] = useState('');
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8800/api/users', {
+      const response = await axios.post('http://localhost:8800/api/auth/login', {
         eMail,
         passWord,
       });
       console.log('Login successful:', response.data);
+      if(response.status === 200){
+        navigate('/client/dashboard')
+      }
       // Here you can handle the successful login, such as setting user data in state or redirecting the user
     } catch (error) {
-      console.error('Error logging in:', error.response.data);
-      setError(error.response.data.message);
+      console.error('Error logging in:', error.message);
+      setError(error.message);
     }
   };
 

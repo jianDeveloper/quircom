@@ -4,6 +4,7 @@ const cors = require('cors');
 const ConnectDB = require("./config/Database");
 
 const UserRoutes = require("./routes/UserRoutes");
+const UserLogin = require("./routes/UserLogin");
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use((req, res, next) => {
 
 // a
 app.use('/api/users', UserRoutes)
+app.use('/api/auth', UserLogin)
 
 app.listen(process.env.PORT, () =>
   console.log(`Server started on port ${process.env.PORT}`)

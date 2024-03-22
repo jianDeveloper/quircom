@@ -20,22 +20,49 @@ const Reg = () => {
     contactNum: '',
     country: '',
     accType: '',
-    aggRee: '',
+    aggRee: false,
   });
 
+  const [invalidFields, setInvalidFields] = useState({});
+
   const handleChange = (e) => {
-    const target = e.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-  
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+    const { name, value, type, checked } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: type === 'checkbox' ? checked : value
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
+
+    // Reset invalid fields
+    setInvalidFields({});
+
+    // Validation checks
+    const errors = {};
+    if (formData.contactNum.length < 11) {
+      errors.contactNum = 'Contact number must be at least 11 characters';
+    }
+    if (!formData.eMail.includes('@')) {
+      errors.eMail = 'Please enter a valid email address';
+    }
+    if (!formData.country || !formData.accType) {
+      errors.country = 'Please select a country';
+      errors.accType = 'Please select an account type';
+    }
+    if (!formData.aggRee) {
+      errors.aggRee = 'Please agree to the terms and conditions';
+    }
+
+    // Set invalid fields state
+    setInvalidFields(errors);
+
+    // If there are any errors, stop form submission
+    if (Object.keys(errors).length > 0) {
+      return;
+    }
+
     try {
       const response = await axios.post(`${baseURL}/api/users`, formData);
       console.log(response.data);
@@ -126,9 +153,10 @@ const Reg = () => {
                     name="contactNum"
                     value={formData.contactNum}
                     onChange={handleChange}
-                    className="w-full text-[14px] p-2.5 border rounded"
+                    className={`w-full text-[14px] p-2.5 border rounded ${invalidFields.contactNum ? 'border-red-500' : ''}`}
                     placeholder="Enter your contact number"
                   />
+                  {invalidFields.contactNum && <p className="text-red-500 text-sm">Contact Number must be atleast 11 characters.</p>}
                 </div>
                 <div className="w-full md:w-1/2 px-3 mb-4">
                   <label htmlFor="country" className="block text-[#1D5B79] text-sm font-bold mb-2">
