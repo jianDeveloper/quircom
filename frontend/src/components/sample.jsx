@@ -48,9 +48,9 @@ const Reg = () => {
       <div className='p-4 lg:p-7 flex items-center flex-wrap gap-5 w-[95%]'>
         {filterUsersByUsername().map(user => (
           <div key={user._id} className="border border-gray-200 p-4 rounded-md">
-            <p><strong>Name:</strong> {user.firstName} {user.surName}</p>
+            <p className=' font'><strong>Name:</strong> {user.firstName} {user.surName}</p>
             <p><strong>Username:</strong> {user.userName}</p>
-            <p><strong>Password:</strong> {user.passWord}</p>
+            {/* <p><strong>Password:</strong> {user.passWord}</p> */}
             <p><strong>Email:</strong> {user.eMail}</p>
             <p><strong>Contact Number:</strong> {user.contactNum}</p>
             <p><strong>Country:</strong> {user.country}</p>

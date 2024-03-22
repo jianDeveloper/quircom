@@ -35,15 +35,6 @@ app.use((req, res, next) => {
 // a
 app.use('/api/users', UserRoutes)
 
-app.get("/", (req, res) => {
-  res.status(200).json({
-    message: "Welcome to Barangay E-Services Management System's API",
-    usage: [
-      "GET /api/services for managing services of barangay",
-    ],
-  });
-});
-
 app.listen(process.env.PORT, () =>
   console.log(`Server started on port ${process.env.PORT}`)
 );
