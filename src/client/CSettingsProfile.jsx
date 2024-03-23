@@ -26,9 +26,15 @@ function CSettingsProfile(props) {
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
               <ul class="max-h-0 select-none flex-col overflow-hidden rounded-b-lg shadow-md transition-all duration-300 peer-checked:max-h-56 peer-checked:py-3">
-                <li class="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">Accounts</li>
-                <li class="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">Profile</li>
-                <li class="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">Billing</li>
+                <Link to="/client/settings">
+                  <li class="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">Accounts</li>
+                </Link>
+                <Link to="/client/settings-profile">
+                  <li class="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">Portfolio</li>
+                </Link>
+                <Link to="/client/settings-bill">
+                  <li class="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">Billing</li>
+                </Link>
               </ul>
             </div>
 
@@ -59,18 +65,22 @@ function CSettingsProfile(props) {
               <hr class="mt-4 mb-8" />
               {/* PORTFOLIO ZONE */}
               <p class="py-2 text-xl font-semibold">Portfolio</p>
-              <div class="flex items-center">
-                <section className="container">
-                  <div {...getRootProps({className: 'dropzone'})}>
-                    <input {...getInputProps()} />
-                    <p >Drag 'n' drop some files here, or click to select files</p>
+              <div class="max-w-2xl">
+                <div className="flex flex-col items-center justify-center w-full">
+                  <div className='flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg bg-gray-50 dark:hover:bg-bray-800 hover:bg-gray-100'>
+                    <div {...getRootProps({className: 'dropzone flex flex-col items-center'})}>
+                      <input {...getInputProps()} />
+                      <svg class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                      <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                      <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                    </div>
                   </div>
                   <aside>
                     <ul>{files}</ul>
                   </aside>
-                </section>
+                </div>
               </div>
-              <button class="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-white">Save Password</button>
+              <button class="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-white">Save Portfolio</button>
               <hr class="mt-4 mb-8" />
 
               <div class="mb-10">
