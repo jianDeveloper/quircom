@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import { Link } from 'react-router-dom';
 
 import Header from './Header'
+import CFooter from './CFooter';
 
 function CSettingsBill() {
 
@@ -148,8 +149,9 @@ function CSettingsBill() {
           </div>
         </div>
       </div>
-      <div className="flex justify-center h-[5vh] z-[5] bg-[#163646] text-gray-300 font-bolds">
-        <h1 className='py-1'>QUIRCOM © 2024 | All Rights Reserved</h1>
+      <div className="">
+      <hr class="mt-4 mb-4" />
+        <CFooter />
       </div>
     </div>
   )

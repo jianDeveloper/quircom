@@ -44,9 +44,9 @@ const CMarketplace = () => {
           </form>
         </div>
         <div className='w-full h-[43vh] overflow-scroll  grid grid-cols-4 gap-4'>
-        {data.map((item, index) => (
-        <CCards key={index} image={item.image} subtitle={item.subtitle} title={item.title} author={item.author}  button={item.button}/>
-      ))}
+          {data.map((item, index) => (
+            <CCards key={index} image={item.image} subtitle={item.subtitle} title={item.title} author={item.author}  button={item.button}/>
+          ))}
         </div>
       </div>
       </div>
