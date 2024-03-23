@@ -34,7 +34,7 @@ const CMarketplace = () => {
           <h1 className='mt-10 font-extrabold text-[30px] text-[#1D5B79]'>Top Services</h1>
           <div class="m-[10px] w-[50%]">
             <form class="">
-              <div class="relative mb-10 w-full flex  items-center justify-between rounded-md">
+              <div class="relative w-full flex  items-center justify-between rounded-md">
                 <svg class="absolute left-2 block h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="11" cy="11" r="8" class=""></circle>
                   <line x1="21" y1="21" x2="16.65" y2="16.65" class=""></line>
@@ -43,7 +43,7 @@ const CMarketplace = () => {
               </div>
             </form>
           </div>
-          <div className='w-full h-[43vh] overflow-scroll grid grid-cols-1 lg:grid-cols-3 gap-4'>
+          <div className=' h-[43vh] overflow-scroll grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
             {data.map((item, index) => (
               <CCards key={index} image={item.image} subtitle={item.subtitle} title={item.title} author={item.author}  button={item.button}/>
             ))}
