@@ -9,7 +9,8 @@ import {
   Badge,
 } from "@mui/material/";
 import { styled, alpha } from "@mui/material/styles";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaStar } from "react-icons/fa";
+import { ChatList } from "./Data";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -58,7 +59,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     },
   },
 }));
-const ChatElement = () => {
+const ChatElement = ({id, name, img, ticket, time, unread, online}) => {
   return (
     <Box
       sx={{ width: "100%", borderRadius: 1, backgroundColor: "#FB6D3A" }}
@@ -69,22 +70,23 @@ const ChatElement = () => {
         alignItems={"center"}
         justifyContent={"space-between"}
       >
-        <Stack direction={"row"} spacing={2}>
-          <StyledBadge
+        <Stack direction={"row"} spacing={1}>
+          {online ? <StyledBadge
             overlap="circular"
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             variant="dot"
           >
-            <Avatar />
-          </StyledBadge>
-          <Stack spacing={0.3}>
-             <Typography color="white" sx={{font:"font-poppins", fontWeight:"bold"}} >Freelance Name</Typography>
-             <Typography color="#E0E0E0" variant="caption">ID# 546254</Typography>
+            <Avatar src={img} />
+          </StyledBadge> : <Avatar src={img} />}
+          
+          <Stack>
+             <Typography color="white" sx={{font:"font-poppins", fontWeight:"bold"}} >{name}</Typography>
+             <Typography color="#E0E0E0" variant="caption">ID# {ticket}</Typography>
           </Stack>
         </Stack>
         <Stack spacing={2} alignItems={"center"}>
-          <Typography sx={{fontWeight:600, color:"#E0E0E0"}} variant="caption">9:11</Typography>
-          <Badge color="primary" badgeContent={4} />
+          <Typography sx={{fontWeight:600, color:"#E0E0E0"}} variant="caption">{time}</Typography>
+          <Badge color="primary" badgeContent={unread} />
         </Stack>
       </Stack>
     </Box>
@@ -122,8 +124,18 @@ const Chat = () => {
               </Search>
             </Stack>
             <Divider sx={{ marginTop: "10px" }} />
-            <Stack>
-              <ChatElement />
+            <Stack direction={"column"}>
+              <Stack direction={"row"} alignItems={"center"} spacing={1} marginBottom={1}>
+            <Typography color="#E0E0E0">Favorites </Typography>
+            <FaStar color="#FD5F00" />
+            </Stack>
+              <Stack spacing={2}>
+              {ChatList.filter((el) => el.pinned).map((el) =>{
+                return <ChatElement {...el} />
+              })}
+              </Stack>
+              
+              
             </Stack>
           </Stack>
         </Box>
