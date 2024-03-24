@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import NavHeader from './CMainNav'
 import CFooter from './CFooter'
 
-import '../client/profile.css'
+import './profile.css'
 
 import profile from '../assets/profile.jpg'
 import BG1 from '../assets/bg1.png';
