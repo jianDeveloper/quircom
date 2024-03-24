@@ -56,7 +56,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
       transform: "scale(2.4)",
       opacity: 0,
     },
-  }
+  },
 }));
 const ChatElement = () => {
   return (
@@ -64,10 +64,29 @@ const ChatElement = () => {
       sx={{ width: "100%", borderRadius: 1, backgroundColor: "#FB6D3A" }}
       p={2}
     >
-      <StyledBadge overlap="circular" anchorOrigin={{ vertical: "bottom", horizontal: "right" }} variant="dot">
-      <Avatar />
-      </StyledBadge>
-      
+      <Stack
+        direction="row"
+        alignItems={"center"}
+        justifyContent={"space-between"}
+      >
+        <Stack direction={"row"} spacing={2}>
+          <StyledBadge
+            overlap="circular"
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            variant="dot"
+          >
+            <Avatar />
+          </StyledBadge>
+          <Stack spacing={0.3}>
+             <Typography color="white" sx={{font:"font-poppins", fontWeight:"bold"}} >Freelance Name</Typography>
+             <Typography color="#E0E0E0" variant="caption">ID# 546254</Typography>
+          </Stack>
+        </Stack>
+        <Stack spacing={2} alignItems={"center"}>
+          <Typography sx={{fontWeight:600, color:"#E0E0E0"}} variant="caption">9:11</Typography>
+          <Badge color="primary" badgeContent={4} />
+        </Stack>
+      </Stack>
     </Box>
   );
 };
