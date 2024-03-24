@@ -23,12 +23,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const ChatElement = () => {
-  return (
-    <Box sx={{ p: 2, backgroundColor: "#f5f5f5" }}>
-      
-    </Box>
-  )
-}
+  return <Box sx={{ p: 2, backgroundColor: "#f5f5f5" }}></Box>;
+};
 
 const Chat = () => {
   return (
@@ -45,20 +41,25 @@ const Chat = () => {
           }}
         >
           <Stack p={1} spacing={2}>
-            <Typography variant="font-poppins font-bold text-lg">Chat</Typography>
-          <Stack sx={{ width: "100%", marginTop: "10px" }}>
-            <Search>
-              <FaSearch className="flex alignitems-center justify-center absolute m-3 " color="#709CE6" />
-              <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ "Poppins": "search" }}
-              />
-            </Search>
-          </Stack>
-          <Stack >
-            <Divider sx={{marginTop: "10px"}} />
-
-          </Stack>
+            <Typography variant="font-poppins font-bold text-lg">
+              Chat
+            </Typography>
+            <Stack sx={{ width: "100%", marginTop: "10px" }}>
+              <Search>
+                <FaSearch
+                  className="flex alignitems-center justify-center absolute m-3 "
+                  color="#709CE6"
+                />
+                <StyledInputBase
+                  placeholder="Search…"
+                  inputProps={{ Poppins: "search" }}
+                />
+              </Search>
+            </Stack>
+            <Divider sx={{ marginTop: "10px" }} />
+            <Stack>
+              <ChatElement />
+            </Stack>
           </Stack>
         </Box>
       </Stack>
