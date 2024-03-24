@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import Navbar from './components/Navbar.jsx';
 import Hero from './components/Hero.jsx';
+import Trial from './components/sample.jsx';
 import Reg from './components/Reg.jsx';
 import Footer from './components/Footer.jsx';
 import Stats from './components/Stats.jsx';
