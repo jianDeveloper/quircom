@@ -32,6 +32,13 @@ function App() {
         <Footer />
         <Billing />
         </>} />
+
+        {/* Sample Routing */}
+        <Route exact path='/trial' element={<>
+        <Navbar />
+        <Trial/>
+        </>}/>
+
         <Route exact path='/registration' element={ <>
         <Navbar />
         <Reg />
