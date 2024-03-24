@@ -24,7 +24,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const ChatElement = () => {
   return (
-    <Box>
+    <Box sx={{ p: 2, backgroundColor: "#f5f5f5" }}>
       
     </Box>
   )
