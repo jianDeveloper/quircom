@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Stack, Typography, InputBase, Divider } from "@mui/material/";
+import { Box, Stack, Typography, InputBase, Divider, Avatar } from "@mui/material/";
 import { styled, alpha } from "@mui/material/styles";
 import { FaSearch } from "react-icons/fa";
 
@@ -23,7 +23,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const ChatElement = () => {
-  return <Box sx={{ p: 2, backgroundColor: "#f5f5f5" }}></Box>;
+  return (
+    <Box
+      sx={{ width: "100%", borderRadius: 1, backgroundColor: "#1d5b79"}}
+      p={2}
+    >
+      <Avatar />
+    </Box>
+  );
 };
 
 const Chat = () => {
