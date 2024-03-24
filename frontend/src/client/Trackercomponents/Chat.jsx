@@ -121,7 +121,7 @@ const Chat = () => {
                   placeholder="Search…"
                   inputProps={{ Poppins: "search" }}
                 />
-              </Search>
+              </Search>   
             </Stack>
             <Divider sx={{ marginTop: "10px" }} />
             <Stack direction={"column"}>
