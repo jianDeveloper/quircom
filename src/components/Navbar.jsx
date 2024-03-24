@@ -20,7 +20,6 @@ const navBar = () => {
         <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/"}>Careers</Link></li>
         <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/"}>Services</Link></li>
         <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/"}>Testimonials</Link></li>
-        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/trial"}>Trial</Link></li>
       </ul>
 
       {/* Log-Reg */}
