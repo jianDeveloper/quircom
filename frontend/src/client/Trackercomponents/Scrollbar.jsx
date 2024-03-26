@@ -16,7 +16,7 @@ const SimpleBarStyle = styled(SimpleBarReact)(({ theme }) => ({
   //maxHeight: '100%',
   '& .simplebar-scrollbar': {
     '&:before': {
-      backgroundColor: alpha("#A8A8A8", 0.48),
+      backgroundColor: alpha(theme.palette.grey[600], 0.48),
     },
     '&.simplebar-visible:before': {
       opacity: 1,

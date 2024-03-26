@@ -12,6 +12,7 @@ import { styled, alpha } from "@mui/material/styles";
 import { FaInbox, FaSearch, FaStar } from "react-icons/fa";
 import { ChatList } from "./Data";
 import { SimpleBarStyle } from "./Scrollbar";
+import SimpleBar from "simplebar-react";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -144,7 +145,7 @@ const Chat = () => {
               direction={"column"}
               sx={{ flexGrow: 1, overflow: "scroll", height: "100%" }}
             >
-              <SimpleBarStyle timeout={500} clickOnTrack={false} sx={{height: "100%", overflow: "auto"}}>
+              <SimpleBarStyle>
                 <Stack
                   direction={"row"}
                   alignItems={"center"}
