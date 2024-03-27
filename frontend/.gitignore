@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+node_modules
+=======
 # Logs
 logs
 *.log
@@ -22,3 +25,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+>>>>>>> parent of 96a4550 (Merge branch 'backend-trial-axios')
