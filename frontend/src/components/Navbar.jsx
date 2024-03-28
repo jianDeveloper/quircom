@@ -5,21 +5,30 @@ import { AiOutlineClose } from "react-icons/ai";
 import { TiThMenu } from "react-icons/ti";
 
 import logo1 from '../assets/Icon1.png';
+import Modal from './Login';
 
 
-
-const Header = () => {
+const navBar = () => {
     const [nav, setNav] = useState(false);
     const [openLogin, setLogin] = useState(false);
 
   return (
-    <div className ='headerC'>
+    <div className ='header'>
       <Link to='/'><img className='h-[60px]' src={logo1}/></Link>
+      <ul className='hidden md:flex'>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/"} className='text-[#1D5B79]'>About us</Link></li>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/"}>Careers</Link></li>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/"}>Services</Link></li>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/"}>Testimonials</Link></li>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/trial"}>Trial</Link></li>
+      </ul>
 
       {/* Log-Reg */}
       <div className='hidden md:flex '>
+      <button onClick={() => setLogin(true)} className=' pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'>Log In</button>
+      <Modal open={openLogin} onClose={() => setLogin(false)}/>
       <button onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold'>
-        <Link to={'/registration'} className='text-white bg-[#1D5B79] rounded-[15px] cursor-pointer pl-[10px] pr-[10px] pt-[3px] pb-[5px]'>Sign Out</Link>
+        <Link to={'/registration'} className='text-white bg-[#1D5B79] rounded-[15px] cursor-pointer pl-[10px] pr-[10px] pt-[3px] pb-[5px]'>Sign Up</Link>
       </button>
       </div>
 
@@ -37,7 +46,7 @@ const Header = () => {
         </ul>
         <div className='flex-inline justify-center items-center mt-[50px]'> {/* Log-Reg */}
           <button onClick={() => setLogin(true)} className='flex mx-auto pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#1D5B79]'><Link to="/client/dashboard">Log In</Link></button>
-          
+          <Modal open={openLogin} onClose={() => setLogin(false)}/>
           <button onClick={() => setNav(false)} className='flex mx-auto pt-2 pb-2 pl-3 pr-3 text-center font-bold'>
             <Link to={'/registration'} className='text-white bg-orange-600 rounded-[15px] cursor-pointer pl-[10px] pr-[10px] pt-[3px] pb-[5px]'>Sign Up</Link>
           </button> 
@@ -47,4 +56,4 @@ const Header = () => {
   )
 }
 
-export default Header
+export default navBar
