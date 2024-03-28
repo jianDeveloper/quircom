@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios';
+import phil from 'phil-reg-prov-mun-brgy'
 
 const baseURL = import.meta.env.VITE_BASEURL;
 
@@ -8,8 +9,18 @@ const baseURL = import.meta.env.VITE_BASEURL;
 import BGreg from '../assets/bgreg.png';
 import logo2 from '../assets/Icon2.png';
 
-
 const Reg = () => {
+
+  console.log(phil.regions)
+  console.log(phil.regions.find(region => region.reg_code === '04')?.name);
+  console.log(phil.provinces)
+  console.log(phil.provinces.find(provinces=> provinces.prov_code === '1602')?.name);
+  console.log(phil.city_mun)
+  console.log(phil.city_mun.find(city=> city.mun_code === '160201')?.name);
+
+  const sortedRegions = phil.regions.sort((a, b) => a.name.localeCompare(b.name));
+  const sortedCityMun = phil.city_mun.sort((a, b) => a.name.localeCompare(b.name));
+  const sortedProvinces = phil.provinces.sort((a, b) => a.name.localeCompare(b.name));
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -18,18 +29,52 @@ const Reg = () => {
     eMail: '',
     passWord: '',
     contactNum: '',
-    country: '',
+    region: '', 
+    province: '',
+    city: '',
     accType: '',
     aggRee: false,
   });
 
   const [invalidFields, setInvalidFields] = useState({});
+  const [filteredProvinces, setFilteredProvinces] = useState([]);
+  const [filteredCity, setFilteredCity] = useState([]);
+  const [regionCode, setRegionCode] = useState('');
+  const [provinceCode, setProvinceCode] = useState(''); 
+  const [cityCode, setCityCode] = useState('');
+
+  console.log(regionCode)
+  console.log(provinceCode)
+  console.log(cityCode)
+
+  
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+    if (name === 'region') {
+      setRegionCode(value);
+      const regionProvinces = phil.getProvincesByRegion(value);
+      setFilteredProvinces(regionProvinces);
+      
+      // Reset province and city dropdowns
+      setProvinceCode('');
+      setCityCode('');
+      setFilteredCity([]);
+    }
+    if (name === 'province') {
+      setProvinceCode(value);
+      const provincesCity = phil.getCityMunByProvince(value);
+      setFilteredCity(provincesCity);
+    }
+    if (name === 'city') {
+      setCityCode(value);
+    }
     setFormData(prevState => ({
       ...prevState,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === 'checkbox' ? checked : value,
+      region: name === 'region' ? value : formData.region,
+      province: name === 'province' ? value : formData.province,
+      city: name === 'city' ? value : formData.city,
     }));
   };
 
@@ -59,8 +104,10 @@ const Reg = () => {
     if (!formData.eMail.includes('@')) {
       errors.eMail = 'Please enter a valid email address';
     }
-    if (!formData.country || !formData.accType) {
-      errors.country = 'Please select a country';
+    if (!formData.region || !formData.province || !formData.city || !formData.accType) {
+      errors.region = 'Please select a region';
+      errors.province = 'Please select a province';
+      errors.city = 'Please select a city';
       errors.accType = 'Please select an account type';
     }
     if (!formData.aggRee) {
@@ -90,7 +137,7 @@ const Reg = () => {
   return (
     <section className="">
       <div className="flex xl:none xl:justify-start h-screen mb-[200px] md:mb-0 justify-center" style={{background: `url(${BGreg})`, backgroundRepeat:'no-repeat', backgroundSize:'cover'}}>
-        <div className='flex flex-col mt-[60px] xl:ml-[150px] md:h-[700px] bg-[beige] bg-opacity-80 md:bg-[beige] w-screen md:w-[650px] px-[20px] py-[30px] rounded-[10px] md:shadow-[2px_2px_5px_5px_rgba(0,0,0,0.15)]'>
+        <div className='flex flex-col mt-[60px] xl:ml-[150px] md:h-[775px] bg-[beige] bg-opacity-80 md:bg-[beige] w-screen md:w-[650px] px-[20px] py-[30px] rounded-[10px] md:shadow-[2px_2px_5px_5px_rgba(0,0,0,0.15)]'>
         <h2 className='text-center mx-[20px] mt-[10px] text-[30px] text-[#1D5B79] font-extrabold drop-shadow-xl'>Create Account</h2>
           <div className="container mx-auto mt-8">
             <form className="w-full max-w-screen-ss mx-auto" onSubmit={handleSubmit}>
@@ -108,7 +155,7 @@ const Reg = () => {
                     className={`w-full text-[12px] p-3 border rounded ${invalidFields.firstName ? 'border-red-500' : ''}`}
                     placeholder="Enter your first name"
                   />
-                  {invalidFields.firstName && <p className="text-red-500">{invalidFields.firstName}</p>}
+                  {invalidFields.firstName && <p className="text-red-500 text-[12px]">{invalidFields.firstName}</p>}
                 </div>
                 <div className="w-full md:w-1/2 px-3 mb-4">
                   <label htmlFor="lastName" className="block text-[#1D5B79] text-sm font-bold mb-2">
@@ -123,7 +170,7 @@ const Reg = () => {
                     className={`w-full text-[12px] p-3 border rounded ${invalidFields.surName ? 'border-red-500' : ''}`}
                     placeholder="Enter your last name"
                   />
-                  {invalidFields.surName && <p className="text-red-500">{invalidFields.surName}</p>}
+                  {invalidFields.surName && <p className="text-red-500 text-[12px]">{invalidFields.surName}</p>}
                 </div>
               </div>
 
@@ -141,7 +188,7 @@ const Reg = () => {
                     className={`w-full text-[12px] p-3 border rounded ${invalidFields.userName ? 'border-red-500' : ''}`}
                     placeholder="Enter your username"
                   />
-                  {invalidFields.userName && <p className="text-red-500">{invalidFields.userName}</p>}
+                  {invalidFields.userName && <p className="text-red-500 text-[12px]">{invalidFields.userName}</p>}
                 </div>
                 <div className="w-full md:w-1/2 px-3 mb-4">
                   <label htmlFor="password" className="block text-[#1D5B79] text-sm font-bold mb-2">
@@ -156,7 +203,7 @@ const Reg = () => {
                     className={`w-full p-2 border rounded ${invalidFields.passWord ? 'border-red-500' : ''}`}
                     placeholder="Enter your password"
                   />
-                  {invalidFields.passWord && <p className="text-red-500">{invalidFields.passWord}</p>}
+                  {invalidFields.passWord && <p className="text-red-500 text-[12px]">{invalidFields.passWord}</p>}
                 </div>
               </div>
 
@@ -174,22 +221,61 @@ const Reg = () => {
                     className={`w-full text-[14px] p-2.5 border rounded ${invalidFields.contactNum ? 'border-red-500' : ''}`}
                     placeholder="Enter your contact number"
                   />
-                  {invalidFields.contactNum && <p className="text-red-500 text-sm">{invalidFields.contactNum}</p>}
+                  {invalidFields.contactNum && <p className="text-red-500 text-[12px]">{invalidFields.contactNum}</p>}
                 </div>
                 <div className="w-full md:w-1/2 px-3 mb-4">
-                  <label htmlFor="country" className="block text-[#1D5B79] text-sm font-bold mb-2">
-                    Country
+                  <label htmlFor="region" className="block text-[#1D5B79] text-sm font-bold mb-2">
+                    Region
                   </label>
                   <select
-                    id="country"
-                    name="country"
-                    value={formData.country}
+                    id="region"
+                    name="region"
+                    value={regionCode}
                     onChange={handleChange}
-                    className={`w-full p-2 border rounded ${invalidFields.country ? 'border-red-500' : ''}`}>
-                    <option value="">Select Country</option>
-                    <option value="Philippines">Philippines</option>
+                    className={`w-full p-2 border rounded ${invalidFields.region ? 'border-red-500' : ''}`}>
+                    <option value="">Select Region</option>
+                    {sortedRegions.map((region) => (
+                      <option key={region.key} value={region.reg_code}>{region.name}</option> // Use region_code instead of name
+                    ))}
                   </select>
-                  {invalidFields.country && <p className="text-red-500 text-sm">{invalidFields.country}</p>}
+                  {invalidFields.region && <p className="text-red-500 text-[12px]">{invalidFields.region}</p>}
+                </div>
+              </div>
+
+              <div className="flex flex-col md:flex-row md:justify-center -mx-3">
+                <div className="w-full md:w-1/2 px-3 mb-4">
+                    <label htmlFor="province" className="block text-[#1D5B79] text-sm font-bold mb-2">
+                      Province
+                    </label>
+                    <select
+                      id="province"
+                      name="province"
+                      value={provinceCode}
+                      onChange={handleChange}
+                      className={`w-full p-2 border rounded ${invalidFields.province ? 'border-red-500' : ''}`}>
+                      <option value="">Select Province</option>
+                      {filteredProvinces.map((province) => ( // Use filteredProvinces
+                        <option key={province.key} value={province.prov_code}>{province.name}</option>
+                      ))}
+                    </select>
+                    {invalidFields.province && <p className="text-red-500 text-[12px]">{invalidFields.province}</p>}
+                </div>
+                <div className="w-full md:w-1/2 px-3 mb-4">
+                  <label htmlFor="city" className="block text-[#1D5B79] text-sm font-bold mb-2">
+                    City
+                  </label>
+                  <select
+                    id="city"
+                    name="city"
+                    value={cityCode}
+                    onChange={handleChange}
+                    className={`w-full p-2 border rounded ${invalidFields.city ? 'border-red-500' : ''}`}>
+                    <option value="">Select City</option>
+                    {filteredCity.map((city) => (
+                      <option key={city.key} value={city.mun_code}>{city.name}</option>
+                    ))}
+                  </select>
+                  {invalidFields.city && <p className="text-red-500 text-[12px]">{invalidFields.city}</p>}
                 </div>
               </div>
 
@@ -207,7 +293,7 @@ const Reg = () => {
                     className={`w-full text-[12px] p-3  border rounded ${invalidFields.eMail ? 'border-red-500' : ''}`}
                     placeholder="Enter your email"
                   />
-                  {invalidFields.contactNum && <p className="text-red-500 text-sm">{invalidFields.eMail}</p>}
+                  {invalidFields.contactNum && <p className="text-red-500 text-[12px]">{invalidFields.eMail}</p>}
                 </div>
                 <div className="w-full md:w-1/2 px-3 mb-3">
                   <label htmlFor="accountType" className="block text-[#1D5B79] text-sm font-bold mb-2">
@@ -223,7 +309,7 @@ const Reg = () => {
                     <option value="freelancer">Freelancer</option>
                     <option value="client">Client</option>
                   </select>
-                  {invalidFields.accType && <p className="text-red-500 text-sm">{invalidFields.accType}</p>}
+                  {invalidFields.accType && <p className="text-red-500 text-[12px]">{invalidFields.accType}</p>}
                 </div>
               </div>
               <div className="mb-6">
@@ -240,7 +326,7 @@ const Reg = () => {
                     I agree to the <Link className='text-[#1D5B79] font-medium'><u>terms and conditions</u></Link>
                   </label>    
                 </div>
-                {invalidFields.aggRee && <p className="text-red-500 text-center text-sm">{invalidFields.aggRee}</p>}
+                {invalidFields.aggRee && <p className="text-red-500 text-[12px] text-center">{invalidFields.aggRee}</p>}
               </div>
               <div className="flex justify-center">
                 <button

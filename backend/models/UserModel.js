@@ -39,7 +39,19 @@ const UserSchema = new Schema({
     index: true,
     required: true,
   },
-  country: {
+  region: {
+    type: String,
+    default: "",
+    index: true,
+    required: true,
+  },
+  province: {
+    type: String,
+    default: "",
+    index: true,
+    required: true,
+  },
+  city: {
     type: String,
     default: "",
     index: true,
@@ -49,7 +61,7 @@ const UserSchema = new Schema({
     type: String,
     default: "",
     index: true,
-    required: true,
+    required: true
   },
   aggRee:{
     type: Boolean,

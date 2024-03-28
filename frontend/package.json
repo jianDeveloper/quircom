@@ -22,6 +22,7 @@
     "framer-motion": "^11.0.13",
     "openai": "^4.0.0",
     "prop-types": "^15.8.1",
+    "phil-reg-prov-mun-brgy": "^1.1.0",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
     "react-dom": "^18.2.0",
