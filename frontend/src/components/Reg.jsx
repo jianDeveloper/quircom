@@ -11,12 +11,12 @@ import logo2 from '../assets/Icon2.png';
 
 const Reg = () => {
 
-  console.log(phil.regions)
-  console.log(phil.regions.find(region => region.reg_code === '04')?.name);
-  console.log(phil.provinces)
-  console.log(phil.provinces.find(provinces=> provinces.prov_code === '1602')?.name);
-  console.log(phil.city_mun)
-  console.log(phil.city_mun.find(city=> city.mun_code === '160201')?.name);
+  // console.log(phil.regions)
+  // console.log(phil.regions.find(region => region.reg_code === '04')?.name);
+  // console.log(phil.provinces)
+  // console.log(phil.provinces.find(provinces=> provinces.prov_code === '1602')?.name);
+  // console.log(phil.city_mun)
+  // console.log(phil.city_mun.find(city=> city.mun_code === '160201')?.name);
 
   const sortedRegions = phil.regions.sort((a, b) => a.name.localeCompare(b.name));
   const sortedCityMun = phil.city_mun.sort((a, b) => a.name.localeCompare(b.name));
