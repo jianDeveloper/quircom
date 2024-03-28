@@ -53,7 +53,9 @@ const Reg = () => {
             <p><strong>Password:</strong> {user.passWord}</p>
             <p><strong>Email:</strong> {user.eMail}</p>
             <p><strong>Contact Number:</strong> {user.contactNum}</p>
-            <p><strong>Country:</strong> {user.country}</p>
+            <p><strong>Region:</strong> {user.region}</p>
+            <p><strong>Province:</strong> {user.province}</p>
+            <p><strong>City:</strong> {user.city}</p>
             <p><strong>Account Type:</strong> {user.accType}</p>
           </div>
         ))}

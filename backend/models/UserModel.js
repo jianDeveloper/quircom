@@ -39,13 +39,19 @@ const UserSchema = new Schema({
     index: true,
     required: true,
   },
-  country: {
+  region: {
     type: String,
     default: "",
     index: true,
     required: true,
   },
-  accType: {
+  province: {
+    type: String,
+    default: "",
+    index: true,
+    required: true,
+  },
+  city: {
     type: String,
     default: "",
     index: true,
