@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import phil from 'phil-reg-prov-mun-brgy'
 
 const Reg = () => {
   const [users, setUsers] = useState([]);
@@ -53,10 +54,11 @@ const Reg = () => {
             <p><strong>Password:</strong> {user.passWord}</p>
             <p><strong>Email:</strong> {user.eMail}</p>
             <p><strong>Contact Number:</strong> {user.contactNum}</p>
-            <p><strong>Region:</strong> {user.region}</p>
-            <p><strong>Province:</strong> {user.province}</p>
-            <p><strong>City:</strong> {user.city}</p>
+            <p><strong>Region:</strong> {user.region} {phil.regions.find(region => region.reg_code === user.region)?.name} </p>
+            <p><strong>Province:</strong> {user.province} {phil.provinces.find(province => province.prov_code === user.province)?.name}</p>
+            <p><strong>City:</strong> {user.city} {phil.city_mun.find(city => city.mun_code === user.city)?.name}</p>
             <p><strong>Account Type:</strong> {user.accType}</p>
+            
           </div>
         ))}
       </div>

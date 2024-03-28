@@ -57,6 +57,12 @@ const UserSchema = new Schema({
     index: true,
     required: true,
   },
+  accType: {
+    type: String,
+    default: "",
+    index: true,
+    required: true
+  },
   aggRee:{
     type: Boolean,
     default: "",
