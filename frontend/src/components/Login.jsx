@@ -17,14 +17,21 @@ const Login = ({ open, onClose }) => {
         eMail,
         passWord,
       });
-      console.log('Login successful:', response.data);
-      if(response.status === 200){
-        navigate('/client/dashboard')
+      console.log('Login response:', response.data); // Log the response data
+      if (response.status === 200) {
+        const { _id, accType } = response.data.user; // Destructure user data
+        console.log('User ID:', _id); // Log the user id
+        console.log('Account Type:', accType); // Log the account type
+        if (accType === 'CLIENT' || accType === 'Client' || accType === 'client') {
+          navigate(`/client/dashboard/${_id}`); // Redirect client to dashboard
+        } else if (accType === 'FREELANCER' || accType === 'Freelancer' || accType === 'freelancer') {
+          navigate(`/freelancer/dashboard/${_id}`); // Redirect freelancer to dashboard
+        }
       }
       // Here you can handle the successful login, such as setting user data in state or redirecting the user
     } catch (error) {
       console.error('Error logging in:', error.response.data.message);
-      setError (error.response.data.message);
+      setError(error.response.data.message);
     }
   };
 
@@ -87,7 +94,8 @@ const Login = ({ open, onClose }) => {
             <div className='mt-[60px]'>
               <hr className='border-1 border-gray-400' />
               <span className='text-[12px] font-medium'>
-                Don't have an account?{' '}
+                Don't have an account
+                ?{' '}
                 <Link
                   to={'/registration'}
                   onClick={onClose}
@@ -95,6 +103,7 @@ const Login = ({ open, onClose }) => {
                 >
                   Sign up
                 </Link>
+                : null
               </span>
             </div>
           </div>

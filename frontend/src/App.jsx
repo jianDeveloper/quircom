@@ -1,6 +1,5 @@
-import React from 'react'
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-
 import Navbar from './components/Navbar.jsx';
 import Hero from './components/Hero.jsx';
 import Trial from './components/sample.jsx';
@@ -17,54 +16,83 @@ import CSettings from './client/CSettings.jsx';
 import CTracker from './client/CTracker.jsx';
 import Billing from './components/Billing.jsx';
 
-
 function App() {
-  
   return (
     <div>
       <Routes>
-        <Route exact path='/' element={<>
-        <Navbar />
-        <Hero />
-        <Stats />
-        <Services/> 
-        <Subscription />
-        <Newsletter />
-        <Footer />
-        <Billing />
-        </>} />
+        <Route
+          exact
+          path="/"
+          element={
+            <>
+              <Navbar />
+              <Hero />
+              <Stats />
+              <Services />
+              <Subscription />
+              <Newsletter />
+              <Footer />
+              <Billing />
+            </>
+          }
+        />
 
         {/* Sample Routing */}
-        <Route exact path='/trial' element={<>
-        <Navbar />
-        <Trial/>
-        </>}/>
+        <Route
+          exact
+          path="/trial"
+          element={
+            <>
+              <Navbar />
+              <Trial />
+            </>
+          }
+        />
 
-        <Route exact path='/registration' element={ <>
-        <Navbar />
-        <Reg />
-        <Footer />
-        </> } />
-        <Route exact path='/client/dashboard' element={<>
-        <CDashboard />
-        </>} />
-        <Route exact path='/client/profile' element={<>
-        <CProfile />
-        </>} />
-        <Route exact path='/client/browse-service' element={<>
-        <CMarketplace />
-        </>} />
-        <Route exact path='/client/settings' element={<>
-        <CSettings />
-        </>} />
-        <Route exact path='/client/tracker' element={<>
-        <CTracker />
-        </>} />
+        <Route
+          exact
+          path="/registration"
+          element={
+            <>
+              <Navbar />
+              <Reg />
+              <Footer />
+            </>
+          }
+        />
 
+        <Route
+          exact
+          path="/client/dashboard/:userId" // Adding :userId parameter
+          element={<CDashboard />} // Rendering CDashboard component
+        />
 
+        <Route
+          exact
+          path="/client/profile"
+          element={<CProfile />}
+        />
+
+        <Route
+          exact
+          path="/client/browse-service"
+          element={<CMarketplace />}
+        />
+
+        <Route
+          exact
+          path="/client/settings"
+          element={<CSettings />}
+        />
+
+        <Route
+          exact
+          path="/client/tracker"
+          element={<CTracker />}
+        />
       </Routes>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -16,8 +16,17 @@ const loginUser = async (req, res) => {
             return res.status(401).json({ message: 'Invalid password' });
         }
 
-        // Return success message or user data if needed
-        res.status(200).json({ message: 'Login successful', user:user });
+        // Return success message along with user data and accType
+        res.status(200).json({ 
+            message: 'Login successful', 
+            user: { 
+                firstName: user.firstName,
+                lastName: user.lastName,
+                // Include any other user data you need
+                accType: user.accType, // Include the accType here            
+                _id: user._id 
+            } 
+        });
     } catch (error) {
         console.error('Error logging in:', error);
         res.status(500).json({ message: 'Internal server error' });

@@ -53,7 +53,7 @@ const Reg = () => {
     if (formData.passWord.length == 0) {
       errors.passWord = 'Please input your password'
     }
-    if (formData.contactNum.length < 11) {
+    if (formData.contactNum.length !== 11) {
       errors.contactNum = 'Contact number must be at least 11 characters';
     }
     if (!formData.eMail.includes('@')) {
@@ -79,6 +79,8 @@ const Reg = () => {
       const response = await axios.post(`${baseURL}/api/users`, formData);
       console.log(response.data);
       // Handle success (e.g., showing a success message or redirecting the user)
+      e.target.reset();
+      window.location.reload();
     } catch (error) {
       console.error("Error during registration: ", error.response);
       // Handle error (e.g., showing an error message)
@@ -103,7 +105,7 @@ const Reg = () => {
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}
-                    className={`w-full text-[12px] p-3 border rounded ${invalidFields.contactNum ? 'border-red-500' : ''}`}
+                    className={`w-full text-[12px] p-3 border rounded ${invalidFields.firstName ? 'border-red-500' : ''}`}
                     placeholder="Enter your first name"
                   />
                   {invalidFields.firstName && <p className="text-red-500">{invalidFields.firstName}</p>}
@@ -183,7 +185,7 @@ const Reg = () => {
                     name="country"
                     value={formData.country}
                     onChange={handleChange}
-                    className={`w-full p-2 border rounded ${invalidFields.contactNum ? 'border-red-500' : ''}`}>
+                    className={`w-full p-2 border rounded ${invalidFields.country ? 'border-red-500' : ''}`}>
                     <option value="">Select Country</option>
                     <option value="Philippines">Philippines</option>
                   </select>
