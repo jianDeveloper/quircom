@@ -21,6 +21,7 @@
     "express": "^4.18.3",
     "framer-motion": "^11.0.13",
     "openai": "^4.0.0",
+    "phosphor-react": "^1.4.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",

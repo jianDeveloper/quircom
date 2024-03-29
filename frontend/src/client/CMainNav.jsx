@@ -1,56 +1,141 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Box, Stack, Typography, ButtonBase, Divider, Button, IconButton, Avatar, Menu, MenuItem } from "@mui/material";
+import { React, useState } from "react";
+import Logo from "../assets/Icon1.png";
+import Logo2 from "../assets/clientnav.png";
+import Dboard from "../assets/dboard.png";
+import Settings from "../assets/settings.png";
+import Service from "../assets/service.png";
+import Tracker from "../assets/tracker.png";
+import Notifs from "../assets/bell.png";
+import Bill from "../assets/bill.png";
+import LBoard from "../assets/crown.png";
+import User from "../assets/user.png";
 
-import { AiOutlineClose } from "react-icons/ai";
-import { TiThMenu } from "react-icons/ti";
-
-import logo1 from '../assets/Icon1.png';
-
-/**
- * CNav component function
- */
 const CMainNav = () => {
-  const [nav, setNav] = useState(false);
-  const [openLogin, setLogin] = useState(false);
-  const [current, setActive] = useState(false);
+  const [selectedIcon, setSelectedIcon] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const icons = [
+    { icon: Dboard, path: "/client/dashboard", text: "Dashboard", index: 0 },
+    {
+      icon: Service,
+      path: "/client/marketplace",
+      text: "Marketplace",
+      index: 1,
+    },
+    { icon: Tracker, path: "/client/tracker", text: "Tracker", index: 2 },
+    {
+      icon: LBoard,
+      path: "/client/leaderboard",
+      text: "Leaderboard",
+      index: 3,
+    },
+    { icon: Bill, path: "/client/billing", text: "Billing", index: 4 },
+  ];
+
+  const handleIconClick = (index) => {
+    setSelectedIcon(index);
+    console.log(icons[index].path);
+  };
+
+  const handleAvatarClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
+  const getLogo = () => {
+    if (window.innerWidth >= 600) {
+      return <img src={Logo} alt="Logo" />;
+    } else {
+      return <img src={Logo2} alt="Logo 2" />;
+    }
+  };
 
   return (
-    <div className='headerC bg-orange-600 shadow-md'>
-      <Link to='/client/dashboard'><img className='h-[50px] rounded-full bg-[#f5f5dc] my-[-5px] py-[-5px]' src={logo1} /></Link>
-      <ul className='hidden md:flex bg-[#f5f5dc] rounded-xl px-8'>
-        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/client/dashboard"} className='text-[#1D5B79]'>Dashboard</Link></li>
-        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/client/browse-service"}>Marketplace</Link></li>
-        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/client/tracker"}>Tracker</Link></li>
-        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/client/settings"}>Settings</Link></li>
-      </ul>
+    <Box
+      px={2}
+      sx={{
+        width: "full",
+        backgroundColor: "#F5F5DC",
+        height: "10vh",
+        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+      }}
+    >
+      <Stack
+        direction={"row"}
+        alignItems={"center"}
+        sx={{ height: "100%", width: "100%" }}
+        justifyContent={"space-between"}
+      >
+        <Stack
+          spacing={2}
+          sx={{ width: "100%", height: "100%" }}
+          direction="row"
+          alignItems="center"
+        >
+          <Box sx={{ height: "full", width: 180 }}>
+            <div className="hidden sm:flex">{getLogo()}</div>
+            <div className="flex h-16 sm:hidden">{getLogo()}</div>
+          </Box>
+          <Divider orientation="vertical" sx={{ height: 40 }} />
+          <Stack direction={"row"} spacing={2}>
+            {icons.map((icon, index) => (
+              <ButtonBase
+                key={index}
+                onClick={() => handleIconClick(index)}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  backgroundColor:
+                    selectedIcon === index ? "#fff" : "transparent",
+                  borderRadius: 1,
+                  boxShadow:
+                    selectedIcon === index
+                      ? "0px 2px 4px rgba(0, 0, 0, 0.25)"
+                      : "none", // add shadow if selected
+                  p: 1,
+                  gap: 1, // add spacing between icon and typography
+                }}
+              >
+                <img
+                  className="w-6 h-6"
+                  src={icon.icon}
+                  alt={`Icon ${index}`}
+                />
+                <Typography variant="body1">{icon.text}</Typography>
+              </ButtonBase>
+            ))}
+          </Stack>
+        </Stack>
+        <Stack
+          direction={"row"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          spacing={1}
+        >
+          <IconButton>
+            <img className="w-6 h-6" src={Notifs} alt="Notifs" />
+          </IconButton>
+          <Divider orientation="vertical" sx={{ height: 40 }} />
+          <IconButton onClick={handleAvatarClick}>
+            <Avatar src={User} alt="User" />
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleCloseMenu}
+          >
+            <MenuItem onClick={handleCloseMenu}>Settings</MenuItem>
+            <MenuItem onClick={handleCloseMenu}>Logout</MenuItem>
+          </Menu>
+        </Stack>
+      </Stack>
+    </Box>
+  );
+};
 
-      {/* Log-Reg */}
-      <div className='hidden md:flex '>
-        <button onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold'>
-          <Link to={'/registration'} className='text-[#163646] bg-[#f5f5dc] rounded-[15px] cursor-pointer pl-[10px] pr-[10px] pt-[3px] pb-[5px]'>Log Out</Link>
-        </button>
-      </div>
-
-      {/* Minimized NavBar */}
-      <div onClick={() => setNav(!nav)} className='block md:hidden'>
-        {!nav ? <TiThMenu color='beige' size={22} /> : <AiOutlineClose size={22} color='beige' />}
-      </div>
-      <div className={nav ? 'fixed md:hidden left-0 top-0 w-[300px] z-[5] h-full border-l-solid border-l-[15px] border-l-orange-600 bg-white ease-in-out duration-500' : 'fixed left-[-100%]'}>
-        <img className='h-[70px] m-[10px] pt-[9px]' src={logo1} />
-        <ul>
-          <li onClick={() => setNav(false)} className='p-4 border-b-2 ml-6 mr-6 border-[#1D5B79]'><Link to='/client/dashboard'>Dashboard</Link></li>
-          <li onClick={() => setNav(false)} className='p-4 border-b-2 ml-6 mr-6 border-[#1D5B79]'><Link to='/client/browse-service'>Marketplace</Link></li>
-          <li onClick={() => setNav(false)} className='p-4 border-b-2 ml-6 mr-6 border-[#1D5B79]'><Link to='/client/tracker'>Tracker</Link></li>
-          <li onClick={() => setNav(false)} className='p-4 border-b-2 ml-6 mr-6 border-[#1D5B79]'><Link to='client/settings'>Settings</Link></li>
-        </ul>
-        <div className='flex-inline justify-center items-center mt-[50px]'> {/* Log-out */}
-          <button onClick={() => setNav(false)} className='flex mx-auto pt-2 pb-2 pl-3 pr-3 text-center font-bold'>
-            <Link to={'/registration'} className='text-white bg-[#1d5b79] rounded-[15px] cursor-pointer pl-[10px] pr-[10px] pt-[3px] pb-[5px]'>Log Out</Link>
-          </button>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-export default CMainNav
+export default CMainNav;
