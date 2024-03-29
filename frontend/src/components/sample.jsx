@@ -22,6 +22,19 @@ const Reg = () => {
     fetchUsers();
   }, []);
 
+  const deleteUser = async (userId) => {
+    try {
+      const response = await axios.delete(`http://localhost:8800/api/users/${userId}`);
+      if (response.status === 200) {
+        // Optionally, filter out the deleted user from the local state to update the UI immediately
+        setUsers(users.filter(user => user._id !== userId));
+        console.log("User deleted successfully");
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
+
   const handleInputChange = (event) => {
     setSearchUsername(event.target.value);
   };
@@ -47,6 +60,7 @@ const Reg = () => {
         </button>
       </div>
       <div className='p-4 lg:p-7 flex items-center flex-wrap gap-5 w-[95%]'>
+
         {filterUsersByUsername().map(user => (
           <div key={user._id} className="border border-gray-200 p-4 rounded-md">
             <p><strong>ID:</strong> {user._id}</p>
@@ -59,7 +73,9 @@ const Reg = () => {
             <p><strong>Province:</strong> {user.province} {phil.provinces.find(province => province.prov_code === user.province)?.name}</p>
             <p><strong>City:</strong> {user.city} {phil.city_mun.find(city => city.mun_code === user.city)?.name}</p>
             <p><strong>Account Type:</strong> {user.accType}</p>
-            
+            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => deleteUser(user._id)}>
+              Delete
+            </button>
           </div>
         ))}
       </div>
