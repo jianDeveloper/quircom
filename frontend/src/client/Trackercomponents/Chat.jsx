@@ -11,7 +11,7 @@ import {
 import { styled, alpha } from "@mui/material/styles";
 import { FaInbox, FaSearch, FaStar } from "react-icons/fa";
 import { ChatList } from "./Data";
-import { SimpleBarStyle } from "./Scrollbar";
+import { SimpleBarStyle } from "./Scrollbar.jsx";
 import SimpleBar from "simplebar-react";
 
 const Search = styled("div")(({ theme }) => ({
@@ -146,6 +146,21 @@ const Chat = () => {
               sx={{ flexGrow: 1, height: "100%",overflow:"auto",
               scrollbarWidth: 'thin',
               '&::-webkit-scrollbar': {
+                width: '0.1em',
+              },
+              '&::-webkit-scrollbar-track': {
+                background: "#f1f1f1",
+              },
+              '&::-webkit-scrollbar-thumb': {
+                backgroundColor: '#888',
+              },
+              '&::-webkit-scrollbar-thumb:hover': {
+                background: '#555'
+              }}}
+            >
+              sx={{ flexGrow: 1, height: "100%",overflow:"auto",
+              scrollbarWidth: 'thin',
+              '&::-webkit-scrollbar': {
                 width: '0.4em',
                 borderRadius: "8"
               },
@@ -158,7 +173,7 @@ const Chat = () => {
               '&::-webkit-scrollbar-thumb:hover': {
                 background: '#555'
               } }}
-            >
+            
               <SimpleBarStyle >
                 <Stack
                   direction={"row"}

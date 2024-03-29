@@ -3,9 +3,9 @@ import { Card, CardHeader, CardBody, CardFooter, Typography, Button } from '@mat
 
 const CCards = ({ image, subtitle, title, author, button }) => {
   return (
-    <Card className="mt-6 w-96">
+    <Card className="mt-6 w-[320px]">
       <CardHeader className="relative h-55">
-        <img className="rounded-md" src={image} alt={title} />
+        <img className="rounded-md w-full" src={image} alt={title} />
       </CardHeader>
       <CardBody className='flex flex-row justify-between items-center '>
         <div className='flex flex-col'>
@@ -21,9 +21,6 @@ const CCards = ({ image, subtitle, title, author, button }) => {
         </div>
         <Button className='bg-orange-600 h-10 w-50 text-center p-2 '>{button}</Button>
       </CardBody>
-      {/* <CardFooter className="pt-0">
-        <Button className='bg-orange-600'>{button}</Button>
-      </CardFooter> */}
     </Card>
   );
 };

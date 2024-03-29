@@ -13,6 +13,8 @@ import CDashboard from './client/CDashboard.jsx';
 import CMarketplace from './client/CMarketplace.jsx';
 import CProfile from './client/CProfile.jsx';
 import CSettings from './client/CSettings.jsx';
+import CSettingsProfile from './client/CSettingsProfile.jsx';
+import CSettingsBill from './client/CSettingsBill.jsx';
 import CTracker from './client/CTracker.jsx';
 import Billing from './components/Billing.jsx';
 
@@ -83,6 +85,16 @@ function App() {
           exact
           path="/client/settings/:userId"
           element={<CSettings />}
+        />
+        <Route
+          exact
+          path="/client/settings-profile"
+          element={<CSettingsProfile />}
+        />
+        <Route
+          exact
+          path="/client/settings-bill"
+          element={<CSettingsBill />}
         />
 
         <Route

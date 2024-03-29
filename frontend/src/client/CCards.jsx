@@ -19,11 +19,8 @@ const CCards = ({ image, subtitle, title, author, button }) => {
             {author}
           </Typography>
         </div>
-        <Button className='bg-orange-600 h-10 w-50 text-center p-2 '>{button}</Button>
+        <Button className='bg-orange-600 h-15 w-50 text-center p-2 '>{button}</Button>
       </CardBody>
-      {/* <CardFooter className="pt-0">
-        <Button className='bg-orange-600'>{button}</Button>
-      </CardFooter> */}
     </Card>
   );
 };

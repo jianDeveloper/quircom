@@ -13,6 +13,7 @@ import BG1 from '../assets/bg1.png';
 import BGmark from '../assets/service.jpg';
 import BGtrack from '../assets/track.jpg';
 import BGsubs from '../assets/subs.jpg';
+import CMainNav from './CMainNav';
 
 function CDashboard() {
   const { userId } = useParams();
@@ -35,9 +36,8 @@ function CDashboard() {
 
   return (
     <div className='flex flex-col' style={{ background: `url(${BG1})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
-      <Header />
+      <CMainNav />
       <div className='flex '>
-        <CNav />
         <div className='flex flex-col container mx-10 my-10'> {/*formatting navbar & body -j*/}
           <div className='flex'>
             <h1 className='font-extrabold text-[30px] text-[#1D5B79]'>DASHBOARD</h1>
