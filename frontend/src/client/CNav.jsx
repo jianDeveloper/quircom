@@ -62,10 +62,10 @@ const CNav = () => {
             </Link>
           </ul>
           <ul>
-            <Link to="/client/settings">
+            <Link to="/client/subscribe">
               <li className={`text-[#163646] ${!controller && 'px-2 py-2 my-2 hover:rotate-[360deg] duration-500'} p-4 font-medium flex items-center gap-x-4 cursor-pointer hover:bg-blue-200 rounded-md`}>
                 <img src={notifL} className='h-6 w-6' />
-                <span className={`${!controller && 'hidden'} origin-left duration-200`}>Settings</span>
+                <span className={`${!controller && 'hidden'} origin-left duration-200`}>Notification</span>
               </li>
             </Link>
             <Link to="/client/settings">

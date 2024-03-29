@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, CardHeader, CardBody, CardFooter, Typography, Button } from '@material-tailwind/react';
+import { Link } from 'react-router-dom';
 
 const CCards = ({ image, subtitle, title, author, button }) => {
   return (
@@ -19,11 +20,8 @@ const CCards = ({ image, subtitle, title, author, button }) => {
             {author}
           </Typography>
         </div>
-        <Button className='bg-orange-600 h-10 w-50 text-center p-2 '>{button}</Button>
+        <Link to='/client/service-connect'><Button className='bg-orange-600 h-10 w-50 text-center p-2 '>{button}</Button></Link>
       </CardBody>
-      {/* <CardFooter className="pt-0">
-        <Button className='bg-orange-600'>{button}</Button>
-      </CardFooter> */}
     </Card>
   );
 };
