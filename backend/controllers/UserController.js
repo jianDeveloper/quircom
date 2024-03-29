@@ -110,10 +110,34 @@ const DeleteUser = async (req, res) => {
   }
 };
 
+const ValidateUserData = async (req, res) => {
+  try {
+    const { userName, eMail, contactNum } = req.body;
+
+    // Perform database query to check if the provided username, email, and contact number already exist
+    // You'll need to implement this query based on your database model
+    const userNameExists = await UserModel.exists({ userName });
+    const eMailExists = await UserModel.exists({ eMail });
+    const contactNumExists = await UserModel.exists({ contactNum });
+
+    // Send response indicating whether each field exists or not
+    res.status(200).json({
+      exists: true,
+      userNameExists,
+      eMailExists,
+      contactNumExists,
+    });
+  } catch (error) {
+    console.error('Error validating user data:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 module.exports = {
   GetAllUsers,
   GetSpecificUser,
   CreateUser,
   EditUser,
   DeleteUser,
+  ValidateUserData
 };

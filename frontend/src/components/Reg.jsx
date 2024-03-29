@@ -98,9 +98,11 @@ const Reg = () => {
     if (formData.passWord.length == 0) {
       errors.passWord = 'Please input your password'
     }
-    if (formData.contactNum.length !== 11) {
-      errors.contactNum = 'Contact number must be at least 11 characters';
-    }
+    if (!formData.contactNum || isNaN(formData.contactNum)) {
+      errors.contactNum = 'Contact number must be a valid number';
+    } else if (formData.contactNum.length !== 11) {
+      errors.contactNum = 'Contact number must be 11 digits';
+    } 
     if (!formData.eMail.includes('@')) {
       errors.eMail = 'Please enter a valid email address';
     }
@@ -112,6 +114,29 @@ const Reg = () => {
     }
     if (!formData.aggRee) {
       errors.aggRee = 'Please agree to the terms and conditions';
+    }
+
+    try {
+      const response = await axios.post(`${baseURL}/api/users/validate`, {
+        userName: formData.userName,
+        eMail: formData.eMail,
+        contactNum: formData.contactNum,
+      });
+  
+      if (response.data.exists) {
+        if (response.data.userNameExists) {
+          errors.userName = 'Username is already taken';
+          console.log(errors.userName);
+        }
+        if (response.data.eMailExists) {
+          errors.eMail = 'Email is already registered';
+        }
+        if (response.data.contactNumExists) {
+          errors.contactNum = 'Contact number is already registered';
+        }
+      }
+    } catch (error) {
+      console.error('Error validating data:', error);
     }
 
     // Set invalid fields state
