@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom';
+import UserContext from '../context/UserContext';
 
 import { AiOutlineClose } from "react-icons/ai";
 import { TiThMenu } from "react-icons/ti";
@@ -14,14 +15,17 @@ const CMainNav = () => {
   const [openLogin, setLogin] = useState(false);
   const [current, setActive] = useState(false);
 
+  const { userIdLink } = useContext(UserContext);
+  console.log('User ID in Dashboard:', userIdLink);
+
   return (
     <div className='headerC bg-orange-600 shadow-md'>
       <Link to='/client/dashboard'><img className='h-[50px] rounded-full bg-[#f5f5dc] my-[-5px] py-[-5px]' src={logo1} /></Link>
       <ul className='hidden md:flex bg-[#f5f5dc] rounded-xl px-8'>
-        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/client/dashboard"} className='text-[#1D5B79]'>Dashboard</Link></li>
-        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/client/browse-service"}>Marketplace</Link></li>
-        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/client/tracker"}>Tracker</Link></li>
-        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/client/settings"}>Settings</Link></li>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={`/client/dashboard/${userIdLink}`} className='text-[#1D5B79]'>Dashboard</Link></li>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={`/client/browse-service/${userIdLink}`}>Marketplace</Link></li>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={`/client/tracker/${userIdLink}`}>Tracker</Link></li>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={`/client/settings/${userIdLink}`}>Settings</Link></li>
       </ul>
 
       {/* Log-Reg */}

@@ -143,9 +143,23 @@ const Chat = () => {
             <Divider sx={{ marginTop: "10px" }} />
             <Stack
               direction={"column"}
-              sx={{ flexGrow: 1, overflow: "scroll", height: "100%" }}
+              sx={{ flexGrow: 1, height: "100%",overflow:"auto",
+              scrollbarWidth: 'thin',
+              '&::-webkit-scrollbar': {
+                width: '0.4em',
+                borderRadius: "8"
+              },
+              '&::-webkit-scrollbar-track': {
+                background: "#f1f1f1",
+              },
+              '&::-webkit-scrollbar-thumb': {
+                backgroundColor: '#888',
+              },
+              '&::-webkit-scrollbar-thumb:hover': {
+                background: '#555'
+              } }}
             >
-              <SimpleBarStyle>
+              <SimpleBarStyle >
                 <Stack
                   direction={"row"}
                   alignItems={"center"}

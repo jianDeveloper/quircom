@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillBellFill } from 'react-icons/bs';
 import axios from 'axios'; // Import axios for making HTTP requests
+import UserContext from '../context/UserContext';
 
 import Header from './Header';
 import CNav from './CNav';
@@ -15,7 +16,10 @@ import BGsubs from '../assets/subs.jpg';
 
 function CDashboard() {
   const { userId } = useParams();
-  const [userData, setUserData] = useState(null); // State to store user data
+  const [ userData, setUserData] = useState(null); // State to store user data
+  
+  const { userIdLink } = useContext(UserContext);
+  console.log('User ID in Dashboard:', userIdLink);
 
   useEffect(() => {
     // Fetch user data using the user ID

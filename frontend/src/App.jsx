@@ -69,25 +69,25 @@ function App() {
 
         <Route
           exact
-          path="/client/profile"
+          path="/client/profile/:userId"
           element={<CProfile />}
         />
 
         <Route
           exact
-          path="/client/browse-service"
+          path="/client/browse-service/:userId"
           element={<CMarketplace />}
         />
 
         <Route
           exact
-          path="/client/settings"
+          path="/client/settings/:userId"
           element={<CSettings />}
         />
 
         <Route
           exact
-          path="/client/tracker"
+          path="/client/tracker/:userId"
           element={<CTracker />}
         />
       </Routes>
