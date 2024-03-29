@@ -57,7 +57,7 @@ function CDashboard() {
             </div>
             <div className='card'>
               <div className='card-inner'>
-                <h3 className='font-bold t ext-[#1D5B79]'>FREELANCERS</h3>
+                <h3 className='font-bold text-[#1D5B79]'>FREELANCERS</h3>
                 <BsPeopleFill className='card_icon' />
               </div>
               <h1 className='font-medium'>33</h1>
