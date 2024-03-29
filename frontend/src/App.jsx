@@ -15,6 +15,7 @@ import CProfile from './client/CProfile.jsx';
 import CSettings from './client/CSettings.jsx';
 import CTracker from './client/CTracker.jsx';
 import Billing from './components/Billing.jsx';
+import Terms from './components/Terms.jsx';
 
 function App() {
   return (
@@ -60,7 +61,11 @@ function App() {
             </>
           }
         />
-
+        <Route
+          exact
+          path="/terms" // Adding :userId parameter
+          element={<Terms />} // Rendering CDashboard component
+        />
         <Route
           exact
           path="/client/dashboard/:userId" // Adding :userId parameter
