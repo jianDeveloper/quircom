@@ -1,4 +1,4 @@
-import { Box, Stack, Typography, ButtonBase, Divider, Button, IconButton, Avatar, Menu, MenuItem } from "@mui/material";
+import { Box, Stack, Typography, ButtonBase, Divider, Button, IconButton, Avatar, Menu, MenuItem, Chip } from "@mui/material";
 import { React, useState } from "react";
 import Logo from "../assets/Icon1.png";
 import Logo2 from "../assets/clientnav.png";
@@ -10,10 +10,13 @@ import Notifs from "../assets/bell.png";
 import Bill from "../assets/bill.png";
 import LBoard from "../assets/crown.png";
 import User from "../assets/user.png";
+import { FaSignOutAlt } from "react-icons/fa";
+
 
 const CMainNav = () => {
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [isHovered, setIsHovered] = useState(false);
 
   const icons = [
     { icon: Dboard, path: "/client/dashboard", text: "Dashboard", index: 0 },
@@ -129,8 +132,20 @@ const CMainNav = () => {
             open={Boolean(anchorEl)}
             onClose={handleCloseMenu}
           >
-            <MenuItem onClick={handleCloseMenu}>Settings</MenuItem>
-            <MenuItem onClick={handleCloseMenu}>Logout</MenuItem>
+            <MenuItem onClick={handleCloseMenu}>
+              <Stack direction={"row"} spacing={1}>
+              <img className="w-6 h-6" src={Settings} alt="Settings" />
+              <Typography variant="body1">Settings</Typography>
+              </Stack>
+              </MenuItem>
+            <MenuItem onClick={handleCloseMenu}>
+              <Stack direction={"row"} spacing={1} alignItems={"center"}>
+              <Chip label="Logout" sx={{ width: "13vh" }} variant={isHovered ? "filled" : "outlined"}
+      color="error"
+      onMouseOver={() => setIsHovered(true)}
+      onMouseOut={() => setIsHovered(false)} />
+              </Stack>
+            </MenuItem>
           </Menu>
         </Stack>
       </Stack>
