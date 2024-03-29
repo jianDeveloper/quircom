@@ -2,8 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 
-import NavHeader from './Header'
 import CFooter from './CFooter';
+import CMainNav from './CMainNav';
 
 function CSettingsProfile(props) {
   const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
@@ -15,7 +15,7 @@ function CSettingsProfile(props) {
   ));
   return (
     <div className=''>
-      <NavHeader />
+      <CMainNav />
       <div className='flex'>
         <div class="mx-4 min-h-screen max-w-screen-xl sm:mx-8 xl:mx-auto">
           <h1 class="border-b py-6 text-4xl font-extrabold text-[30px] text-[#1D5B79]">SETTINGS</h1>

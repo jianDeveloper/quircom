@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-import NavHeader from './Header'
 import CFooter from './CFooter';
 import CMainNav from './CMainNav';
 
