@@ -9,13 +9,14 @@ import Stats from './components/Stats.jsx';
 import Services from './components/Services.jsx';
 import Newsletter from './components/Newsletter.jsx';
 import Subscription from './components/Subscription.jsx';
+import Terms from './components/Terms.jsx';
 import CDashboard from './client/CDashboard.jsx';
 import CMarketplace from './client/CMarketplace.jsx';
 import CProfile from './client/CProfile.jsx';
 import CSettings from './client/CSettings.jsx';
 import CTracker from './client/CTracker.jsx';
 import CBilling from './client/CBilling.jsx';
-import Terms from './components/Terms.jsx';
+import CRank from './client/CRank.jsx';
 import CSubscribe from './client/CSubscribe.jsx';
 import CConnect from './client/CConnect.jsx';
 
@@ -112,6 +113,11 @@ function App() {
           exact
           path="/client/service-connect"
           element={<CConnect />}
+        />
+        <Route
+          exact
+          path="/client/leaderboard"
+          element={<CRank />}
         />
 
       </Routes>
