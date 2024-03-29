@@ -11,7 +11,7 @@ import mpCard4 from '../assets/pic4.jpg'
 import mpCard5 from '../assets/pic5.jpg'
 import mpCard6 from '../assets/pic6.png'
 import mpCard7 from '../assets/pic7.png'
-import mpCard8 from '../assets/laptop.jpg'
+import mpCard8 from '../assets/pic8.jpg'
 import CFooter from './CFooter'
 
 const CMarketplace = () => {
@@ -23,7 +23,7 @@ const CMarketplace = () => {
     { image: mpCard5, subtitle: 'Landing Page Design', title: 'The Firepit', author: 'by Naruto', button: 'Connect' },
     { image: mpCard6, subtitle: 'Web Design', title: 'The Firepit', author: 'by Naruto', button: 'Connect' },
     { image: mpCard7, subtitle: 'Social Media Design', title: 'The Firepit', author: 'by Naruto', button: 'Connect' },
-    { image: mpCard8, subtitle: ' Design', title: 'The Firepit', author: 'by Naruto', button: 'Connect' },
+    { image: mpCard8, subtitle: '3D Design', title: 'The Firepit', author: 'by Naruto', button: 'Connect' },
     // Add more items as needed
   ];
   return (

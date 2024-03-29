@@ -54,7 +54,7 @@ function Terms() {
         <button 
         className='bg-[#FE6D30] w-[150px] ml-[250px] mt-[20px] text-white p-2 rounded-full hover:bg-[#EA580C] hover:w-[155px] focus:outline-none focus:shadow-outline-blue active:bg-blue-800'
         type="submit">
-            Submit 
+            I agree 
         </button>
         </Link>
         
