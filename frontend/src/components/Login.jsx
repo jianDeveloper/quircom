@@ -53,16 +53,16 @@ const Login = ({ open, onClose }) => {
             </h2>
             <img className='h-[70px] mx-auto' src={logo1} alt='Logo' />
             <div className='mt-[10px]'>
-              <label htmlFor='email' className='text-[16px] font-medium'>
-                Email
+              <label htmlFor='userName' className='text-[16px] font-medium'>
+                Username
               </label>
               <input
                 className='block mt-[5px] w-[100%] px-[20px] py-[10px] outline-none rounded-[20px] bg-[#163646] text-white'
                 type='text'
-                id='email'
+                id='userName'
                 value={eMail}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder='Enter email'
+                placeholder='Enter Username'
               ></input>
             </div>
             <div className='mt-[10px]'>

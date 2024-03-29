@@ -4,19 +4,26 @@ import NavHeader from './CMainNav'
 
 import mpTop from '../assets/mpTop.jpg'
 import CCards from './CCards'
-import mpCard from '../assets/laptop.jpg'
+import mpCard1 from '../assets/pic1.png'
+import mpCard2 from '../assets/pic2.jpg'
+import mpCard3 from '../assets/pic3.png'
+import mpCard4 from '../assets/pic4.jpg'
+import mpCard5 from '../assets/pic5.jpg'
+import mpCard6 from '../assets/pic6.png'
+import mpCard7 from '../assets/pic7.png'
+import mpCard8 from '../assets/pic8.jpg'
 import CFooter from './CFooter'
 
 const CMarketplace = () => {
   const data = [
-    { image: mpCard, subtitle:'Logo Design', title:'The Firepit', author:'by Naruto', button:'Connect'  },
-    { image: mpCard, subtitle:'Logo Design', title:'The Firepit', author:'by Naruto', button:'Connect'  },
-    { image: mpCard, subtitle:'Logo Design', title:'The Firepit', author:'by Naruto', button:'Connect'  },
-    { image: mpCard, subtitle:'Logo Design', title:'The Firepit', author:'by Naruto', button:'Connect'  },
-    { image: mpCard, subtitle:'Logo Design', title:'The Firepit', author:'by Naruto', button:'Connect'  },
-    { image: mpCard, subtitle:'Logo Design', title:'The Firepit', author:'by Naruto', button:'Connect'  },
-    { image: mpCard, subtitle:'Logo Design', title:'The Firepit', author:'by Naruto', button:'Connect'  },
-    { image: mpCard, subtitle:'Logo Design', title:'The Firepit', author:'by Naruto', button:'Connect'  },
+    { image: mpCard1, subtitle: 'UI/UX Design', title: 'The Firepit', author: 'by Naruto', button: 'Connect' },
+    { image: mpCard2, subtitle: 'Logo Design', title: 'The Firepit', author: 'by Naruto', button: 'Connect' },
+    { image: mpCard3, subtitle: 'Word Press', title: 'The Firepit', author: 'by Naruto', button: 'Connect' },
+    { image: mpCard4, subtitle: 'Graphic Design', title: 'The Firepit', author: 'by Naruto', button: 'Connect' },
+    { image: mpCard5, subtitle: 'Landing Page Design', title: 'The Firepit', author: 'by Naruto', button: 'Connect' },
+    { image: mpCard6, subtitle: 'Web Design', title: 'The Firepit', author: 'by Naruto', button: 'Connect' },
+    { image: mpCard7, subtitle: 'Social Media Design', title: 'The Firepit', author: 'by Naruto', button: 'Connect' },
+    { image: mpCard8, subtitle: '3D Design', title: 'The Firepit', author: 'by Naruto', button: 'Connect' },
     // Add more items as needed
   ];
   return (

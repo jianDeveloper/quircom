@@ -9,6 +9,7 @@ import Stats from './components/Stats.jsx';
 import Services from './components/Services.jsx';
 import Newsletter from './components/Newsletter.jsx';
 import Subscription from './components/Subscription.jsx';
+import Terms from './components/Terms.jsx';
 import CDashboard from './client/CDashboard.jsx';
 import CMarketplace from './client/CMarketplace.jsx';
 import CProfile from './client/CProfile.jsx';
@@ -16,7 +17,10 @@ import CSettings from './client/CSettings.jsx';
 import CSettingsProfile from './client/CSettingsProfile.jsx';
 import CSettingsBill from './client/CSettingsBill.jsx';
 import CTracker from './client/CTracker.jsx';
-import Billing from './components/Billing.jsx';
+import CBilling from './client/CBilling.jsx';
+import CRank from './client/CRank.jsx';
+import CSubscribe from './client/CSubscribe.jsx';
+import CConnect from './client/CConnect.jsx';
 
 function App() {
   return (
@@ -34,7 +38,7 @@ function App() {
               <Subscription />
               <Newsletter />
               <Footer />
-              <Billing />
+              <CBilling />
             </>
           }
         />
@@ -62,7 +66,11 @@ function App() {
             </>
           }
         />
-
+        <Route
+          exact
+          path="/terms" // Adding :userId parameter
+          element={<Terms />} // Rendering CDashboard component
+        />
         <Route
           exact
           path="/client/dashboard/:userId" // Adding :userId parameter
@@ -102,7 +110,30 @@ function App() {
           path="/client/tracker"
           element={<CTracker />}
         />
+        
+        <Route
+          exact
+          path="/client/billing"
+          element={<CBilling />}
+        />
+        <Route
+          exact
+          path="/client/subscribe"
+          element={<CSubscribe />}
+        />
+        <Route
+          exact
+          path="/client/service-connect"
+          element={<CConnect />}
+        />
+        <Route
+          exact
+          path="/client/leaderboard"
+          element={<CRank />}
+        />
+
       </Routes>
+      
     </div>
   );
 }
