@@ -123,7 +123,14 @@ const Reg = () => {
     }
 
     try {
-      const response = await axios.post(`${baseURL}/api/users`, formData);
+      console.log(formData);
+      var formObject = new FormData();
+      formObject.append("user", JSON.stringify(formData));
+      const response = await axios.post(`${baseURL}/api/users`, formObject, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       console.log(response.data);
       // Handle success (e.g., showing a success message or redirecting the user)
       e.target.reset();

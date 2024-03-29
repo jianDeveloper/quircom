@@ -61,14 +61,15 @@ const UserSchema = new Schema({
   },
   aggRee:{
     type: Boolean,
-    default: "",
+    default: false,
     required: true,
   },
-  profilePic:{
-    type: Buffer,
-    default: null,
+  profilePic: {
+    id: {type: String},
+    name: {type: String},
+    link: {type: String}
   },
-  subscription:{
+  subs:{
     type: Boolean,
     default: false,
   }
