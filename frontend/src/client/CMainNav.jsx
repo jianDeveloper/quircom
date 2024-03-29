@@ -1,6 +1,7 @@
-import React, { useState, useContext } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useState, useContext, useEffect } from 'react'
+import { Link, useParams } from 'react-router-dom';
 import UserContext from '../context/UserContext';
+import axios from 'axios';
 
 import { AiOutlineClose } from "react-icons/ai";
 import { TiThMenu } from "react-icons/ti";
@@ -15,8 +16,21 @@ const CMainNav = () => {
   const [openLogin, setLogin] = useState(false);
   const [current, setActive] = useState(false);
 
+  const { userId } = useParams();
   const { userIdLink } = useContext(UserContext);
   console.log('User ID in Dashboard:', userIdLink);
+
+  useEffect(() => {
+    // Fetch user data using the user ID
+    axios.get(`http://localhost:8800/api/users/${userId}`)
+      .then(response => {
+        console.log('User data:', response.data);
+        setUserData(response.data); // Set the user data in state
+      })
+      .catch(error => {
+        console.error('Error fetching user data:', error);
+      });
+  }, [userId]); // Fetch user data whenever userId changes
 
   return (
     <div className='headerC bg-orange-600 shadow-md'>
@@ -25,6 +39,7 @@ const CMainNav = () => {
         <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={`/client/dashboard/${userIdLink}`} className='text-[#1D5B79]'>Dashboard</Link></li>
         <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={`/client/browse-service/${userIdLink}`}>Marketplace</Link></li>
         <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={`/client/tracker/${userIdLink}`}>Tracker</Link></li>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={`/client/profile/${userIdLink}`}>Profile</Link></li>
         <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={`/client/settings/${userIdLink}`}>Settings</Link></li>
       </ul>
 

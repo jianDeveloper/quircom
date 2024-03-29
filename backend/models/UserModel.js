@@ -30,7 +30,6 @@ const UserSchema = new Schema({
   passWord: {
     type: String,
     default: "",
-    index: true,
     required: true,
   },
   contactNum: {
@@ -42,19 +41,16 @@ const UserSchema = new Schema({
   region: {
     type: String,
     default: "",
-    index: true,
     required: true,
   },
   province: {
     type: String,
     default: "",
-    index: true,
     required: true,
   },
   city: {
     type: String,
     default: "",
-    index: true,
     required: true,
   },
   accType: {
@@ -66,9 +62,16 @@ const UserSchema = new Schema({
   aggRee:{
     type: Boolean,
     default: "",
-    index: true,
     required: true,
   },
+  profilePic:{
+    type: Buffer,
+    default: null,
+  },
+  subscription:{
+    type: Boolean,
+    default: false,
+  }
 });
 
 module.exports = mongoose.model("users", UserSchema);

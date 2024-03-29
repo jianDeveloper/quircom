@@ -158,23 +158,6 @@ const Chat = () => {
                 background: '#555'
               }}}
             >
-              sx={{ flexGrow: 1, height: "100%",overflow:"auto",
-              scrollbarWidth: 'thin',
-              '&::-webkit-scrollbar': {
-                width: '0.4em',
-                borderRadius: "8"
-              },
-              '&::-webkit-scrollbar-track': {
-                background: "#f1f1f1",
-              },
-              '&::-webkit-scrollbar-thumb': {
-                backgroundColor: '#888',
-              },
-              '&::-webkit-scrollbar-thumb:hover': {
-                background: '#555'
-              } }}
-            
-              <SimpleBarStyle >
                 <Stack
                   direction={"row"}
                   alignItems={"center"}
@@ -204,7 +187,6 @@ const Chat = () => {
                     return <ChatElement {...el} />;
                   })}
                 </Stack>
-              </SimpleBarStyle>
             </Stack>
           </Stack>
         </Box>
