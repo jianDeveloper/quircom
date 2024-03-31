@@ -1,8 +1,5 @@
-import { useState, useEffect, useContext } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import axios from 'axios';
-import UserContext from '../context/UserContext';
-
+import React from 'react'
+import { Link } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 
 import CFooter from './CFooter';
@@ -16,30 +13,6 @@ function CSettingsProfile(props) {
       {file.path} - {file.size} bytes
     </li>
   ));
-
-  const [ userData, setUsers] = useState(null);
-  const { userId } = useParams();
-  const { userIdLink } = useContext(UserContext);
-
-  console.log('User ID in Dashboard:', userIdLink);
-  console.log(userId)
-  console.log('Display User:', userData)
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8800/api/users/${userId}`);
-        if (response.status === 200) {
-          setUsers(response.data);
-        }
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
-
-    fetchUsers();
-  }, []);
-
   return (
     <div className=''>
       <CMainNav />
@@ -54,13 +27,13 @@ function CSettingsProfile(props) {
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
               <ul class="max-h-0 select-none flex-col overflow-hidden rounded-b-lg shadow-md transition-all duration-300 peer-checked:max-h-56 peer-checked:py-3">
-                <Link to={`/client/settings/${userId}`}>
+                <Link to="/client/settings">
                   <li class="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">Accounts</li>
                 </Link>
-                <Link to={`/client/settings-profile/${userId}`}>
+                <Link to="/client/settings-profile">
                   <li class="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">Portfolio</li>
                 </Link>
-                <Link to={`/client/settings-bill/${userId}`}>
+                <Link to="/client/settings-bill">
                   <li class="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white">Billing</li>
                 </Link>
               </ul>
@@ -68,13 +41,13 @@ function CSettingsProfile(props) {
 
             <div class="col-span-2 hidden sm:block">
               <ul>
-                <Link to={`/client/settings/${userId}`}>
+                <Link to="/client/settings">
                     <li class="mt-5 cursor-pointer border-l-2 border-transparent px-2 py-2 font-semibold transition hover:border-l-blue-700 hover:text-blue-700">Accounts</li>
                 </Link>
-                <Link to={`/client/settings-profile/${userId}`}>
+                <Link to="/client/settings-profile">
                     <li class="mt-5 cursor-pointer border-l-2 border-l-blue-700 px-2 py-2 font-semibold text-blue-700 transition hover:border-l-blue-700 hover:text-blue-700">Profile</li>
                 </Link>
-                <Link to={`/client/settings-bill/${userId}`}>
+                <Link to="/client/settings-bill">
                     <li class="mt-5 cursor-pointer border-l-2 border-transparent px-2 py-2 font-semibold transition hover:border-l-blue-700 hover:text-blue-700">Billing</li>
                 </Link>
               </ul>

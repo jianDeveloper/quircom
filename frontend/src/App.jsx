@@ -96,12 +96,12 @@ function App() {
         />
         <Route
           exact
-          path="/client/settings-profile/:userId"
+          path="/client/settings-profile"
           element={<CSettingsProfile />}
         />
         <Route
           exact
-          path="/client/settings-bill/:userId"
+          path="/client/settings-bill"
           element={<CSettingsBill />}
         />
 

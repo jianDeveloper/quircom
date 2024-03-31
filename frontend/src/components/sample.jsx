@@ -75,8 +75,7 @@ const Reg = () => {
             <p><strong>Province:</strong> {user.province} {phil.provinces.find(province => province.prov_code === user.province)?.name}</p>
             <p><strong>City:</strong> {user.city} {phil.city_mun.find(city => city.mun_code === user.city)?.name}</p>
             <p><strong>Account Type:</strong> {user.accType}</p>
-            {user.hasOwnProperty("profilePic") ? <img src={user.profilePic.link} alt="" className='w-[200px]'/> : <img src={avatar}/>} {/* If Else */}
-            {user.hasOwnProperty("profilePic") && (<img src={user.profilePic.link} alt="" className='w-[200px]'/>)} {/* Display if has */}
+            {user.hasOwnProperty("profilePic") ? <img src={user.profilePic.link} alt="" className='w-[200px]'/> : <img src={avatar}/>}
 
             <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => deleteUser(user._id)}>
               Delete
