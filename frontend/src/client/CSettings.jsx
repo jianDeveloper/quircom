@@ -75,6 +75,13 @@ function CSettings() {
             <div class="col-span-8 overflow-hidden rounded-xl sm:bg-[#F7F6DF] sm:px-8 sm:shadow">
               <div class="pt-4">
                 <h1 class="py-2 text-2xl font-semibold">Account settings</h1>
+                <div className='pictureBorder p-5'>
+                  {userData && userData.hasOwnProperty("profilePic") ? (
+                    <img className="profilePicture" src={userData.profilePic.link} alt="Profile Picture"/>
+                  ) : (
+                    <img className="profilePicture" src={avatar} alt="Profile Picture"/> // Render a default avatar if profilePic is not available
+                  )}
+                </div>
                 <p class="font- text-slate-600">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
               </div>
               <hr class="mt-4 mb-8" />

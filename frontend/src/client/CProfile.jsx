@@ -9,9 +9,10 @@ import CFooter from './CFooter'
 
 import './profile.css'
 import 'tailwindcss/tailwind.css';
+import avatar from '../assets/avatar.png';
 
 import BG1 from '../assets/bg1.png';
-import avatar from '../assets/avatar.png';
+
 
 function CProfile() {
 
