@@ -10,7 +10,6 @@ import Notifs from "../assets/bell.png";
 import Bill from "../assets/bill.png";
 import LBoard from "../assets/crown.png";
 import User from "../assets/user.png";
-import { FaSignOutAlt } from "react-icons/fa";
 
 
 const CMainNav = () => {
