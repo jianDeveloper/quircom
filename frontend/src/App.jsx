@@ -33,12 +33,7 @@ function App() {
             <>
               <Navbar />
               <Hero />
-              <Stats />
-              <Services />
-              <Subscription />
-              <Newsletter />
               <Footer />
-              <CBilling />
             </>
           }
         />

@@ -3,21 +3,27 @@ import styles from "../styles";
 
 const Stats =()=>{
     return(
-        <div className="lg:col-span-3 flex justify-center h-full">
-            <div className='max-w-[1240px] flex-1 flex items-center my-6'> 
-                <h4 className='font-semibold md:text-4xl sm:text-3xl text-2xl text-[#1D5B79] px-4'>3600+</h4>
-                <p className='font-semibold sm:text-[20px] text-[15px] md:leading-[26px] leading-[21px] text-orange-600'>Users</p>
+    <section class="relative overflow-hidden">
+        <div class=" relative mx-auto flex h-full w-full flex-col items-center justify-center px-4 py-12 backdrop-blur-md sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+            <div class="mx-auto grid max-w-screen-lg grid-cols-1 gap-y-4 gap-x-8 text-center sm:mt-12 sm:text-left md:grid-cols-3">
+                <div class="bg-white/10 relative mb-3 rounded-3xl border px-12 py-10 text-left shadow backdrop-blur-lg lg:px-12">
+                    <p class="relative text-3xl font-black text-orange-600 sm:text-5xl">25M</p>
+                    <p class="relative mt-5 text-gray-600">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores doloremque vel</p>
+                </div>
+
+                <div class="bg-white/10 relative mb-3 rounded-3xl border px-12 py-10 text-left shadow backdrop-blur-lg lg:px-12">
+                    <p class="relative text-3xl font-black text-orange-600 sm:text-5xl">51%</p>
+                    <p class="relative mt-5 text-gray-600">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores doloremque vel</p>
+                </div>
+
+                <div class="bg-white/10 relative mb-3 rounded-3xl border px-12 py-10 text-left shadow backdrop-blur-lg lg:px-12">
+                    <p class="relative text-3xl font-black text-orange-600 sm:text-5xl">8529+</p>
+                    <p class="relative mt-5 text-gray-600">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores doloremque vel</p>
+                </div>
             </div>
-            <div className='max-w-[1240px] flex-1 flex items-center my-6'>
-                <h4 className='font-semibold sm:text-[40px] text-[30px] md:leading-[53px] leading-[43px] text-[#1D5B79] px-4'>200+</h4>
-                <p className='font-semibold sm:text-[20px] text-[15px] md:leading-[26px] leading-[21px] text-orange-600'>Partners</p>
-            </div>
-            <div className='max-w-[1240px] flex-1 flex items-center my-6'>
-                <h4 className='font-semibold sm:text-[40px] text-[30px] md:leading-[53px] leading-[43px] text-[#1D5B79] px-4'>$1000+</h4>
-                <p className='font-semibold sm:text-[20px] text-[15px] md:leading-[26px] leading-[21px] text-orange-600'>Transactions</p>
-            </div>
-                  
         </div>
+    </section>
+
     )
 }
 export default Stats

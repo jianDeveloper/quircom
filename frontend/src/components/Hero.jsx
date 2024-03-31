@@ -1,43 +1,56 @@
 import React from 'react'
-import Mascot from '../assets/mascot.png'
+import Mascot from '../assets/icon00.png'
 import styles from '../styles'
+import Stats from './Stats'
+import Services from './Services'
+import Subscription from './Subscription'
+import Newsletter from './Newsletter'
 
 const Hero = () => {
   return (
-    <section className={`flex md:flex-row flex-col h-screen ${styles.paddingY}`}>
-      <div className={`${styles.flexStart} items-center w-full`}>
-      <div className={`${styles.boxWidth}`}>
-      <div className={`flex-1 ${styles.flexStart} flex-col xl:px-0 sm:px-16 px-6`}>
-        <div className="flex flex-row justify-between items-center w-full">
-          <h1 className="flex-1 font-poppins font-extrabold ss:text-[72px] text-[65px] text-[#1D5B79] ss:leading-[100.8px] leading-[75px]">
-            Multi-{" "}
-            <span className="text-orange-600">Service</span>{" "}
-          </h1>
-        </div>
-        <h1 className="font-poppins font-extrabold ss:text-[68px] text-[65px] text-[#1D5B79] ss:leading-[100.8px] leading-[75px] w-full">
-          Provider.
-        </h1>
-        <p className={`${styles.paragraph} max-w-[470px] mt-5 mb-5`}>
-          Quircom is always on the lookout for like-minded visionaries and businesses eager to make their mark in the world.
-        </p>
-        <div className={`${styles.flexCenter} w-[150px] h-[50px] p-[2px] m-[20px]`}>
-          <div className={`${styles.flexCenter} flex-col transition ease-in-out delay-150 bg-orange-600 hover:-translate-y-1 hover:scale-110 hover:bg-orange-500 duration-300 w-[100%] h-[100%] rounded-full cursor-pointer`}>
-            <div className={`${styles.flexStart} flex-row`}>
-              <p className="font-poppins font-bold text-[18px] text-white leading-[23.4px]">
-                <a href='#' className="text-gradient ">Learn more!</a>
-              </p>
+    <div class="bg-beige overflow-hidden">
+        <div class="mx-auto mt-[-50px] h-full px-4 py-28 md:py-40 sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8">
+          <div class="flex flex-col items-center justify-between lg:flex-row">
+            <div class="">
+              <div class="lg:max-w-xl lg:pr-5">
+                <p class="flex text-sm uppercase text-[#1D5B79]">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="mr-1 inline h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clip-rule="evenodd" />
+                  </svg>
+                  An online platform for high growth freelancers
+                </p>
+                <h2 class="mb-6 max-w-lg text-5xl font-bold leading-snug tracking-tight text-[#1D5B79] sm:text-7xl sm:leading-snug">
+                  Multi-<span className='text-orange-600'>Service</span>
+                  <h2>Provider</h2>
+                </h2>
+                <p class="text-base text-[#13334C]">Quircom is always on the lookout for like-minded visionaries and businesses eager to make their mark in the world.</p>
+              </div>
+              <div class="mt-10 flex flex-col items-center md:flex-row">
+                <a href="/" class="mb-3 inline-flex h-12 w-full items-center justify-center rounded bg-gradient-to-bl from-orange-400 to-orange-600 px-6 font-medium tracking-wide text-white shadow-md transition md:mr-4 md:mb-0 md:w-auto focus:outline-none hover:bg-gradient-to-br ">Try for free</a>
+                <a href="/" aria-label="" class="group inline-flex items-center font-semibold text-[#13334C]"
+                  >Learn more!
+                  <svg xmlns="http://www.w3.org/2000/svg" class="group-hover:translate-x-2 ml-4 h-6 w-6 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div class="relative hidden lg:ml-32 lg:block lg:w-1/2">
+              <div class="abg-orange-400 w-fit rounded-[6rem] mx-auto overflow-hidden rounded-tl-none rounded-br-none shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] bg-gradient-to-tr from-sky-600 to-sky-800 p-6">
+                <div class="flex w-96 flex-wrap">
+                  <img src={Mascot} alt="" />
+                </div>
+              </div>
             </div>
           </div>
-        </div>
       </div>
-      <hr className='border-[#1D5B79] border-2 flex md:flex w-[75%]'/>
-      <div className={'hidden md:flex'}>
-        <img src={Mascot}  className="w-[40%]  right-0 top-[0] absolute z-[-5]" />
-      </div>
-      
-      </div>
-      </div>
-    </section>
+      <div className='flex flex-col'>
+          <Stats />
+          <Services />
+          <Subscription />
+          <Newsletter />
+      </div> 
+</div>
   )
   }
 export default Hero
