@@ -355,7 +355,7 @@ const Reg = () => {
                     className={`mr-2 ${invalidFields.aggRee ? 'border-red-500' : ''}`}
                   />  
                   <label htmlFor="agree" className='text-[14px]'>
-                    I agree to the <Link className='text-[#1D5B79] font-medium'><u>terms and conditions</u></Link>
+                    I agree to the <Link to= "/terms" className='text-[#1D5B79] font-medium'><u>terms and conditions</u></Link>
                   </label>    
                 </div>
                 {invalidFields.aggRee && <p className="text-red-500 text-[12px] text-center">{invalidFields.aggRee}</p>}
