@@ -12,7 +12,7 @@ import {
   Chip,
 } from "@mui/material";
 import { React, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import Logo from "../assets/Icon1.png";
 import Logo2 from "../assets/clientnav.png";
@@ -32,22 +32,23 @@ const CMainNav = () => {
   const [anchorEl2, setAnchorEl2] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
 
+  const { UserId } = useParams();
   const icons = [
-    { icon: Dboard, component: "/client/dashboard", text: "Dashboard", index: 0 },
+    { icon: Dboard, component: `/client/dashboard/${UserId}`, text: "Dashboard", index: 0 },
     {
       icon: Service,
-      component: "/client/marketplace",
+      component: `/client/marketplace/${UserId}`,
       text: "Marketplace",
       index: 1,
     },
-    { icon: Tracker, component: "/client/tracker", text: "Tracker", index: 2 },
+    { icon: Tracker, component: `/client/tracker/${UserId}`, text: "Tracker", index: 2 },
     {
       icon: LBoard,
-      component: "/client/leaderboard",
+      component: `/client/leaderboard/`,
       text: "Leaderboard",
       index: 3,
     },
-    { icon: Bill, path: "/client/billing", text: "Billing", index: 4 },
+    { icon: Bill, path: `/client/billing/${UserId}/`, text: "Billing", index: 4 },
   ];
 
   const handleIconClick = (index) => {
