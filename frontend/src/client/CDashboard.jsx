@@ -4,8 +4,6 @@ import { BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillBellFill }
 import axios from 'axios'; // Import axios for making HTTP requests
 import UserContext from '../context/UserContext';
 
-import Header from './Header';
-import CNav from './CNav';
 import CFooter from './CFooter';
 import TaskList from './Dashcomponents/TaskList';
 

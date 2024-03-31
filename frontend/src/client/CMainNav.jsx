@@ -1,5 +1,19 @@
-import { Box, Stack, Typography, ButtonBase, Divider, Button, IconButton, Avatar, Menu, MenuItem, Chip } from "@mui/material";
+import {
+  Box,
+  Stack,
+  Typography,
+  ButtonBase,
+  Divider,
+  IconButton,
+  Avatar,
+  Menu,
+  MenuItem,
+  Popover,
+  Chip,
+} from "@mui/material";
 import { React, useState } from "react";
+import { Link } from "react-router-dom";
+
 import Logo from "../assets/Icon1.png";
 import Logo2 from "../assets/clientnav.png";
 import Dboard from "../assets/dboard.png";
@@ -13,22 +27,23 @@ import User from "../assets/user.png";
 
 
 const CMainNav = () => {
-  const [selectedIcon, setSelectedIcon] = useState(null);
+  const [selectedIcon, setSelectedIcon] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl2, setAnchorEl2] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
 
   const icons = [
-    { icon: Dboard, path: "/client/dashboard", text: "Dashboard", index: 0 },
+    { icon: Dboard, component: "/client/dashboard", text: "Dashboard", index: 0 },
     {
       icon: Service,
-      path: "/client/marketplace",
+      component: "/client/marketplace",
       text: "Marketplace",
       index: 1,
     },
-    { icon: Tracker, path: "/client/tracker", text: "Tracker", index: 2 },
+    { icon: Tracker, component: "/client/tracker", text: "Tracker", index: 2 },
     {
       icon: LBoard,
-      path: "/client/leaderboard",
+      component: "/client/leaderboard",
       text: "Leaderboard",
       index: 3,
     },
@@ -44,8 +59,13 @@ const CMainNav = () => {
     setAnchorEl(event.currentTarget);
   };
 
+  const handleNotifClick = (event) => {
+    setAnchorEl2(event.currentTarget);
+  };
+
   const handleCloseMenu = () => {
     setAnchorEl(null);
+    setAnchorEl2(null);
   };
 
   const getLogo = () => {
@@ -87,6 +107,8 @@ const CMainNav = () => {
             {icons.map((icon, index) => (
               <ButtonBase
                 key={index}
+                component={Link} // Use Link component instead of button
+                to={icon.component} 
                 onClick={() => handleIconClick(index)}
                 sx={{
                   display: "flex",
@@ -119,9 +141,28 @@ const CMainNav = () => {
           justifyContent={"center"}
           spacing={1}
         >
-          <IconButton>
-            <img className="w-6 h-6" src={Notifs} alt="Notifs" />
-          </IconButton>
+          <div>
+            <IconButton onClick={handleNotifClick}>
+              <img className="w-8 h-6" src={Notifs} alt="Notifs" />
+            </IconButton>
+            <Popover
+              open={Boolean(anchorEl2)}
+              anchorEl={anchorEl2}
+              onClose={handleCloseMenu}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+            >
+              <Typography sx={{ p: 2 }}>Notification 1</Typography>
+              <Typography sx={{ p: 2 }}>Notification 2</Typography>
+              <Typography sx={{ p: 2 }}>Notification 3</Typography>
+            </Popover>
+          </div>
           <Divider orientation="vertical" sx={{ height: 40 }} />
           <IconButton onClick={handleAvatarClick}>
             <Avatar src={User} alt="User" />
@@ -133,16 +174,20 @@ const CMainNav = () => {
           >
             <MenuItem onClick={handleCloseMenu}>
               <Stack direction={"row"} spacing={1}>
-              <img className="w-6 h-6" src={Settings} alt="Settings" />
-              <Typography variant="body1">Settings</Typography>
+                <img className="w-6 h-6" src={Settings} alt="Settings" />
+                <Typography variant="body1">Settings</Typography>
               </Stack>
-              </MenuItem>
+            </MenuItem>
             <MenuItem onClick={handleCloseMenu}>
               <Stack direction={"row"} spacing={1} alignItems={"center"}>
-              <Chip label="Logout" sx={{ width: "13vh" }} variant={isHovered ? "filled" : "outlined"}
-      color="error"
-      onMouseOver={() => setIsHovered(true)}
-      onMouseOut={() => setIsHovered(false)} />
+                <Chip
+                  label="Logout"
+                  sx={{ width: "13vh" }}
+                  variant={isHovered ? "filled" : "outlined"}
+                  color="error"
+                  onMouseOver={() => setIsHovered(true)}
+                  onMouseOut={() => setIsHovered(false)}
+                />
               </Stack>
             </MenuItem>
           </Menu>
