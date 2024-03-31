@@ -27,9 +27,6 @@ import User from "../assets/user.png";
 
 
 const CMainNav = () => {
-  const [nav, setNav] = useState(false);
-  const [openLogin, setLogin] = useState(false);
-  const [current, setActive] = useState(false);
   const [selectedIcon, setSelectedIcon] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorEl2, setAnchorEl2] = useState(null);

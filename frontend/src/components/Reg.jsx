@@ -267,7 +267,7 @@ const Reg = () => {
                     className={`w-full p-2 border rounded ${invalidFields.region ? 'border-red-500' : ''}`}>
                     <option value="">Select Region</option>
                     {sortedRegions.map((region) => (
-                      <option key={region.key} value={region.reg_code}>{region.name}</option> // Use region_code instead of name
+                      <option key={region.reg_code} value={region.reg_code}>{region.name}</option> // Use region_code instead of name
                     ))}
                   </select>
                   {invalidFields.region && <p className="text-red-500 text-[12px]">{invalidFields.region}</p>}
