@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios';
 import phil from 'phil-reg-prov-mun-brgy'
+import { IconButton, InputAdornment, TextField } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const baseURL = import.meta.env.VITE_BASEURL;
 
@@ -42,6 +44,11 @@ const Reg = () => {
   const [regionCode, setRegionCode] = useState('');
   const [provinceCode, setProvinceCode] = useState(''); 
   const [cityCode, setCityCode] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(prevState => !prevState);
+  };
 
   console.log(regionCode)
   console.log(provinceCode)
@@ -226,15 +233,25 @@ const Reg = () => {
                   <label htmlFor="password" className="block text-[#1D5B79] text-sm font-bold mb-2">
                     Password
                   </label>
-                  <input
-                    type="password"
-                    id="password"
-                    name="passWord"
-                    value={formData.passWord}
-                    onChange={handleChange}
-                    className={`w-full p-2 border rounded ${invalidFields.passWord ? 'border-red-500' : ''}`}
-                    placeholder="Enter your password"
-                  />
+                  <div className="relative">
+                    <TextField
+                      type={showPassword ? 'text' : 'password'}
+                      id="password"
+                      name="passWord"
+                      value={formData.passWord}
+                      onChange={handleChange}
+                      variant="outlined"
+                      fullWidth
+                      className={`p-2 border rounded ${invalidFields.passWord ? 'border-red-500' : ''}`}
+                      placeholder="Enter your password"
+                      error={!!invalidFields.passWord}
+                    />
+                    <InputAdornment position="end">
+                      <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  </div>
                   {invalidFields.passWord && <p className="text-red-500 text-[12px]">{invalidFields.passWord}</p>}
                 </div>
               </div>

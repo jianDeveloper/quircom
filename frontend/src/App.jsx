@@ -68,8 +68,8 @@ function App() {
         />
         <Route
           exact
-          path="/terms" // Adding :userId parameter
-          element={<Terms />} // Rendering CDashboard component
+          path="/terms"
+          element={<Terms />}
         />
         <Route
           exact
@@ -113,22 +113,22 @@ function App() {
         
         <Route
           exact
-          path="/client/billing"
+          path="/client/billing/:userId"
           element={<CBilling />}
         />
         <Route
           exact
-          path="/client/subscribe"
+          path="/client/subscribe/:userId"
           element={<CSubscribe />}
         />
         <Route
           exact
-          path="/client/service-connect"
+          path="/client/service-connect/:userId"
           element={<CConnect />}
         />
         <Route
           exact
-          path="/client/leaderboard"
+          path="/client/leaderboard/:userId"
           element={<CRank />}
         />
 
