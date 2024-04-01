@@ -197,7 +197,7 @@ const Reg = () => {
     <section className="">
       <ToastContainer />
       <div className="flex xl:none xl:justify-start mb-[200px] md:mb-0 justify-center" style={{background: `url(${BGreg})`, backgroundRepeat:'no-repeat', backgroundSize:'cover'}}>
-        <div className='flex flex-col mt-[30px] mb-10 xl:mx-[80px] md:h-auto bg-[beige] bg-opacity-80 md:bg-[beige] w-screen md:w-[650px] px-[20px] py-[30px] rounded-[10px] md:shadow-[2px_2px_5px_5px_rgba(0,0,0,0.15)]'>
+        <div className='flex flex-col mt-[30px] mb-10 xl:mx-[80px] md:h-auto~ bg-[beige] bg-opacity-80 md:bg-[beige] w-screen md:w-[650px] px-[20px] py-[30px] rounded-[10px] md:shadow-[2px_2px_5px_5px_rgba(0,0,0,0.15)]'>
         <h2 className='text-center mx-[20px] mb-[-20px] text-[30px] text-[#1D5B79] font-extrabold drop-shadow-xl'>Create Account</h2>
           <div className="container mx-auto mt-8">
             <form ref={formRef} className="w-full max-w-screen-ss mx-auto" onSubmit={handleSubmit}>
