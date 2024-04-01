@@ -14,13 +14,13 @@ import CDashboard from './client/CDashboard.jsx';
 import CMarketplace from './client/CMarketplace.jsx';
 import CProfile from './client/CProfile.jsx';
 import CSettings from './client/CSettings.jsx';
-import CSettingsProfile from './client/CSettingsProfile.jsx';
-import CSettingsBill from './client/CSettingsBill.jsx';
+import CSettingsProfile from './client/Settingcomponents/CSettingsProfile.jsx';
+import CSettingsBill from './client/Settingcomponents/CSettingsBill.jsx';
 import CTracker from './client/CTracker.jsx';
 import CBilling from './client/CBilling.jsx';
 import CRank from './client/CRank.jsx';
 import CSubscribe from './client/CSubscribe.jsx';
-import CConnect from './client/CConnect.jsx';
+import CConnect from './client/Marketcomponents/CConnect.jsx';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

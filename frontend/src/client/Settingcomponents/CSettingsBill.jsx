@@ -1,10 +1,10 @@
 import { useState, useEffect, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
-import UserContext from '../context/UserContext';
+import UserContext from '../../context/UserContext';
 
-import CFooter from './CFooter';
-import CMainNav from './CMainNav';
+import CFooter from '../CFooter';
+import CMainNav from '../CMainNav';
 
 function CSettingsBill() {
   const [ userData, setUsers] = useState(null);

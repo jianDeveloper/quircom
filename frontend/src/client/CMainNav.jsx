@@ -29,7 +29,7 @@ import User from "../assets/user.png";
 
 
 const CMainNav = () => {
-  const [selectedIcon, setSelectedIcon] = useState(0);
+  const [selectedIcon, setSelectedIcon] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorEl2, setAnchorEl2] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -70,7 +70,7 @@ const CMainNav = () => {
       text: "Leaderboard",
       index: 3,
     },
-    { icon: Bill, path: `/client/billing/${userId}/`, text: "Billing", index: 4 },
+    { icon: Bill, component: `/client/billing/${userId}/`, text: "Billing", index: 4 },
   ];
 
   const handleIconClick = (index) => {

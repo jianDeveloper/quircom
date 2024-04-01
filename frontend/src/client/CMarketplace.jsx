@@ -3,7 +3,7 @@ import React from 'react'
 import NavHeader from './CMainNav'
 
 import mpTop from '../assets/mpTop.jpg'
-import CCards from './CCards'
+import CCards from './Marketcomponents/CCards'
 import mpCard1 from '../assets/pic1.png'
 import mpCard2 from '../assets/pic2.jpg'
 import mpCard3 from '../assets/pic3.png'
