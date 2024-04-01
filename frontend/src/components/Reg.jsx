@@ -196,9 +196,9 @@ const Reg = () => {
   return (
     <section className="">
       <ToastContainer />
-      <div className="flex xl:none xl:justify-start h-screen mb-[200px] md:mb-0 justify-center" style={{background: `url(${BGreg})`, backgroundRepeat:'no-repeat', backgroundSize:'cover'}}>
-        <div className='flex flex-col mt-[60px] xl:ml-[150px] md:h-[775px] bg-[beige] bg-opacity-80 md:bg-[beige] w-screen md:w-[650px] px-[20px] py-[30px] rounded-[10px] md:shadow-[2px_2px_5px_5px_rgba(0,0,0,0.15)]'>
-        <h2 className='text-center mx-[20px] mt-[10px] text-[30px] text-[#1D5B79] font-extrabold drop-shadow-xl'>Create Account</h2>
+      <div className="flex xl:none xl:justify-start mb-[200px] md:mb-0 justify-center" style={{background: `url(${BGreg})`, backgroundRepeat:'no-repeat', backgroundSize:'cover'}}>
+        <div className='flex flex-col mt-[30px] mb-10 xl:mx-[80px] md:h-auto bg-[beige] bg-opacity-80 md:bg-[beige] w-screen md:w-[650px] px-[20px] py-[30px] rounded-[10px] md:shadow-[2px_2px_5px_5px_rgba(0,0,0,0.15)]'>
+        <h2 className='text-center mx-[20px] mb-[-20px] text-[30px] text-[#1D5B79] font-extrabold drop-shadow-xl'>Create Account</h2>
           <div className="container mx-auto mt-8">
             <form ref={formRef} className="w-full max-w-screen-ss mx-auto" onSubmit={handleSubmit}>
               <div className="flex flex-col md:flex-row md:justify-center -mx-3">
@@ -385,7 +385,7 @@ const Reg = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col md:flex-row md:justify-center -mx-3">
+              {/* <div className="flex flex-col md:flex-row md:justify-center -mx-3">
                 <div className="w-full md:w-1/2 px-3 mb-4">
                   <label htmlFor="Pic" className="block text-[#1D5B79] text-sm font-bold mb-2">
                     Upload Profile Pic
@@ -400,9 +400,9 @@ const Reg = () => {
                     placeholder="Pic"
                   />
                 </div>
-              </div>
+              </div> */}
 
-              <div className="mb-6">
+              <div className="m-6">
                 <div className="flex items-center justify-center">
                   <input
                     type="checkbox"
