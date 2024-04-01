@@ -7,22 +7,12 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const baseURL = import.meta.env.VITE_BASEURL;
 
-
 import BGreg from '../assets/bgreg.png';
 import logo2 from '../assets/Icon2.png';
 
 const Reg = () => {
 
-  // console.log(phil.regions)
-  // console.log(phil.regions.find(region => region.reg_code === '04')?.name);
-  // console.log(phil.provinces)
-  // console.log(phil.provinces.find(provinces=> provinces.prov_code === '1602')?.name);
-  // console.log(phil.city_mun)
-  // console.log(phil.city_mun.find(city=> city.mun_code === '160201')?.name);
-
   const sortedRegions = phil.regions.sort((a, b) => a.name.localeCompare(b.name));
-  const sortedCityMun = phil.city_mun.sort((a, b) => a.name.localeCompare(b.name));
-  const sortedProvinces = phil.provinces.sort((a, b) => a.name.localeCompare(b.name));
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -37,6 +27,7 @@ const Reg = () => {
     accType: '',
     aggRee: false,
   });
+  
 
   const [invalidFields, setInvalidFields] = useState({});
   const [filteredProvinces, setFilteredProvinces] = useState([]);
@@ -47,15 +38,17 @@ const Reg = () => {
 
   const formRef = useRef(null);
 
+  // const [profilePic, setProfile] = useState()
+
   const [showPassword, setShowPassword] = useState(false); // New state to track password visibility
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
-  // console.log(regionCode)
-  // console.log(provinceCode)
-  // console.log(cityCode)
+  // const handleImage = (e) => {
+  //   setProfile(e.target.files[0]);
+  // }
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -63,8 +56,7 @@ const Reg = () => {
       setRegionCode(value);
       const regionProvinces = phil.getProvincesByRegion(value);
       setFilteredProvinces(regionProvinces);
-      
-      // Reset province and city dropdowns
+
       setProvinceCode('');
       setCityCode('');
       setFilteredCity([]);
@@ -114,10 +106,16 @@ const Reg = () => {
     if (!formData.eMail.includes('@')) {
       errors.eMail = 'Please enter a valid email address';
     }
-    if (!formData.region || !formData.province || !formData.city || !formData.accType) {
+    if (!formData.region) {
       errors.region = 'Please select a region';
+    }
+    if (!formData.province) {
       errors.province = 'Please select a province';
+    }
+    if (!formData.city) {
       errors.city = 'Please select a city';
+    }
+    if (!formData.accType) {
       errors.accType = 'Please select an account type';
     }
     if (!formData.aggRee) {
@@ -156,9 +154,12 @@ const Reg = () => {
   
     try {
       console.log(formData);
+
       var formObject = new FormData();
       formObject.append('user', JSON.stringify(formData));
-      const response = await axios.post(`${baseURL}/api/users`, formObject, {
+      // formObject.append('file', profilePic)
+
+      const response = await axios.post(`${baseURL}/api/users/upload`, formObject, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -383,6 +384,24 @@ const Reg = () => {
                   {invalidFields.accType && <p className="text-red-500 text-[12px]">{invalidFields.accType}</p>}
                 </div>
               </div>
+
+              {/* <div className="flex flex-col md:flex-row md:justify-center -mx-3">
+                <div className="w-full md:w-1/2 px-3 mb-4">
+                  <label htmlFor="Pic" className="block text-[#1D5B79] text-sm font-bold mb-2">
+                    Upload Profile Pic
+                  </label>
+                  <input
+                    type="file"
+                    id="profilePic"
+                    name="profilePic"
+                    value={formData.profilePic}
+                    onChange={handleImage}
+                    className="w-full text-[14px] p-3  border rounded"
+                    placeholder="Pic"
+                  />
+                </div>
+              </div> */}
+
               <div className="mb-6">
                 <div className="flex items-center justify-center">
                   <input

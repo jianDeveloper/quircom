@@ -71,26 +71,47 @@ const CreateUser = async (req, res) => {
 
 const EditUser = async (req, res) => {
   try {
-    const { id } = req.params;
-    const data = req.body;
+    const {body, file} = req;
+    const user = JSON.parse(body.user);
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      res.status(400).json("No such user");
-    }
+    let userProfile = {};
+
+    if (file) {
+        const { id, name } = await DriveService.UploadFiles(
+          file,
+          process.env.FOLDER_ID
+        );
+        Object.assign(userProfile, {
+          id: id,
+          name: name,
+          link: `https://drive.google.com/thumbnail?id=${id}&sz=w1000`,
+        });
+
+        await DriveService.DeleteFiles(user.profilePic.id);
+      }
 
     const result = await UserModel.findByIdAndUpdate(
-      id,
-      {
+      user._id,{
         $set: {
-          ...data,
+          firstName: user.firstName,
+          surName: user.surName,
+          userName: user.userName,
+          eMail: user.eMail,
+          passWord: user.passWord,
+          contactNum: user.contactNum,
+          region: user.region,
+          province: user.province,
+          city: user.city,
+          profilePic: userProfile.hasOwnProperty("id") ? userProfile : user.profilePic,
         },
-      },
-      { new: true }
+      }, 
+      {new: true}
     );
+    res.status(201).json(result);
 
-    res.status(200).json(result);
   } catch (err) {
     res.send(err.message);
+    res.status(500).json("Internal Server Error")
   }
 };
 

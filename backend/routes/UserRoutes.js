@@ -13,9 +13,9 @@ const {
 
 router.get("/", GetAllUsers);
 router.get("/:id", GetSpecificUser);
-router.post("/", upload.single("file"), CreateUser);
-router.patch("/:id", EditUser);
-router.delete("/:id", DeleteUser);
+router.post("/upload", upload.single("file"), CreateUser);
+router.patch("/update/:id", upload.single("file"), EditUser);
+router.delete("/delete/:id", DeleteUser);
 router.post("/validate", ValidateUserData);
 
 module.exports = router;

@@ -26,7 +26,7 @@ const Reg = () => {
 
   const deleteUser = async (userId) => {
     try {
-      const response = await axios.delete(`http://localhost:8800/api/users/${userId}`);
+      const response = await axios.delete(`http://localhost:8800/api/users/delete/${userId}`);
       if (response.status === 200) {
         // Optionally, filter out the deleted user from the local state to update the UI immediately
         setUsers(users.filter(user => user._id !== userId));
