@@ -38,7 +38,7 @@ const Reg = () => {
 
   const formRef = useRef(null);
 
-  // const [profilePic, setProfile] = useState()
+  const [profilePic, setProfile] = useState()
 
   const [showPassword, setShowPassword] = useState(false); // New state to track password visibility
 
@@ -46,9 +46,9 @@ const Reg = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
-  // const handleImage = (e) => {
-  //   setProfile(e.target.files[0]);
-  // }
+  const handleImage = (e) => {
+    setProfile(e.target.files[0]);
+  }
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -157,7 +157,7 @@ const Reg = () => {
 
       var formObject = new FormData();
       formObject.append('user', JSON.stringify(formData));
-      // formObject.append('file', profilePic)
+      formObject.append('file', profilePic)
 
       const response = await axios.post(`${baseURL}/api/users/upload`, formObject, {
         headers: {
@@ -385,7 +385,7 @@ const Reg = () => {
                 </div>
               </div>
 
-              {/* <div className="flex flex-col md:flex-row md:justify-center -mx-3">
+              <div className="flex flex-col md:flex-row md:justify-center -mx-3">
                 <div className="w-full md:w-1/2 px-3 mb-4">
                   <label htmlFor="Pic" className="block text-[#1D5B79] text-sm font-bold mb-2">
                     Upload Profile Pic
@@ -400,7 +400,7 @@ const Reg = () => {
                     placeholder="Pic"
                   />
                 </div>
-              </div> */}
+              </div>
 
               <div className="mb-6">
                 <div className="flex items-center justify-center">
