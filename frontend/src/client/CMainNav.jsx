@@ -1,5 +1,21 @@
-import { Box, Stack, Typography, ButtonBase, Divider, Button, IconButton, Avatar, Menu, MenuItem, Chip } from "@mui/material";
-import { React, useState } from "react";
+import {
+  Box,
+  Stack,
+  Typography,
+  ButtonBase,
+  Divider,
+  IconButton,
+  Avatar,
+  Menu,
+  MenuItem,
+  Popover,
+  Chip,
+} from "@mui/material";
+import React, { useState, useContext, useEffect } from 'react'
+import { Link, useParams } from 'react-router-dom';
+import UserContext from '../context/UserContext';
+import axios from 'axios';
+
 import Logo from "../assets/Icon1.png";
 import Logo2 from "../assets/clientnav.png";
 import Dboard from "../assets/dboard.png";
@@ -10,30 +26,51 @@ import Notifs from "../assets/bell.png";
 import Bill from "../assets/bill.png";
 import LBoard from "../assets/crown.png";
 import User from "../assets/user.png";
-import { FaSignOutAlt } from "react-icons/fa";
 
 
 const CMainNav = () => {
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl2, setAnchorEl2] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
 
+  const [nav, setNav] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [openLogin, setLogin] = useState(false);
+  const [current, setActive] = useState(false);
+
+  const { userId } = useParams();
+  const { userIdLink } = useContext(UserContext);
+  console.log('User ID in Dashboard:', userIdLink);
+
+  useEffect(() => {
+    // Fetch user data using the user ID
+    axios.get(`http://localhost:8800/api/users/${userId}`)
+      .then(response => {
+        console.log('User data:', response.data);
+        setUserData(response.data); // Set the user data in state
+      })
+      .catch(error => {
+        console.error('Error fetching user data:', error);
+      });
+  }, [userId]); // Fetch user data whenever userId changes
+
   const icons = [
-    { icon: Dboard, path: "/client/dashboard", text: "Dashboard", index: 0 },
+    { icon: Dboard, component: `/client/dashboard/${userId}`, text: "Dashboard", index: 0 },
     {
       icon: Service,
-      path: "/client/marketplace",
+      component: `/client/browse-service/${userId}`,
       text: "Marketplace",
       index: 1,
     },
-    { icon: Tracker, path: "/client/tracker", text: "Tracker", index: 2 },
+    { icon: Tracker, component: `/client/tracker/${userId}`, text: "Tracker", index: 2 },
     {
       icon: LBoard,
-      path: "/client/leaderboard",
+      component: `/client/leaderboard/${userId}`,
       text: "Leaderboard",
       index: 3,
     },
-    { icon: Bill, path: "/client/billing", text: "Billing", index: 4 },
+    { icon: Bill, component: `/client/billing/${userId}/`, text: "Billing", index: 4 },
   ];
 
   const handleIconClick = (index) => {
@@ -45,8 +82,13 @@ const CMainNav = () => {
     setAnchorEl(event.currentTarget);
   };
 
+  const handleNotifClick = (event) => {
+    setAnchorEl2(event.currentTarget);
+  };
+
   const handleCloseMenu = () => {
     setAnchorEl(null);
+    setAnchorEl2(null);
   };
 
   const getLogo = () => {
@@ -88,6 +130,8 @@ const CMainNav = () => {
             {icons.map((icon, index) => (
               <ButtonBase
                 key={index}
+                component={Link} // Use Link component instead of button
+                to={icon.component} 
                 onClick={() => handleIconClick(index)}
                 sx={{
                   display: "flex",
@@ -120,9 +164,28 @@ const CMainNav = () => {
           justifyContent={"center"}
           spacing={1}
         >
-          <IconButton>
-            <img className="w-6 h-6" src={Notifs} alt="Notifs" />
-          </IconButton>
+          <div>
+            <IconButton onClick={handleNotifClick}>
+              <img className="w-8 h-6" src={Notifs} alt="Notifs" />
+            </IconButton>
+            <Popover
+              open={Boolean(anchorEl2)}
+              anchorEl={anchorEl2}
+              onClose={handleCloseMenu}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+            >
+              <Typography sx={{ p: 2 }}>Notification 1</Typography>
+              <Typography sx={{ p: 2 }}>Notification 2</Typography>
+              <Typography sx={{ p: 2 }}>Notification 3</Typography>
+            </Popover>
+          </div>
           <Divider orientation="vertical" sx={{ height: 40 }} />
           <IconButton onClick={handleAvatarClick}>
             <Avatar src={User} alt="User" />
@@ -132,18 +195,29 @@ const CMainNav = () => {
             open={Boolean(anchorEl)}
             onClose={handleCloseMenu}
           >
-            <MenuItem onClick={handleCloseMenu}>
+            <MenuItem onClick={handleCloseMenu} component={Link} to={`/client/profile/${userId}`}>
               <Stack direction={"row"} spacing={1}>
-              <img className="w-6 h-6" src={Settings} alt="Settings" />
-              <Typography variant="body1">Settings</Typography>
+                <img className="w-6 h-6" src={User} alt="Profile" />
+                <Typography variant="body1">Profile</Typography>
               </Stack>
-              </MenuItem>
-            <MenuItem onClick={handleCloseMenu}>
+            </MenuItem>
+            <MenuItem onClick={handleCloseMenu} component={Link} to={`/client/settings/${userId}`}>
+              <Stack direction={"row"} spacing={1}>
+                <img className="w-6 h-6" src={Settings} alt="Settings" />
+                <Typography variant="body1">Settings</Typography>
+              </Stack>
+            </MenuItem>
+            <MenuItem onClick={handleCloseMenu} onAuxClick={(e) => e.preventDefault()} onContextMenu={(e) => e.preventDefault()}>
               <Stack direction={"row"} spacing={1} alignItems={"center"}>
-              <Chip label="Logout" sx={{ width: "13vh" }} variant={isHovered ? "filled" : "outlined"}
-      color="error"
-      onMouseOver={() => setIsHovered(true)}
-      onMouseOut={() => setIsHovered(false)} />
+                <Chip
+                  label="Logout"
+                  sx={{ width: "13vh" }}
+                  variant={isHovered ? "filled" : "outlined"}
+                  color="error"
+                  onMouseOver={() => setIsHovered(true)}
+                  onMouseOut={() => setIsHovered(false)}
+                  component={Link} to="/registration"
+                />
               </Stack>
             </MenuItem>
           </Menu>

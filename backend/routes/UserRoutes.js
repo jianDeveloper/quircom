@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const upload = require("../config/Multer.js");
 
 const {
   GetAllUsers,
@@ -7,12 +8,14 @@ const {
   CreateUser,
   EditUser,
   DeleteUser,
+  ValidateUserData
 } = require("../controllers/UserController");
 
 router.get("/", GetAllUsers);
 router.get("/:id", GetSpecificUser);
-router.post("/", CreateUser);
-router.patch("/:id", EditUser);
-router.delete("/:id", DeleteUser);
+router.post("/upload", upload.single("file"), CreateUser);
+router.patch("/update/:id", upload.single("file"), EditUser);
+router.delete("/delete/:id", DeleteUser);
+router.post("/validate", ValidateUserData);
 
 module.exports = router;

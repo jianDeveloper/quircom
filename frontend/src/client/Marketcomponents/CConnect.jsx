@@ -1,8 +1,8 @@
 import React from 'react';
-import mpCard1 from '../assets/pic1.png'
-import Connect from '../assets/link.png'
+import mpCard1 from '../../assets/pic1.png'
+import Connect from '../../assets/link.png'
 import { Link } from 'react-router-dom';
-import NavHeader from './CMainNav'
+import NavHeader from '../CMainNav'
 
 function CConnect () {
   return (

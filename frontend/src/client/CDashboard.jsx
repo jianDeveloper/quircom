@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillBellFill } from 'react-icons/bs';
 import axios from 'axios'; // Import axios for making HTTP requests
+import UserContext from '../context/UserContext';
 
-import Header from './Header';
-import CNav from './CNav';
 import CFooter from './CFooter';
 import TaskList from './Dashcomponents/TaskList';
 
@@ -13,10 +12,14 @@ import BGmark from '../assets/service.jpg';
 import BGtrack from '../assets/track.jpg';
 import BGsubs from '../assets/subs.jpg';
 import CMainNav from './CMainNav';
+import CTop from './CTop';
 
 function CDashboard() {
   const { userId } = useParams();
-  const [userData, setUserData] = useState(null); // State to store user data
+  const [ userData, setUserData] = useState(null); // State to store user data
+  
+  const { userIdLink } = useContext(UserContext);
+  console.log('User ID in Dashboard:', userIdLink);
 
   useEffect(() => {
     // Fetch user data using the user ID
@@ -33,7 +36,7 @@ function CDashboard() {
   return (
     <div className='flex flex-col' style={{ background: `url(${BG1})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
       <CMainNav />
-      <div className='flex '>
+      <div className='flex align-center justify-center'>
         <div className='flex flex-col container mx-10 my-10'> {/*formatting navbar & body -j*/}
           <div className='flex'>
             <h1 className='font-extrabold text-[30px] text-[#1D5B79]'>DASHBOARD</h1>
@@ -91,9 +94,8 @@ function CDashboard() {
             <div>
               <TaskList/>
             </div>
-            <div className='flex ml-16 bg-white'>
-              <h1 className='mt-6 text-2xl font-semibold leading-tight text-[#1D5B79]'>Leaderboards</h1>
-              <div></div>
+            <div>
+              <CTop />
             </div>
           </div>
         </div>

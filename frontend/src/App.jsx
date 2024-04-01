@@ -14,17 +14,20 @@ import CDashboard from './client/CDashboard.jsx';
 import CMarketplace from './client/CMarketplace.jsx';
 import CProfile from './client/CProfile.jsx';
 import CSettings from './client/CSettings.jsx';
-import CSettingsProfile from './client/CSettingsProfile.jsx';
-import CSettingsBill from './client/CSettingsBill.jsx';
+import CSettingsProfile from './client/Settingcomponents/CSettingsProfile.jsx';
+import CSettingsBill from './client/Settingcomponents/CSettingsBill.jsx';
 import CTracker from './client/CTracker.jsx';
 import CBilling from './client/CBilling.jsx';
 import CRank from './client/CRank.jsx';
 import CSubscribe from './client/CSubscribe.jsx';
-import CConnect from './client/CConnect.jsx';
+import CConnect from './client/Marketcomponents/CConnect.jsx';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <div>
+      <ToastContainer/>
       <Routes>
         <Route
           exact
@@ -63,8 +66,8 @@ function App() {
         />
         <Route
           exact
-          path="/terms" // Adding :userId parameter
-          element={<Terms />} // Rendering CDashboard component
+          path="/terms"
+          element={<Terms />}
         />
         <Route
           exact
@@ -74,56 +77,56 @@ function App() {
 
         <Route
           exact
-          path="/client/profile"
+          path="/client/profile/:userId"
           element={<CProfile />}
         />
 
         <Route
           exact
-          path="/client/browse-service"
+          path="/client/browse-service/:userId"
           element={<CMarketplace />}
         />
 
         <Route
           exact
-          path="/client/settings"
+          path="/client/settings/:userId"
           element={<CSettings />}
         />
         <Route
           exact
-          path="/client/settings-profile"
+          path="/client/settings-profile/:userId"
           element={<CSettingsProfile />}
         />
         <Route
           exact
-          path="/client/settings-bill"
+          path="/client/settings-bill/:userId"
           element={<CSettingsBill />}
         />
 
         <Route
           exact
-          path="/client/tracker"
+          path="/client/tracker/:userId"
           element={<CTracker />}
         />
         
         <Route
           exact
-          path="/client/billing"
+          path="/client/billing/:userId"
           element={<CBilling />}
         />
         <Route
           exact
-          path="/client/subscribe"
+          path="/client/subscribe/:userId"
           element={<CSubscribe />}
         />
         <Route
           exact
-          path="/client/service-connect"
+          path="/client/service-connect/:userId"
           element={<CConnect />}
         />
         <Route
           exact
-          path="/client/leaderboard"
+          path="/client/leaderboard/:userId"
           element={<CRank />}
         />
 

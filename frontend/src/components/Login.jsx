@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import UserContext from '../context/UserContext';
 
 import logo1 from '../assets/Icon1.png';
 
@@ -9,6 +10,8 @@ const Login = ({ open, onClose }) => {
   const [passWord, setPassword] = useState('');
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  const { login } = useContext(UserContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -23,15 +26,23 @@ const Login = ({ open, onClose }) => {
         console.log('User ID:', _id); // Log the user id
         console.log('Account Type:', accType); // Log the account type
         if (accType === 'CLIENT' || accType === 'Client' || accType === 'client') {
-          navigate(`/client/dashboard/${_id}`); // Redirect client to dashboard
+          login(_id);
+          navigate(`/client/dashboard/${_id}`);
         } else if (accType === 'FREELANCER' || accType === 'Freelancer' || accType === 'freelancer') {
-          navigate(`/freelancer/dashboard/${_id}`); // Redirect freelancer to dashboard
+          login(_id);
+          navigate(`/freelancer/dashboard/${_id}`); 
         }
       }
       // Here you can handle the successful login, such as setting user data in state or redirecting the user
     } catch (error) {
       console.error('Error logging in:', error.response.data.message);
       setError(error.response.data.message);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleLogin(e);
     }
   };
 
@@ -62,6 +73,7 @@ const Login = ({ open, onClose }) => {
                 id='userName'
                 value={eMail}
                 onChange={(e) => setEmail(e.target.value)}
+                onKeyPress={handleKeyPress}
                 placeholder='Enter Username'
               ></input>
             </div>
@@ -75,6 +87,7 @@ const Login = ({ open, onClose }) => {
                 id='password'
                 value={passWord}
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyPress={handleKeyPress}
                 placeholder='Enter password'
               ></input>
             </div>
@@ -103,7 +116,6 @@ const Login = ({ open, onClose }) => {
                 >
                   Sign up
                 </Link>
-                : null
               </span>
             </div>
           </div>

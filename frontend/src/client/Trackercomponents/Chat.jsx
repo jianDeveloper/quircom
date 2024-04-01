@@ -11,8 +11,7 @@ import {
 import { styled, alpha } from "@mui/material/styles";
 import { FaInbox, FaSearch, FaStar } from "react-icons/fa";
 import { ChatList } from "./Data";
-import { SimpleBarStyle } from "./Scrollbar.jsx";
-import SimpleBar from "simplebar-react";
+
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -64,7 +63,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 const ChatElement = ({ id, name, img, ticket, time, unread, online }) => {
   return (
     <Box
-      sx={{ width: "100%", borderRadius: 1, backgroundColor: "#FB6D3A" }}
+      sx={{ width:"full", borderRadius: 1, backgroundColor: "#FB6D3A" }}
       p={2}
     >
       <Stack
@@ -121,7 +120,7 @@ const Chat = () => {
             p: 2,
             backgroundColor: "#13334C",
             borderLeft: "5px solid #FD5F00",
-            boxShadow: "0px 2px 2px rgba(0,0,0,0.25)",
+            boxShadow: "2px 0 4px rgba(0,0,0,.25)",
           }}
         >
           <Stack p={1} spacing={2} sx={{ height: "90vh" }}>
@@ -143,50 +142,66 @@ const Chat = () => {
             <Divider sx={{ marginTop: "10px" }} />
             <Stack
               direction={"column"}
-              sx={{ flexGrow: 1, height: "100%",overflow:"auto",
-              scrollbarWidth: 'thin',
-              '&::-webkit-scrollbar': {
-                width: '0.1em',
-              },
-              '&::-webkit-scrollbar-track': {
-                background: "#f1f1f1",
-              },
-              '&::-webkit-scrollbar-thumb': {
-                backgroundColor: '#888',
-              },
-              '&::-webkit-scrollbar-thumb:hover': {
-                background: '#555'
-              }}}
+              sx={{
+                flexGrow: 1,
+                height: "100%",
+                overflow: "auto",
+                scrollbarWidth: "none",
+                "&::-webkit-scrollbar": {
+                  width: "0.1em",
+                  transition: "opacity 0.3s ease-in-out",
+                  borderRadius: "10px",
+                },
+                "&:hover::-webkit-scrollbar": {
+                  opacity: 1,
+                },
+                "&:not(:hover)::-webkit-scrollbar": {
+                  opacity: 0,
+                  transitionDelay: "0.3s",
+                },
+                "&::-webkit-scrollbar-track": {
+                  background: "#f1f1f1",
+                  borderRadius: "10px",
+                },
+                "&::-webkit-scrollbar-thumb": {
+                  backgroundColor: "#888",
+                  borderRadius: "10px",
+                },
+                "&::-webkit-scrollbar-thumb:hover": {
+                  background: "#555",
+                  borderRadius: "10px",
+                },
+              }}
             >
-                <Stack
-                  direction={"row"}
-                  alignItems={"center"}
-                  spacing={1}
-                  marginBottom={1}
-                >
-                  <Typography color="#E0E0E0">Favorites</Typography>
-                  <FaStar color="#FD5F00" />
-                </Stack>
-                <Stack spacing={2}>
-                  {ChatList.filter((el) => el.pinned).map((el) => {
-                    return <ChatElement {...el} />;
-                  })}
-                </Stack>
-                <Stack
-                  direction={"row"}
-                  alignItems={"center"}
-                  spacing={1}
-                  marginBottom={1}
-                  marginTop={2}
-                >
-                  <Typography color="#E0E0E0">Messages</Typography>
-                  <FaInbox color="#FD5F00" />
-                </Stack>
-                <Stack spacing={2}>
-                  {ChatList.filter((el) => !el.pinned).map((el) => {
-                    return <ChatElement {...el} />;
-                  })}
-                </Stack>
+              <Stack
+                direction={"row"}
+                alignItems={"center"}
+                spacing={1}
+                marginBottom={1}
+              >
+                <Typography color="#E0E0E0">Favorites</Typography>
+                <FaStar color="#FD5F00" />
+              </Stack>
+              <Stack spacing={2}>
+                {ChatList.filter((el) => el.pinned).map((el) => {
+                  return <ChatElement {...el} />;
+                })}
+              </Stack>
+              <Stack
+                direction={"row"}
+                alignItems={"center"}
+                spacing={1}
+                marginBottom={1}
+                marginTop={2}
+              >
+                <Typography color="#E0E0E0">Messages</Typography>
+                <FaInbox color="#FD5F00" />
+              </Stack>
+              <Stack spacing={2}>
+                {ChatList.filter((el) => !el.pinned).map((el) => {
+                  return <ChatElement {...el} />;
+                })}
+              </Stack>
             </Stack>
           </Stack>
         </Box>

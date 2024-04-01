@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardHeader, CardBody, CardFooter, Typography, Button } from '@material-tailwind/react';
+import { Card, CardHeader, CardBody, Typography, Button } from '@material-tailwind/react';
 import { Link } from 'react-router-dom';
 
 const CCards = ({ image, subtitle, title, author, button }) => {
