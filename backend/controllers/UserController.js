@@ -71,27 +71,34 @@ const CreateUser = async (req, res) => {
 
 const EditUser = async (req, res) => {
   try {
+
+    const { id } = req.params;
     const {body, file} = req;
-    const user = JSON.parse(body.user);
+    const user = JSON.parse(body.users);
 
     let userProfile = {};
 
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({message: "Invalid ID"});
+    }
+
     if (file) {
-        const { id, name } = await DriveService.UploadFiles(
+        const { id: fileID, name: fileName } = await DriveService.UploadFiles(
           file,
           process.env.FOLDER_ID
         );
         Object.assign(userProfile, {
-          id: id,
-          name: name,
-          link: `https://drive.google.com/thumbnail?id=${id}&sz=w1000`,
+          id: fileID,
+          name: fileName,
+          link: `https://drive.google.com/thumbnail?id=${fileID}&sz=w1000`,
         });
 
         await DriveService.DeleteFiles(user.profilePic.id);
       }
 
     const result = await UserModel.findByIdAndUpdate(
-      user._id,{
+       user._id,
+       {
         $set: {
           firstName: user.firstName,
           surName: user.surName,
@@ -105,13 +112,12 @@ const EditUser = async (req, res) => {
           profilePic: userProfile.hasOwnProperty("id") ? userProfile : user.profilePic,
         },
       }, 
-      {new: true}
+    {new: true}
     );
     res.status(201).json(result);
 
   } catch (err) {
-    res.send(err.message);
-    res.status(500).json("Internal Server Error")
+    res.status(404).json({message: err.message})
   }
 };
 
