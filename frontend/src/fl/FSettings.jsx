@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { Link } from 'react-router-dom';
 
 import NavHeader from './Header'
-import CFooter from './CFooter';
+import CFooter from './FFooter';
 
 function CSettings() {
 
