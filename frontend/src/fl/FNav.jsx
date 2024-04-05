@@ -16,7 +16,7 @@ import settingsL from '../assets/settings.png';
 /**
  * CNav component function
  */
-const CNav = () => {
+const FNav = () => {
   const [controller, setcontroller] = useState(false)
 
   return (
@@ -81,4 +81,4 @@ const CNav = () => {
   )
 }
 
-export default CNav
+export default FNav

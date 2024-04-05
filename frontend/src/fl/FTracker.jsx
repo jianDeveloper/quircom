@@ -1,8 +1,8 @@
 import React from 'react'
 
-import NavHeader from './CMainNav'
+import NavHeader from './FMainNav'
 
-function CTracker() {
+function FTracker() {
 
   return (
     <div className=''>
@@ -19,4 +19,4 @@ function CTracker() {
   )
 }
 
-export default CTracker
+export default FCTracker

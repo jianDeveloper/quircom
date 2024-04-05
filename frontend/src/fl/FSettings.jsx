@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 import { Link } from 'react-router-dom';
 
-import NavHeader from './Header'
-import CFooter from './FFooter';
+import NavHeader from './FHeader'
+import FFooter from './FFooter';
 
 function CSettings() {
 
@@ -99,10 +99,10 @@ function CSettings() {
       </div>
       <div className="">
       <hr class="mt-4 mb-4" />
-        <CFooter />
+        <FFooter />
       </div>
     </div>
   )
 }
 
-export default CSettings
+export default FSettings

@@ -2,8 +2,8 @@ import React, {useState} from 'react'
 import { Link } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import '../client/profile.css'
-import NavHeader from './Header'
-import CFooter from './CFooter';
+import NavHeader from './FHeader'
+import FFooter from './FFooter';
 
 function CSettingsProfile(props) {
   const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
@@ -102,10 +102,10 @@ function CSettingsProfile(props) {
       
       <div className="">
       <hr class="mt-4 mb-4" />
-        <CFooter />
+        <FFooter />
       </div>
     </div>
   )
 }
 
-export default CSettingsProfile
+export default FSettingsProfile

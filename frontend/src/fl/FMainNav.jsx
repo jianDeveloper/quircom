@@ -9,7 +9,7 @@ import logo1 from '../assets/Icon1.png';
 /**
  * CNav component function
  */
-const CMainNav = () => {
+const FMainNav = () => {
   const [nav, setNav] = useState(false);
   const [openLogin, setLogin] = useState(false);
   const [current, setActive] = useState(false);
@@ -53,4 +53,4 @@ const CMainNav = () => {
   )
 }
 
-export default CMainNav
+export default FMainNav

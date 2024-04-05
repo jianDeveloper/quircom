@@ -17,7 +17,7 @@ import UserContext from '../context/UserContext';
 import axios from 'axios';
 
 import Logo from "../assets/Icon1.png";
-import Logo2 from "../assets/clientnav.png";
+import Logo2 from "../assets/clientNav.png";
 import Dboard from "../assets/dboard.png";
 import Settings from "../assets/settings.png";
 import Service from "../assets/service.png";

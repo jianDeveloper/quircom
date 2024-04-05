@@ -1,13 +1,12 @@
 import React from 'react'
 
 import { 
-    FaDribbble, 
     FaFacebook, 
     FaGithub, FaInstagram, 
     FaTwitter 
 } from 'react-icons/fa';
 
-function CFooter() {
+function FFooter() {
   return (
     <div className='w-full mx-full py-8 px-4 grid lg:grid-cols-3 gap-8 text-gray-300 bg-[#163646]'>
     <div className='flex flex-col items-center'>
@@ -63,4 +62,4 @@ function CFooter() {
   )
 }
 
-export default CFooter
+export default FFooter

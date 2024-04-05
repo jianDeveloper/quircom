@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-import NavHeader from './CMainNav'
-import CFooter from './CFooter'
+import NavHeader from './FMainNav'
+import FFooter from './FFooter'
 
 import '../client/profile.css'
 
@@ -67,11 +67,11 @@ function CProfile() {
         </main>
       </div>
       <div className="flex">
-        <CFooter />
+        <FFooter />
       </div>
     </div>
   )
 }
 
-export default CProfile
+export default FProfile
 

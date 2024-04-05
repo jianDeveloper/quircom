@@ -1,7 +1,7 @@
 import React from 'react';
-import { Card, CardHeader, CardBody, CardFooter, Typography, Button } from '@material-tailwind/react';
+import { Card, CardHeader, CardBody, Typography, Button } from '@material-tailwind/react';
 
-const CCards = ({ image, subtitle, title, author, button }) => {
+const FCards = ({ image, subtitle, title, author, button }) => {
   return (
     <Card className="mt-6 w-[320px]">
       <CardHeader className="relative h-55">
@@ -25,4 +25,4 @@ const CCards = ({ image, subtitle, title, author, button }) => {
   );
 };
 
-export default CCards;
+export default FCards;

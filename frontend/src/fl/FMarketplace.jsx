@@ -1,13 +1,13 @@
 import React from 'react'
 
-import NavHeader from './CMainNav'
+import NavHeader from './FMainNav'
 
 import mpTop from '../assets/mpTop.jpg'
-import CCards from './CCards'
+import FCards from './FCards'
 import mpCard from '../assets/laptop.jpg'
-import CFooter from './CFooter'
+import FFooter from './FFooter'
 
-const CMarketplace = () => {
+const FMarketplace = () => {
   const data = [
     { image: mpCard, subtitle:'Logo Design', title:'The Firepit', author:'by Naruto', button:'Connect'  },
     { image: mpCard, subtitle:'Logo Design', title:'The Firepit', author:'by Naruto', button:'Connect'  },
@@ -45,16 +45,16 @@ const CMarketplace = () => {
           </div>
           <div className=' h-[43vh] overflow-scroll grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
             {data.map((item, index) => (
-              <CCards key={index} image={item.image} subtitle={item.subtitle} title={item.title} author={item.author}  button={item.button}/>
+              <FCards key={index} image={item.image} subtitle={item.subtitle} title={item.title} author={item.author}  button={item.button}/>
             ))}
           </div>
         </div>
       </div>
       <div className="">
-        <CFooter />
+        <FFooter />
       </div>
     </div>
   )
 }
 
-export default CMarketplace
+export default FMarketplace
