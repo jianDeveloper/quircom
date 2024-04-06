@@ -43,34 +43,20 @@ function CDashboard() {
           </div>
 
           {/*fixing headbox on dashboard -j*/}
-          <div className='grid grid-cols-2 gap-[20px] my-[15px] lg:grid-cols-4 '>
+          <div className='grid grid-cols-2 gap-[20px] my-[15px]'>
             <div className='card'>
               <div className='card-inner'>
-                <h3 className='font-bold text-[#1D5B79]'>SERVICES</h3>
+                <h3 className='font-bold text-[#1D5B79]'>On-Going Projects</h3>
                 <BsFillArchiveFill className='card_icon' />
               </div>
               <h1 className='font-medium text-[#1D5B79]'>300</h1>
             </div>
             <div className='card'>
               <div className='card-inner'>
-                <h3 className='font-bold text-[#1D5B79]'>TASK</h3>
-                <BsFillGrid3X3GapFill className='card_icon' />
-              </div>
-              <h1 className='font-medium text-[#1D5B79]'>12</h1>
-            </div>
-            <div className='card'>
-              <div className='card-inner'>
-                <h3 className='font-bold text-[#1D5B79]'>FREELANCERS</h3>
+                <h3 className='font-bold text-[#1D5B79]'>Completed Projects</h3>
                 <BsPeopleFill className='card_icon' />
               </div>
               <h1 className='font-medium text-[#1D5B79]'>33</h1>
-            </div>
-            <div className='card'>
-              <div className='card-inner'>
-                <h3 className='font-bold text-[#1D5B79]'>NOTIFICATION</h3>
-                <BsFillBellFill className='card_icon' />
-              </div>
-              <h1 className='font-medium text-[#1D5B79]'>42</h1>
             </div>
           </div>
           <div className='grid grid-cols-1 gap-[20px] my-[15px] md:grid-cols-3'>
