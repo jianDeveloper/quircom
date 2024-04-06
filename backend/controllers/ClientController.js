@@ -31,7 +31,7 @@ const GetSpecificUser = async (req, res) => {
 const CreateUser = async (req, res) => {
   try{
     const {body, file} = req;
-    const user = JSON.parse(body.user);
+    const user = JSON.parse(body.client);
 
     let userProfile = {};
 
@@ -74,7 +74,7 @@ const EditUser = async (req, res) => {
 
     const { id } = req.params;
     const {body, file} = req;
-    const user = JSON.parse(body.users);
+    const user = JSON.parse(body.client);
 
     let userProfile = {};
 

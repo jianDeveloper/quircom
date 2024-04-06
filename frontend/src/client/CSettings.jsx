@@ -1,12 +1,20 @@
+<<<<<<< Updated upstream
+import React from 'react'
+=======
 import { useState, useEffect, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import UserContext from '../context/UserContext';
+import phil from 'phil-reg-prov-mun-brgy'
 
-import avatar from '../assets/avatar.png';
+const baseURL = import.meta.env.VITE_BASEURL;
 
-import CFooter from './CFooter';
-import CMainNav from './CMainNav';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+>>>>>>> Stashed changes
+
+import Header from './Header'
+import CNav from './CNav'
 
 function CSettings() {
 
@@ -34,9 +42,94 @@ function CSettings() {
   }, []);
 
 
+<<<<<<< Updated upstream
   return (
     <div className=''>
       <CMainNav />
+      <div className='flex'>
+      <CNav />
+      <main className='flex-inline mx-10 my-10 w-[100%]'>
+        <h1 className='font-extrabold text-[30px] text-[#1D5B79]'>Settings</h1>   
+      </main>
+=======
+  const [ userData, setUsers] = useState({});
+  const { userId } = useParams();
+  const { userIdLink } = useContext(UserContext);
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    surName: '',
+    userName: '',
+    eMail: '',
+    passWord: '',
+    contactNum: '',
+    region: '', 
+    province: '',
+    city: '',
+    accType: '',
+    aggRee: false,
+  });
+
+  const [profilePic, setProfile] = useState()
+
+  const handleImage = (e) => {
+    setProfile(e.target.files[0]);
+  }
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get(`${baseURL}/api/users/${userId}`);
+        if (response.status === 200) {
+          setUsers(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+
+    fetchUsers();
+  }, [userId]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+
+    if (!profilePic) {
+      toast.error('Please select a profile picture');
+      return;
+    }
+  
+    try {
+
+      const formObj = new FormData();
+      formObj.append('users', JSON.stringify(userData));
+      formObj.append('file', profilePic);
+
+      const response = await axios.patch(`${baseURL}/api/users/update/${userId}`, formObj, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      if (response && response.data) {
+        console.log(response.data);
+        toast.success('Profile picture uploaded successfully');
+      } else {
+        console.log('Response data not available');
+        toast.error('Failed to upload profile picture');
+      }
+      
+      toast.success('upload pic');
+    } catch (error) {
+      console.error('Error during patch ', error.response);
+      console.log(error.message)
+      toast.error('Failed to upload profile picture');
+    }
+  };
+
+  return (
+    <div className=''>
+      <CMainNav />
+      <ToastContainer />
       <div className='flex'>
         <div className="mx-4 min-h-screen max-w-screen-xl sm:mx-8 xl:mx-auto">
           <h1 className="border-b py-6 text-4xl font-extrabold text-[30px] text-[#1D5B79]">SETTINGS</h1>
@@ -84,12 +177,21 @@ function CSettings() {
                     <img className="profilePicture" src={avatar} alt="Profile Picture"/> // Render a default avatar if profilePic is not available
                   )}
                 </div>
-                <p className="font- text-slate-600">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                <div className="my-4">
+                  <input type="file" name="profilePic" id="profilePic" onChange={handleImage} />
+                  <button onClick={handleSubmit} className="ml-2 rounded bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4">
+                    Upload New Profile Picture
+                  </button>
+                </div>
+                {/* <p className="font- text-slate-600">{userData.userName}</p> */}
+                {/* <p className="font- text-slate-600">{userData.firstName} {userData.surName}</p> */}
+                {/* <p className="font- text-slate-600">{phil.regions.find(region => region.reg_code === user.region)?.name}</p> */}
+                {/* <p className="font- text-slate-600">{userData.contactNum}</p> */}
               </div>
               <hr className="mt-4 mb-8" />
               <p className="py-2 text-xl font-semibold">Email Address</p>
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-gray-600">Your email address is <strong>john.doe@company.com</strong></p>
+                <p className="text-gray-600">Your email address is <strong>{userData.eMail}</strong></p>
                 <button className="inline-flex text-sm font-semibold text-blue-600 underline decoration-2">Change</button>
               </div>
               <hr className="mt-4 mb-8" />
@@ -131,6 +233,11 @@ function CSettings() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="">
+      <hr className="mt-4 mb-4" />
+        <CFooter />
+>>>>>>> Stashed changes
       </div>
       <div className="">
       <hr className="mt-4 mb-4" />
