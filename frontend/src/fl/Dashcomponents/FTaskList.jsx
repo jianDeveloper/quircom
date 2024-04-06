@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TaskList = () => {
+const FTaskList = () => {
   return (
     <div class="flex flex-col mt-6">
             <div>
@@ -268,4 +268,4 @@ const TaskList = () => {
   )
 }
 
-export default TaskList
+export default FTaskList

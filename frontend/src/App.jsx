@@ -5,10 +5,6 @@ import Hero from './components/Hero.jsx';
 import Trial from './components/sample.jsx';
 import Reg from './components/Reg.jsx';
 import Footer from './components/Footer.jsx';
-import Stats from './components/Stats.jsx';
-import Services from './components/Services.jsx';
-import Newsletter from './components/Newsletter.jsx';
-import Subscription from './components/Subscription.jsx';
 import Terms from './components/Terms.jsx';
 import CDashboard from './client/CDashboard.jsx';
 import CMarketplace from './client/CMarketplace.jsx';
@@ -23,6 +19,14 @@ import CSubscribe from './client/CSubscribe.jsx';
 import CConnect from './client/Marketcomponents/CConnect.jsx';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+// import FDashboard from './fl/FDashboard.jsx';
+// import FProfile from './fl/FProfile.jsx';
+// import FMarketplace from './fl/FMarketplace.jsx';
+// import FSettings from './fl/FSettings.jsx';
+// import FSettingsProfile from './fl/FSettingsProfile.jsx';
+// import FTracker from './fl/FTracker.jsx';
+// import FUpload from './fl/FUpload.jsx';
+// import FConnect from './fl/FConnect.jsx';
 
 function App() {
   return (
@@ -130,6 +134,53 @@ function App() {
           element={<CRank />}
         />
 
+        {/* <Route
+          exact
+          path="/freelancer/dashboard/:userId" // Adding :userId parameter
+          element={<FDashboard />} // Rendering CDashboard component
+        /> */}
+{/* 
+        <Route
+          exact
+          path="/freelancer/profile/:userId"
+          element={<FProfile />}
+        /> */}
+
+        {/* <Route
+          exact
+          path="/freelancer/browse-service/:userId"
+          element={<FMarketplace />}
+        />
+
+        <Route
+          exact
+          path="/freelancer/settings/:userId"
+          element={<FSettings />}
+        />
+        <Route
+          exact
+          path="/freelancer/settings-profile/:userId"
+          element={<FSettingsProfile />}
+        /> */}
+
+        {/* <Route
+          exact
+          path="/freelancer/tracker/:userId"
+          element={<FTracker />}
+        />
+
+        <Route
+          exact
+          path="/freelancer/service-connect/:userId"
+          element={<FConnect />}
+        />
+
+        <Route
+          exact
+          path="/freelancer/service-upload/:userId"
+          element={<FUpload />}
+        /> */}
+       
       </Routes>
       
     </div>

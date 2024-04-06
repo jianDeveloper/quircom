@@ -32,7 +32,7 @@ const FNav = () => {
           <img src= {logoHead} className={`${!controller && 'scale-0'} h-[70px] ml-[-15px] duration-300`}/> 
         </div>
         <div className={`flex flex-col ${!controller && 'items-center'} justify-between my-10 py-4 rounded-xl bg-[#F5F5DC] h-full w-full `}>
-        <Link to="/client/profile">
+        <Link to="/freelancer/profile">
             <div className={`text-[#163646] ${!controller && 'px-2 py-2 my-2 hover:rotate-[360deg] duration-500'} p-4 font-medium flex items-center gap-x-4 cursor-pointer hover:bg-blue-200 rounded-md`}>
               <img src={userL} className={`h-6 w-6`} />
               <span className={`${!controller && 'hidden'} origin-left duration-200`}>Profile</span>
@@ -40,7 +40,7 @@ const FNav = () => {
           </Link>
           
           <ul className='flex flex-col justify-between gap-y-6'>      
-          <Link to="/client/dashboard">
+          <Link to="/freelancer/dashboard">
             <li className={`text-[#163646] ${!controller && 'px-2 py-2 my-2 hover:rotate-[360deg] duration-500'} p-4 font-medium flex items-center gap-x-4 cursor-pointer hover:bg-blue-200 rounded-md`}>
               <img src={dboardL} className='h-6 w-6' />
               <span className={`${!controller && 'hidden'} origin-left duration-200`}>Dashboard</span>
