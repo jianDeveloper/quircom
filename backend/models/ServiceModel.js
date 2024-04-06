@@ -37,7 +37,8 @@ const ServiceSchema = new Schema({
     ref: 'freelancer'
   },
   dateUploaded : {
-    type: new Date()
+    type: Date,
+    default: Date.now
   },
 });
 
