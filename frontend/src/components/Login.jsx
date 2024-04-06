@@ -6,7 +6,7 @@ import UserContext from '../context/UserContext';
 import logo1 from '../assets/Icon1.png';
 
 const Login = ({ open, onClose }) => {
-  const [eMail, setEmail] = useState('');
+  const [userName, setUserName] = useState('');
   const [passWord, setPassword] = useState('');
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -19,11 +19,11 @@ const Login = ({ open, onClose }) => {
       // Make requests to fetch user data from both client and freelancer collections
       const [clientResponse, freelancerResponse] = await Promise.all([
         axios.post('https://quircom.onrender.com/api/login/client', {
-          eMail,
+          userName,
           passWord,
         }),
         axios.post('https://quircom.onrender.com/api/login/freelancer', {
-          eMail,
+          userName,
           passWord,
         })
       ]);
@@ -35,7 +35,9 @@ const Login = ({ open, onClose }) => {
       } else if (freelancerResponse.status === 200) {
         userData = freelancerResponse.data.user;
       }
-  
+      
+      console.log(userData)
+      console.log(user);
       if (userData) {
         const { _id, accType } = userData; // Destructure user data
         console.log('User ID:', _id); // Log the user id
@@ -54,9 +56,11 @@ const Login = ({ open, onClose }) => {
       // Here you can handle the successful login, such as setting user data in state or redirecting the user
     } catch (error) {
       console.error('Error logging in:', error.response.data.message);
+      console.log(error)
       setError(error.response.data.message);
     }
   };
+  
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -89,8 +93,8 @@ const Login = ({ open, onClose }) => {
                 className='block mt-[5px] w-[100%] px-[20px] py-[10px] outline-none rounded-[20px] bg-[#163646] text-white'
                 type='text'
                 id='userName'
-                value={eMail}
-                onChange={(e) => setEmail(e.target.value)}
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder='Enter Username'
               ></input>

@@ -30,12 +30,15 @@ const Reg = () => {
     fetchUsers();
   }, []);
 
-  const deleteUser = async (userId) => {
+  const deleteUser = async (user) => {
     try {
-      const response = await axios.delete(`https://quircom.onrender.com/api/client/delete/${userId}`);
+      // Determine the collection based on the user's account type
+      const collection = user.accType === 'client' ? 'client' : 'freelancer';
+  
+      const response = await axios.delete(`https://quircom.onrender.com/api/${collection}/delete/${user._id}`);
       if (response.status === 200) {
-        // Optionally, filter out the deleted user from the local state to update the UI immediately
-        setUsers(users.filter(user => user._id !== userId));
+        // Filter out the deleted user from the local state to update the UI immediately
+        setUsers(users.filter(u => u._id !== user._id));
         console.log("User deleted successfully");
       }
     } catch (error) {
@@ -84,7 +87,7 @@ const Reg = () => {
             {user.hasOwnProperty("profilePic") ? <img src={user.profilePic.link} alt="" className='w-[200px]'/> : <img src={avatar}/>} {/* If Else */}
             {user.hasOwnProperty("profilePic") && (<img src={user.profilePic.link} alt="" className='w-[200px]'/>)} {/* Display if has */}
 
-            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => deleteUser(user._id)}>
+            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => deleteUser(user)}>
               Delete
             </button>
           </div>
