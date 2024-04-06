@@ -123,7 +123,7 @@ const Reg = () => {
     }
   
     try {
-      const response = await axios.post(`https://quircom.onrender.com/api/validate`, {
+      const response = await axios.post(`https://quircom.onrender.com/api/auth/validate`, {
         userName: formData.userName,
         eMail: formData.eMail,
         contactNum: formData.contactNum,
