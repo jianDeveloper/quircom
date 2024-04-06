@@ -123,7 +123,7 @@ const Reg = () => {
     }
   
     try {
-      const response = await axios.post(`${baseURL}/api/users/validate`, {
+      const response = await axios.post(`https://quircom.onrender.com/api/validate`, {
         userName: formData.userName,
         eMail: formData.eMail,
         contactNum: formData.contactNum,
@@ -154,12 +154,17 @@ const Reg = () => {
   
     try {
       console.log(formData);
-
+  
+      // Create a FormData object
       var formObject = new FormData();
-      formObject.append('user', JSON.stringify(formData));
-      formObject.append('file', profilePic)
-
-      const response = await axios.post(`${baseURL}/api/users/upload`, formObject, {
+      formObject.append('file', profilePic); // Append profile picture
+  
+      // Check the accType to determine the endpoint
+      const endpoint = formData.accType === 'client' ? 'client' : 'freelancer';
+      formObject.append(endpoint, JSON.stringify(formData)); // Append form data
+  
+      // Send POST request to the appropriate endpoint
+      const response = await axios.post(`https://quircom.onrender.com/api/${endpoint}/upload`, formObject, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -385,7 +390,7 @@ const Reg = () => {
                 </div>
               </div>
 
-              {/* <div className="flex flex-col md:flex-row md:justify-center -mx-3">
+              <div className="flex flex-col md:flex-row md:justify-center -mx-3">
                 <div className="w-full md:w-1/2 px-3 mb-4">
                   <label htmlFor="Pic" className="block text-[#1D5B79] text-sm font-bold mb-2">
                     Upload Profile Pic
@@ -400,7 +405,7 @@ const Reg = () => {
                     placeholder="Pic"
                   />
                 </div>
-              </div> */}
+              </div>
 
               <div className="m-6">
                 <div className="flex items-center justify-center">

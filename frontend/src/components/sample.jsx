@@ -14,7 +14,7 @@ const Reg = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`${BASE_URI}/api/client`);
+        const response = await axios.get(`https://quircom.onrender.com/api/client`);
         if (response.status === 200) {
           setUsers(response.data);
         }
