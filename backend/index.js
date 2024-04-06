@@ -6,7 +6,6 @@ const ConnectDB = require("./config/Database");
 const ClientRoutes = require("./routes/ClientRoutes");
 const FreelancerRoutes = require("./routes/FreelancerRoutes");
 const ValidateUser = require("./routes/ValidateRoute")
-const UserLogin = require("./routes/UserLogin");
 const Services = require("./routes/ServiceRoutes");
 
 const app = express();
@@ -38,8 +37,7 @@ app.use((req, res, next) => {
 
 app.use('/api/client', ClientRoutes)
 app.use('/api/freelancer', FreelancerRoutes)
-app.use('/api', ValidateUser)
-app.use('/api/login', UserLogin)
+app.use('/api/auth', ValidateUser)
 app.use('/api/service', Services)
 
 app.listen(process.env.PORT, () =>
