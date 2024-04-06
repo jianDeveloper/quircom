@@ -49,44 +49,44 @@ function CDashboard() {
                 <h3 className='font-bold text-[#1D5B79]'>SERVICES</h3>
                 <BsFillArchiveFill className='card_icon' />
               </div>
-              <h1 className='font-medium'>300</h1>
+              <h1 className='font-medium text-[#1D5B79]'>300</h1>
             </div>
             <div className='card'>
               <div className='card-inner'>
                 <h3 className='font-bold text-[#1D5B79]'>TASK</h3>
                 <BsFillGrid3X3GapFill className='card_icon' />
               </div>
-              <h1 className='font-medium'>12</h1>
+              <h1 className='font-medium text-[#1D5B79]'>12</h1>
             </div>
             <div className='card'>
               <div className='card-inner'>
                 <h3 className='font-bold text-[#1D5B79]'>FREELANCERS</h3>
                 <BsPeopleFill className='card_icon' />
               </div>
-              <h1 className='font-medium'>33</h1>
+              <h1 className='font-medium text-[#1D5B79]'>33</h1>
             </div>
             <div className='card'>
               <div className='card-inner'>
                 <h3 className='font-bold text-[#1D5B79]'>NOTIFICATION</h3>
                 <BsFillBellFill className='card_icon' />
               </div>
-              <h1 className='font-medium'>42</h1>
+              <h1 className='font-medium text-[#1D5B79]'>42</h1>
             </div>
           </div>
           <div className='grid grid-cols-1 gap-[20px] my-[15px] md:grid-cols-3'>
-            <div className='flex flex-col justify-around rounded-lg' style={{ background: `url(${BGmark})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
+            <div className='flex flex-col justify-around rounded-lg ' style={{ background: `url(${BGmark})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
               <div className='flex justify-center items-center py-14'>
-                <h3 className='font-extrabold text-xl text-white'>Marketplace</h3>
+                <h3 className='font-extrabold text-xl text-orange-600'>Marketplace</h3>
               </div>
             </div>
             <div className='flex flex-col justify-around rounded-lg' style={{ background: `url(${BGtrack})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
               <div className='flex justify-center items-center py-14'>
-                <h3 className='font-extrabold text-xl text-white'>Progress Tracker</h3>
+                <h3 className='font-extrabold text-xl text-orange-600'>Progress Tracker</h3>
               </div>
             </div>
             <div className='flex flex-col justify-around rounded-lg' style={{ background: `url(${BGsubs})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
               <div className='flex justify-center items-center py-14'>
-                <h3 className='font-extrabold text-xl text-white'>Subscription</h3>
+                <h3 className='font-extrabold text-xl text-orange-600'>Subscription</h3>
               </div>
             </div>
           </div>
