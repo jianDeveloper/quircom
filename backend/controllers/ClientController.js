@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const UserModel = require("../models/UserModel");
+const UserModel = require("../models/ClientModel");
 const DriveService = require("../utils/DriveService");
 
 const GetAllUsers = async (req, res) => {
