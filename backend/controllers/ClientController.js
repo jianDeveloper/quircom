@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
-<<<<<<< Updated upstream:backend/controllers/UserController.js
 const UserModel = require("../models/UserModel");
-=======
-const UserModel = require("../models/ClientModel");
 const DriveService = require("../utils/DriveService");
->>>>>>> Stashed changes:backend/controllers/ClientController.js
 
 const GetAllUsers = async (req, res) => {
   try {
@@ -33,27 +29,16 @@ const GetSpecificUser = async (req, res) => {
 };
 
 const CreateUser = async (req, res) => {
-<<<<<<< Updated upstream:backend/controllers/UserController.js
-  try {
-    const data = req.body;
-=======
   try{
     const {body, file} = req;
     const user = JSON.parse(body.client);
->>>>>>> Stashed changes:backend/controllers/ClientController.js
 
-    const result = await UserModel.create({ ...data });
+    let userProfile = {};
 
-<<<<<<< Updated upstream:backend/controllers/UserController.js
-    res.status(200).json(result);
-  } catch (err) {
-    res.send(err.message);
-  }
-=======
     if (file) {
         const { id, name } = await DriveService.UploadFiles(
           file,
-          process.env.FOLDER_ID_MESSAGE
+          process.env.FOLDER_ID
         );
         Object.assign(userProfile, {
           id: id,
@@ -82,38 +67,57 @@ const CreateUser = async (req, res) => {
     }catch(err){
         res.status(404).json({message: err.message});
     }
->>>>>>> Stashed changes:backend/controllers/ClientController.js
 };
 
 const EditUser = async (req, res) => {
   try {
+
     const { id } = req.params;
-<<<<<<< Updated upstream:backend/controllers/UserController.js
-    const data = req.body;
-=======
     const {body, file} = req;
     const user = JSON.parse(body.client);
 
     let userProfile = {};
->>>>>>> Stashed changes:backend/controllers/ClientController.js
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      res.status(400).json("No such user");
+      return res.status(400).json({message: "Invalid ID"});
     }
 
-    const result = await UserModel.findByIdAndUpdate(
-      id,
-      {
-        $set: {
-          ...data,
-        },
-      },
-      { new: true }
-    );
+    if (file) {
+        const { id: fileID, name: fileName } = await DriveService.UploadFiles(
+          file,
+          process.env.FOLDER_ID
+        );
+        Object.assign(userProfile, {
+          id: fileID,
+          name: fileName,
+          link: `https://drive.google.com/thumbnail?id=${fileID}&sz=w1000`,
+        });
 
-    res.status(200).json(result);
+        await DriveService.DeleteFiles(user.profilePic.id);
+      }
+
+    const result = await UserModel.findByIdAndUpdate(
+       user._id,
+       {
+        $set: {
+          firstName: user.firstName,
+          surName: user.surName,
+          userName: user.userName,
+          eMail: user.eMail,
+          passWord: user.passWord,
+          contactNum: user.contactNum,
+          region: user.region,
+          province: user.province,
+          city: user.city,
+          profilePic: userProfile.hasOwnProperty("id") ? userProfile : user.profilePic,
+        },
+      }, 
+    {new: true}
+    );
+    res.status(201).json(result);
+
   } catch (err) {
-    res.send(err.message);
+    res.status(404).json({message: err.message})
   }
 };
 
@@ -133,10 +137,34 @@ const DeleteUser = async (req, res) => {
   }
 };
 
+const ValidateUserData = async (req, res) => {
+  try {
+    const { userName, eMail, contactNum } = req.body;
+
+    // Perform database query to check if the provided username, email, and contact number already exist
+    // You'll need to implement this query based on your database model
+    const userNameExists = await UserModel.exists({ userName });
+    const eMailExists = await UserModel.exists({ eMail });
+    const contactNumExists = await UserModel.exists({ contactNum });
+
+    // Send response indicating whether each field exists or not
+    res.status(200).json({
+      exists: true,
+      userNameExists,
+      eMailExists,
+      contactNumExists,
+    });
+  } catch (error) {
+    console.error('Error validating user data:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 module.exports = {
   GetAllUsers,
   GetSpecificUser,
   CreateUser,
   EditUser,
   DeleteUser,
+  ValidateUserData
 };

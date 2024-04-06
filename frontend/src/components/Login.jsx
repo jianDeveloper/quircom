@@ -17,11 +17,6 @@ const Login = ({ open, onClose }) => {
         eMail,
         passWord,
       });
-<<<<<<< Updated upstream
-      console.log('Login successful:', response.data);
-      if(response.status === 200){
-        navigate('/client/dashboard')
-=======
       console.log('Login response:', response.data); // Log the response data
       if (response.status === 200) {
         const { _id, accType } = response.data.user; // Destructure user data
@@ -34,7 +29,6 @@ const Login = ({ open, onClose }) => {
           login(_id);
           navigate(`/freelancer/dashboard/${_id}`); 
         }
->>>>>>> Stashed changes
       }
       // Here you can handle the successful login, such as setting user data in state or redirecting the user
     } catch (error) {

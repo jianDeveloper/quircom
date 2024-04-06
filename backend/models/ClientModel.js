@@ -30,30 +30,27 @@ const ClientSchema = new Schema({
   passWord: {
     type: String,
     default: "",
-    index: true,
     required: true,
   },
   contactNum: {
     type: Number,
     default: "",
+    index: true,
     required: true,
   },
   region: {
     type: String,
     default: "",
-    index: true,
     required: true,
   },
   province: {
     type: String,
     default: "",
-    index: true,
     required: true,
   },
   city: {
     type: String,
     default: "",
-    index: true,
     required: true,
   },
   accType: {
@@ -64,10 +61,18 @@ const ClientSchema = new Schema({
   },
   aggRee:{
     type: Boolean,
-    default: "",
-    index: true,
+    default: false,
     required: true,
   },
+  profilePic: {
+    id: {type: String},
+    name: {type: String},
+    link: {type: String}
+  },
+  subs:{
+    type: Boolean,
+    default: false,
+  }
 });
 
 module.exports = mongoose.model("client", ClientSchema);

@@ -4,6 +4,7 @@ const cors = require('cors');
 const ConnectDB = require("./config/Database");
 
 const ClientRoutes = require("./routes/ClientRoutes");
+const FreelancerRoutes = require("./routes/FreelancerRoutes");
 const ValidateUser = require("./routes/ValidateRoute")
 const UserLogin = require("./routes/UserLogin");
 
@@ -35,6 +36,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/client', ClientRoutes)
+app.use('/api/freelancer', FreelancerRoutes)
 app.use('/api', ValidateUser)
 app.use('/api/login', UserLogin)
 
