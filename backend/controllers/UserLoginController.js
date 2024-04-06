@@ -1,45 +1,51 @@
 const mongoose = require("mongoose");
-const Client = require('../models/ClientModel');
-const Freelancer = require('../models/FreelancerModel');
+const FreelancerModel = require("../models/FreelancerModel");
+const ClientModel = require("../models/ClientModel");
 
-// Function to handle user login
 const LoginUser = async (req, res) => {
-    try {
-      const { userName, passWord } = req.body;
-  
-      // Check if the user exists in the freelancer collection
-      let user = await Freelancer.findOne({ userName, passWord });
-      let accType = 'freelancer';
-  
-      // If not found in freelancer collection, check client collection
-      if (!user) {
-        user = await Client.findOne({ userName, passWord });
-        accType = 'client';
-      }
-  
-      // If user not found in either collection, return error
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-  
-      // User found, return user data along with accType and _id
-      res.status(200).json({
+  try {
+    const { userName, passWord } = req.body;
+
+    // Perform parallel database queries to check for existing data in both collections
+    const userChecks = await Promise.all([
+      FreelancerModel.findOne({ userName, passWord }),
+      ClientModel.findOne({ userName, passWord })
+    ]);
+
+    // Extract user data from the checks
+    const freelancerUser = userChecks[0];
+    const clientUser = userChecks[1];
+
+    // If user is found in freelancer collection
+    if (freelancerUser) {
+      return res.status(200).json({
         message: 'Login successful',
         user: {
-          _id: user._id,
-          accType
+          _id: freelancerUser._id,
+          accType: 'freelancer'
         }
       });
-    } catch (error) {
-      console.error('Error logging in:', error);
-      res.status(500).json({ message: 'Internal server error' });
     }
-  };
 
-// Function to handle user logout (if needed)
-// const logoutUser = async (req, res) => {
-//     // Perform any logout actions if necessary
-//     res.status(200).json({ message: 'Logout successful' });
-// };
+    // If user is found in client collection
+    if (clientUser) {
+      return res.status(200).json({
+        message: 'Login successful',
+        user: {
+          _id: clientUser._id,
+          accType: 'client'
+        }
+      });
+    }
 
-module.exports = { LoginUser };
+    // If user is not found in either collection, return error
+    res.status(404).json({ message: 'User not found' });
+  } catch (error) {
+    console.error('Error logging in:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+module.exports = {
+  LoginUser
+};
