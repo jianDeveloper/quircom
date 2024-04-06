@@ -13,53 +13,46 @@ const Login = ({ open, onClose }) => {
 
   const { login } = useContext(UserContext);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleLogin = async (req, res) => {
+    const { userName, passWord } = req.body;
+  
     try {
-      // Make requests to fetch user data from both client and freelancer collections
-      const [clientResponse, freelancerResponse] = await Promise.all([
-        axios.post('https://quircom.onrender.com/api/login/client', {
-          userName,
-          passWord,
-        }),
-        axios.post('https://quircom.onrender.com/api/login/freelancer', {
-          userName,
-          passWord,
-        })
-      ]);
+      // Attempt to find user in the client collection
+      const clientUser = await Client.findOne({ userName, passWord });
   
-      let userData = null;
+      // If user not found in client collection, attempt to find user in freelancer collection
+      if (!clientUser) {
+        const freelancerUser = await Freelancer.findOne({ userName, passWord });
   
-      if (clientResponse.status === 200) {
-        userData = clientResponse.data.user;
-      } else if (freelancerResponse.status === 200) {
-        userData = freelancerResponse.data.user;
-      }
-      
-      console.log(userData)
-      console.log(user);
-      if (userData) {
-        const { _id, accType } = userData; // Destructure user data
-        console.log('User ID:', _id); // Log the user id
-        console.log('Account Type:', accType); // Log the account type
-        if (accType === 'client') {
-          login(_id);
-          navigate(`/client/dashboard/${_id}`);
-        } else if (accType === 'freelancer') {
-          login(_id);
-          navigate(`/freelancer/dashboard/${_id}`); 
+        // If user found in freelancer collection, return freelancer user data
+        if (freelancerUser) {
+          return res.status(200).json({
+            message: 'Login successful',
+            user: {
+              _id: freelancerUser._id,
+              accType: freelancerUser.accType,
+            },
+          });
         }
       } else {
-        console.error('Invalid email or password');
-        setError('Invalid email or password');
+        // If user found in client collection, return client user data
+        return res.status(200).json({
+          message: 'Login successful',
+          user: {
+            _id: clientUser._id,
+            accType: clientUser.accType,
+          },
+        });
       }
-      // Here you can handle the successful login, such as setting user data in state or redirecting the user
+  
+      // If user not found in both collections, return error
+      return res.status(404).json({ message: 'User not found' });
     } catch (error) {
-      console.error('Error logging in:', error.response.data.message);
-      console.log(error)
-      setError(error.response.data.message);
+      console.error('Error logging in:', error);
+      res.status(500).json({ message: 'Internal server error' });
     }
   };
+  
   
 
   const handleKeyPress = (e) => {
