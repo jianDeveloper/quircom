@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema({
+const ClientSchema = new Schema({
   firstName: {
     type: String,
     default: "",
@@ -36,7 +36,6 @@ const UserSchema = new Schema({
   contactNum: {
     type: Number,
     default: "",
-    index: true,
     required: true,
   },
   region: {
@@ -71,4 +70,4 @@ const UserSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("users", UserSchema);
+module.exports = mongoose.model("client", ClientSchema);

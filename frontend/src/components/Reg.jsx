@@ -123,9 +123,50 @@ const Reg = () => {
     }
 
     try {
+<<<<<<< Updated upstream
       const response = await axios.post(`${baseURL}/api/users`, formData);
       console.log(response.data);
       // Handle success (e.g., showing a success message or redirecting the user)
+=======
+      console.log(formData);
+
+      var formObject = new FormData();
+      formObject.append('user', JSON.stringify(formData));
+      formObject.append('file', profilePic)
+
+      if(accType == 'client'){
+        const response = await axios.post(`${baseURL}/api/users/upload`, formObject, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        console.log(response.data);
+      }
+      
+
+      setRegionCode(''); // Reset region dropdown
+      setFilteredProvinces([]); // Reset filtered provinces dropdown
+      setProvinceCode(''); // Reset province dropdown
+      setFilteredCity([]); // Reset filtered city dropdown
+      setCityCode('');
+
+      setFormData({
+        firstName: '',
+        surName: '',
+        userName: '',
+        eMail: '',
+        passWord: '',
+        contactNum: '',
+        region: '',
+        province: '',
+        city: '',
+        accType: '',
+        aggRee: false,
+      });
+      formRef.current.reset();
+      
+      toast.success('Registration successful!');
+>>>>>>> Stashed changes
     } catch (error) {
       console.error("Error during registration: ", error.response);
       // Handle error (e.g., showing an error message)

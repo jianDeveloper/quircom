@@ -13,13 +13,28 @@ const Login = ({ open, onClose }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8800/api/auth/login', {
+      const response = await axios.post('http://localhost:8800/api/login/client', {
         eMail,
         passWord,
       });
+<<<<<<< Updated upstream
       console.log('Login successful:', response.data);
       if(response.status === 200){
         navigate('/client/dashboard')
+=======
+      console.log('Login response:', response.data); // Log the response data
+      if (response.status === 200) {
+        const { _id, accType } = response.data.user; // Destructure user data
+        console.log('User ID:', _id); // Log the user id
+        console.log('Account Type:', accType); // Log the account type
+        if ( accType === 'Client' ) {
+          login(_id);
+          navigate(`/client/dashboard/${_id}`);
+        } else if ( accType === 'Freelancer' ) {
+          login(_id);
+          navigate(`/freelancer/dashboard/${_id}`); 
+        }
+>>>>>>> Stashed changes
       }
       // Here you can handle the successful login, such as setting user data in state or redirecting the user
     } catch (error) {

@@ -7,7 +7,12 @@ const {
   CreateUser,
   EditUser,
   DeleteUser,
+<<<<<<< Updated upstream:backend/routes/UserRoutes.js
 } = require("../controllers/UserController");
+=======
+  ValidateUserData
+} = require("../controllers/ClientController.js");
+>>>>>>> Stashed changes:backend/routes/ClientRoutes.js
 
 router.get("/", GetAllUsers);
 router.get("/:id", GetSpecificUser);
