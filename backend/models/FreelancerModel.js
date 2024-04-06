@@ -74,9 +74,9 @@ const FreelancerSchema = new Schema({
     name: {type: String},
     link: {type: String}
   },
-  skills:{
-    type: String,
-    default: false
+  ratings:{
+    type: Number,
+    default: ""
   }
 });
 

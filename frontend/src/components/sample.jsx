@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import phil from 'phil-reg-prov-mun-brgy';
 
+const BASE_URI = import.meta.env.RENDER_BASEURI;
+
 import avatar from '../assets/avatar.png';
 
 const Reg = () => {
@@ -12,7 +14,7 @@ const Reg = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:8800/api/client");
+        const response = await axios.get(`${BASE_URI}/api/client`);
         if (response.status === 200) {
           setUsers(response.data);
         }
@@ -26,7 +28,7 @@ const Reg = () => {
 
   const deleteUser = async (userId) => {
     try {
-      const response = await axios.delete(`http://localhost:8800/api/client/delete/${userId}`);
+      const response = await axios.delete(`https://quircom.onrender.com/api/client/delete/${userId}`);
       if (response.status === 200) {
         // Optionally, filter out the deleted user from the local state to update the UI immediately
         setUsers(users.filter(user => user._id !== userId));

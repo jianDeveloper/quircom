@@ -23,10 +23,14 @@ const ServiceSchema = new Schema({
     default: "",
     required: true,
   },
-  progLang : {
+  price: {
     type: String,
     default: "",
-    required: true
+    required: true,
+  },
+  reviews:{
+    type: String,
+    default: "",
   },
   freelancerId: {
     type: Schema.Types.ObjectId, 

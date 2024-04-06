@@ -17,14 +17,18 @@ const GetSpecificUser = async (req, res) => {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      res.status(400).json("No such user");
+      res.status(400).json("Invalid ID");
     }
 
     const result = await UserModel.findById(id);
 
+    if (!result) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
     res.status(200).json(result);
   } catch (err) {
-    res.send(err.message);
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -36,16 +40,16 @@ const CreateUser = async (req, res) => {
     let userProfile = {};
 
     if (file) {
-        const { id, name } = await DriveService.UploadFiles(
-          file,
-          process.env.FOLDER_ID_PROFILE
-        );
-        Object.assign(userProfile, {
-          id: id,
-          name: name,
-          link: `https://drive.google.com/thumbnail?id=${id}&sz=w1000`,
-        });
-      }
+      const { id, name } = await DriveService.UploadFiles(
+        file,
+        process.env.FOLDER_ID_PROFILE
+      );
+      Object.assign(userProfile, {
+        id: id,
+        name: name,
+        link: `https://drive.google.com/thumbnail?id=${id}&sz=w1000`,
+      });
+    }
 
     const result = await UserModel.create({
         firstName: user.firstName,
@@ -82,18 +86,18 @@ const EditUser = async (req, res) => {
     }
 
     if (file) {
-        const { id: fileID, name: fileName } = await DriveService.UploadFiles(
-          file,
-          process.env.FOLDER_ID_PROFILE
-        );
-        Object.assign(userProfile, {
-          id: fileID,
-          name: fileName,
-          link: `https://drive.google.com/thumbnail?id=${fileID}&sz=w1000`,
-        });
+      const { id: fileID, name: fileName } = await DriveService.UploadFiles(
+        file,
+        process.env.FOLDER_ID_PROFILE
+      );
+      Object.assign(userProfile, {
+        id: fileID,
+        name: fileName,
+        link: `https://drive.google.com/thumbnail?id=${fileID}&sz=w1000`,
+      });
 
-        await DriveService.DeleteFiles(user.profilePic.id);
-      }
+      await DriveService.DeleteFiles(user.profilePic.id);
+    }
 
     const result = await UserModel.findByIdAndUpdate(
        user._id,
