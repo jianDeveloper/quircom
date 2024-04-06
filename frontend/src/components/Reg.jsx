@@ -154,12 +154,13 @@ const Reg = () => {
   
     try {
       console.log(formData);
-
+  
+      // Create a FormData object
       var formObject = new FormData();
-      formObject.append('client', JSON.stringify(formData));
+      formObject.append('user', JSON.stringify(formData));
       formObject.append('file', profilePic)
 
-      const response = await axios.post(`https://quircom.onrender.com/api/client/upload`, formObject, {
+      const response = await axios.post(`${baseURL}/api/users/upload`, formObject, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
