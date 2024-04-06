@@ -6,12 +6,6 @@ import phil from 'phil-reg-prov-mun-brgy'
 
 const baseURL = import.meta.env.VITE_BASEURL;
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-import Header from './Header'
-import CNav from './CNav'
-
 function CSettings() {
 
   const [ userData, setUsers] = useState(null);

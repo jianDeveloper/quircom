@@ -38,7 +38,7 @@ const CreateUser = async (req, res) => {
     if (file) {
         const { id, name } = await DriveService.UploadFiles(
           file,
-          process.env.FOLDER_ID_MESSAGE
+          process.env.FOLDER_ID_PROFILE
         );
         Object.assign(userProfile, {
           id: id,
@@ -84,7 +84,7 @@ const EditUser = async (req, res) => {
     if (file) {
         const { id: fileID, name: fileName } = await DriveService.UploadFiles(
           file,
-          process.env.FOLDER_ID
+          process.env.FOLDER_ID_PROFILE
         );
         Object.assign(userProfile, {
           id: fileID,

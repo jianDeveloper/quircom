@@ -3,7 +3,27 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ServiceSchema = new Schema({
+  thumbNail: {
+    id: {type: String},
+    name: {type: String},
+    link: {type: String}
+  },
+  serviceName: {
+    type: String,
+    default: "",
+    required: true
+  },
   serviceType: {
+    type: String,
+    default: "",
+    required: true
+  },
+  serviceInfo: {
+    type: String,
+    default: "",
+    required: true,
+  },
+  progLang : {
     type: String,
     default: "",
     required: true
@@ -12,13 +32,9 @@ const ServiceSchema = new Schema({
     type: Schema.Types.ObjectId, 
     ref: 'freelancer'
   },
-  progLang : {
-    type: String,
-    default: "",
-  },
-  Date : {
+  dateUploaded : {
     type: new Date()
-  }
+  },
 });
 
 module.exports = mongoose.model("service", ServiceSchema);

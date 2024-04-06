@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import phil from 'phil-reg-prov-mun-brgy'
+import phil from 'phil-reg-prov-mun-brgy';
 
 import avatar from '../assets/avatar.png';
 
@@ -12,7 +12,7 @@ const Reg = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:8800/api/users");
+        const response = await axios.get("http://localhost:8800/api/client");
         if (response.status === 200) {
           setUsers(response.data);
         }
@@ -26,7 +26,7 @@ const Reg = () => {
 
   const deleteUser = async (userId) => {
     try {
-      const response = await axios.delete(`http://localhost:8800/api/users/delete/${userId}`);
+      const response = await axios.delete(`http://localhost:8800/api/client/delete/${userId}`);
       if (response.status === 200) {
         // Optionally, filter out the deleted user from the local state to update the UI immediately
         setUsers(users.filter(user => user._id !== userId));
