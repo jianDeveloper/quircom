@@ -14,9 +14,13 @@ const Reg = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`https://quircom.onrender.com/api/client`);
-        if (response.status === 200) {
-          setUsers(response.data);
+        const responseClient = await axios.get(`https://quircom.onrender.com/api/client`);
+        const responseFreelancer = await axios.get(`https://quircom.onrender.com/api/freelancer`);
+
+        if (responseClient.status === 200 && responseFreelancer.status === 200) {
+          // Combine users from both responses
+          const combinedUsers = [...responseClient.data, ...responseFreelancer.data];
+          setUsers(combinedUsers);
         }
       } catch (error) {
         console.error("Error fetching users:", error);

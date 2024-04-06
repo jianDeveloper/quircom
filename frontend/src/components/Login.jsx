@@ -16,22 +16,40 @@ const Login = ({ open, onClose }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8800/api/login/client', {
-        eMail,
-        passWord,
-      });
-      console.log('Login response:', response.data); // Log the response data
-      if (response.status === 200) {
-        const { _id, accType } = response.data.user; // Destructure user data
+      // Make requests to fetch user data from both client and freelancer collections
+      const [clientResponse, freelancerResponse] = await Promise.all([
+        axios.post('https://quircom.onrender.com/api/login/client', {
+          eMail,
+          passWord,
+        }),
+        axios.post('https://quircom.onrender.com/api/login/freelancer', {
+          eMail,
+          passWord,
+        })
+      ]);
+  
+      let userData = null;
+  
+      if (clientResponse.status === 200) {
+        userData = clientResponse.data.user;
+      } else if (freelancerResponse.status === 200) {
+        userData = freelancerResponse.data.user;
+      }
+  
+      if (userData) {
+        const { _id, accType } = userData; // Destructure user data
         console.log('User ID:', _id); // Log the user id
         console.log('Account Type:', accType); // Log the account type
-        if (accType === 'CLIENT' || accType === 'Client' || accType === 'client') {
+        if (accType === 'client') {
           login(_id);
           navigate(`/client/dashboard/${_id}`);
-        } else if (accType === 'FREELANCER' || accType === 'Freelancer' || accType === 'freelancer') {
+        } else if (accType === 'freelancer') {
           login(_id);
           navigate(`/freelancer/dashboard/${_id}`); 
         }
+      } else {
+        console.error('Invalid email or password');
+        setError('Invalid email or password');
       }
       // Here you can handle the successful login, such as setting user data in state or redirecting the user
     } catch (error) {
