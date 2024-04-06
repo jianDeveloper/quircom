@@ -1,6 +1,3 @@
-<<<<<<< Updated upstream
-import React from 'react'
-=======
 import { useState, useEffect, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -11,7 +8,6 @@ const baseURL = import.meta.env.VITE_BASEURL;
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
->>>>>>> Stashed changes
 
 import Header from './Header'
 import CNav from './CNav'
@@ -40,21 +36,6 @@ function CSettings() {
 
     fetchUsers();
   }, []);
-
-
-<<<<<<< Updated upstream
-  return (
-    <div className=''>
-      <CMainNav />
-      <div className='flex'>
-      <CNav />
-      <main className='flex-inline mx-10 my-10 w-[100%]'>
-        <h1 className='font-extrabold text-[30px] text-[#1D5B79]'>Settings</h1>   
-      </main>
-=======
-  const [ userData, setUsers] = useState({});
-  const { userId } = useParams();
-  const { userIdLink } = useContext(UserContext);
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -237,7 +218,6 @@ function CSettings() {
       <div className="">
       <hr className="mt-4 mb-4" />
         <CFooter />
->>>>>>> Stashed changes
       </div>
       <div className="">
       <hr className="mt-4 mb-4" />
