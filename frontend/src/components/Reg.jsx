@@ -157,10 +157,14 @@ const Reg = () => {
   
       // Create a FormData object
       var formObject = new FormData();
-      formObject.append('user', JSON.stringify(formData));
-      formObject.append('file', profilePic)
-
-      const response = await axios.post(`${baseURL}/api/users/upload`, formObject, {
+      formObject.append('file', profilePic); // Append profile picture
+  
+      // Check the accType to determine the endpoint
+      const endpoint = formData.accType === 'client' ? 'client' : 'freelancer';
+      formObject.append(endpoint, JSON.stringify(formData)); // Append form data
+  
+      // Send POST request to the appropriate endpoint
+      const response = await axios.post(`https://quircom.onrender.com/api/${endpoint}/upload`, formObject, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
