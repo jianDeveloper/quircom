@@ -9,7 +9,7 @@ const {
   EditUser,
   DeleteUser,
   ValidateUserData
-} = require("../controllers/UserController");
+} = require("../controllers/ClientController.js");
 
 router.get("/", GetAllUsers);
 router.get("/:id", GetSpecificUser);

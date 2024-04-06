@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const UserModel = require("../models/UserModel");
+const UserModel = require("../models/ClientModel");
 const DriveService = require("../utils/DriveService");
 
 const GetAllUsers = async (req, res) => {
@@ -31,14 +31,14 @@ const GetSpecificUser = async (req, res) => {
 const CreateUser = async (req, res) => {
   try{
     const {body, file} = req;
-    const user = JSON.parse(body.user);
+    const user = JSON.parse(body.client);
 
     let userProfile = {};
 
     if (file) {
         const { id, name } = await DriveService.UploadFiles(
           file,
-          process.env.FOLDER_ID
+          process.env.FOLDER_ID_PROFILE
         );
         Object.assign(userProfile, {
           id: id,
@@ -74,7 +74,7 @@ const EditUser = async (req, res) => {
 
     const { id } = req.params;
     const {body, file} = req;
-    const user = JSON.parse(body.users);
+    const user = JSON.parse(body.client);
 
     let userProfile = {};
 
@@ -85,7 +85,7 @@ const EditUser = async (req, res) => {
     if (file) {
         const { id: fileID, name: fileName } = await DriveService.UploadFiles(
           file,
-          process.env.FOLDER_ID
+          process.env.FOLDER_ID_PROFILE
         );
         Object.assign(userProfile, {
           id: fileID,

@@ -3,7 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const ConnectDB = require("./config/Database");
 
-const UserRoutes = require("./routes/UserRoutes");
+const ClientRoutes = require("./routes/ClientRoutes");
+const FreelancerRoutes = require("./routes/FreelancerRoutes");
+const ValidateUser = require("./routes/ValidateRoute")
 const UserLogin = require("./routes/UserLogin");
 
 const app = express();
@@ -33,9 +35,10 @@ app.use((req, res, next) => {
   next();
 });
 
-// a
-app.use('/api/users', UserRoutes)
-app.use('/api/auth', UserLogin)
+app.use('/api/client', ClientRoutes)
+app.use('/api/freelancer', FreelancerRoutes)
+app.use('/api', ValidateUser)
+app.use('/api/login', UserLogin)
 
 app.listen(process.env.PORT, () =>
   console.log(`Server started on port ${process.env.PORT}`)
