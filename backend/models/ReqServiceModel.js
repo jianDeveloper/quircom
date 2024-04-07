@@ -3,19 +3,38 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ReqServiceSchema = new Schema({
-  client: {
+  clientId: {
     type: Schema.Types.ObjectId,
     ref: "client",
   },
-  service: {
+  serviceId: {
     type: Schema.Types.ObjectId,
     ref: "service"
   },
-  deadline: {
+  taskTitle:{
+    type: String,
+    default: "",
+    requred: ""
+  },
+  taskDetails:{
+    type: String,
+    default: "",
+    requred: ""
+  },
+  taskPicture: [{
+    id: {type: String}, 
+    name: {type: String}, 
+    link: {type: String}
+  }],
+  deadLine: {
     type: Date,
     default: "",
     required: true,
   },
+  dateUploaded:{
+    type: Date,
+    default: Date.now
+  }
 });
 
 module.exports = mongoose.model("request", ReqServiceSchema);

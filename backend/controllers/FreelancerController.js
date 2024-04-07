@@ -23,7 +23,7 @@ const GetSpecificUser = async (req, res) => {
     const result = await UserModel.findById(id);
 
     if (!result) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "freelancer not found" });
     }
 
     res.status(200).json(result);
@@ -35,7 +35,7 @@ const GetSpecificUser = async (req, res) => {
 const CreateUser = async (req, res) => {
   try{
     const {body, file} = req;
-    const user = JSON.parse(body.freelancer);
+    const freelancer = JSON.parse(body.freelancer);
 
     let userProfile = {};
 
@@ -52,24 +52,24 @@ const CreateUser = async (req, res) => {
     }
 
     const result = await UserModel.create({
-        firstName: user.firstName,
-        surName: user.surName,
-        userName: user.userName,
-        eMail: user.eMail,
-        passWord: user.passWord,
-        contactNum: user.contactNum,
-        region: user.region,
-        province: user.province,
-        city: user.city,
-        accType: user.accType,
-        aggRee: user.aggRee,
+        firstName: freelancer.firstName,
+        surName: freelancer.surName,
+        userName: freelancer.userName,
+        eMail: freelancer.eMail,
+        passWord: freelancer.passWord,
+        contactNum: freelancer.contactNum,
+        region: freelancer.region,
+        province: freelancer.province,
+        city: freelancer.city,
+        accType: freelancer.accType,
+        aggRee: freelancer.aggRee,
         profilePic: userProfile,
     });
     res.status(201).json(result);
 
-    }catch(err){
-        res.status(404).json({message: err.message});
-    }
+  }catch(err){
+      res.status(404).json({message: err.message});
+  }
 };
 
 const EditUser = async (req, res) => {
@@ -77,7 +77,7 @@ const EditUser = async (req, res) => {
 
     const { id } = req.params;
     const {body, file} = req;
-    const user = JSON.parse(body.freelancer);
+    const freelancer = JSON.parse(body.freelancer);
 
     let userProfile = {};
 
@@ -96,23 +96,23 @@ const EditUser = async (req, res) => {
         link: `https://drive.google.com/thumbnail?id=${fileID}&sz=w1000`,
       });
 
-      await DriveService.DeleteFiles(user.profilePic.id);
+      await DriveService.DeleteFiles(freelancer.profilePic.id);
     }
 
     const result = await UserModel.findByIdAndUpdate(
-       user._id,
-       {
+      freelancer._id,
+      {
         $set: {
-          firstName: user.firstName,
-          surName: user.surName,
-          userName: user.userName,
-          eMail: user.eMail,
-          passWord: user.passWord,
-          contactNum: user.contactNum,
-          region: user.region,
-          province: user.province,
-          city: user.city,
-          profilePic: userProfile.hasOwnProperty("id") ? userProfile : user.profilePic,
+          firstName: freelancer.firstName,
+          surName: freelancer.surName,
+          userName: freelancer.userName,
+          eMail: freelancer.eMail,
+          passWord: freelancer.passWord,
+          contactNum: freelancer.contactNum,
+          region: freelancer.region,
+          province: freelancer.province,
+          city: freelancer.city,
+          profilePic: userProfile.hasOwnProperty("id") ? userProfile : freelancer.profilePic,
         },
       }, 
     {new: true}
@@ -127,13 +127,25 @@ const EditUser = async (req, res) => {
 const DeleteUser = async (req, res) => {
   try {
     const { id } = req.params;
-
+  
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      res.status(400).json("No such user");
+      return res.status(400).json("No freelancer listed");
     }
-
-    const result = await UserModel.findByIdAndDelete(id, { new: true });
-
+  
+    const request = await UserModel.findById(id);
+  
+    if (!request) {
+      return res.status(404).json({ message: "Request not found" });
+    }
+  
+    // Delete associated taskPicture from Google Drive
+    for (const image of request.taskPicture) {
+      await DriveService.DeleteFiles(image.id);
+    }
+  
+    // Delete the request document from the database
+    const result = await UserModel.findByIdAndDelete(id);
+  
     res.status(200).json(result);
   } catch (err) {
     res.send(err.message);
@@ -158,8 +170,7 @@ const ValidateUserData = async (req, res) => {
       contactNumExists,
     });
   } catch (error) {
-    console.error('Error validating user data:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: error.message });
   }
 };
 

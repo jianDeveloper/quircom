@@ -4,7 +4,8 @@ const DriveService = require("../utils/DriveService");
 
 const GetAllServices = async (req, res) => {
   try {
-    const result = await ServiceModel.find({});
+    const result = await ServiceModel.find({}).populate("freelancerId");
+    // variable.freelancerId.userName
 
     res.status(200).json(result);
   } catch (err) {
@@ -17,10 +18,10 @@ const GetSpecificService = async (req, res) => {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ message: "Invalid ID" });
+      return res.status(400).json({ message: "Invalid ID" });
     }
 
-    const result = await ServiceModel.findById(id);
+    const result = await ServiceModel.findById(id).populate("freelancerId");
 
     if (!result) {
         return res.status(404).json({ message: "Service not found" });
@@ -33,54 +34,33 @@ const GetSpecificService = async (req, res) => {
 };
 
 const CreateService = async (req, res) => {
-  // try{
-  //   const {body, file} = req;
-  //   const user = JSON.parse(body.freelancer);
-
-  //   let userProfile = {};
-
-  //   if (file) {
-  //     const { id, name } = await DriveService.UploadFiles(
-  //       file,
-  //       process.env.FOLDER_ID_PROFILE
-  //     );
-  //     Object.assign(userProfile, {
-  //       id: id,
-  //       name: name,
-  //       link: `https://drive.google.com/thumbnail?id=${id}&sz=w1000`,
-  //     });
-  //   }
-
-  //   const result = await UserModel.create({
-  //       firstName: user.firstName,
-  //       surName: user.surName,
-  //       userName: user.userName,
-  //       eMail: user.eMail,
-  //       passWord: user.passWord,
-  //       contactNum: user.contactNum,
-  //       region: user.region,
-  //       province: user.province,
-  //       city: user.city,
-  //       accType: user.accType,
-  //       aggRee: user.aggRee,
-  //       profilePic: userProfile,
-  //   });
-  //   res.status(201).json(result);
-
   try {
     const {body, file} = req;
-    const user = JSON.parse(body.service);
-    
-    const { thumbNail, serviceName, serviceType, serviceInfo, progLang, freelancerId } = req.body;
+    const service = JSON.parse(body.service);
+
+    let serviceThumbnail = {};
+
+    if (file) {
+      const { id, name } = await DriveService.UploadFiles(
+        file,
+        process.env.FOLDER_ID_THUMBNAIL
+      );
+      Object.assign(serviceThumbnail, {
+        id: id,
+        name: name,
+        link: `https://drive.google.com/thumbnail?id=${id}&sz=w1000`,
+      });
+    }
 
     const result = await ServiceModel.create({
-        thumbNail,
-        serviceName,
-        serviceType,
-        serviceInfo,
-        progLang,
-        freelancerId,
-        dateUploaded: new Date()
+      thumbNail: serviceThumbnail,
+      serviceName: service.serviceName,
+      serviceType: service.serviceType,
+      serviceInfo: service.serviceInfo,
+      price: service.price,
+      reviews: service.reviews,
+      freelancerId: service.freelancerId,
+      dateUploaded: new Date()
     });
 
     res.status(201).json(result);
@@ -90,52 +70,77 @@ const CreateService = async (req, res) => {
 };
 
 const EditService = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { thumbNail, serviceName, serviceType, serviceInfo, progLang } = req.body;
+  try {
+    const { id } = req.params;
+    const { body, file } = req;
+    const service = JSON.parse(body.service);
 
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(400).json({ message: "Invalid ID" });
-        }
+    let serviceThumbnail = {};
 
-        const service = await ServiceModel.findById(id);
-
-        if (!service) {
-            return res.status(404).json({ message: "Service not found" });
-        }
-
-        service.thumbNail = thumbNail;
-        service.serviceName = serviceName;
-        service.serviceType = serviceType;
-        service.serviceInfo = serviceInfo;
-        service.progLang = progLang;
-
-        await service.save();
-
-        res.status(200).json(service);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({message: "Invalid ID" });
     }
+
+    if (file) {
+      const { id: fileID, name: fileName } = await DriveService.UploadFiles(
+        file,
+        process.env.FOLDER_ID_THUMBNAIL
+      );
+      Object.assign(serviceThumbnail, {
+        id: fileID,
+        name: fileName,
+        link: `https://drive.google.com/thumbnail?id=${fileID}&sz=w1000`,
+      });
+
+      await DriveService.DeleteFiles(service.thumbNail.id);
+    }
+
+    const result = await ServiceModel.findByIdAndUpdate(
+      service._id,
+      {
+        $set: {
+          thumbNail: serviceThumbnail.hasOwnProperty("id") ? serviceThumbnail : service.thumbNail,
+          serviceName: service.serviceName,
+          serviceType: service.serviceType,
+          serviceInfo: service.serviceInfo,
+          price: service.price,
+          dateUploaded: new Date()
+        },
+      }, 
+    {new: true}
+    );
+    res.status(201).json(result);
+  } catch (err) {
+      res.status(400).json({ message: err.message });
+  }
 };
 
 const DeleteService = async (req, res) => {
-    try {
-        const { id } = req.params;
-
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(400).json({ message: "Invalid ID" });
-        }
-
-        const result = await ServiceModel.findByIdAndDelete(id);
-
-        if (!result) {
-            return res.status(404).json({ message: "Service not found" });
-        }
-
-        res.status(200).json({ message: "Service deleted successfully" });
-    } catch (err) {
-        res.status(400).json({ message: err.message });
+  try {
+    const { id } = req.params;
+  
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json("No service listed");
     }
+  
+    const request = await ServiceModel.findById(id);
+  
+    if (!request) {
+      return res.status(404).json({ message: "Service not found" });
+    }
+  
+    // Delete associated taskPicture from Google Drive
+    for (const image of request.taskPicture) {
+      await DriveService.DeleteFiles(image.id);
+    }
+  
+    // Delete the request document from the database
+    const result = await ServiceModel.findByIdAndDelete(id);
+  
+    res.status(200).json(result);
+  } catch (err) {
+    res.send(err.message);
+  }
 };
 
 module.exports = {
