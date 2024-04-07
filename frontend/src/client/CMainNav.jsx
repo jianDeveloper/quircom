@@ -166,7 +166,7 @@ const CMainNav = () => {
         >
           <div>
             <IconButton onClick={handleNotifClick}>
-              <img className="w-8 h-6" src={Notifs} alt="Notifs" />
+              <img className="w-8 h-6 hover:scale-150 duration-300" src={Notifs} alt="Notifs" />
             </IconButton>
             <Popover
               open={Boolean(anchorEl2)}
@@ -187,17 +187,17 @@ const CMainNav = () => {
             </Popover>
           </div>
           <Divider orientation="vertical" sx={{ height: 40 }} />
-          <IconButton onClick={handleAvatarClick}>
+          <IconButton className=" hover:scale-150 duration-300" onClick={handleAvatarClick}>
             <Avatar src={User} alt="User" />
           </IconButton>
-          <Menu
+          <Menu 
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
             onClose={handleCloseMenu}
           >
             <MenuItem onClick={handleCloseMenu} component={Link} to={`/client/profile/${userId}`}>
               <Stack direction={"row"} spacing={1}>
-                <img className="w-6 h-6" src={User} alt="Profile" />
+                <img className="w-6 h-6 " src={User} alt="Profile" />
                 <Typography variant="body1">Profile</Typography>
               </Stack>
             </MenuItem>

@@ -8,9 +8,9 @@ import CFooter from './CFooter';
 import TaskList from './Dashcomponents/TaskList';
 
 import BG1 from '../assets/bg1.png';
-import BGmark from '../assets/service.jpg';
-import BGtrack from '../assets/track.jpg';
-import BGsubs from '../assets/subs.jpg';
+import BGmark from '../assets/ser.jpg';
+import BGtrack from '../assets/tra.jpg';
+import BGsubs from '../assets/sub.jpg';
 import CMainNav from './CMainNav';
 import CTop from './CTop';
 
@@ -47,30 +47,30 @@ function CDashboard() {
             <div className='card'>
               <div className='card-inner'>
                 <h3 className='font-bold text-[#1D5B79]'>On-Going Projects</h3>
-                <BsFillArchiveFill className='card_icon' />
+                <BsFillArchiveFill className='card_icon hover:scale-150 duration-300' />
               </div>
               <h1 className='font-medium text-[#1D5B79]'>300</h1>
             </div>
             <div className='card'>
               <div className='card-inner'>
                 <h3 className='font-bold text-[#1D5B79]'>Completed Projects</h3>
-                <BsPeopleFill className='card_icon' />
+                <BsPeopleFill className='card_icon hover:scale-150 duration-300' />
               </div>
               <h1 className='font-medium text-[#1D5B79]'>33</h1>
             </div>
           </div>
-          <div className='grid grid-cols-1 gap-[20px] my-[15px] md:grid-cols-3'>
-            <div className='flex flex-col justify-around rounded-lg ' style={{ background: `url(${BGmark})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
+          <div className='grid grid-cols-1 gap-[20px] my-[15px] md:grid-cols-3 '>
+            <div className='flex flex-col justify-around rounded-lg hover:scale-105 duration-300' style={{ background: `url(${BGmark})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
               <div className='flex justify-center items-center py-14'>
                 <h3 className='font-extrabold text-xl text-orange-600'>Marketplace</h3>
               </div>
             </div>
-            <div className='flex flex-col justify-around rounded-lg' style={{ background: `url(${BGtrack})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
+            <div className='flex flex-col justify-around rounded-lg hover:scale-105 duration-300' style={{ background: `url(${BGtrack})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
               <div className='flex justify-center items-center py-14'>
                 <h3 className='font-extrabold text-xl text-orange-600'>Progress Tracker</h3>
               </div>
             </div>
-            <div className='flex flex-col justify-around rounded-lg' style={{ background: `url(${BGsubs})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
+            <div className='flex flex-col justify-around rounded-lg hover:scale-105 duration-300' style={{ background: `url(${BGsubs})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
               <div className='flex justify-center items-center py-14'>
                 <h3 className='font-extrabold text-xl text-orange-600'>Subscription</h3>
               </div>

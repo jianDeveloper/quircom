@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import { TbArrowBackUp } from "react-icons/tb";
 import CMainNav from './CMainNav';
 
 
@@ -11,13 +10,7 @@ const Billing = () => {
         <div>
           <CMainNav />
         </div>
-      <div className='p-3 mx-6'>
-      <button type="button" class="bg-[#FE6D30] w-[50px] 
-      text-white p-2 rounded-full hover:bg-[#1D5B79] hover:w-[50px] 
-      focus:outline-none focus:shadow-outline-blue active:bg-blue-800 mt-[50px] flex items-center justify-center">
-      <TbArrowBackUp className='text-xl' />
-       
-      </button>
+  
           <h2 className='text-center mx-[20px] mb-[30px] text-[30px] text-[#1D5B79] font-extrabold drop-shadow-xl'>Billing</h2>
           <form className="w-full max-w-screen-ss mx-auto">
           <div className="flex flex-col md:flex-row md:justify-center -mx-3">
@@ -158,7 +151,7 @@ const Billing = () => {
 
           </div>
           </form>
-      </div>
+      
     </section>
   )
 }

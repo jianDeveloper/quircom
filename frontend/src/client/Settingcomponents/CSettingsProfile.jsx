@@ -108,7 +108,7 @@ function CSettingsProfile(props) {
                   </aside>
                 </div>
               </div>
-              <button class="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-white">Save Portfolio</button>
+              <button class="mt-4 rounded-lg bg-[#FE6D30] hover:bg-[#1D5B79] active:bg-blue-800 px-4 py-2 text-white">Save Portfolio</button>
               <hr class="mt-4 mb-8" />
 
               <div class="mb-10">
@@ -120,7 +120,7 @@ function CSettingsProfile(props) {
                   Proceed with caution
                 </p>
                 <p class="mt-2">Make sure you have taken backup of your account in case you ever need to get access to your data. We will completely wipe your data. There is no way to access your account after this action.</p>
-                <button class="ml-auto text-sm font-semibold text-rose-600 underline decoration-2">Continue with deletion</button>
+                <button class="ml-auto text-sm font-semibold text-rose-600 underline decoration-2 hover:text-[#1D5B79]">Continue with deletion</button>
               </div>
             </div>
           </div>

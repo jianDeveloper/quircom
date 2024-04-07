@@ -67,7 +67,7 @@ function CConnect () {
                 <span class="text-base">/month</span>
               </div>
 
-              <button type="button" class="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-[#FE6D30] bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-[#EA580C]">
+              <button type="button" class="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-[#FE6D30] bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-[#1D5B79]">
                 <img className="mr-2 block h-5 w-5 align-middle " src={Connect} alt=''/>
                 Connect
               </button>
