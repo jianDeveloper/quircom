@@ -35,7 +35,7 @@ const CMarketplace = () => {
           <div className="w-full h-[300px] relative rounded-lg" style={{background: `url(${mpTop})`, backgroundRepeat:'no-repeat', backgroundSize:'cover'}}>
             <div className="absolute bottom-10 left-10 text-white p-2">
               <h1 className='text-[40px] font-bold mb-5'>Freelancing Services</h1>
-              <a href="#" className='bg-orange-600 p-2 rounded-md'>Hire now!</a>
+              <a href="#" className='bg-orange-600 p-2 rounded-md hover:bg-[#1D5B79] active:bg-blue-800'>Hire now!</a>
             </div>
           </div>
           <h1 className='mt-10 font-extrabold text-[30px] text-[#1D5B79]'>Top Services</h1>

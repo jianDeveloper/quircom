@@ -3,13 +3,17 @@ import NavHeader from './CMainNav'
 import Profile from '../assets/profile.jpg'
 
 
+
 function CRank() {
   return (
     
+
+
     <div class="relative flex flex-col w-full min-w-0 mb-0 break-words border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
         <div>
         <NavHeader />
       </div>
+      
   <div className='mt-[60px] ml-[20px] font-extrabold text-[30px] text-[#1D5B79]'>
     <h6>LEADERBOARD</h6>
   </div>
@@ -135,6 +139,8 @@ function CRank() {
     </div>
   </div>
 </div>
+
+
   )
 }
 

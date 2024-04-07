@@ -29,7 +29,7 @@ const Subscription = () => {
                         <p className='py-2 border-b mx-8'>Two projects</p>
                     </div>
                     <Link to="/client/billing">
-                        <button className='ml-[130px] bg-w-[600px] bg-gradient-to-r from-red-500 to-orange-500 rounded-md font-medium my-6 mx-auto p-3'>Basic Plan</button>
+                        <button className='ml-[130px] bg-w-[600px] bg-gradient-to-r from-red-500 to-orange-500 rounded-md font-medium my-6 mx-auto p-3 '>Basic Plan</button>
                     </Link>
                 </div>
                 <div className='w-full shadow-xl flex flex-col p-4 my-8 rounded-lg text-white hover:scale-105 duration-300 bg-gradient-to-r from-cyan-900 to-sky-800'>

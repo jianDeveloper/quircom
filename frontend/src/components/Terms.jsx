@@ -39,20 +39,12 @@ function Terms() {
           <li className='text-justify mx-[20px] mt-[20px] text-[13px]'>From time to time, this website may also include links to other websites. These links are provided for your convenience to provide further information. They do not signify that we endorse Quircom. We have no responsibility for the content of the linked website.</li> 
           <li className='text-justify mx-[20px] mt-[20px] text-[13px]'>Your use of this website and any dispute arising out of such use of the website is subject to the laws of Philippines.</li>
         <div className='mt-3'>
-        <label className=' text-center mx-[1px]  font-bold px-[170px]'>
-          <input
-            type="checkbox"
-            checked={isChecked}
-            onChange={handleCheckboxChange}
-            required 
-          />
-          I agree to the terms and conditions
-        </label>
+
         </div>
         
         <Link to={'/registration'}>
         <button 
-        className='bg-[#FE6D30] w-[150px] ml-[250px] mt-[20px] text-white p-2 rounded-full hover:bg-[#EA580C] hover:w-[155px] focus:outline-none focus:shadow-outline-blue active:bg-blue-800'
+        className='bg-[#FE6D30] w-[150px] ml-[250px] mt-[20px] text-white p-2 rounded-full hover:bg-[#1D5B79] focus:outline-none focus:shadow-outline-blue active:bg-blue-800'
         type="submit">
             I agree 
         </button>

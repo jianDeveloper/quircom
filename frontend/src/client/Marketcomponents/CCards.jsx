@@ -21,7 +21,7 @@ const CCards = ({ image, subtitle, title, author, button }) => {
         </Typography>
       </div>
       <Link to="/client/service-connect">
-        <Button className="bg-orange-600 h-10 w-50 text-center p-2">
+        <Button className="bg-orange-600 h-10 w-50 text-center p-2 hover:bg-[#1D5B79] active:bg-blue-800">
           {button}
         </Button>
       </Link>
