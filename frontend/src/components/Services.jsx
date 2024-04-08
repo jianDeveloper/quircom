@@ -19,7 +19,7 @@ const Services = () => {
           <button className='transition ease-in-out delay-150 bg-[#1D5B79] hover:-translate-y-1 hover:scale-110 hover:bg-orange-600 duration-300 w-[200px] rounded-md font-medium my-6 mx-auto md:mx-0 py-3 text-white'>Get Started</button>
         </div>
       </div>
-      <div className='grid grid-cols-3 gap-4 mt-[100px] h-96'>
+      <div className='grid md:grid-cols-3 gap-4 md:p-10 mt-[100px] h-96'>
             <div className='flex flex-col items-center m-3 p-2 rounded-[20px] bg-gradient-to-r from-red-500 to-orange-500 justify-center shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] hover:scale-105 duration-300'>
               <div className='mr-10 ml-3 '>
                 <h4 className='font-bold text-[#F5F5DC] text-[30px] leading-[23px] ml-1 text-center mb-5'>Freelancers Showcasing</h4>
