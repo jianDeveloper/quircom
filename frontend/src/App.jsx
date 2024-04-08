@@ -19,7 +19,7 @@ import CSubscribe from './client/CSubscribe.jsx';
 import CConnect from './client/Marketcomponents/CConnect.jsx';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import FDashboard from './fl/FDashboard.jsx';
+import FDashboard from './fl/FDashboard.jsx';
 // import FProfile from './fl/FProfile.jsx';
 // import FMarketplace from './fl/FMarketplace.jsx';
 // import FSettings from './fl/FSettings.jsx';
@@ -133,12 +133,11 @@ function App() {
           path="/client/leaderboard/:userId"
           element={<CRank />}
         />
-
-        {/* <Route
+        <Route
           exact
           path="/freelancer/dashboard/:userId" // Adding :userId parameter
           element={<FDashboard />} // Rendering CDashboard component
-        /> */}
+        />
 {/* 
         <Route
           exact

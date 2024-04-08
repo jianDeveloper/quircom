@@ -1,25 +1,28 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { useParams } from 'react-router-dom';
-import { BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillBellFill } from 'react-icons/bs';
+import { useEffect, useState, useContext } from 'react';
+import React from 'react';
 import axios from 'axios'; // Import axios for making HTTP requests
 import UserContext from '../context/UserContext';
-
-import FFooter from './FFooter';
-import FTaskList from './Dashcomponents/FTaskList';
+import { useParams } from 'react-router-dom';
 
 import BG1 from '../assets/bg1.png';
-import BGmark from '../assets/service.jpg';
-import BGtrack from '../assets/track.jpg';
-import BGsubs from '../assets/subs.jpg';
-import FNavHeader from './FMainNav';
-import FTop from './FTop';
+import { MdDesignServices,MdPendingActions } from "react-icons/md";
+import { FaFileCircleCheck } from "react-icons/fa6";
+import { TabContext, TabList, TabPanel } from '@mui/lab';
+import { Box } from '@mui/material';
 
 function FDashboard() {
   const { userId } = useParams();
   const [ userData, setUserData] = useState(null); // State to store user data
   
+  const [activeTab, setActiveTab] = useState('track');
+
+  const handleTab = (track) => {
+    setActiveTab(track);
+  };
+
   const { userIdLink } = useContext(UserContext);
   console.log('User ID in Dashboard:', userIdLink);
+
 
   useEffect(() => {
     // Fetch user data using the user ID
@@ -33,78 +36,71 @@ function FDashboard() {
       });
   }, [userId]); // Fetch user data whenever userId changes
 
-  return (
-    <div className='flex flex-col' style={{ background: `url(${BG1})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
-      <FNavHeader />
-      <div className='flex align-center justify-center'>
-        <div className='flex flex-col container mx-10 my-10'> {/*formatting navbar & body -j*/}
-          <div className='flex'>
-            <h1 className='font-extrabold text-[30px] text-[#1D5B79]'>DASHBOARD</h1>
-          </div>
+  
 
-          {/*fixing headbox on dashboard -j*/}
-          <div className='grid grid-cols-2 gap-[20px] my-[15px] lg:grid-cols-4 '>
-            <div className='card'>
-              <div className='card-inner'>
-                <h3 className='font-bold text-[#1D5B79]'>SERVICES</h3>
-                <BsFillArchiveFill className='card_icon' />
+  return (
+    <div className='flex flex-col h-[100vh]' style={{ background: `url(${BG1})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
+     {/* insert NAvbar  */}
+      <div className='flex align-center justify-center mx-[100px]'>
+        <div className='flex flex-col container my-10'> {/*formatting navbar & body -j*/}
+
+          {/* Box Analytics */}
+          <div className="grid grid-cols-3 gap-[20px] my-[15px]">
+            <div className='flex flex-col justify-around px-4 py-4 border-[#1D5B79] border-[3px] border-solid bg-white hover:shadow-lg rounded-md'>
+              <div className='flex items-center justify-between'>
+                <h1 className='text-[20px] text-[#13334C] font-bold'>My Services</h1>
+                <MdDesignServices size={30} color='#1d5b79'/>
               </div>
-              <h1 className='font-medium'>300</h1>
             </div>
-            <div className='card'>
-              <div className='card-inner'>
-                <h3 className='font-bold text-[#1D5B79]'>TASK</h3>
-                <BsFillGrid3X3GapFill className='card_icon' />
+            <div className='flex flex-col justify-around px-4 py-4 border-[#1D5B79] border-[3px] border-solid bg-white hover:shadow-lg rounded-md'>
+              <div className='flex items-center justify-between'>
+                <h1 className='text-[20px] text-[#13334C] font-bold'>Pending Projects</h1>
+                <MdPendingActions size={30} color='#1d5b79'/>
               </div>
-              <h1 className='font-medium'>12</h1>
             </div>
-            <div className='card'>
-              <div className='card-inner'>
-                <h3 className='font-bold text-[#1D5B79]'>FREELANCERS</h3>
-                <BsPeopleFill className='card_icon' />
-              </div>
-              <h1 className='font-medium'>33</h1>
-            </div>
-            <div className='card'>
-              <div className='card-inner'>
-                <h3 className='font-bold text-[#1D5B79]'>NOTIFICATION</h3>
-                <BsFillBellFill className='card_icon' />
-              </div>
-              <h1 className='font-medium'>42</h1>
+            <div className='flex flex-col justify-around px-4 py-4 border-[#1D5B79] border-[3px] border-solid bg-white hover:shadow-lg rounded-md'>
+              <div className='flex items-center justify-between'>
+                <h1 className='text-[20px] text-[#13334C] font-bold'>Finished Projects</h1>
+                <FaFileCircleCheck size={27} color='#1d5b79'/>
+              </div> 
             </div>
           </div>
-          <div className='grid grid-cols-1 gap-[20px] my-[15px] md:grid-cols-3'>
-            <div className='flex flex-col justify-around rounded-lg' style={{ background: `url(${BGmark})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
-              <div className='flex justify-center items-center py-14'>
-                <h3 className='font-extrabold text-xl text-white'>Marketplace</h3>
-              </div>
+          {/* Box Analytics */}
+
+          {/* Menu Tabs */}
+          <div className='flex flex-col justify-center items-center'>
+            {/* outside container */}
+            <div className='flex justify-between items-center w-[100%] h-[100px] my-5'>
+              <button className={activeTab === 'track' ? 'active-tab border-[#1D5B79] py-4 w-[48%] border-[3px] rounded-md' :
+              'border-[#1D5B79] py-4 w-[48%] bg-[#13334C] text-white border-[3px] rounded-md'} 
+              onClick={() => handleTab('track')} >
+                <h1 className=' text-lg font-extrabold'>Ticket Tracker</h1>
+              </button>
+              <button className={activeTab === 'manage' ? 'active-tab border-[#1D5B79] text-white bg-[#13334C] py-8 w-[49%] border-[3px] rounded-md' : 
+              'border-[#1D5B79] py-4 w-[48%] bg-[#13334C] border-[3px]  rounded-md hover:w-[49%] hover:py-8'} 
+              onClick={() => handleTab('manage')}>
+                <h1 className=' text-lg font-extrabold'>Manage Services</h1>
+              </button>
             </div>
-            <div className='flex flex-col justify-around rounded-lg' style={{ background: `url(${BGtrack})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
-              <div className='flex justify-center items-center py-14'>
-                <h3 className='font-extrabold text-xl text-white'>Progress Tracker</h3>
-              </div>
-            </div>
-            <div className='flex flex-col justify-around rounded-lg' style={{ background: `url(${BGsubs})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
-              <div className='flex justify-center items-center py-14'>
-                <h3 className='font-extrabold text-xl text-white'>Subscription</h3>
-              </div>
-            </div>
-          </div>
-          <div className='flex'>
+            {/* inside container */}
             <div>
-              <FTaskList />
-            </div>
-            <div>
-              <FTop />
+              {activeTab === 'track' && (
+              <div className=''>
+                roar
+              </div>)}
+              {activeTab === 'manage' && (
+              <div className=''>
+                Rawr
+              </div>)}
             </div>
           </div>
+          {/* Menu Tabs */}
+
         </div>
       </div>
-      <div className=''>
-        <FFooter />
-      </div>
+      {/* Footer */}
     </div>
-  );
+  )
 }
 
 export default FDashboard
