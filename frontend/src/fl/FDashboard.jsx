@@ -53,10 +53,16 @@ const columns = [
     align: "center",
     format: (value) => (
       <div>
-        <button type="button" className="mr-2 px-2 py-1 bg-blue-500 rounded text-white">
+        <button
+          type="button"
+          className="mr-2 px-2 py-1 bg-blue-500 rounded text-white"
+        >
           <MdDesignServices className="inline" />
         </button>
-        <button type="button" className="px-2 py-1 bg-orange-500 rounded text-white">
+        <button
+          type="button"
+          className="px-2 py-1 bg-orange-500 rounded text-white"
+        >
           <FaFileCircleCheck className="inline" />
         </button>
       </div>
@@ -69,7 +75,14 @@ function createData(ticketID, cName, availedService, task, deadline, status) {
 }
 
 const rows = [
-  createData("123456789", "John Nicole Bergantinos", "Graphics Design", "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione quam dicta vel natus odit. Tenetur officia, nam voluptate sint a eveniet minima in, dolore quaerat amet magni consectetur ea. Quisquam!", "2024-02-11", "Open"),
+  createData(
+    "123456789",
+    "John Nicole Bergantinos",
+    "Graphics Design",
+    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione quam dicta vel natus odit. Tenetur officia, nam voluptate sint a eveniet minima in, dolore quaerat amet magni consectetur ea. Quisquam!",
+    "2024-02-11",
+    "Open"
+  ),
   createData("12345", "CN", "IN", 1403500365, "2024-05-09", "Open"),
   createData("12345", "IT", "IN", 60483973, "2024-02-15", "Open"),
   createData("12345", "US", "IN", 327167434, "2024-08-09", "Open"),
@@ -197,54 +210,73 @@ function FDashboard() {
               {activeTab === "track" && (
                 <div className="flex flex-col justify-center items-center w-[100%]">
                   <Paper sx={{ width: "100%" }}>
-                  <TableContainer sx={{ height: 500, width: "100%", backgroundColor: "white" }}>
-  <Table stickyHeader aria-label="sticky table">
-    <TableHead>
-      <TableRow>
-        {columns.map((column) => (
-          <TableCell
-            key={column.id}
-            align={column.align}
-            style={{ minWidth: column.minWidth }}
-          >
-            {column.label}
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-    <TableBody>
-      {rows
-        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-        .map((row, rowIndex) => {
-          return (
-            <TableRow
-              hover
-              role="checkbox"
-              tabIndex={-1}
-              key={rowIndex}
-            >
-              {columns.map((column) => {
-                const value = row[column.id];
-                return (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                  >
-                    {column.id === "actions" ? column.format(value) : (
-                      column.format && typeof value === "number"
-                        ? column.format(value)
-                        : value
-                    )}
-                  </TableCell>
-                );
-              })}
-            </TableRow>
-          );
-        })}
-    </TableBody>
-  </Table>
-</TableContainer>
+                    <TableContainer
+                      sx={{
+                        height: 500,
+                        width: "100%",
+                        backgroundColor: "white",
+                        boxShadow: "0 12px 24px 0 rgba(0, 0, 0, 0.2)",
+                      }}
+                    >
+                      <Table stickyHeader aria-label="sticky table">
+                        <TableHead>
+                          <TableRow>
+                            {columns.map((column) => (
+                              <TableCell
+                                key={column.id}
+                                align={column.align}
+                                style={{ minWidth: column.minWidth, backgroundColor: "#1d5b79", color: "white" }}
+                              >
+                                {column.label}
+                              </TableCell>
+                            ))}
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {rows
+                            .slice(
+                              page * rowsPerPage,
+                              page * rowsPerPage + rowsPerPage
+                            )
+                            .map((row, rowIndex) => {
+                              return (
+                                <TableRow
+                                  hover
+                                  role="checkbox"
+                                  tabIndex={-1}
+                                  key={rowIndex}
+                                >
+                                  {columns.map((column) => {
+                                    const value = row[column.id];
+                                    return (
+                                      <TableCell
+                                        key={column.id}
+                                        align={column.align}
+                                      >
+                                        {column.id === "actions"
+                                          ? column.format(value)
+                                          : column.format &&
+                                            typeof value === "number"
+                                          ? column.format(value)
+                                          : value}
+                                      </TableCell>
+                                    );
+                                  })}
+                                </TableRow>
+                              );
+                            })}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
                     <TablePagination
+                    sx={{
+                      backgroundColor: "#13334C",
+                      color: "white",
+                      ".MuiSelect-root": { color: "white" },
+                      ".MuiSelect-icon": { color: "white" },
+                      ".MuiSelect-iconFilled": { color: "white" },
+                      ".MuiSelect-iconOutlined": { color: "white" }
+                    }}
                       rowsPerPageOptions={[5, 10, 20]}
                       component="div"
                       count={rows.length}
