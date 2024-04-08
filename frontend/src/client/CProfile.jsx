@@ -27,7 +27,7 @@ function CProfile() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`http://localhost:8800/api/users/${userId}`);
+        const response = await axios.get(`https://quircom.onrender.com/api/client/${userId}`);
         if (response.status === 200) {
           setUsers(response.data);
         }
@@ -55,7 +55,7 @@ function CProfile() {
             <div className='profileDetail w-2/5 '>
               <div className=''>
               {userData && (
-                  <h4 className='font-extrabold text-[23px] text-[#1D5B79] my-1'>{userData.firstName} {userData.surName}</h4>
+                  <h4 className='font-extrabold text-[30px] text-[#1D5B79] my-1'>{userData.firstName} {userData.surName}</h4>
               )}
               </div>
             </div>
@@ -72,23 +72,13 @@ function CProfile() {
             {userData && (
               <div className='profileInfo '>
                 <p className='mx-9 my-5 text-[#13334c] text-[23px] font-extrabold'>Information</p>
-                
+              
                 <p className='mx-9 my-2 text-[#13334c] text-[15px]'>Email: {userData.eMail} </p>
                 <p className='mx-9 my-2 text-[#13334c] text-[15px]'>Contact Number: {userData.contactNum} </p>
                 <p className='mx-9 my-2 text-[#13334c] text-[15px]'>Address: {phil.city_mun.find(city => city.mun_code === userData.city)?.name}, {phil.provinces.find(province => province.prov_code === userData.province)?.name},  {phil.regions.find(region => region.reg_code === userData.region)?.name} </p>
                 
               </div>
             )}
-            <div className='profileSummary'>
-              <p className=' mx-9 my-5 text-[#13334c] text-[23px] font-extrabold'>Summary</p>
-              <p className=' mx-9 my-2 text-[#13334c] text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
-              <p className=' mx-9 my-2 text-[#13334c] text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
-              <p className=' mx-9 my-2 text-[#13334c] text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
-              <p className=' mx-9 my-5 text-[#13334c] text-[23px] font-extrabold'>Skills</p>
-              <p className=' mx-9 my-2 text-[#13334c] text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
-              <p className=' mx-9 my-2 text-[#13334c] text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
-              <p className=' mx-9 my-2 text-[#13334c] text-[15px] text-justify'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed porta turpis. In cursus libero et sem sagittis aliquet. </p>
-            </div>
           </div>
         </main>
       </div>
