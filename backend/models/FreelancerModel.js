@@ -65,8 +65,8 @@ const FreelancerSchema = new Schema({
     required: true,
   },
   profilePic: {
-    id: {type: String},
-    name: {type: String},
+    id: {type: String, required: true},
+    name: {type: String, required: true},
     link: {type: String}
   },
   portFolio: {

@@ -33,14 +33,14 @@ const CreateUser = async (req, res) => {
     const {body, file} = req;
     const client = JSON.parse(body.client);
 
-    let userProfile = {};
+    let clientProile = {};
 
     if (file) {
         const { id, name } = await DriveService.UploadFiles(
           file,
           process.env.FOLDER_ID_PROFILE
         );
-        Object.assign(userProfile, {
+        Object.assign(clientProile, {
           id: id,
           name: name,
           link: `https://drive.google.com/thumbnail?id=${id}&sz=w1000`,
@@ -59,8 +59,10 @@ const CreateUser = async (req, res) => {
         city: client.city,
         accType: client.accType,
         aggRee: client.aggRee,
-        profilePic: userProfile,
-        subs: client.subs,
+        profilePic: clientProile,
+        subs: {
+          status: false,
+        }
     });
     res.status(201).json(result);
 
@@ -71,53 +73,60 @@ const CreateUser = async (req, res) => {
 
 const EditUser = async (req, res) => {
   try {
-
     const { id } = req.params;
-    const {body, file} = req;
+    const { body, file } = req;
     const client = JSON.parse(body.client);
 
-    let userProfile = {};
+    let clientProile = {};
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({message: "Invalid ID"});
+      return res.status(400).json({ message: "Invalid ID" });
     }
 
     if (file) {
-        const { id: fileID, name: fileName } = await DriveService.UploadFiles(
-          file,
-          process.env.FOLDER_ID_PROFILE
-        );
-        Object.assign(userProfile, {
-          id: fileID,
-          name: fileName,
-          link: `https://drive.google.com/thumbnail?id=${fileID}&sz=w1000`,
-        });
+      const { id: fileID, name: fileName } = await DriveService.UploadFiles(
+        file,
+        process.env.FOLDER_ID_PROFILE
+      );
+      Object.assign(clientProile, {
+        id: fileID,
+        name: fileName,
+        link: `https://drive.google.com/thumbnail?id=${fileID}&sz=w1000`,
+      });
 
+      // Presuming you wish to replace the old profile picture,
+      // ensure you handle cases where a user might not have an existing profile picture.
+      if(client.profilePic && client.profilePic.id) {
         await DriveService.DeleteFiles(client.profilePic.id);
       }
+    }
 
-    const result = await UserModel.findByIdAndUpdate(
-       client._id,
-       {
-        $set: {
-          firstName: client.firstName,
-          surName: client.surName,
-          userName: client.userName,
-          eMail: client.eMail,
-          passWord: client.passWord,
-          contactNum: client.contactNum,
-          region: client.region,
-          province: client.province,
-          city: client.city,
-          profilePic: userProfile.hasOwnProperty("id") ? userProfile : client.profilePic,
-        },
-      }, 
-    {new: true}
-    );
+    // Define the update object outside the update function to conditionally include fields
+    let update = {
+      $set: {
+        firstName: client.firstName,
+        surName: client.surName,
+        userName: client.userName,
+        eMail: client.eMail,
+        passWord: client.passWord,
+        contactNum: client.contactNum,
+        region: client.region,
+        province: client.province,
+        city: client.city,
+        profilePic: clientProile.hasOwnProperty("id") ? clientProile : client.profilePic,
+        "subs.status": client.subs.status // Directly update the status
+      }
+    };
+
+    // Only set the dateSubscribed if status is true
+    if (client.subs && client.subs.status === true) {
+      update.$set["subs.dateSubscribed"] = new Date();
+    }
+
+    const result = await UserModel.findByIdAndUpdate(id, update, { new: true });
     res.status(201).json(result);
-
   } catch (err) {
-    res.status(404).json({message: err.message})
+    res.status(404).json({ message: err.message });
   }
 };
 
@@ -129,24 +138,34 @@ const DeleteUser = async (req, res) => {
       return res.status(400).json("No client listed");
     }
   
-    const request = await UserModel.findById(id);
+    const client = await UserModel.findById(id);
   
-    if (!request) {
-      return res.status(404).json({ message: "Request not found" });
+    if (!client) {
+      return res.status(404).json({ message: "User not found" });
     }
   
-    // Delete associated taskPicture from Google Drive
-    for (const image of request.taskPicture) {
-      await DriveService.DeleteFiles(image.id);
+    // If the user has a profile picture, delete it from Google Drive
+    if (client.profilePic && client.profilePic.id) {
+      await DriveService.DeleteFiles(client.profilePic.id);
     }
   
-    // Delete the request document from the database
+    // If there are task pictures, delete each associated file from Google Drive
+    if (client.taskPicture && Array.isArray(client.taskPicture)) {
+      for (const image of client.taskPicture) {
+        if (image.id) { // Ensure there's an id to work with
+          await DriveService.DeleteFiles(image.id);
+        }
+      }
+    }
+  
+    // Delete the user document from the database
     const result = await UserModel.findByIdAndDelete(id);
   
     res.status(200).json(result);
   } catch (err) {
-    res.send(err.message);
+    res.status(500).send(err.message); // Use status 500 for server errors
   }
+  
 };
 
 const ValidateUserData = async (req, res) => {

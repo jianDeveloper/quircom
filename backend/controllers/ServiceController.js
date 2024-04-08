@@ -123,24 +123,30 @@ const DeleteService = async (req, res) => {
       return res.status(400).json("No service listed");
     }
   
-    const request = await ServiceModel.findById(id);
+    const service = await ServiceModel.findById(id);
   
-    if (!request) {
+    if (!service) {
       return res.status(404).json({ message: "Service not found" });
     }
   
     // Delete associated taskPicture from Google Drive
-    for (const image of request.taskPicture) {
-      await DriveService.DeleteFiles(image.id);
+    if (Array.isArray(service.thumbNail)) {
+      for (const image of service.thumbNail) {
+        await DriveService.DeleteFiles(image.id);
+      }
+    } else {
+      // If thumbNail is not an array, treat it as a single object and delete it
+      await DriveService.DeleteFiles(service.thumbNail.id);
     }
   
-    // Delete the request document from the database
+    // Delete the service document from the database
     const result = await ServiceModel.findByIdAndDelete(id);
   
     res.status(200).json(result);
   } catch (err) {
     res.send(err.message);
   }
+  
 };
 
 module.exports = {

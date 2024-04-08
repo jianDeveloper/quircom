@@ -65,13 +65,19 @@ const ClientSchema = new Schema({
     required: true,
   },
   profilePic: {
-    id: {type: String},
-    name: {type: String},
-    link: {type: String}
+    id: {type: String, required: true},
+    name: {type: String, required: true},
+    link: {type: String},
   },
   subs:{
-    type: Boolean,
-    default: false,
+    status: {
+      type: Boolean,
+      default: false
+    },
+    dateSubscribed: {
+      type: Date,
+      default: ""
+    }
   }
 });
 
