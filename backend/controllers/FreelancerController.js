@@ -144,11 +144,10 @@ const EditPortfolio = async (req, res) => {
       return res.status(400).json({ message: "Invalid ID" });
     }
   
-    // Ensure portFolio is initialized as an array
-    let freelancerPicture = Array.isArray(existingPortfolio.portFolio) ? existingPortfolio.portFolio : [];
+    let freelancerPicture = existingPortfolio.portFolio;
   
     // Compare existing images with new ones to determine removed images
-    const removedImages = freelancerPicture.filter(image => !freelancer.portFolio.some(newImage => newImage.id === image.id));
+    const removedImages = existingPortfolio.portFolio.filter(image => !freelancer.portFolio.some(newImage => newImage.id === image.id));
   
     // Delete removed images from both the array and Google Drive
     for (const image of removedImages) {
@@ -189,7 +188,6 @@ const EditPortfolio = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 };
-
 
 const DeleteUser = async (req, res) => {
   try {
