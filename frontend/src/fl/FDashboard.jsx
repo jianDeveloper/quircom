@@ -120,17 +120,16 @@ function FDashboard() {
             {/* inside container */}
             <div>
               {activeTab === 'track' && (
-              <div className=''>
+              <div style={{ height: 400, width: '100%' }}>
                 <DataGrid
                   rows={rows}
                   columns={columns}
                   initialState={{
                   pagination: {
-                  paginationModel: { page: 0, pageSize: 5 },
+                  paginationModel: { page: 0, pageSize: 99 },
                    },
                  }}
                  pageSizeOptions={[5, 10]}
-                 checkboxSelection
                />
               </div>)}
               {activeTab === 'manage' && (
