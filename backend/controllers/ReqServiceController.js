@@ -35,38 +35,56 @@ const GetSpecificRequest = async (req, res) => {
 
 const CreateRequest = async (req, res) => {
   try {
-    const {body, files} = req;
+    const { body, files } = req;
     const request = JSON.parse(body.request);
 
     let requestPicture = [];
 
     if (files && files.length > 0) {
-      for (const file of files) {
-        const { id: fileID, name: fileName } = await DriveService.UploadFiles(
-          file,
-          process.env.FOLDER_ID_REQUEST
-        );
-        requestPicture.push({
-          id: fileID,
-          name: fileName,
-          link: `https://drive.google.com/thumbnail?id=${fileID}&sz=w1000`,
-        });
-      }
+        for (const file of files) {
+            const { id: fileID, name: fileName } = await DriveService.UploadFiles(
+                file,
+                process.env.FOLDER_ID_REQUEST
+            );
+            requestPicture.push({
+                id: fileID,
+                name: fileName,
+                link: `https://drive.google.com/thumbnail?id=${fileID}&sz=w1000`,
+            });
+        }
     }
 
+    let uniqueRequestId = generateUniqueRequestId();
     const result = await RequestModel.create({
-      clientId: request.clientId,
-      serviceId: request.serviceId,
-      taskTitle: request.taskTitle,
-      taskDetails: request.taskDetails,
-      taskPicture: requestPicture,
-      deadLine: request.deadLine,
-      dateUploaded: new Date()
+        requestId: uniqueRequestId,
+        status: "checking",
+        clientId: request.clientId,
+        serviceId: request.serviceId,
+        taskTitle: request.taskTitle,
+        taskDetails: request.taskDetails,
+        taskPicture: requestPicture,
+        deadLine: request.deadLine,
+        dateUploaded: new Date()
     });
 
     res.status(201).json(result);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+      res.status(400).json({ message: err.message });
+  }
+
+  // Function to generate a unique 5-digit random number
+  function generateUniqueRequestId() {
+      let requestId;
+      do {
+          requestId = Math.floor(10000 + Math.random() * 90000); // Generate a random number between 10000 and 99999
+      } while (!isRequestIdUnique(requestId)); // Loop until the generated requestId is unique
+      return requestId;
+  }
+
+  // Function to check if the generated requestId is unique in the database
+  async function isRequestIdUnique(requestId) {
+      const existingRequest = await RequestModel.findOne({ requestId: requestId });
+      return !existingRequest; // Return true if requestId is unique, false otherwise
   }
 };
 

@@ -11,6 +11,14 @@ const ReqServiceSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "service"
   },
+  requestId:{
+    type: Number,
+    default: "",
+  },
+  status:{
+    type: String,
+    default: "",
+  },
   taskTitle:{
     type: String,
     default: "",
