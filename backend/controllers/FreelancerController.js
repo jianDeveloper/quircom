@@ -130,68 +130,66 @@ const EditUser = async (req, res) => {
 };
 
 const EditPortfolio = async (req, res) => {
-  const EditPortfolio = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const { body, files } = req;
-      const freelancer = JSON.parse(body.freelancer);
-    
-      const existingPortfolio = await UserModel.findById(id);
-      if (!existingPortfolio) {
-        return res.status(404).json({ message: "No record found" });
-      }
-    
-      if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ message: "Invalid ID" });
-      }
-    
-      // Ensure portFolio is initialized as an array
-      let freelancerPicture = Array.isArray(existingPortfolio.portFolio) ? existingPortfolio.portFolio : [];
-    
-      // Compare existing images with new ones to determine removed images
-      const removedImages = freelancerPicture.filter(image => !freelancer.portFolio.some(newImage => newImage.id === image.id));
-    
-      // Delete removed images from both the array and Google Drive
-      for (const image of removedImages) {
-        await DriveService.DeleteFiles(image.id);
-        const index = freelancerPicture.findIndex(pic => pic.id === image.id);
-        if (index !== -1) {
-          freelancerPicture.splice(index, 1);
-        }
-      }
-    
-      // Handle file uploads
-      if (files && files.length > 0) {
-        for (const file of files) {
-          const { id: fileID, name: fileName } = await DriveService.UploadFiles(
-            file,
-            process.env.FOLDER_ID_PORTFOLIO
-          );
-          freelancerPicture.push({
-            id: fileID,
-            name: fileName,
-            link: `https://drive.google.com/thumbnail?id=${fileID}&sz=w1000`,
-          });
-        }
-      }
-    
-      const result = await UserModel.findByIdAndUpdate(
-        id,
-        {
-          $set: {
-            portFolio: freelancerPicture,
-          },
-        },
-        { new: true }
-      );
-      res.status(200).json(result);
-    
-    } catch (err) {
-      res.status(400).json({ message: err.message });
-    }
-  };
+  try {
+    const { id } = req.params;
+    const { body, files } = req;
+    const freelancer = JSON.parse(body.freelancer);
   
+    const existingPortfolio = await UserModel.findById(id);
+    if (!existingPortfolio) {
+      return res.status(404).json({ message: "No record found" });
+    }
+  
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid ID" });
+    }
+  
+    // Ensure portFolio is initialized as an array
+    let freelancerPicture = Array.isArray(existingPortfolio.portFolio) ? existingPortfolio.portFolio : [];
+  
+    // Compare existing images with new ones to determine removed images
+    const removedImages = freelancerPicture.filter(image => !freelancer.portFolio.some(newImage => newImage.id === image.id));
+  
+    // Delete removed images from both the array and Google Drive
+    for (const image of removedImages) {
+      await DriveService.DeleteFiles(image.id);
+      const index = freelancerPicture.findIndex(pic => pic.id === image.id);
+      if (index !== -1) {
+        freelancerPicture.splice(index, 1);
+      }
+    }
+  
+    // Handle file uploads
+    if (files && files.length > 0) {
+      for (const file of files) {
+        const { id: fileID, name: fileName } = await DriveService.UploadFiles(
+          file,
+          process.env.FOLDER_ID_PORTFOLIO
+        );
+        freelancerPicture.push({
+          id: fileID,
+          name: fileName,
+          link: `https://drive.google.com/thumbnail?id=${fileID}&sz=w1000`,
+        });
+      }
+    }
+  
+    const result = await UserModel.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          portFolio: freelancerPicture,
+        },
+      },
+      { new: true }
+    );
+    res.status(200).json(result);
+  
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
 };
+
 
 const DeleteUser = async (req, res) => {
   try {
