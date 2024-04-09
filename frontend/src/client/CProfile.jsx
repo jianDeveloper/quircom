@@ -84,7 +84,7 @@ function CProfile() {
               </div>
               <div className='text-inline border-l-2 border-gray-300 p-10'>
                 <strong className='mx-9 text-[#13334c] text-[23px]'> About </strong>
-                <p className='mx-9 my-2 text-[#13334c] text-[15px]'>José Protasio Rizal Mercado y Alonso Realonda was a Filipino nationalist, writer and polymath active at the end of the Spanish colonial period of the Philippines. He is considered a national hero of the Philippines </p>
+                <p className='mx-9 my-2 text-[#13334c] text-[15px]'>Hi,</p>
                 
               </div>
               </>
