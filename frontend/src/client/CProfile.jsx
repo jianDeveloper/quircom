@@ -52,10 +52,13 @@ function CProfile() {
                 <img className="profilePicture" src={avatar} alt="Profile Picture"/> // Render a default avatar if profilePic is not available
               )}
             </div>
-            <div className='profileDetail w-2/5 '>
+            <div className='profileDetail w-[500px] '>
               <div className=''>
               {userData && (
+                  <>
                   <h4 className='font-extrabold text-[30px] text-[#1D5B79] my-1'>{userData.firstName} {userData.surName}</h4>
+                  <strong className='text-[15px] text-[#1D5B79] my-1'>@{userData.userName}</strong>
+                  </>
               )}
               </div>
             </div>
@@ -64,20 +67,27 @@ function CProfile() {
                 <Link to={`/client/settings/${userId}`} className='buttonSettings text-white bg-[#1D5B79]'>Manage Profile</Link>
               </button>
               <button onClick={() => setNav(false)} className='py-2 px-3 m-auto text-center font-bold'>
-                <Link to={`/client/settings/${userId}`} className='buttonSettings text-[#1D5B79] bg-[#F5F5DC]'>View Portfolio</Link>
+                <Link to={`/client/billing/${userId}`} className='buttonSettings text-[#1D5B79] bg-[#F5F5DC]'>Subscription</Link>
               </button>
             </div>
           </div>
-          <div className="profileContent">
+          <div className="grid grid-cols-2 p-10 bg-[#F5F5DC] rounded-md border-2 border-orange-600">
             {userData && (
-              <div className='profileInfo '>
-                <p className='mx-9 my-5 text-[#13334c] text-[23px] font-extrabold'>Information</p>
+              <>
+              <div className='text-inline border-r-2 border-gray-300 p-10'>
+                <strong className='mx-9 text-[#13334c] text-[23px]'>Personal Information</strong>
               
                 <p className='mx-9 my-2 text-[#13334c] text-[15px]'>Email: {userData.eMail} </p>
                 <p className='mx-9 my-2 text-[#13334c] text-[15px]'>Contact Number: {userData.contactNum} </p>
                 <p className='mx-9 my-2 text-[#13334c] text-[15px]'>Address: {phil.city_mun.find(city => city.mun_code === userData.city)?.name}, {phil.provinces.find(province => province.prov_code === userData.province)?.name},  {phil.regions.find(region => region.reg_code === userData.region)?.name} </p>
                 
               </div>
+              <div className='text-inline border-l-2 border-gray-300 p-10'>
+                <strong className='mx-9 text-[#13334c] text-[23px]'> About </strong>
+                <p className='mx-9 my-2 text-[#13334c] text-[15px]'>José Protasio Rizal Mercado y Alonso Realonda was a Filipino nationalist, writer and polymath active at the end of the Spanish colonial period of the Philippines. He is considered a national hero of the Philippines </p>
+                
+              </div>
+              </>
             )}
           </div>
         </main>

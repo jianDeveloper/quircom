@@ -37,7 +37,7 @@
 .buttonSettings{
   display: flex;
   text-align: center;
-  border-radius: 50px;
+  border-radius: 10px;
   padding: 5px 20px 5px 20px;
 }
 
@@ -63,42 +63,7 @@
 
 }
 
-.profileContent{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 100%;
-}
 
-.profileInfo{
-  background-color: beige;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  flex-basis: 250px;
-  flex-grow: 1;
-  overflow-y: auto;
-  border-width: 2px;
-  border-color: #FB6D3A;
-  border-radius: 10px;
-  min-width: 250px;
-  height: 500px;
-}
-
-.profileSummary{
-  background-color: beige;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  flex-basis: 250px;
-  flex-grow: 9;
-  overflow-y: auto;
-  border-width: 2px;
-  border-color: #FB6D3A;
-  border-radius: 10px;
-  min-width: 250px;
-  height: 500px;
-}
 
 .profileInfo::-webkit-scrollbar, .profileSummary::-webkit-scrollbar{
   width: 10px;
