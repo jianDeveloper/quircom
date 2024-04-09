@@ -64,8 +64,9 @@ const CreateUser = async (req, res) => {
       accType: freelancer.accType,
       aggRee: freelancer.aggRee,
       profilePic: freelancerProfile,
+      userInfo: null,
+      portFolio: null,
       ratings: freelancer.ratings,
-      portFolio: null
     });
     
     res.status(201).json(result);
@@ -119,6 +120,7 @@ const EditUser = async (req, res) => {
           province: freelancer.province,
           city: freelancer.city,
           profilePic: freelancerProfile.hasOwnProperty("id") ? freelancerProfile : freelancer.profilePic,
+          userInfo: freelancer.userInfo,
         },
       }, 
     {new: true}
@@ -134,65 +136,60 @@ const EditPortfolio = async (req, res) => {
     const { id } = req.params;
     const { body, files } = req;
     const freelancer = JSON.parse(body.freelancer);
-  
+
     const existingUser = await UserModel.findById(freelancer._id);
     if (!existingUser) {
-      return res.status(404).json({ message: "No user found" });
+        return res.status(404).json({ message: "No user found" });
     }
-  
+
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ message: "Invalid ID" });
+        return res.status(400).json({ message: "Invalid ID" });
     }
-  
+
     let appendPortfolio = [];
-  
+
     // Ensure existingUser.portFolio is initialized as an empty array if it's null
     const existingPortfolio = existingUser.portFolio || [];
-  
+
     // Determine the files to delete
-    const filesToDelete = freelancer.portFolio || [];
-  
+    const filesToDelete = existingPortfolio.filter(existingFile => !freelancer.portFolio.some(newFile => newFile.id === existingFile.id));
+
     // Delete selected files from both the array and Google Drive
     for (const fileToDelete of filesToDelete) {
-      const index = existingPortfolio.findIndex(pic => pic.id === fileToDelete.id);
-      if (index !== -1) {
         await DriveService.DeleteFiles(fileToDelete.id);
-        existingPortfolio.splice(index, 1);
-      }
     }
-  
+
     // Handle file uploads
     if (files && files.length > 0) {
-      for (const file of files) {
-        const { id: fileID, name: fileName } = await DriveService.UploadFiles(
-          file,
-          process.env.FOLDER_ID_PORTFOLIO
-        );
-        appendPortfolio.push({
-          id: fileID,
-          name: fileName,
-          link: `https://drive.google.com/thumbnail?id=${fileID}&sz=w1000`,
-        });
-      }
+        for (const file of files) {
+            const { id: fileID, name: fileName } = await DriveService.UploadFiles(
+                file,
+                process.env.FOLDER_ID_PORTFOLIO
+            );
+            appendPortfolio.push({
+                id: fileID,
+                name: fileName,
+                link: `https://drive.google.com/thumbnail?id=${fileID}&sz=w1000`,
+            });
+        }
     }
-  
+
     // Append the remaining files in the portfolio
-    appendPortfolio.push(...existingPortfolio);
-  
+    appendPortfolio.push(...freelancer.portFolio);
+
     const result = await UserModel.findByIdAndUpdate(
-      freelancer._id,
-      {
-        $set: {
-          portFolio: appendPortfolio,
+        freelancer._id,
+        {
+            $set: {
+                portFolio: appendPortfolio,
+            },
         },
-      },
-      { new: true }
+        { new: true }
     );
     res.status(201).json(result);
   } catch (err) {
-    res.status(404).json({ message: err.message });
+      res.status(404).json({ message: err.message });
   }
-  
 };
 
 const DeleteUser = async (req, res) => {

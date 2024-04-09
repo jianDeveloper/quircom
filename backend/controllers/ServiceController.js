@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
 const ServiceModel = require("../models/ServiceModel");
+const RequestModel = require("../models/ReqServiceModel")
 const DriveService = require("../utils/DriveService");
 
 const GetAllServices = async (req, res) => {
   try {
-    const result = await ServiceModel.find({}).populate("freelancerId");
+    const result = await ServiceModel.find({}).populate("requestId").populate("freelancerId");
     // variable.freelancerId.userName
 
     res.status(200).json(result);
@@ -21,7 +22,7 @@ const GetSpecificService = async (req, res) => {
       return res.status(400).json({ message: "Invalid ID" });
     }
 
-    const result = await ServiceModel.findById(id).populate("freelancerId");
+    const result = await ServiceModel.findById(id).populate("requestId").populate("freelancerId");
 
     if (!result) {
         return res.status(404).json({ message: "Service not found" });
@@ -35,7 +36,7 @@ const GetSpecificService = async (req, res) => {
 
 const CreateService = async (req, res) => {
   try {
-    const {body, file} = req;
+    const { body, file } = req;
     const service = JSON.parse(body.service);
 
     let serviceThumbnail = {};
@@ -52,22 +53,46 @@ const CreateService = async (req, res) => {
       });
     }
 
+    // Find all requests associated with the given serviceId
+    const requests = await RequestModel.find({ serviceId: service._id });
+
+    // Extract requestIds from the requests
+    const requestIds = requests.map((request) => request._id);
+
+    let uniqueServiceId = generateUniqueServiceId();
     const result = await ServiceModel.create({
       thumbNail: serviceThumbnail,
+      serviceId: uniqueServiceId,
       serviceName: service.serviceName,
       serviceType: service.serviceType,
       serviceInfo: service.serviceInfo,
       price: service.price,
-      reviews: service.reviews,
+      requestId: requestIds, // Assign requestIds to requestId
       freelancerId: service.freelancerId,
-      dateUploaded: new Date()
+      dateUploaded: new Date(),
     });
 
     res.status(201).json(result);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
+
+  function generateUniqueServiceId() {
+    let serviceId;
+    do {
+        serviceId = Math.floor(10000 + Math.random() * 90000); // Generate a random number between 10000 and 99999
+    } while (!isServiceIdUnique(serviceId)); // Loop until the generated serviceId is unique
+    return serviceId;
+}
+
+// Function to check if the generated serviceId is unique in the database
+async function isServiceIdUnique(serviceId) {
+    const existingService = await ServiceModel.findOne({ serviceId: serviceId });
+    return !existingService; // Return true if serviceId is unique, false otherwise
+}
 };
+
+
 
 const EditService = async (req, res) => {
   try {

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const RequestModel = require("../models/ReqServiceModel");
+const ServiceModel = require("../models/ServiceModel")
 const DriveService = require("../utils/DriveService");
 
 const GetAllRequest = async (req, res) => {
@@ -39,7 +40,6 @@ const CreateRequest = async (req, res) => {
     const request = JSON.parse(body.request);
 
     let requestPicture = [];
-
     if (files && files.length > 0) {
         for (const file of files) {
             const { id: fileID, name: fileName } = await DriveService.UploadFiles(
@@ -55,7 +55,7 @@ const CreateRequest = async (req, res) => {
     }
 
     let uniqueRequestId = generateUniqueRequestId();
-    const result = await RequestModel.create({
+    const newRequest = await RequestModel.create({
         requestId: uniqueRequestId,
         status: "checking",
         clientId: request.clientId,
@@ -63,11 +63,18 @@ const CreateRequest = async (req, res) => {
         taskTitle: request.taskTitle,
         taskDetails: request.taskDetails,
         taskPicture: requestPicture,
+        feedbackNum: request.feedbackNum,
+        feedbackInfo: request.feedbackInfo,
         deadLine: request.deadLine,
         dateUploaded: new Date()
     });
 
-    res.status(201).json(result);
+    // After creating a request, update the associated service to include this new request's ID
+    await ServiceModel.findByIdAndUpdate(request.serviceId, {
+      $push: { requestId: newRequest._id }
+    });
+
+    res.status(201).json(newRequest);
   } catch (err) {
       res.status(400).json({ message: err.message });
   }
@@ -139,6 +146,8 @@ const EditRequest = async (req, res) => {
           taskTitle: request.taskTitle,
           taskDetails: request.taskDetails,
           taskPicture: requestPicture,
+          feedbackNum: request.feedbackNum,
+          feedbackInfo: request.feedbackInfo,
           deadLine: request.deadLine,
           dateUploaded: new Date()
         },

@@ -8,6 +8,10 @@ const ServiceSchema = new Schema({
     name: {type: String},
     link: {type: String}
   },
+  serviceId:{
+    type: Number,
+    default: "",
+  },
   serviceName: {
     type: String,
     default: "",
@@ -28,10 +32,10 @@ const ServiceSchema = new Schema({
     default: "",
     required: true,
   },
-  reviews:{
-    type: String,
-    default: "",
-  },
+  requestId:[{
+    type: Schema.Types.ObjectId,
+    ref: 'request'
+  }],
   freelancerId: {
     type: Schema.Types.ObjectId, 
     ref: 'freelancer'

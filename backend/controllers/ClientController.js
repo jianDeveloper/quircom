@@ -60,6 +60,7 @@ const CreateUser = async (req, res) => {
         accType: client.accType,
         aggRee: client.aggRee,
         profilePic: clientProile,
+        userInfo: null,
         subs: {
           status: false,
         }
@@ -114,6 +115,7 @@ const EditUser = async (req, res) => {
         province: client.province,
         city: client.city,
         profilePic: clientProile.hasOwnProperty("id") ? clientProile : client.profilePic,
+        userInfo: client.userInfo,
         "subs.status": client.subs.status // Directly update the status
       }
     };

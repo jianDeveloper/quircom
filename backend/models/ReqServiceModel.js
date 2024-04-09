@@ -39,6 +39,14 @@ const ReqServiceSchema = new Schema({
     default: "",
     required: true,
   },
+  feedbackNum: {
+    type: Number,
+    default: 1
+  },
+  feedbackInfo:{
+    type: String,
+    default: ""
+  },
   dateUploaded:{
     type: Date,
     default: Date.now

@@ -69,6 +69,10 @@ const ClientSchema = new Schema({
     name: {type: String, required: true},
     link: {type: String},
   },
+  userInfo:{
+    type: String,
+    default: "",
+  },
   subs:{
     status: {
       type: Boolean,

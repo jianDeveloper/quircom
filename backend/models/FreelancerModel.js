@@ -69,6 +69,10 @@ const FreelancerSchema = new Schema({
     name: {type: String, required: true},
     link: {type: String}
   },
+  userInfo:{
+    type: String,
+    default: "",
+  },
   portFolio: [{
     id: {type: String}, 
     name: {type: String}, 
