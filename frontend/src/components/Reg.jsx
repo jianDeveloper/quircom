@@ -295,7 +295,7 @@ const Reg = () => {
                     name="contactNum"
                     value={formData.contactNum}
                     onChange={handleChange}
-                    className={`w-full text-[14px] p-2.5 border rounded ${invalidFields.contactNum ? 'border-red-500' : ''}`}
+                    className={`w-full text-[14px] p-3 border rounded ${invalidFields.contactNum ? 'border-red-500' : ''}`}
                     placeholder="Enter your contact number"
                   />
                   {invalidFields.contactNum && <p className="text-red-500 text-[12px]">{invalidFields.contactNum}</p>}
@@ -309,7 +309,7 @@ const Reg = () => {
                     name="region"
                     value={regionCode}
                     onChange={handleChange}
-                    className={`w-full p-2 text-[14px] border rounded ${invalidFields.region ? 'border-red-500' : ''}`}>
+                    className={`w-full p-3 text-[14px] border rounded ${invalidFields.region ? 'border-red-500' : ''}`}>
                     <option value="">Select Region</option>
                     {sortedRegions.map((region, index) => (
                       <option key={`${region.reg_code}-${index}`} value={region.reg_code}>{region.name}</option>
@@ -329,7 +329,7 @@ const Reg = () => {
                       name="province"
                       value={provinceCode}
                       onChange={handleChange}
-                      className={`w-full p-2 text-[14px] border rounded ${invalidFields.province ? 'border-red-500' : ''}`}>
+                      className={`w-full p-3 text-[14px] border rounded ${invalidFields.province ? 'border-red-500' : ''}`}>
                       <option value="">Select Province</option>
                       {filteredProvinces.map((province, index) => (
                         <option key={`${province.prov_code}-${index}`} value={province.prov_code}>{province.name}</option>
@@ -346,7 +346,7 @@ const Reg = () => {
                     name="city"
                     value={cityCode}
                     onChange={handleChange}
-                    className={`w-full p-2 text-[14px] border rounded ${invalidFields.city ? 'border-red-500' : ''}`}>
+                    className={`w-full p-3 text-[14px] border rounded ${invalidFields.city ? 'border-red-500' : ''}`}>
                     <option value="">Select City</option>
                     {filteredCity.map((city, index) => (
                       <option key={`${city.mun_code}-${index}`} value={city.mun_code}>{city.name}</option>
@@ -381,7 +381,7 @@ const Reg = () => {
                     name="accType"
                     value={formData.accType}
                     onChange={handleChange}
-                    className={`w-full p-2 text-[14px] border rounded ${invalidFields.accType ? 'border-red-500' : ''}`}>
+                    className={`w-full p-3 text-[14px] border rounded ${invalidFields.accType ? 'border-red-500' : ''}`}>
                     <option value="">Select Account Type</option>
                     <option value="client">Client</option>
                     <option value="freelancer">Freelancer</option>
