@@ -16,7 +16,7 @@ const Services = () => {
             Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
             when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
           </p>
-          <button className='transition ease-in-out delay-150 bg-[#1D5B79] hover:-translate-y-1 hover:scale-110 hover:bg-orange-600 duration-300 w-[200px] rounded-md font-medium my-6 mx-auto md:mx-0 py-3 text-white'>Get Started</button>
+          <button  className='transition ease-in-out delay-150 bg-[#1D5B79] hover:-translate-y-1 hover:scale-110 hover:bg-orange-600 duration-300 w-[200px] rounded-md font-medium my-6 mx-auto md:mx-0 py-3 text-white'> Get Started </button> 
         </div>
       </div>
       <div className='grid md:grid-cols-3 gap-4 md:p-10 mt-[100px] h-96'>

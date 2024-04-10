@@ -13,9 +13,9 @@ import CFooter from "./CFooter";
 import TaskList from "./Dashcomponents/TaskList";
 
 import BG1 from "../assets/bg1.png";
-import BGmark from "../assets/service.jpg";
-import BGtrack from "../assets/track.jpg";
-import BGsubs from "../assets/subs.jpg";
+import BGmark from "../assets/ser.jpg";
+import BGtrack from "../assets/tra.jpg";
+import BGsubs from "../assets/sub.jpg";
 import CMainNav from "./CMainNav";
 import CTop from "./CTop";
 

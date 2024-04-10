@@ -1,11 +1,11 @@
 import React from 'react'
 
-import NavHeader from './FMainNav'
+import NavHeader from './CMainNav'
 
 import mpTop from '../assets/mpTop.jpg'
-import FCards from './FCards'
+import FCards from './CCards'
 import mpCard from '../assets/laptop.jpg'
-import FFooter from './FFooter'
+import FFooter from './Footer'
 
 const FMarketplace = () => {
   const data = [
@@ -45,13 +45,13 @@ const FMarketplace = () => {
           </div>
           <div className=' h-[43vh] overflow-scroll grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
             {data.map((item, index) => (
-              <FCards key={index} image={item.image} subtitle={item.subtitle} title={item.title} author={item.author}  button={item.button}/>
+              <CCards key={index} image={item.image} subtitle={item.subtitle} title={item.title} author={item.author}  button={item.button}/>
             ))}
           </div>
         </div>
       </div>
       <div className="">
-        <FFooter />
+        <Footer />
       </div>
     </div>
   )
