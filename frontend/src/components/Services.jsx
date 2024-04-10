@@ -12,9 +12,7 @@ const Services = () => {
         <div className='flex flex-col justify-center'>
           <p className='text-[#1D5B79] font-bold'>IT and Graphic Designs</p>
           <h1 className='md:text-4xl sm:text-3xl text-2xl font-bold py-2 text-orange-600'>Let's work together</h1>
-          <p className='md:text-1xl text-xl font-normal text-[#1D5B79]'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-            when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
+          <p className='md:text-1xl text-xl font-normal text-[#1D5B79]'>🖥️💡 IT meets Quircom! Let's collaborate and blend the power of technology with the finesse of graphic design. Together, we can create stunning visuals, seamless user experiences, and innovative solutions. Let's bring ideas to life IT and Graphic Design, a perfect synergy! 🎨✨ #Quircom #Freelance #IT #GraphicDesign 
           </p>
           <button  className='transition ease-in-out delay-150 bg-[#1D5B79] hover:-translate-y-1 hover:scale-110 hover:bg-orange-600 duration-300 w-[200px] rounded-md font-medium my-6 mx-auto md:mx-0 py-3 text-white'> Get Started </button> 
         </div>
