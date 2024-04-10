@@ -7,6 +7,7 @@ import Reg from './components/Reg.jsx';
 import Footer from './components/Footer.jsx';
 import Terms from './components/Terms.jsx';
 import Forgot from './components/Forgot.jsx';
+import ResetPass from './components/ResetPass.jsx';
 import CDashboard from './client/CDashboard.jsx';
 import CMarketplace from './client/CMarketplace.jsx';
 import CProfile from './client/CProfile.jsx';
@@ -77,6 +78,11 @@ function App() {
           exact
           path="/forgot"
           element={<Forgot />}
+        />
+        <Route
+          exact
+          path="/resetpass/:userId"
+          element={<ResetPass />}
         />
         <Route
           exact

@@ -1,62 +1,91 @@
-import React, { useState } from 'react';
-import {Link} from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const [eMail, setEmail] = useState('');
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [timer, setTimer] = useState(null);
+  const [remainingTime, setRemainingTime] = useState(0);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Logic to send reset password link goes here
-    // This is just a placeholder, you need to replace it with your actual logic
-    if (email.trim() === '') {
-      setMessage('Please enter your email address.');
-    } else {
-      // Assume you have a function sendPasswordResetEmail implemented elsewhere
-      // This is just a placeholder, you need to replace it with your actual function
-      sendPasswordResetEmail(email)
-        .then(() => {
-          setMessage('Password reset link sent successfully.');
-        })
-        .catch((error) => {
-          setMessage(`Error: ${error.message}`);
-        });
+
+    try {
+      if (eMail.trim() === '') {
+        toast.error('Please enter your email address.');
+      } else {
+        const response = await axios.post('http://localhost:8800/api/auth/forgotpass', { eMail });
+        toast.success(response.data.message);
+        setIsButtonDisabled(true);
+        startTimer();
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        toast.error('No user found.');
+      } else {
+        toast.error(`Error: ${error.message}`);
+      }
     }
   };
 
-  return (
-    <div className='fixed inset-0 bg-black bg-opacity-20 backdrop-blur-sm z-[5] overflow-auto ease-in-out duration-1000'>
-    <div className='absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-[beige] w-[700px] px-[20px] py-[30px] rounded-[10px] shadow-[2px_2px_5px_5px_rgba(0,0,0,0.15)] border-solid border-[1px] border-black'>
-    <div className='flex-inline justify-center h-full items-center w-full'>
-    <div>
-        <div className='mb-20'>
-      <h2 className='text-center mx-[20px] mt-[10px] text-[20px] text-[#1D5B79] font-extrabold drop-shadow-xl'>Forgot Password</h2>
-      {message && <div>{message}</div>}</div>
-      <form method='method="POST" action="#" class="mx-2 my-12 max-w-xl sm:rounded-full sm:border sm:border-gray-100 sm:bg-white sm:p-2 sm:shadow' onSubmit={handleSubmit}>
-      <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-    <div class="relative text-gray-500 sm:w-7/12">
-      
-      <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" class=""></path>
-        </svg>
-      </div>
-      <input type="email" name="email" id="email" placeholder="Enter email address" class="w-full cursor-text rounded-full border-2 py-4 pr-4 pl-10 text-base outline-none transition-all duration-200 ease-in-out sm:border-0 focus:border-transparent focus:ring" required="" />
-    </div>
+  const startTimer = () => {
+    const timerId = setTimeout(() => {
+      setIsButtonDisabled(false);
+      clearTimeout(timerId);
+    }, 60000); // One minute timer
+    setTimer(timerId);
+  };
 
-    <button type="submit" class="group flex items-center justify-center rounded-full bg-blue-700 hover:bg-orange-500 px-6 py-4 text-white transition">
-      <span class="group flex w-full items-center justify-center whitespace-nowrap rounded text-center font-medium"> Send Reset Link </span>
-      <svg class="shrink-0 group-hover:ml-8 ml-4 h-4 w-4 transition-all" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-      </svg>
-    </button>
-  </div>
-      </form>
-    </div>
-    </div>
-    </div>
-    </div>
-    
+  useEffect(() => {
+    if (isButtonDisabled) {
+      const intervalId = setInterval(() => {
+        setRemainingTime((prevTime) => prevTime - 1000);
+      }, 1000);
+      return () => clearInterval(intervalId);
+    }
+  }, [isButtonDisabled]);
+
+  useEffect(() => {
+    if (isButtonDisabled) {
+      setRemainingTime(30000);
+    }
+  }, [isButtonDisabled]);
+
+  return (
+    <>
+      <ToastContainer />
+      <div className="fixed inset-0 bg-black bg-opacity-20 z-50 overflow-auto ease-in-out duration-1000 flex justify-center items-center">
+        <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-8 rounded-lg shadow-lg" style={{ backgroundColor: '#F5F5DC' }}>
+          <h2 className="text-center text-2xl font-bold text-[#1D5B79] mb-4">Forgot Password</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label htmlFor="eMail" className="block text-gray-700">Email Address</label>
+              <input
+                type="eMail"
+                id="eMail"
+                value={eMail}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter email address"
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-700"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className={`w-full py-2 rounded-lg transition duration-300 ${isButtonDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-700 hover:bg-orange-500 text-white'}`}
+              disabled={isButtonDisabled}
+            >
+              {isButtonDisabled ? `Resend Email (${Math.ceil(remainingTime / 1000)}s)` : 'Send Reset Link'}
+            </button>
+          </form>
+          <div className="mt-4 text-center">
+            <a href="/" className="text-blue-700 hover:underline">Back to Login</a>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 

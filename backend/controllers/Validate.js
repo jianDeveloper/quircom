@@ -112,78 +112,106 @@ const ForgotPassword = async (req, res) => {
     // If user is found in freelancer collection
     if (freelancerUser) {
       const authToken = jwt.sign({eMail}, process.env.JWT_KEY, {expiresIn: '5m'})
+      const username = freelancerUser.userName;
+      const id = freelancerUser._id;
+  
+      // Direct URL of the company logo image
+      const companyLogoUrl = 'https://drive.google.com/uc?id=1wc0kK6tHtpDCuPszIRimda3xX_Ctd9bG';
+  
+      // HTML content with embedded image and username
+      const htmlContent = `
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta http-equiv="X-UA-Compatible" content="IE=edge">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Password Reset</title>
+          </head>
+          <body style="font-family: Arial, sans-serif;">
+  
+              <div style="max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f4; color: #000; font-size: 16px;">
+                  <img src="${companyLogoUrl}" alt="Company Logo" style="max-width: 200px; margin: 0 auto 20px; display: block;">
+                  <h2 style="margin-bottom: 20px; text-align: center; color: #000;">Password Reset</h2>
+                  <p>${username}, We have received a request to reset your password. If you did not make this request, please ignore this email.</p>
+                  <p style="text-align: center;">To reset your password, click the button below:</p>
+                  <p style="text-align: center;">
+                      <a href="hhttp://localhost:5173/resetpass/${id}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Reset Password</a>
+                  </p>
+                  <p>If you did not request a password reset, no further action is required.</p>
+                  <p>Thank you,</p>
+                  <p>QUIRCOM</p>
+              </div>
+  
+          </body>
+          </html>`;
+  
+      // Sending email without attachment and disable reply to this email
       await transporter.sendMail({
-        from: process.env.GMAIL_SENDER,
-        to: freelancerUser.eMail,
-        subject: "Reset Password",
-        html: `<!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Password Reset</title>
-        </head>
-        <body style="font-family: Arial, sans-serif;">
-        
-            <div style="max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f4;">
-                <h2>Password Reset</h2>
-                <p>We received a request to reset your password. If you did not make this request, please ignore this email.</p>
-                <p>To reset your password, click the button below:</p>
-                <p style="text-align: center;">
-                    <a href=`` style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">Reset Password</a>
-                </p>
-                <p>If you're having trouble clicking the "Reset Password" button, copy and paste the following link into your browser:</p>
-                <p>RESET_LINK_HERE</p>
-                <p>If you did not request a password reset, no further action is required.</p>
-                <p>Thank you,</p>
-                <p>Your Company Name</p>
-            </div>
-        
-        </body>
-        </html>`
-      })
-      // ${freelancerUser._id}
-      res.status(201).json({ message: "An email has been sent into your account", authToken })
+          from: process.env.GMAIL_SENDER,
+          to: freelancerUser.eMail,
+          subject: "Reset Password",
+          html: htmlContent,
+          replyTo: '', // Set an empty reply-to address to disable reply functionality
+          disableReplyTo: true
+      });
+      res.status(201).json({ message: "An email has been sent into your account", authToken });
     }
 
     // If user is found in client collection
     if (clientUser) {
-      const authToken = jwt.sign({eMail}, process.env.JWT_KEY, {expiresIn: '5m'})
+      const authToken = jwt.sign({ eMail }, process.env.JWT_KEY, { expiresIn: '5m' });
+      const username = clientUser.userName;
+      const id = clientUser._id;
+  
+      // Direct URL of the company logo image
+      const companyLogoUrl = 'https://drive.google.com/uc?id=1wc0kK6tHtpDCuPszIRimda3xX_Ctd9bG';
+  
+      // HTML content with embedded image and username
+      const htmlContent = `
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta http-equiv="X-UA-Compatible" content="IE=edge">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Password Reset</title>
+          </head>
+          <body style="font-family: Arial, sans-serif;">
+  
+              <div style="max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f4; color: #000; font-size: 16px;">
+                  <img src="${companyLogoUrl}" alt="Company Logo" style="max-width: 200px; margin: 0 auto 20px; display: block;">
+                  <h2 style="margin-bottom: 20px; text-align: center; color: #000;">Password Reset</h2>
+                  <p>${username}, We have received a request to reset your password. If you did not make this request, please ignore this email.</p>
+                  <p style="text-align: center;">To reset your password, click the button below:</p>
+                  <p style="text-align: center;">
+                      <a href="http://localhost:5173/resetpass/${id}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Reset Password</a>
+                  </p>
+                  <p>If you did not request a password reset, no further action is required.</p>
+                  <p>Thank you,</p>
+                  <p>QUIRCOM</p>
+              </div>
+  
+          </body>
+          </html>`;
+  
+      // Sending email without attachment and disable reply to this email
       await transporter.sendMail({
-        from: process.env.GMAIL_SENDER,
-        to: clientUser.eMail,
-        subject: "Reset Password",
-        html: `<!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Password Reset</title>
-        </head>
-        <body style="font-family: Arial, sans-serif;">
-        
-            <div style="max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f4;">
-                <h2>Password Reset</h2>
-                <p>We received a request to reset your password. If you did not make this request, please ignore this email.</p>
-                <p>To reset your password, click the button below:</p>
-                <p style="text-align: center;">
-                    <a href="RESET_LINK_HERE" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">Reset Password</a>
-                </p>
-                <p>If you're having trouble clicking the "Reset Password" button, copy and paste the following link into your browser:</p>
-                <p>RESET_LINK_HERE</p>
-                <p>If you did not request a password reset, no further action is required.</p>
-                <p>Thank you,</p>
-                <p>Your Company Name</p>
-            </div>
-        
-        </body>
-        </html>`
-      })
-
-      res.status(201).json({ message: "An email has been sent into your account", authToken })
-    }
+          from: process.env.GMAIL_SENDER,
+          to: clientUser.eMail,
+          subject: "Reset Password",
+          html: htmlContent,
+          replyTo: '', // Set an empty reply-to address to disable reply functionality
+          disableReplyTo: true
+      });
+      res.status(201).json({ message: "An email has been sent into your account", authToken });
+  }
+  
+   
+  if (!freelancerUser && !clientUser) {
+    // Send error response indicating user not found
+    res.status(404).json({ message: "User not found" });
+  }
   } catch (error) {
     res.status(404).json({ message: error.message});
   }
