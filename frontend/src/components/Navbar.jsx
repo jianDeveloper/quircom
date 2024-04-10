@@ -24,7 +24,7 @@ const navBar = () => {
       </ul>
 
       {/* Log-Reg */}
-      <div className='hidden md:flex '>
+      <div className='hidden md:flex'>
       <button onClick={() => setLogin(true)} className=' pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'>Log In</button>
       <Modal open={openLogin} onClose={() => setLogin(false)}/>
       <button onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold'>

@@ -4,13 +4,9 @@ import axios from "axios"; // Import axios for making HTTP requests
 import UserContext from "../context/UserContext";
 import { useParams } from "react-router-dom";
 
+
 import BG1 from "../assets/bg1.png";
-import {
-  MdAdd,
-  MdDesignServices,
-  MdPendingActions,
-  MdPlusOne,
-} from "react-icons/md";
+import { MdDesignServices, MdPendingActions } from "react-icons/md";
 import { FaFileCircleCheck } from "react-icons/fa6";
 import {
   Paper,
@@ -21,144 +17,22 @@ import {
   TablePagination,
   TableRow,
   TableCell,
-  Stack,
 } from "@mui/material/";
 import FMainNav from "./FMainNav";
 import FFooter from "./FFooter";
 import { Button } from "@material-tailwind/react";
-import { AiFillPlusCircle } from "react-icons/ai";
 
-const column = [
-  { id: "ticketID", label: "Ticket ID", minWidth: 100, align: "center" },
-  { id: "cName", label: "Client Name", minWidth: 170 },
-  {
-    id: "availedService",
-    label: "Availed Service",
-    minWidth: 100,
-    align: "center",
-  },
-  {
-    id: "task",
-    label: "Task Details",
-    minWidth: 200,
-    align: "left",
-  },
-  {
-    id: "deadline",
-    label: "Deadline",
-    minWidth: 100,
-    align: "center",
-    format: (value) => new Date(value).toLocaleString("en-GB"),
-  },
-  {
-    id: "status",
-    label: "Status",
-    minWidth: 100,
-    align: "center",
-  },
-  {
-    id: "actions",
-    label: "Actions",
-    minWidth: 100,
-    align: "center",
-    format: (value) => (
-      <div>
-        <button
-          type="button"
-          className="mr-2 px-2 py-1 bg-blue-500 rounded text-white"
-        >
-          <MdDesignServices className="inline" />
-        </button>
-        <button
-          type="button"
-          className="px-2 py-1 bg-orange-500 rounded text-white"
-        >
-          <FaFileCircleCheck className="inline" />
-        </button>
-      </div>
-    ),
-  },
-];
+import FTable from "./FDBcomponents/TrackerTable";
+import ServiceTable from "./FDBcomponents/ServiceTable";
 
-const serviceColumns = [
-  { id: "serviceID", label: "Service ID", minWidth: 100, align: "center" },
-  { id: "serviceTitle", label: "Service Title", minWidth: 170 },
-  {
-    id: "serviceDetails",
-    label: "Details",
-    minWidth: 200,
-    align: "left",
-  },
-  {
-    id: "servicePrice",
-    label: "Service Price",
-    minWidth: 100,
-    align: "center",
-  },
-  {
-    id: "actions",
-    label: "Actions",
-    minWidth: 100,
-    align: "center",
-    format: (value) => (
-      <div>
-        <button
-          type="button"
-          className="mr-2 px-2 py-1 bg-blue-500 rounded text-white"
-        >
-          <MdDesignServices className="inline" />
-        </button>
-        <button
-          type="button"
-          className="px-2 py-1 bg-orange-500 rounded text-white"
-        >
-          <FaFileCircleCheck className="inline" />
-        </button>
-      </div>
-    ),
-  },
-];
 
-function trackerData(ticketID, cName, availedService, task, deadline, status) {
-  return { ticketID, cName, availedService, task, deadline, status };
-}
 
-const trackerRows = [
-  trackerData(
-    "123456789",
-    "John Nicole Bergantinos",
-    "Graphics Design",
-    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione quam dicta vel natus odit. Tenetur officia, nam voluptate sint a eveniet minima in, dolore quaerat amet magni consectetur ea. Quisquam!",
-    "2024-02-11",
-    "Open"
-  ),
-  trackerData("12345", "CN", "IN", 1403500365, "2024-05-09", "Open"),
-  trackerData("12345", "IT", "IN", 60483973, "2024-02-15", "Open"),
-  trackerData("12345", "US", "IN", 327167434, "2024-08-09", "Open"),
-  trackerData("12345", "CA", "IN", 37602103, "2024-01-12", "Open"),
-  trackerData("12345", "AU", "IN", 25475400, "2024-04-25", "Open"),
-  trackerData("12345", "DE", "IN", 83019200, "2024-07-28", "Open"),
-  trackerData("12345", "IE", "IN", 4857000, "2024-01-10", "Open"),
-  trackerData("12345", "MX", "IN", 126577691, "2024-06-09", "Open"),
-  trackerData("12345", "JP", "IN", 126317000, "2024-01-09", "Open"),
-  trackerData("12345", "FR", "IN", 67022000, "2024-02-22", "Open"),
-  trackerData("12345", "GB", "IN", 67545757, "2024-05-10", "Open"),
-  trackerData("12345", "RU", "IN", 146793744, "2024-09-11", "Open"),
-  trackerData("12345", "NG", "IN", 200962417, "2024-04-09", "Open"),
-  trackerData("12345", "BR", "IN", 210147125, "2024-03-19", "Open"),
-];
 
-function serviceData(serviceID, serviceTitle, serviceDetails, servicePrice) {
-  return { serviceID, serviceTitle, serviceDetails, servicePrice };
-}
-
-const serviceRows = [
-  serviceData("12345", "Video Editing", "lorem ipsum dolor sit amet...", 5000),
-];
 
 function FDashboard() {
   const { userId } = useParams();
   const [userData, setUserData] = useState(null); // State to store user data
+
 
   const [activeTab, setActiveTab] = useState("track");
 
@@ -263,184 +137,9 @@ function FDashboard() {
             </div>
             {/* inside container */}
             <div className="flex flex-col justify-center items-center w-[90%]">
-              {activeTab === "track" && (
-                <div className="flex flex-col justify-center items-center w-[100%]">
-                  <Paper sx={{ width: "100%" }}>
-                    <TableContainer
-                      sx={{
-                        height: 500,
-                        width: "100%",
-                        backgroundColor: "white",
-                        boxShadow: "0 12px 24px 0 rgba(0, 0, 0, 0.2)",
-                      }}
-                    >
-                      <Table stickyHeader aria-label="sticky table">
-                        <TableHead>
-                          <TableRow>
-                            {column.map((column) => (
-                              <TableCell
-                                key={column.id}
-                                align={column.align}
-                                style={{
-                                  minWidth: column.minWidth,
-                                  backgroundColor: "#1d5b79",
-                                  color: "white",
-                                }}
-                              >
-                                {column.label}
-                              </TableCell>
-                            ))}
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {trackerRows
-                            .slice(
-                              page * rowsPerPage,
-                              page * rowsPerPage + rowsPerPage
-                            )
-                            .map((row, rowIndex) => {
-                              return (
-                                <TableRow
-                                  hover
-                                  role="checkbox"
-                                  tabIndex={-1}
-                                  key={rowIndex}
-                                >
-                                  {column.map((column) => {
-                                    const value = row[column.id];
-                                    return (
-                                      <TableCell
-                                        key={column.id}
-                                        align={column.align}
-                                      >
-                                        {column.id === "actions"
-                                          ? column.format(value)
-                                          : column.format &&
-                                            typeof value === "number"
-                                          ? column.format(value)
-                                          : value}
-                                      </TableCell>
-                                    );
-                                  })}
-                                </TableRow>
-                              );
-                            })}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                    <TablePagination
-                      sx={{
-                        backgroundColor: "#13334C",
-                        color: "white",
-                        ".MuiSelect-root": { color: "white" },
-                        ".MuiSelect-icon": { color: "white" },
-                        ".MuiSelect-iconFilled": { color: "white" },
-                        ".MuiSelect-iconOutlined": { color: "white" },
-                      }}
-                      rowsPerPageOptions={[5, 10, 20]}
-                      component="div"
-                      count={trackerRows.length}
-                      rowsPerPage={rowsPerPage}
-                      page={page}
-                      onPageChange={handleChangePage}
-                      onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                  </Paper>
-                </div>
-              )}
-              {activeTab === "manage" && (
-                <div className="flex flex-col justify-center items-center w-[100%]">
-                  <Paper sx={{ width: "100%" }}>
-                    <div className="flex justify-end items-center p-2 bg-[#13334C] ">
-                      <Button className="bg-[#1d5b79] p-4 mx-2">
-                        <div className="flex flex-row items-center justify-center gap-2">
-                          <AiFillPlusCircle size={20} color="white" />
-                          <h1>Add Service</h1>
-                        </div>
-                      </Button>
-                    </div>
-                    <TableContainer
-                      sx={{
-                        height: 500,
-                        width: "100%",
-                        backgroundColor: "white",
-                        boxShadow: "0 12px 24px 0 rgba(0, 0, 0, 0.2)",
-                      }}
-                    >
-                      <Table stickyHeader aria-label="sticky table">
-                        <TableHead>
-                          <TableRow>
-                            {serviceColumns.map((serviceColumns) => (
-                              <TableCell
-                                key={serviceColumns.id}
-                                align={serviceColumns.align}
-                                style={{
-                                  minWidth: serviceColumns.minWidth,
-                                  backgroundColor: "#1d5b79",
-                                  color: "white",
-                                }}
-                              >
-                                {serviceColumns.label}
-                              </TableCell>
-                            ))}
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {serviceRows
-                            .slice(
-                              page * rowsPerPage,
-                              page * rowsPerPage + rowsPerPage
-                            )
-                            .map((row, rowIndex) => {
-                              return (
-                                <TableRow
-                                  hover
-                                  role="checkbox"
-                                  tabIndex={-1}
-                                  key={rowIndex}
-                                >
-                                  {serviceColumns.map((serviceColumns) => {
-                                    const value = row[serviceColumns.id];
-                                    return (
-                                      <TableCell
-                                        key={serviceColumns.id}
-                                        align={serviceColumns.align}
-                                      >
-                                        {serviceColumns.id === "actions"
-                                          ? serviceColumns.format(value)
-                                          : serviceColumns.format &&
-                                            typeof value === "number"
-                                          ? serviceColumns.format(value)
-                                          : value}
-                                      </TableCell>
-                                    );
-                                  })}
-                                </TableRow>
-                              );
-                            })}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                    <TablePagination
-                      sx={{
-                        backgroundColor: "#13334C",
-                        color: "white",
-                        ".MuiSelect-root": { color: "white" },
-                        ".MuiSelect-icon": { color: "white" },
-                        ".MuiSelect-iconFilled": { color: "white" },
-                        ".MuiSelect-iconOutlined": { color: "white" },
-                      }}
-                      rowsPerPageOptions={[5, 10, 20]}
-                      component="div"
-                      count={serviceRows.length}
-                      rowsPerPage={rowsPerPage}
-                      page={page}
-                      onPageChange={handleChangePage}
-                      onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                  </Paper>
-                </div>
-              )}
+              {activeTab === "track" && (<FTable/>)}
+
+              {activeTab === "manage" && (<ServiceTable />)}
             </div>
           </div>
           {/* Menu Tabs */}
