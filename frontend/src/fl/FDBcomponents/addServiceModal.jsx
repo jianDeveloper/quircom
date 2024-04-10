@@ -1,33 +1,87 @@
-import React from 'react'
+import React from "react";
 
 const AddServiceModal = ({ setShowModal }) => {
   return (
     <div>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-        <div className="relative w-auto my-6 mx-auto max-w-3xl">
+        <div className="relative w-2/4 my-6 mx-auto">
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-            <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-              <h3 className="text-3xl font-semibold">
-                Modal Title
+            <div className="flexitems-start justify-between p-5 bg-[#1d5b79] border-b border-solid border-blueGray-200 rounded-t">
+              <h3 className="text-3xl text-white text-center font-semibold">
+                Add Services
               </h3>
-              <button
-                className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                onClick={() => setShowModal(false)}
+            </div>
+
+            {/* Creating Form */}
+            <div className="relative flex flex-col p-6 gap-4">
+              <label
+                htmlFor="title"
+                className="block text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
               >
-                <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                  ×
-                </span>
-              </button>
+                Service Title
+              </label>
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  className="mt-1 relative rounded-md shadow-sm border border-gray-300 px-3 py-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm"
+                />
+              <label
+                htmlFor="description"
+                className="block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
+              >
+                Description
+              </label>
+              <div className="mt-1">
+                <textarea
+                  id="description"
+                  name="description"
+                  rows={4}
+                  className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 px-3 py-2"
+                />
+              </div>
+              <div className="flex flex-row justify-between gap-12">
+                <div className="w-[50%]">
+                  <label
+                    htmlFor="price"
+                    className="block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
+                  >
+                    Price
+                  </label>
+                  <div className="mt-1 flex px-3 py-2">
+                    <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+                      PHP
+                    </span>
+                    <input
+                      type="text"
+                      id="price"
+                      name="price"
+                      pattern="[0-9]*"
+                      inputMode="numeric"
+                      className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-r-md sm:text-sm p-2 shadow-sm border border-gray-300"
+                    />
+                  </div>
+                </div>
+                <div className="w-[50%]">
+                  <label
+                    htmlFor="sampleProduct"
+                    className="block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
+                  >
+                    Add Sample Product
+                  </label>
+                  <div className="relative mt-1">
+                    <input
+                      type="file"
+                      id="sampleProduct"
+                      name="sampleProduct"
+                      className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full border border-gray-300 px-3 py-2"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="relative p-6 flex-auto">
-              <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
-                I always felt like I could do anything. That’s the main
-                thing people are controlled by! Thoughts- their perception
-                of themselves! They're slowed down by their perception of
-                themselves. If you're taught you can’t do anything, you
-                won’t do anything. I was taught I could do everything.
-              </p>
-            </div>
+
+            {/* Add Close Button and Add Button */}
             <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
               <button
                 className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
@@ -41,7 +95,7 @@ const AddServiceModal = ({ setShowModal }) => {
                 type="button"
                 onClick={() => setShowModal(false)}
               >
-                Save Changes
+                Add Service
               </button>
             </div>
           </div>
@@ -49,7 +103,7 @@ const AddServiceModal = ({ setShowModal }) => {
       </div>
       <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
     </div>
-  )
-}
+  );
+};
 
-export default AddServiceModal
+export default AddServiceModal;
