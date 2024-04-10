@@ -81,11 +81,11 @@ const ServiceTable = () => {
   return (
     <div className="flex flex-col justify-center items-center w-[100%]">
       <Paper sx={{ width: "100%" }}>
-        <div className="flex justify-end items-center p-2 bg-[#13334C] ">
-          <button
+        <div className="flex justify-between items-center p-2 bg-[#13334C] ">
+        <button
             type="button"
             onClick={() => setShowModal(true)}
-            className="bg-[#1d5b79] p-4 mx-2 rounded"
+            className="bg-blue-500 py-2 px-3 mx-4 rounded text-white"
           >
             <div className="flex flex-row items-center justify-center gap-2">
               <AiFillPlusCircle size={20} color="white" />
@@ -93,6 +93,24 @@ const ServiceTable = () => {
             </div>
           </button>
           {showModal ? <Modal setShowModal={setShowModal} /> : null}
+          <TablePagination
+            sx={{
+              backgroundColor: "#13334C",
+              color: "white",
+              ".MuiSelect-root": { color: "white" },
+              ".MuiSelect-icon": { color: "white" },
+              ".MuiSelect-iconFilled": { color: "white" },
+              ".MuiSelect-iconOutlined": { color: "white" },
+            }}
+            rowsPerPageOptions={[5, 10, 20]}
+            component="div"
+            count={serviceRows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+          
         </div>
         <TableContainer
           sx={{
@@ -153,23 +171,6 @@ const ServiceTable = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
-          sx={{
-            backgroundColor: "#13334C",
-            color: "white",
-            ".MuiSelect-root": { color: "white" },
-            ".MuiSelect-icon": { color: "white" },
-            ".MuiSelect-iconFilled": { color: "white" },
-            ".MuiSelect-iconOutlined": { color: "white" },
-          }}
-          rowsPerPageOptions={[5, 10, 20]}
-          component="div"
-          count={serviceRows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
       </Paper>
       {/* <Modal/>    */}
     </div>
