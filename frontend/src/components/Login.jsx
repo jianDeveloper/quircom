@@ -93,7 +93,7 @@ const Login = ({ open, onClose }) => {
             </div>
             {error && <p className='text-red-500 text-sm mt-2'>{error}</p>}
             <div className='text-right mr-2'>
-              <Link to='#' className='text-[12px] font-medium'>
+              <Link to='/forgot' className='text-[12px] font-medium'>
                 Forgot password?
               </Link>
             </div>

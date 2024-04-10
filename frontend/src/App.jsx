@@ -6,6 +6,7 @@ import Trial from './components/sample.jsx';
 import Reg from './components/Reg.jsx';
 import Footer from './components/Footer.jsx';
 import Terms from './components/Terms.jsx';
+import Forgot from './components/Forgot.jsx';
 import CDashboard from './client/CDashboard.jsx';
 import CMarketplace from './client/CMarketplace.jsx';
 import CProfile from './client/CProfile.jsx';
@@ -21,7 +22,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import FDashboard from './fl/FDashboard.jsx';
 // import FProfile from './fl/FProfile.jsx';
-// import FMarketplace from './fl/FMarketplace.jsx';
 // import FSettings from './fl/FSettings.jsx';
 // import FSettingsProfile from './fl/FSettingsProfile.jsx';
 // import FTracker from './fl/FTracker.jsx';
@@ -72,6 +72,11 @@ function App() {
           exact
           path="/terms"
           element={<Terms />}
+        />
+        <Route
+          exact
+          path="/forgot"
+          element={<Forgot />}
         />
         <Route
           exact
@@ -145,11 +150,6 @@ function App() {
           element={<FProfile />}
         /> } */}
 
-       {/* <Route
-          exact
-          path="/freelancer/browse-service/:userId"
-          element={<FMarketplace />}
-        />  */}
 
         {/* <Route
           exact
