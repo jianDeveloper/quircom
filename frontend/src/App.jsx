@@ -138,20 +138,20 @@ function App() {
           path="/freelancer/dashboard/:userId" // Adding :userId parameter
           element={<FDashboard />} // Rendering CDashboard component
         />
-{/* 
+{/* {
         <Route
           exact
           path="/freelancer/profile/:userId"
           element={<FProfile />}
-        /> */}
+        /> } */}
 
-        {/* <Route
+       {/* <Route
           exact
           path="/freelancer/browse-service/:userId"
           element={<FMarketplace />}
-        />
+        />  */}
 
-        <Route
+        {/* <Route
           exact
           path="/freelancer/settings/:userId"
           element={<FSettings />}
@@ -160,7 +160,7 @@ function App() {
           exact
           path="/freelancer/settings-profile/:userId"
           element={<FSettingsProfile />}
-        /> */}
+        />  */}
 
         {/* <Route
           exact

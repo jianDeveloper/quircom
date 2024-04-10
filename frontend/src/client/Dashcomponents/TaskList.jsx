@@ -4,7 +4,7 @@ const TaskList = () => {
   return (
     <div class="flex flex-col mt-6">
             <div>
-            <h2 class="text-2xl font-semibold leading-tight text-gray-200">Commissioned</h2>
+            <h2 class="text-2xl font-semibold leading-tight text-gray-400">Commissioned</h2>
             </div>
             <div class=" overflow-x-auto">
             <div

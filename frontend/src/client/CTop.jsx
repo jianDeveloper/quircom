@@ -4,8 +4,8 @@ import Profile from '../assets/profile.jpg'
 function CTop() {
   return (
     <div className='mt-6 '>
-        <strong className='ml-[10px] text-white text-2xl'>Top Freelancers</strong>
-        <div className='ml-3 mb-10 bg-gradient-to-t from-cyan-900 to-blue-500 hover:from-blue-700 hover:to-orange-300 rounded-2xl'>
+        <strong className='ml-[10px] text-2xl font-semibold leading-tight text-gray-400'>Top Freelancers</strong>
+        <div className='ml-3 mb-10 bg-gradient-to-t from-blue-800 to-cyan-800 rounded-2xl'>
             <div className='fle flex-row w-[100%] h-full'>
                 <div className='grid grid-cols-5 gap-4'>
                     <div >
@@ -95,13 +95,73 @@ function CTop() {
             </div>
             
             <strong className='ml-[50px] text-white text-2xl'>Match with more Expertise</strong>
-            
-            <div class="flex flex-wrap sm:flex-no-wrap items-center border-2 justify-between w-full">
-                <div class="w-full sm:w-1/3 h-64 rounded-t sm:rounded-l sm:rounded-t-none shadow bg-white dark:bg-gray-800"></div>
-                <div class="w-full sm:w-1/3 h-64 shadow bg-white dark:bg-gray-800"></div>
-                <div class="w-full sm:w-1/3 h-64 rounded-b sm:rounded-b-none shadow bg-white dark:bg-gray-800"></div>
-            </div>
+            <section class="relative overflow-hidden">
+            <div class=" relative mx-auto flex h-full w-full flex-col items-center justify-center px-4 py-12 backdrop-blur-md sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+            <div class="mx-auto grid max-w-screen-lg grid-cols-1 gap-y-4 gap-x-8 text-center sm:mt-12 sm:text-left md:grid-cols-3">
+            <div class=" max-w-sm mt-[-99px]">
+             <div class="rounded-lg border bg-white px-4 pt-8 pb-10 shadow-lg">
+                <div class="relative mx-auto w-36 rounded-full">
+                    <span class="absolute right-0 m-3 h-3 w-3 rounded-full"></span>
+                    <img class="mx-auto h-auto w-full rounded-full" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80" alt="" />
+                </div>
+                <h1 class="my-1 text-center text-xl font-bold leading-8 text-gray-900">Vence Puno</h1>
+                <h3 class="font-lg text-semibold text-center leading-6 text-gray-600">Video Editor</h3>
+                <ul class="mt-3 divide-y rounded bg-gray-100 py-2 px-3 text-gray-600 shadow-sm hover:text-gray-700 hover:shadow">
+                <li class="flex items-center py-3 text-sm">
+                <span>Status</span>
+                <span class="ml-auto"><span class="rounded-full bg-green-200 py-1 px-2 text-xs font-medium text-green-700">Open for freelance</span></span>
+                 </li>
+                <li class="flex items-center py-3 text-sm">
+                <span>Joined On</span>
+                <span class="ml-auto">April 08, 2022</span>
+                </li>
+                 </ul>
+             </div>
+            </div>    
+            <div class=" max-w-sm mt-[-99px]">
+             <div class="rounded-lg border bg-white px-4 pt-8 pb-10 shadow-lg">
+                <div class="relative mx-auto w-36 rounded-full">
+                    <span class="absolute right-0 m-3 h-3 w-3 rounded-full"></span>
+                    <img class="mx-auto h-auto w-full rounded-full" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80" alt="" />
+                </div>
+                <h1 class="my-1 text-center text-xl font-bold leading-8 text-gray-900">JJ Berrrrr</h1>
+                <h3 class="font-lg text-semibold text-center leading-6 text-gray-600">Landing Page Editor</h3>
                 
+                <ul class="mt-3 divide-y rounded bg-gray-100 py-2 px-3 text-gray-600 shadow-sm hover:text-gray-700 hover:shadow">
+                <li class="flex items-center py-3 text-sm">
+                <span>Status</span>
+                <span class="ml-auto"><span class="rounded-full bg-green-200 py-1 px-2 text-xs font-medium text-green-700">Open for freelance</span></span>
+                 </li>
+                <li class="flex items-center py-3 text-sm">
+                <span>Joined On</span>
+                <span class="ml-auto">April 19, 2022</span>
+                </li>
+                 </ul>
+             </div>
+            </div>
+            <div class=" max-w-sm mt-[-99px]">
+             <div class="rounded-lg border bg-white px-4 pt-8 pb-10 shadow-lg">
+                <div class="relative mx-auto w-36 rounded-full">
+                    <span class="absolute right-0 m-3 h-3 w-3 rounded-full"></span>
+                    <img class="mx-auto h-auto w-full rounded-full" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80" alt="" />
+                </div>
+                <h1 class="my-1 text-center text-xl font-bold leading-8 text-gray-900">James Desss</h1>
+                <h3 class="font-lg text-semibold text-center leading-6 text-gray-600">Video Burats Editor</h3>
+                <ul class="mt-3 divide-y rounded bg-gray-100 py-2 px-3 text-gray-600 shadow-sm hover:text-gray-700 hover:shadow">
+                <li class="flex items-center py-3 text-sm">
+                <span>Status</span>
+                <span class="ml-auto"><span class="rounded-full bg-green-200 py-1 px-2 text-xs font-medium text-green-700">Open for freelance</span></span>
+                 </li>
+                <li class="wflex items-center py-3 text-sm">
+                <span>Joined On</span>
+                <span class="ml-auto">April 22, 2022</span>
+                </li>
+                 </ul>
+             </div>
+            </div>
+            </div>
+            </div>
+            </section>
         </div>
     </div>
   )
