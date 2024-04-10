@@ -117,8 +117,8 @@ function FDashboard() {
               <button
                 className={
                   activeTab === "track"
-                    ? "active-tab border-[#1D5B79] text-white bg-[#13334C] py-8 w-[49%] border-[3px] rounded-md"
-                    : "border-[#1D5B79] py-4 w-[48%] border-[3px] rounded-md hover:w-[49%] hover:py-8 hover:bg-[#13334C] hover:text-white"
+                    ? "active-tab border-[#1D5B79] text-white bg-[#13334C] py-6 w-[49%] border-[3px] rounded-md"
+                    : "border-[#1D5B79] py-4 w-[48%] border-[3px] rounded-md hover:w-[49%] hover:py-6 hover:bg-[#13334C] hover:text-white"
                 }
                 onClick={() => handleTab("track")}
               >
@@ -127,8 +127,8 @@ function FDashboard() {
               <button
                 className={
                   activeTab === "manage"
-                    ? "active-tab border-[#1D5B79] text-white bg-[#13334C] py-8 w-[49%] border-[3px] rounded-md"
-                    : "border-[#1D5B79] py-4 w-[48%] border-[3px] rounded-md hover:w-[49%] hover:py-8 hover:bg-[#13334C] hover:text-white"
+                    ? "active-tab border-[#1D5B79] text-white bg-[#13334C] py-6 w-[49%] border-[3px] rounded-md"
+                    : "border-[#1D5B79] py-4 w-[48%] border-[3px] rounded-md hover:w-[49%] hover:py-6 hover:bg-[#13334C] hover:text-white"
                 }
                 onClick={() => handleTab("manage")}
               >

@@ -127,7 +127,7 @@ const FTable = () => {
                     align={column.align}
                     style={{
                       minWidth: column.minWidth,
-                      backgroundColor: "#1d5b79",
+                      backgroundColor: "#13334C",
                       color: "white",
                     }}
                   >

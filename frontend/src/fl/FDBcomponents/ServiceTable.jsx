@@ -114,7 +114,7 @@ const ServiceTable = () => {
         </div>
         <TableContainer
           sx={{
-            height: 430,
+            height: 485,
             width: "100%",
             backgroundColor: "white",
             boxShadow: "0 12px 24px 0 rgba(0, 0, 0, 0.2)",

@@ -24,7 +24,7 @@ const AddServiceModal = ({ setShowModal }) => {
                   type="text"
                   id="title"
                   name="title"
-                  className="mt-1 relative rounded-md shadow-sm border border-gray-300 px-3 py-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm"
+                  className="mt-1 relative rounded-md shadow-sm border border-gray-300 px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm"
                 />
               <label
                 htmlFor="description"

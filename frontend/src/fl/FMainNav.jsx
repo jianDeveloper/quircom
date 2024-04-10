@@ -60,20 +60,10 @@ const FMainNav = () => {
       text: "Dashboard", 
       index: 0 },
     {
-      icon: Service,
-      component: `/freelancer/browse-service/${userId}`,
-      text: "Marketplace",
-      index: 1,
-    },
-    { icon: Tracker, 
-      component: `/freelancer/tracker/${userId}`, 
-      text: "Tracker", 
-      index: 2 },
-    {
       icon: LBoard,
       component: `/freelancer/leaderboard/${userId}`,
       text: "Leaderboard",
-      index: 3,
+      index: 1,
     },
   ];
 
@@ -168,29 +158,7 @@ const FMainNav = () => {
           justifyContent={"center"}
           spacing={1}
         >
-          <div>
-            <IconButton onClick={handleNotifClick}>
-              <img className="w-8 h-6" src={Notifs} alt="Notifs" />
-            </IconButton>
-            <Popover
-              open={Boolean(anchorEl2)}
-              anchorEl={anchorEl2}
-              onClose={handleCloseMenu}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-            >
-              <Typography sx={{ p: 2 }}>Notification 1</Typography>
-              <Typography sx={{ p: 2 }}>Notification 2</Typography>
-              <Typography sx={{ p: 2 }}>Notification 3</Typography>
-            </Popover>
-          </div>
-          <Divider orientation="vertical" sx={{ height: 40 }} />
+  
           <IconButton onClick={handleAvatarClick}>
             <Avatar src={User} alt="User" />
           </IconButton>
