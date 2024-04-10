@@ -135,7 +135,7 @@ function App() {
         />
         <Route
           exact
-          path="/freelancer/dashboard/:userId" // Adding :userId parameter
+          path="/freelancer/dashboard/" // Adding :userId parameter
           element={<FDashboard />} // Rendering CDashboard component
         />
 {/* 
