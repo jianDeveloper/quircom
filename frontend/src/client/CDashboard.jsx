@@ -11,13 +11,13 @@ import UserContext from "../context/UserContext";
 
 import CFooter from "./CFooter";
 import TaskList from "./Dashcomponents/TaskList";
+import { Link } from 'react-router-dom';
 
 import BG1 from "../assets/bg1.png";
 import BGmark from "../assets/ser.jpg";
 import BGtrack from "../assets/tra.jpg";
 import BGsubs from "../assets/sub.jpg";
 import CMainNav from "./CMainNav";
-import CTop from "./CTop";
 
 function CDashboard() {
   const { userId } = useParams();
@@ -76,7 +76,7 @@ function CDashboard() {
             </div>
           </div>
           <div className="grid grid-cols-1 gap-[20px] my-[15px] md:grid-cols-3">
-            <div
+          <Link to={`/client/browse-service/${userId}`}><div
               className="flex flex-col justify-around rounded-lg "
               style={{
                 background: `url(${BGmark})`,
@@ -89,8 +89,8 @@ function CDashboard() {
                   Marketplace
                 </h3>
               </div>
-            </div>
-            <div
+            </div></Link>
+            <Link to={`/client/tracker/${userId}`}><div
               className="flex flex-col justify-around rounded-lg"
               style={{
                 background: `url(${BGtrack})`,
@@ -103,8 +103,8 @@ function CDashboard() {
                   Progress Tracker
                 </h3>
               </div>
-            </div>
-            <div
+            </div></Link>
+            <Link to={`/client/subscribe/${userId}`}><div
               className="flex flex-col justify-around rounded-lg"
               style={{
                 background: `url(${BGsubs})`,
@@ -117,15 +117,10 @@ function CDashboard() {
                   Subscription
                 </h3>
               </div>
-            </div>
+            </div></Link>
           </div>
-          <div className="flex">
-            <div>
-              <TaskList />
-            </div>
-            <div>
-              <CTop />
-            </div>
+          <div>
+            <TaskList />
           </div>
         </div>
       </div>
