@@ -1,10 +1,31 @@
-import React from 'react'
+import { useState, useEffect} from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const TaskList = () => {
+    const [ userData, setUsers] = useState();
+    const { userId } = useParams();
+    
+    console.log(userId)
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+          try {
+            const response = await axios.get(`https://quircom.onrender.com/api/client/${userId}`);
+            if (response.status === 200) {
+              setUsers(response.data);
+            }
+          } catch (error) {
+            console.error("Error fetching users:", error);
+          }
+        };
+    
+        fetchUsers();
+      }, []);
   return (
     <div class="flex flex-col mt-6">
             <div>
-            <h2 class="text-2xl font-semibold leading-tight text-gray-400">Commissioned</h2>
+            <h2 class="text-2xl font-semibold leading-tight text-[#F5F5DC] mb-5">Current Projects</h2>
             </div>
             <div class=" overflow-x-auto">
             <div
@@ -14,22 +35,22 @@ const TaskList = () => {
                 <thead>
                     <tr>
                     <th
-                        class="px-5 py-3 border-b-2 border-blue-200 bg-[#1D5B79] text-left text-xs font-semibold text-gray-200 uppercase tracking-wider"
+                        class="px-5 py-3 border-b-2 border-blue-200 bg-[#1D5B79] text-center text-xs font-semibold text-gray-200 uppercase tracking-wider"
                     >
                         Freelancer
                     </th>
                     <th
-                        class="px-5 py-3 border-b-2 border-blue-200 bg-[#1D5B79] text-left text-xs font-semibold text-gray-200 uppercase tracking-wider"
+                        class="px-5 py-3 border-b-2 border-blue-200 bg-[#1D5B79] text-center text-xs font-semibold text-gray-200 uppercase tracking-wider"
                     >
                         Amount
                     </th>
                     <th
-                        class="px-5 py-3 border-b-2 border-blue-200 bg-[#1D5B79] text-left text-xs font-semibold text-gray-200 uppercase tracking-wider"
+                        class="px-5 py-3 border-b-2 border-blue-200 bg-[#1D5B79] text-center text-xs font-semibold text-gray-200 uppercase tracking-wider"
                     >
                         Issued / Deadline
                     </th>
                     <th
-                        class="px-5 py-3 border-b-2 border-blue-200 bg-[#1D5B79] text-left text-xs font-semibold text-gray-200 uppercase tracking-wider"
+                        class="px-5 py-3 border-b-2 border-blue-200 bg-[#1D5B79] text-center text-xs font-semibold text-gray-200 uppercase tracking-wider"
                     >
                         Status
                     </th>
@@ -40,32 +61,35 @@ const TaskList = () => {
                 </thead>
                 <tbody>
                     <tr>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <div class="flex">
-                        <div class="flex-shrink-0 w-10 h-10">
-                            <img
-                            class="w-full h-full rounded-full"
-                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                            alt=""
-                            />
-                        </div>
-                        <div class="ml-3">
-                            <p class="text-gray-900 whitespace-no-wrap">
-                            Molly Sanders
-                            </p>
-                            <p class="text-gray-600 whitespace-no-wrap">000004</p>
-                        </div>
-                        </div>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            <div class="flex place-content-center">
+                                <div class="flex-shrink-0 w-10 h-10">
+                                    <img
+                                    class="w-full h-full rounded-full"
+                                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
+                                    alt=""
+                                    />
+                                </div>
+                                {userData && (
+                                    <div class="ml-3">
+                                    <p class="text-gray-900 whitespace-no-wrap">
+                                    Molly Sanders {userData.firstName} {userData.surName}
+                                    </p>
+                                    <p class="text-gray-600 whitespace-no-wrap">000004</p>
+                                    </div>
+                                )}
+                                
+                            </div>
+                        </td>
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                         <p class="text-gray-900 whitespace-no-wrap">20,000</p>
                         <p class="text-gray-600 whitespace-no-wrap">PHP</p>
                     </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                         <p class="text-gray-900 whitespace-no-wrap">Sept 28, 2024</p>
                         <p class="text-gray-600 whitespace-no-wrap">Due in 3 days</p>
                     </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                         <span
                         class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight"
                         >
@@ -77,7 +101,7 @@ const TaskList = () => {
                         </span>
                     </td>
                     <td
-                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right"
+                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center"
                     >
                         <button
                         type="button"
@@ -96,7 +120,7 @@ const TaskList = () => {
                     </tr>
                     <tr>
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <div class="flex">
+                        <div class="flex place-content-center">
                         <div class="flex-shrink-0 w-10 h-10">
                             <img
                             class="w-full h-full rounded-full"
@@ -106,21 +130,21 @@ const TaskList = () => {
                         </div>
                         <div class="ml-3">
                             <p class="text-gray-900 whitespace-no-wrap">
-                            Michael Roberts
+                            Mc Arthur Indio
                             </p>
                             <p class="text-gray-600 whitespace-no-wrap">000003</p>
                         </div>
                         </div>
                     </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                         <p class="text-gray-900 whitespace-no-wrap">214,000</p>
                         <p class="text-gray-600 whitespace-no-wrap">PHP</p>
                     </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                         <p class="text-gray-900 whitespace-no-wrap">Sept 25, 2024</p>
                         <p class="text-gray-600 whitespace-no-wrap">Due in 6 days</p>
                     </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                         <span
                         class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight"
                         >
@@ -132,7 +156,7 @@ const TaskList = () => {
                         </span>
                     </td>
                     <td
-                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right"
+                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center"
                     >
                         <button
                         type="button"
@@ -151,7 +175,7 @@ const TaskList = () => {
                     </tr>
                     <tr>
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <div class="flex">
+                        <div class="flex place-content-center">
                         <div class="flex-shrink-0 w-10 h-10">
                             <img
                             class="w-full h-full rounded-full"
@@ -167,15 +191,15 @@ const TaskList = () => {
                         </div>
                         </div>
                     </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                         <p class="text-gray-900 whitespace-no-wrap">20,000</p>
                         <p class="text-gray-600 whitespace-no-wrap">PHP</p>
                     </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                         <p class="text-gray-900 whitespace-no-wrap">Sept 14, 2024</p>
                         <p class="text-gray-600 whitespace-no-wrap">Due in 2 weeks</p>
                     </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                         <span
                         class="relative inline-block px-3 py-1 font-semibold text-orange-900 leading-tight"
                         >
@@ -187,7 +211,7 @@ const TaskList = () => {
                         </span>
                     </td>
                     <td
-                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right"
+                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center"
                     >
                         <button
                         type="button"
@@ -206,7 +230,7 @@ const TaskList = () => {
                     </tr>
                     <tr>
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <div class="flex">
+                        <div class="flex place-content-center">
                         <div class="flex-shrink-0 w-10 h-10">
                             <img
                             class="w-full h-full rounded-full"
@@ -222,15 +246,15 @@ const TaskList = () => {
                         </div>
                         </div>
                     </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                         <p class="text-gray-900 whitespace-no-wrap">20,000</p>
                         <p class="text-gray-600 whitespace-no-wrap">PHP</p>
                     </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                         <p class="text-gray-900 whitespace-no-wrap">Sept 14, 2024</p>
                         <p class="text-gray-600 whitespace-no-wrap">Due in 2 weeks</p>
                     </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                         <span
                         class="relative inline-block px-3 py-1 font-semibold text-orange-900 leading-tight"
                         >
@@ -242,7 +266,7 @@ const TaskList = () => {
                         </span>
                     </td>
                     <td
-                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right"
+                        class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center"
                     >
                         <button
                         type="button"

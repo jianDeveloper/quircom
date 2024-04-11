@@ -70,7 +70,7 @@ const CMainNav = () => {
       text: "Leaderboard",
       index: 3,
     },
-    { icon: Bill, component: `/client/billing/${userId}/`, text: "Billing", index: 4 },
+    { icon: Bill, component: `/client/subscribe/${userId}/`, text: "Subscription", index: 4 },
   ];
 
   const handleIconClick = (index) => {

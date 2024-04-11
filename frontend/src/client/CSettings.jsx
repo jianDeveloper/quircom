@@ -2,13 +2,13 @@ import { useState, useEffect, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import UserContext from '../context/UserContext';
-import phil from 'phil-reg-prov-mun-brgy'
+
 
 const baseURL = import.meta.env.VITE_BASEURL;
 
 function CSettings() {
 
-  const [ userData, setUsers] = useState(null);
+  const [ userData, setUsers] = useState();
   const { userId } = useParams();
   const { userIdLink } = useContext(UserContext);
 
@@ -19,7 +19,7 @@ function CSettings() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`http://localhost:8800/api/users/${userId}`);
+        const response = await axios.get(`https://quircom.onrender.com/api/client/${userId}`);
         if (response.status === 200) {
           setUsers(response.data);
         }
@@ -54,7 +54,7 @@ function CSettings() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`${baseURL}/api/users/${userId}`);
+        const response = await axios.get(`https://quircom.onrender.com/api/client/${userId}`);
         if (response.status === 200) {
           setUsers(response.data);
         }
@@ -208,10 +208,6 @@ function CSettings() {
             </div>
           </div>
         </div>
-      </div>
-      <div className="">
-      <hr className="mt-4 mb-4" />
-        <CFooter />
       </div>
       <div className="">
       <hr className="mt-4 mb-4" />
