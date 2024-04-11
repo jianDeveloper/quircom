@@ -11,6 +11,7 @@ import {
 } from "@mui/material/";
 import AddModal from "./addServiceModal";
 import Confirmation from "./confirmModal";
+import Convo from "./convoModal";
 
 import { MdDesignServices, MdPendingActions } from "react-icons/md";
 import { FaFileCircleCheck } from "react-icons/fa6";
@@ -38,11 +39,11 @@ const serviceColumns = [
     label: "Actions",
     minWidth: 100,
     align: "center",
-    format: (setConfirmModal) => (
+    format: (setConfirmModal,setConvoModal) => (
       <div>
         <button
           type="button"
-          
+          onClick={() => setConvoModal(true)}
           className="mr-2 px-2 py-1 bg-blue-500 rounded text-white"
         >
           <MdDesignServices className="inline" />
@@ -71,6 +72,7 @@ const serviceRows = [
 const ServiceTable = () => {
   const [addModal, setaddModal] = React.useState(false);
   const [confirmModal, setConfirmModal] = React.useState(false);
+  const [convoModal, setConvoModal] = React.useState(false);
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -164,12 +166,13 @@ const ServiceTable = () => {
                             align={serviceColumns.align}
                           >
                             {serviceColumns.id === "actions"
-                              ? serviceColumns.format(setConfirmModal)
+                              ? serviceColumns.format(setConfirmModal,setConvoModal)
                               : serviceColumns.format &&
                                 typeof value === "number"
-                              ? serviceColumns.format(setConfirmModal)
+                              ? serviceColumns.format(setConfirmModal,setConvoModal)
                               : value}
                             {confirmModal ? <Confirmation setConfirmModal={setConfirmModal} /> : null}
+                            {convoModal ? <Convo setConvoModal={setConvoModal} /> : null}
                           </TableCell>
                         );
                       })}
