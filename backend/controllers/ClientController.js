@@ -33,14 +33,14 @@ const CreateUser = async (req, res) => {
     const {body, file} = req;
     const client = JSON.parse(body.client);
 
-    let clientProile = {};
+    let clientProfile = {};
 
     if (file) {
         const { id, name } = await DriveService.UploadFiles(
           file,
           process.env.FOLDER_ID_PROFILE
         );
-        Object.assign(clientProile, {
+        Object.assign(clientProfile, {
           id: id,
           name: name,
           link: `https://drive.google.com/thumbnail?id=${id}&sz=w1000`,
@@ -59,7 +59,7 @@ const CreateUser = async (req, res) => {
         city: client.city,
         accType: client.accType,
         aggRee: client.aggRee,
-        profilePic: clientProile,
+        profilePic: clientProfile,
         userInfo: null,
         subs: {
           status: false,
@@ -78,7 +78,7 @@ const EditUser = async (req, res) => {
     const { body, file } = req;
     const client = JSON.parse(body.client);
 
-    let clientProile = {};
+    let clientProfile = {};
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: "Invalid ID" });
@@ -89,7 +89,7 @@ const EditUser = async (req, res) => {
         file,
         process.env.FOLDER_ID_PROFILE
       );
-      Object.assign(clientProile, {
+      Object.assign(clientProfile, {
         id: fileID,
         name: fileName,
         link: `https://drive.google.com/thumbnail?id=${fileID}&sz=w1000`,
@@ -114,7 +114,7 @@ const EditUser = async (req, res) => {
         region: client.region,
         province: client.province,
         city: client.city,
-        profilePic: clientProile.hasOwnProperty("id") ? clientProile : client.profilePic,
+        profilePic: clientProfile.hasOwnProperty("id") ? clientProfile : client.profilePic,
         userInfo: client.userInfo,
         "subs.status": client.subs.status // Directly update the status
       }

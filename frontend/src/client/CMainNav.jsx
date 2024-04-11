@@ -35,20 +35,19 @@ const CMainNav = () => {
   const [isHovered, setIsHovered] = useState(false);
 
   const [nav, setNav] = useState(false);
-  const [userData, setUserData] = useState(null);
+  const [userData, setUser] = useState();
   const [openLogin, setLogin] = useState(false);
   const [current, setActive] = useState(false);
 
   const { userId } = useParams();
-  const { userIdLink } = useContext(UserContext);
-  console.log('User ID in Dashboard:', userIdLink);
+  console.log(userId)
 
   useEffect(() => {
     // Fetch user data using the user ID
     axios.get(`https://quircom.onrender.com/api/client/${userId}`)
       .then(response => {
         console.log('User data:', response.data);
-        setUserData(response.data); // Set the user data in state
+        setUser(response.data); // Set the user data in state
       })
       .catch(error => {
         console.error('Error fetching user data:', error);

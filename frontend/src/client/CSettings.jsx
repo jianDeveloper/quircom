@@ -1,25 +1,30 @@
 import { useState, useEffect, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
-import UserContext from '../context/UserContext';
 import phil from 'phil-reg-prov-mun-brgy'
+import { toast, ToastContainer } from 'react-toastify';
 
-const baseURL = import.meta.env.VITE_BASEURL;
+import NavHeader from './CMainNav'
+import CFooter from './CFooter'
+import avatar from '../assets/avatar.png'
+import { FaEyeSlash, FaEye } from "react-icons/fa";
+
 
 function CSettings() {
 
-  const [ userData, setUsers] = useState(null);
   const { userId } = useParams();
-  const { userIdLink } = useContext(UserContext);
+  const [ userData, setUsers] = useState();
 
-  console.log('User ID in Dashboard:', userIdLink);
-  console.log(userId)
-  console.log('Display User:', userData)
+  const [showPassword, setShowPassword] = useState(false); // New state to track password visibility
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`http://localhost:8800/api/users/${userId}`);
+        const response = await axios.get(`http://localhost:8800/api/client/${userId}`);
         if (response.status === 200) {
           setUsers(response.data);
         }
@@ -51,21 +56,6 @@ function CSettings() {
     setProfile(e.target.files[0]);
   }
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get(`${baseURL}/api/users/${userId}`);
-        if (response.status === 200) {
-          setUsers(response.data);
-        }
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
-
-    fetchUsers();
-  }, [userId]);
-
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
 
@@ -77,10 +67,10 @@ function CSettings() {
     try {
 
       const formObj = new FormData();
-      formObj.append('users', JSON.stringify(userData));
+      formObj.append('client', JSON.stringify(userData));
       formObj.append('file', profilePic);
 
-      const response = await axios.patch(`${baseURL}/api/users/update/${userId}`, formObj, {
+      const response = await axios.patch(`http://localhost:8800/api/client/update/${userId}`, formObj, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -92,8 +82,6 @@ function CSettings() {
         console.log('Response data not available');
         toast.error('Failed to upload profile picture');
       }
-      
-      toast.success('upload pic');
     } catch (error) {
       console.error('Error during patch ', error.response);
       console.log(error.message)
@@ -103,7 +91,7 @@ function CSettings() {
 
   return (
     <div className=''>
-      <CMainNav />
+      <NavHeader />
       <ToastContainer />
       <div className='flex'>
         <div className="mx-4 min-h-screen max-w-screen-xl sm:mx-8 xl:mx-auto">
@@ -158,16 +146,15 @@ function CSettings() {
                     Upload New Profile Picture
                   </button>
                 </div>
-                {/* <p className="font- text-slate-600">{userData.userName}</p> */}
-                {/* <p className="font- text-slate-600">{userData.firstName} {userData.surName}</p> */}
-                {/* <p className="font- text-slate-600">{phil.regions.find(region => region.reg_code === user.region)?.name}</p> */}
-                {/* <p className="font- text-slate-600">{userData.contactNum}</p> */}
               </div>
               <hr className="mt-4 mb-8" />
               <p className="py-2 text-xl font-semibold">Email Address</p>
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-gray-600">Your email address is <strong>{userData.eMail}</strong></p>
+              {userData && (<>
+                <p className="text-gray-600">Your email address is <strong> {userData.eMail} </strong></p>
                 <button className="inline-flex text-sm font-semibold text-blue-600 underline decoration-2">Change</button>
+                </>
+              )}
               </div>
               <hr className="mt-4 mb-8" />
               <p className="py-2 text-xl font-semibold">Password</p>
@@ -176,19 +163,34 @@ function CSettings() {
                   <label htmlFor="login-password">
                     <span className="text-sm text-gray-500">Current Password</span>
                     <div className="relative flex overflow-hidden rounded-md border-2 transition focus-within:border-blue-600">
-                      <input type="password" id="login-password" className="w-full flex-shrink appearance-none border-gray-300 bg-white py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:outline-none" placeholder="***********" />
+                      <input 
+                        type={showPassword ? 'text' : 'password'} 
+                        id="login-password" 
+                        className="w-full flex-shrink appearance-none border-gray-300 bg-white py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:outline-none" 
+                        placeholder="***********" 
+                      />
                     </div>
                   </label>
                   <label htmlFor="login-password">
                     <span className="text-sm text-gray-500">New Password</span>
                     <div className="relative flex overflow-hidden rounded-md border-2 transition focus-within:border-blue-600">
-                      <input type="password" id="login-password2" className="w-full flex-shrink appearance-none border-gray-300 bg-white py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:outline-none" placeholder="***********" />
+                      <input 
+                        type={showPassword ? 'text' : 'password'}
+                        id="login-password2" 
+                        className="w-full flex-shrink appearance-none border-gray-300 bg-white py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:outline-none" 
+                        placeholder="***********"
+                      />                     
                     </div>
-                  </label>
+                  </label>                
                 </div>
-                <svg xmlns="http://www.w3.org/2000/svg" className="mt-5 ml-2 h-6 w-6 cursor-pointer text-sm font-semibold text-gray-600 underline decoration-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                </svg>
+                <button
+                  type="button"
+                  tabIndex="-1" // Add tabIndex="-1" here
+                  className="mt-5 ml-2 h-8 w-8 cursor-pointer text-sm font-semibold text-gray-600 underline decoration-2 user-select-none"
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? <FaEyeSlash/> : <FaEye/> }
+                </button> 
               </div>
               <p className="mt-2">Can't remember your current password. <a className="text-sm font-semibold text-blue-600 underline decoration-2" href="#">Recover Account</a></p>
               <button className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-white">Save Password</button>
@@ -208,10 +210,6 @@ function CSettings() {
             </div>
           </div>
         </div>
-      </div>
-      <div className="">
-      <hr className="mt-4 mb-4" />
-        <CFooter />
       </div>
       <div className="">
       <hr className="mt-4 mb-4" />

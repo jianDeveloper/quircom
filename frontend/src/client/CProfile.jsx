@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import UserContext from '../context/UserContext';
 import axios from 'axios';
 import phil from 'phil-reg-prov-mun-brgy';
 
@@ -16,11 +15,9 @@ import BG1 from '../assets/bg1.png';
 
 function CProfile() {
 
-  const [ userData, setUsers] = useState(null);
   const { userId } = useParams();
-  const { userIdLink } = useContext(UserContext);
+  const [ userData, setUsers] = useState();
 
-  console.log('User ID in Dashboard:', userIdLink);
   console.log(userId)
   console.log('Display User:', userData)
 
