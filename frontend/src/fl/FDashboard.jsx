@@ -32,19 +32,7 @@ import ServiceTable from "./FDBcomponents/ServiceTable";
 function FDashboard() {
   const { userId } = useParams();
   const [userData, setUserData] = useState(null); // State to store user data
-
-
   const [activeTab, setActiveTab] = useState("track");
-
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
 
   const handleTab = (track) => {
     setActiveTab(track);
@@ -68,9 +56,10 @@ function FDashboard() {
 
   return (
     <div
-      className="flex flex-col h-[100vh]"
+      className="h-full"
       style={{
         background: `url(${BG1})`,
+        backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
       }}
@@ -112,7 +101,7 @@ function FDashboard() {
           {/* Box Analytics */}
           {/* Menu Tabs */}
           <div className="flex flex-col justify-center items-center">
-            {/* outside container */}
+            {/* outside tabs */}
             <div className="flex justify-between items-center w-[100%] h-[100px] my-5">
               <button
                 className={
@@ -135,7 +124,7 @@ function FDashboard() {
                 <h1 className=" text-lg font-extrabold">Manage Services</h1>
               </button>
             </div>
-            {/* inside container */}
+            {/* inside tabs */}
             <div className="flex flex-col justify-center items-center w-[90%]">
               {activeTab === "track" && (<FTable/>)}
 

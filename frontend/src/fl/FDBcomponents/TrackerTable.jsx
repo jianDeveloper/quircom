@@ -104,9 +104,6 @@ const FTable = () => {
     setPage(0);
   };
 
-  const handleTab = (track) => {
-    setActiveTab(track);
-  };
   return (
     <div className="flex flex-col justify-center items-center w-[100%]">
       <Paper sx={{ width: "100%" }}>

@@ -9,7 +9,7 @@ import {
   TableRow,
   TableCell,
 } from "@mui/material/";
-import Modal from "./addServiceModal";
+import AddModal from "./addServiceModal";
 
 import { MdDesignServices, MdPendingActions } from "react-icons/md";
 import { FaFileCircleCheck } from "react-icons/fa6";
@@ -63,7 +63,7 @@ const serviceRows = [
 ];
 
 const ServiceTable = () => {
-  const [showModal, setShowModal] = React.useState(false);
+  const [addModal, setaddModal] = React.useState(false);
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -84,7 +84,7 @@ const ServiceTable = () => {
         <div className="flex justify-between items-center p-2 bg-[#13334C] ">
         <button
             type="button"
-            onClick={() => setShowModal(true)}
+            onClick={() => setaddModal(true)}
             className="bg-blue-500 py-2 px-3 mx-4 rounded text-white"
           >
             <div className="flex flex-row items-center justify-center gap-2">
@@ -92,7 +92,7 @@ const ServiceTable = () => {
               <h1>Add Service</h1>
             </div>
           </button>
-          {showModal ? <Modal setShowModal={setShowModal} /> : null}
+          {addModal ? <AddModal setaddModal={setaddModal} /> : null}
           <TablePagination
             sx={{
               backgroundColor: "#13334C",
