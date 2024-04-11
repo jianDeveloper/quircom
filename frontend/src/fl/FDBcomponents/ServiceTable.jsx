@@ -10,10 +10,13 @@ import {
   TableCell,
 } from "@mui/material/";
 import AddModal from "./addServiceModal";
+import Confirmation from "./confirmModal";
 
 import { MdDesignServices, MdPendingActions } from "react-icons/md";
 import { FaFileCircleCheck } from "react-icons/fa6";
 import { AiFillPlusCircle } from "react-icons/ai";
+
+
 
 const serviceColumns = [
   { id: "serviceID", label: "Service ID", minWidth: 100, align: "center" },
@@ -35,16 +38,19 @@ const serviceColumns = [
     label: "Actions",
     minWidth: 100,
     align: "center",
-    format: (value) => (
+    format: (setConfirmModal) => (
       <div>
         <button
           type="button"
+          
           className="mr-2 px-2 py-1 bg-blue-500 rounded text-white"
         >
           <MdDesignServices className="inline" />
         </button>
+        
         <button
           type="button"
+          onClick={() => setConfirmModal(true)}
           className="px-2 py-1 bg-orange-500 rounded text-white"
         >
           <FaFileCircleCheck className="inline" />
@@ -64,6 +70,7 @@ const serviceRows = [
 
 const ServiceTable = () => {
   const [addModal, setaddModal] = React.useState(false);
+  const [confirmModal, setConfirmModal] = React.useState(false);
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -157,11 +164,12 @@ const ServiceTable = () => {
                             align={serviceColumns.align}
                           >
                             {serviceColumns.id === "actions"
-                              ? serviceColumns.format(value)
+                              ? serviceColumns.format(setConfirmModal)
                               : serviceColumns.format &&
                                 typeof value === "number"
-                              ? serviceColumns.format(value)
+                              ? serviceColumns.format(setConfirmModal)
                               : value}
+                            {confirmModal ? <Confirmation setConfirmModal={setConfirmModal} /> : null}
                           </TableCell>
                         );
                       })}
