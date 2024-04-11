@@ -4,7 +4,7 @@ const confirmModal = ({ setConfirmModal }) => {
   return (
     <div>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-        <div className="relative w-auto my-6 mx-auto">
+        <div className="relative w-1/4 my-6 mx-auto">
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <div className="flexitems-start justify-between p-5 bg-[#1d5b79] border-b border-solid border-blueGray-200 rounded-t">
               <h3 className="text-3xl text-white text-center font-semibold">
@@ -12,11 +12,11 @@ const confirmModal = ({ setConfirmModal }) => {
               </h3>
             </div>
 
-            <div className="p-6">
-              <p className="text-base leading-relaxed text-gray-600 font-normal mt-0 mb-4">
-                Would you like to proceed with this action?
-              </p>
-            </div>
+            <p className="text-base leading-relaxed py-6 px-8 text-center">
+              Would you like to mark this project as <b>COMPLETE</b>?
+            </p>
+            <i className="px-8 text-xs text-left">Note: This action will make the product on hold until the payment is released</i>
+
 
             {/* Add Close Button and Add Button */}
             <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
