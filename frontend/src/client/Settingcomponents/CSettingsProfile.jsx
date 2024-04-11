@@ -15,10 +15,10 @@ function CSettingsProfile(props) {
       {file.path} - {file.size} bytes
     </li>
   ));
-
-  const [ userData, setUsers] = useState();
+  
   const { userId } = useParams();
-
+  const [ userData, setUsers] = useState(null);
+ 
   console.log(userId)
   console.log('Display User:', userData)
 

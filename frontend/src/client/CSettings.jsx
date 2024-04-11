@@ -1,3 +1,5 @@
+
+
 import { useState, useEffect, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -13,9 +15,10 @@ import { FaEyeSlash, FaEye } from "react-icons/fa";
 function CSettings() {
 
   const { userId } = useParams();
-  const [ userData, setUsers] = useState();
-
+  const [ userData, setUsers] = useState(null);
   const [showPassword, setShowPassword] = useState(false); // New state to track password visibility
+  const [disabled, setDisabled] = useState(false);
+  
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -37,17 +40,8 @@ function CSettings() {
   }, []);
 
   const [formData, setFormData] = useState({
-    firstName: '',
-    surName: '',
-    userName: '',
     eMail: '',
     passWord: '',
-    contactNum: '',
-    region: '', 
-    province: '',
-    city: '',
-    accType: '',
-    aggRee: false,
   });
 
   const [profilePic, setProfile] = useState()
@@ -59,35 +53,43 @@ function CSettings() {
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
 
+    setDisabled(true);
+  
     if (!profilePic) {
       toast.error('Please select a profile picture');
+      setDisabled(false);
       return;
     }
   
     try {
-
       const formObj = new FormData();
       formObj.append('client', JSON.stringify(userData));
       formObj.append('file', profilePic);
-
+  
       const response = await axios.patch(`http://localhost:8800/api/client/update/${userId}`, formObj, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
+  
       if (response && response.data) {
         console.log(response.data);
         toast.success('Profile picture uploaded successfully');
+        setDisabled(false);
       } else {
         console.log('Response data not available');
         toast.error('Failed to upload profile picture');
+        setDisabled(false);
       }
     } catch (error) {
       console.error('Error during patch ', error.response);
-      console.log(error.message)
+      console.log(error.message);
       toast.error('Failed to upload profile picture');
+      setDisabled(false);
     }
   };
+  
+  
 
   return (
     <div className=''>
@@ -142,7 +144,7 @@ function CSettings() {
                 </div>
                 <div className="my-4">
                   <input type="file" name="profilePic" id="profilePic" onChange={handleImage} />
-                  <button onClick={handleSubmit} className="ml-2 rounded bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4">
+                  <button onClick={handleSubmit} disabled={disabled} className={`ml-2 rounded font-bold py-2 px-4 ${disabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}>
                     Upload New Profile Picture
                   </button>
                 </div>
@@ -151,8 +153,8 @@ function CSettings() {
               <p className="py-2 text-xl font-semibold">Email Address</p>
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
               {userData && (<>
-                <p className="text-gray-600">Your email address is <strong> {userData.eMail} </strong></p>
-                <button className="inline-flex text-sm font-semibold text-blue-600 underline decoration-2">Change</button>
+                <p className="text-gray-600">{userData.eMail}</p>
+                <button className="inline-flex text-sm font-semibold text-blue-600 decoration-2">Change</button>
                 </>
               )}
               </div>

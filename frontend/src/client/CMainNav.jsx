@@ -35,7 +35,7 @@ const CMainNav = () => {
   const [isHovered, setIsHovered] = useState(false);
 
   const [nav, setNav] = useState(false);
-  const [userData, setUser] = useState();
+  const [userData, setUser] = useState(null);
   const [openLogin, setLogin] = useState(false);
   const [current, setActive] = useState(false);
 

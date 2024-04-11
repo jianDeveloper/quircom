@@ -9,7 +9,7 @@ import CMainNav from '../CMainNav';
 function CSettingsBill() {
   
   const { userId } = useParams();
-  const [ userData, setUsers] = useState();
+  const [ userData, setUsers] = useState(null);
 
   console.log(userId)
   console.log('Display User:', userData)

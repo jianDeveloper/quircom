@@ -34,7 +34,7 @@ const ForgotPassword = () => {
     const timerId = setTimeout(() => {
       setIsButtonDisabled(false);
       clearTimeout(timerId);
-    }, 60000); // One minute timer
+    }, 30000); // One minute timer
     setTimer(timerId);
   };
 

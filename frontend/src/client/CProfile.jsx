@@ -16,7 +16,7 @@ import BG1 from '../assets/bg1.png';
 function CProfile() {
 
   const { userId } = useParams();
-  const [ userData, setUsers] = useState();
+  const [ userData, setUsers] = useState(null);
 
   console.log(userId)
   console.log('Display User:', userData)
