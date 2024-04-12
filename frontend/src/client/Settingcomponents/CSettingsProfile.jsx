@@ -1,6 +1,7 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
+import phil from 'phil-reg-prov-mun-brgy'
 
 import { useDropzone } from 'react-dropzone';
 
@@ -18,24 +19,62 @@ function CSettingsProfile(props) {
   
   const { userId } = useParams();
   const [ userData, setUsers] = useState();
+  const [disabled, setDisabled] = useState(false);
+  const [emailEditable, setEmailEditable] = useState(false);
  
-  console.log(userId)
-  console.log('Display User:', userData)
-
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchUserData = async () => {
       try {
-        const response = await axios.get(`https://quircom.onrender.com/api/client/${userId}`);
-        if (response.status === 200) {
-          setUsers(response.data);
-        }
+          const response = await axios.get(`http://localhost:8800/api/client/${userId}`);
+          if (response.status === 200) {
+            setUsers(response.data);
+              setFormData({
+                  firstName: response.data.firstName,
+                  surName: response.data.surName,
+                  contactNum: response.data.contactNum,
+                  region: response.data.region,
+                  province: response.data.province,
+                  city: response.data.city
+              });
+          }
       } catch (error) {
-        console.error("Error fetching users:", error);
+          console.error('Error fetching user data:', error);
       }
     };
 
-    fetchUsers();
-  }, []);
+    fetchUserData();
+  }, [userId]);
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    surName: '',
+    passWord: '',
+    contactNum: '',
+    region: '',
+    province: '',
+    city: ''
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const toggleEmailEdit = () => {
+    setEmailEditable(true);
+  };
+
+  const cancelEmailEdit = () => {
+    setEmailEditable(false);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      firstName: '',
+      surName: '',
+      contactNum: '',
+      region: '',
+      province: '',
+      city: '' // Reset to original email
+    }));
+  };
 
   return (
     <div className=''>
@@ -80,7 +119,126 @@ function CSettingsProfile(props) {
             <div className="col-span-8 overflow-hidden rounded-xl sm:bg-[#F7F6DF] sm:px-8 sm:shadow">
               <div className="pt-4">
                 <h1 className="py-2 text-2xl font-semibold">Profile settings</h1>
-                <p className="font- text-slate-600">Edit your information here.</p>
+                <p className="font- text-slate-600 mb-5">Edit your information here.</p>
+                <form>
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
+                          First Name
+                      </label>
+                        {userData && (<>    
+                          <input
+                              type="text"
+                              name="firstName"
+                              id="firstName"
+                              className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                              disabled={!emailEditable}
+                              value={formData.firstName}
+                              onChange={handleChange}
+                          />
+                        </>)}
+                    </div>
+
+                    <div>
+                      <label htmlFor="surName" className="block text-sm font-medium text-gray-700">
+                          Last Name
+                      </label>
+                      <input
+                          type="text"
+                          name="surName"
+                          id="surName"
+                          className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          disabled={!emailEditable}
+                          value={formData.surName}
+                          onChange={handleChange}
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="contactNum" className="block text-sm font-medium text-gray-700">
+                          Contact Number
+                      </label>
+                      <input
+                          type="text"
+                          name="contactNum"
+                          id="contactNum"
+                          className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          disabled={!emailEditable}
+                          value={formData.contactNum}
+                          onChange={handleChange}
+                      />
+                    </div>
+
+                    {/* Region Dropdown */}
+                    <div>
+                      <label htmlFor="region" className="block text-sm font-medium text-gray-700">
+                          Region
+                      </label>
+                      <select
+                          id="region"
+                          name="region"
+                          className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          disabled={!emailEditable}
+                          value={formData.region}
+                          onChange={handleChange}
+                      >
+                          <option value="">Select Region</option>
+                          {/* Add options dynamically based on your data */}
+                      </select>
+                    </div>
+
+                    {/* Province Dropdown */}
+                    <div>
+                      <label htmlFor="province" className="block text-sm font-medium text-gray-700">
+                          Province
+                      </label>
+                      <select
+                          id="province"
+                          name="province"
+                          className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          disabled={!emailEditable}
+                          value={formData.province}
+                          onChange={handleChange}
+                      >
+                          <option value="">Select Province</option>
+                          {/* Add options dynamically based on your data */}
+                      </select>
+                    </div>
+
+                    {/* City Dropdown */}
+                    <div>
+                      <label htmlFor="city" className="block text-sm font-medium text-gray-700">
+                          City
+                      </label>
+                      <select
+                          id="city"
+                          name="city"
+                          className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          disabled={!emailEditable}
+                          value={formData.city}
+                          onChange={handleChange}
+                      >
+                          <option value="">Select City</option>
+                          {/* Add options dynamically based on your data */}
+                      </select>
+                    </div>
+                  </div>
+
+                  {emailEditable ? (
+                    <>
+                      <button type="submit" disabled={disabled} className={`m-2 rounded font-bold py-2 px-4 ${disabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}>
+                        Save
+                      </button>
+                      <button type="button" onClick={cancelEmailEdit} className="m-2 rounded font-bold py-2 px-4 bg-red-500 hover:bg-red-700 text-white">
+                        Cancel
+                      </button>
+                    </>
+                  ) : (
+                    <button onClick={toggleEmailEdit} className="ml-2 mt-2 rounded font-bold py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white">
+                      Update Information
+                    </button>
+                  )}
+              </form>
               </div>
               <hr className="mt-4 mb-8" />
               <p className="py-2 text-xl font-semibold">Account Handle</p>

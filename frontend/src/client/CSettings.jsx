@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
-import phil from 'phil-reg-prov-mun-brgy'
 import { toast, ToastContainer } from 'react-toastify';
 
 import NavHeader from './CMainNav'
@@ -43,7 +42,7 @@ function CSettings() {
 
   const [formData, setFormData] = useState({
 
-    eMail: "",
+    eMail: '',
 
   });
 
@@ -250,22 +249,22 @@ function CSettings() {
                       className="w-full text-[14px] p-3  border rounded"
                       placeholder="Enter your email"
                     />
-                    {emailEditable ? (
-                      <>
-                        <button type="submit" disabled={disabled2} className={`m-2 rounded font-bold py-2 px-4 ${disabled2 ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}>
-                          Save Email
-                        </button>
-                        <button type="button" onClick={cancelEmailEdit} className="m-2 rounded font-bold py-2 px-4 bg-red-500 hover:bg-red-700 text-white">
-                          Cancel
-                        </button>
-                      </>
-                    ) : (
-                      <button onClick={toggleEmailEdit} className="ml-2 mt-2 rounded font-bold py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white">
-                        Change Email
-                      </button>
-                    )}
                   </>
                 )}
+                {emailEditable ? (
+                  <>
+                    <button type="submit" disabled={disabled2} className={`m-2 rounded font-bold py-2 px-4 ${disabled2 ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}>
+                      Save Email
+                    </button>
+                    <button type="button" onClick={cancelEmailEdit} className="m-2 rounded font-bold py-2 px-4 bg-red-500 hover:bg-red-700 text-white">
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <button onClick={toggleEmailEdit} className="ml-2 mt-2 rounded font-bold py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white">
+                    Change Email
+                  </button>
+                )}            
               </div>
               </form>
               <hr className="mt-4 mb-8" />
