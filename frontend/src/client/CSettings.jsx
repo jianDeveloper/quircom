@@ -102,43 +102,60 @@ function CSettings() {
         return;
     }
 
-    if (formData.eMail === userData.eMail) { // assuming 'users' is the state variable holding the current user data
+    if (formData.eMail === userData.eMail) {
         toast.error('Email is the same as the existing one');
         setDisabled2(false);
         return;
     }
 
+    try {
+        const validationResponse = await axios.post(`https://quircom.onrender.com/api/auth/validate`, {
+            eMail: formData.eMail,
+        });
+
+        if (validationResponse.data.exists && validationResponse.data.eMailExists) {
+            toast.error('Email is already registered');
+            setDisabled2(false);
+            return;
+        }
+    } catch (error) {
+        console.error('Error validating email:', error);
+        toast.error('Failed to validate email');
+        setDisabled2(false);
+        return;
+    }
+
+    // If the email is valid and not already registered, proceed with updating
     const formObj = new FormData();
-    // Adjust the following to ensure it matches the expected backend format
     formObj.append('client', JSON.stringify({
-        ...userData,  // Spread the existing user data
-        eMail: formData.eMail  // Override the email
+        ...userData,
+        eMail: formData.eMail
     }));
 
     try {
-      const response = await axios.patch(`http://localhost:8800/api/client/update/${userId}`, formObj, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-      });
+        const updateResponse = await axios.patch(`http://localhost:8800/api/client/update/${userId}`, formObj, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
 
-      if (response.status === 201) {
-        console.log(response.data);
-        toast.success('Email has been updated');
-        setEmailEditable(false);
-        setUsers(response.data); // Update userData with the latest user data
-        setDisabled2(false);
-      } else {
-          console.log('Response data not available');
-          toast.error('Failed to update email');
-          setDisabled2(false);
-      }
+        if (updateResponse.status === 201) {
+            console.log(updateResponse.data);
+            toast.success('Email has been updated');
+            setEmailEditable(false);
+            setUsers(updateResponse.data); // Update userData with the latest user data
+        } else {
+            console.log('Response data not available');
+            toast.error('Failed to update email');
+        }
     } catch (error) {
-        console.error('Error during patch ', error.response);
+        console.error('Error during patch:', error);
         toast.error('Failed to change email: ' + error.message);
+    } finally {
         setDisabled2(false);
-    } 
-  };
+    }
+};
+
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
