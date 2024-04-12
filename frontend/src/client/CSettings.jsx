@@ -1,6 +1,4 @@
-
-
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import phil from 'phil-reg-prov-mun-brgy'
@@ -18,6 +16,9 @@ function CSettings() {
   const [ userData, setUsers] = useState(null);
   const [showPassword, setShowPassword] = useState(false); // New state to track password visibility
   const [disabled, setDisabled] = useState(false);
+  const [disabled2, setDisabled2] = useState(false);
+  const [emailEditable, setEmailEditable] = useState(false);
+  const formRef = useRef(null);
   
 
   const togglePasswordVisibility = () => {
@@ -30,6 +31,7 @@ function CSettings() {
         const response = await axios.get(`http://localhost:8800/api/client/${userId}`);
         if (response.status === 200) {
           setUsers(response.data);
+          setFormData({ eMail: response.data.eMail });
         }
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -37,11 +39,12 @@ function CSettings() {
     };
 
     fetchUsers();
-  }, []);
+  }, [userId]);
 
   const [formData, setFormData] = useState({
-    eMail: '',
-    passWord: '',
+
+    eMail: "",
+
   });
 
   const [profilePic, setProfile] = useState()
@@ -88,8 +91,70 @@ function CSettings() {
       setDisabled(false);
     }
   };
+
+  const handleSubmitEmail = async (e) => {
+    e.preventDefault();
+    setDisabled2(true);
+
+    if (!formData.eMail.includes('@')) {
+        toast.error('Please enter a valid email address');
+        setDisabled2(false);
+        return;
+    }
+
+    if (formData.eMail === userData.eMail) { // assuming 'users' is the state variable holding the current user data
+        toast.error('Email is the same as the existing one');
+        setDisabled2(false);
+        return;
+    }
+
+    const formObj = new FormData();
+    // Adjust the following to ensure it matches the expected backend format
+    formObj.append('client', JSON.stringify({
+        ...userData,  // Spread the existing user data
+        eMail: formData.eMail  // Override the email
+    }));
+
+    try {
+      const response = await axios.patch(`http://localhost:8800/api/client/update/${userId}`, formObj, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+      });
+
+      if (response.status === 201) {
+        console.log(response.data);
+        toast.success('Email has been updated');
+        setEmailEditable(false);
+        setUsers(response.data); // Update userData with the latest user data
+        setDisabled2(false);
+      } else {
+          console.log('Response data not available');
+          toast.error('Failed to update email');
+          setDisabled2(false);
+      }
+    } catch (error) {
+        console.error('Error during patch ', error.response);
+        toast.error('Failed to change email: ' + error.message);
+        setDisabled2(false);
+    } 
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
   
-  
+  const toggleEmailEdit = () => {
+    setEmailEditable(true);
+  };
+
+  const cancelEmailEdit = () => {
+    setEmailEditable(false);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      eMail: userData.eMail // Reset to original email
+    }));
+  };
 
   return (
     <div className=''>
@@ -150,14 +215,42 @@ function CSettings() {
                 </div>
               </div>
               <hr className="mt-4 mb-8" />
+              <form ref={formRef} className="w-full max-w-screen-ss mx-auto" onSubmit={handleSubmitEmail}>
               <p className="py-2 text-xl font-semibold">Email Address</p>
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-              {userData && (<>
-                <p className="text-gray-600">{userData.eMail}</p>
-                <button className="inline-flex text-sm font-semibold text-blue-600 decoration-2">Change</button>
-                </>
-              )}
+              <div className="w-full md:w-1/2 px-3 mb-4">
+                <label htmlFor="email" className="block text-[#1D5B79] text-sm font-bold mb-2">
+                  Email
+                </label>
+                {userData && (
+                  <>
+                  <input
+                      type="email"
+                      id="email"
+                      name="eMail"
+                      value={formData.eMail}
+                      onChange={handleChange}
+                      disabled={!emailEditable}
+                      className="w-full text-[14px] p-3  border rounded"
+                      placeholder="Enter your email"
+                    />
+                    {emailEditable ? (
+                      <>
+                        <button type="submit" disabled={disabled2} className={`m-2 rounded font-bold py-2 px-4 ${disabled2 ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}>
+                          Save Email
+                        </button>
+                        <button type="button" onClick={cancelEmailEdit} className="m-2 rounded font-bold py-2 px-4 bg-red-500 hover:bg-red-700 text-white">
+                          Cancel
+                        </button>
+                      </>
+                    ) : (
+                      <button onClick={toggleEmailEdit} className="ml-2 mt-2 rounded font-bold py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white">
+                        Change Email
+                      </button>
+                    )}
+                  </>
+                )}
               </div>
+              </form>
               <hr className="mt-4 mb-8" />
               <p className="py-2 text-xl font-semibold">Password</p>
               <div className="flex items-center">

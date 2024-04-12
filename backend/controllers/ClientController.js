@@ -116,19 +116,41 @@ const EditUser = async (req, res) => {
         city: client.city,
         profilePic: clientProfile.hasOwnProperty("id") ? clientProfile : client.profilePic,
         userInfo: client.userInfo,
-        "subs.status": client.subs.status // Directly update the status
       }
     };
-
-    // Only set the dateSubscribed if status is true
-    if (client.subs && client.subs.status === true) {
-      update.$set["subs.dateSubscribed"] = new Date();
-    }
 
     const result = await UserModel.findByIdAndUpdate(id, update, { new: true });
     res.status(201).json(result);
   } catch (err) {
     res.status(404).json({ message: err.message });
+  }
+};
+
+const SubscriptionStatus = async (req, res) => {
+  const { id } = req.params;
+  const { body, file } = req;
+  const client = JSON.parse(body.client);
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: "Invalid ID" });
+  }
+
+  let update = {
+    $set: {
+      "subs.status": client.subs.status // Directly update the status
+    }
+  };
+
+  // Update the dateSubscribed if status is true
+  if (client.subs && client.subs.status === true) {
+    update.$set["subs.dateSubscribed"] = new Date();
+  }
+
+  try {
+    const result = await UserModel.findByIdAndUpdate(id, update, { new: true });
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -198,5 +220,6 @@ module.exports = {
   CreateUser,
   EditUser,
   DeleteUser,
-  ValidateUserData
+  ValidateUserData,
+  SubscriptionStatus
 };
