@@ -73,7 +73,7 @@ const TaskList = () => {
                                 {userData && (
                                     <div class="ml-3">
                                     <p class="text-gray-900 whitespace-no-wrap">
-                                    Molly Sanders {userData.firstName} {userData.surName}
+                                     {userData.firstName} {userData.surName}
                                     </p>
                                     <p class="text-gray-600 whitespace-no-wrap">000004</p>
                                     </div>

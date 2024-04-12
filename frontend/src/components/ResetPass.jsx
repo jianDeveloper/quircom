@@ -7,8 +7,12 @@ import 'react-toastify/dist/ReactToastify.css';
 const ResetPassword = () => {
   const [passWord, setPassword] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [countdown, setCountdown] = useState(5); // Initial countdown time in seconds
+  const [showPassword, setShowPassword] = useState(false);
   const { userId } = useParams();
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,9 +24,6 @@ const ResetPassword = () => {
         const response = await axios.patch(`http://localhost:8800/api/auth/resetpass/${userId}`, { passWord });
         toast.success(response.data.message);
         setIsButtonDisabled(true);
-        setTimeout(() => {
-          window.location.replace('/'); // Redirect to "/" after 5 seconds
-        }, countdown * 1000); // Multiply by 1000 to convert seconds to milliseconds
       }
     } catch (error) {
       if (error.response && error.response.status === 404) {
@@ -33,24 +34,6 @@ const ResetPassword = () => {
     }
   };
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCountdown((prevCountdown) => prevCountdown - 1);
-    }, 1000); // Update countdown every second
-
-    // Cleanup function to clear the interval when component unmounts or countdown reaches 0
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
-
-  useEffect(() => {
-    // Block history after redirection
-    if (isButtonDisabled) {
-      window.history.replaceState(null, '', '/');
-    }
-  }, [isButtonDisabled]);
-
   return (
     <>
       <ToastContainer />
@@ -58,10 +41,9 @@ const ResetPassword = () => {
         <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-8 rounded-lg shadow-lg" style={{ backgroundColor: '#F5F5DC' }}>
           <h2 className="text-center text-2xl font-bold text-[#1D5B79] mb-4">Reset Password</h2>
           <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label htmlFor="passWord" className="block text-gray-700">Enter New Password</label>
+            <div className="relative mb-4">
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'} 
                 id="passWord"
                 value={passWord}
                 onChange={(e) => setPassword(e.target.value)}
@@ -69,18 +51,23 @@ const ResetPassword = () => {
                 className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-700"
                 required
               />
+              <button
+                type="button"
+                tabIndex="-1" // Add tabIndex="-1" here
+                className="absolute top-1/2 right-3 transform -translate-y-1/2 text-sm"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
             </div>
             <button
               type="submit"
               className={`w-full py-2 rounded-lg transition duration-300 ${isButtonDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-700 text-white hover:bg-orange-500'}`}
               disabled={isButtonDisabled}
             >
-              {isButtonDisabled ? `Redirecting in ${countdown} seconds...` : 'Confirm New Password'}
+              {isButtonDisabled ? `You can now close this window` : 'Confirm New Password'}
             </button>
           </form>
-          <div className="mt-4 text-center">
-            <a href="/" className="text-blue-700 hover:underline">Back to Login</a>
-          </div>
         </div>
       </div>
     </>
