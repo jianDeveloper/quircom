@@ -21,21 +21,28 @@ function CSettingsProfile(props) {
   const [ userData, setUsers] = useState();
   const [disabled, setDisabled] = useState(false);
   const [emailEditable, setEmailEditable] = useState(false);
+  const [filteredProvinces, setFilteredProvinces] = useState([]);
+  const [filteredCity, setFilteredCity] = useState([]);
+  const [regionCode, setRegionCode] = useState(userData ? userData.region : '');
+  const [provinceCode, setProvinceCode] = useState(userData ? userData.province : ''); 
+  const [cityCode, setCityCode] = useState(userData ? userData.city : '');
+
+  const sortedRegions = phil.regions.sort((a, b) => a.name.localeCompare(b.name));
  
   useEffect(() => {
     const fetchUserData = async () => {
       try {
           const response = await axios.get(`http://localhost:8800/api/client/${userId}`);
           if (response.status === 200) {
-            setUsers(response.data);
-              setFormData({
-                  firstName: response.data.firstName,
-                  surName: response.data.surName,
-                  contactNum: response.data.contactNum,
-                  region: response.data.region,
-                  province: response.data.province,
-                  city: response.data.city
-              });
+          setUsers(response.data);
+            setFormData({
+              firstName: response.data.firstName,
+              surName: response.data.surName,
+              contactNum: response.data.contactNum,
+              region: response.data.region,
+              province: response.data.province,
+              city: response.data.city
+            });
           }
       } catch (error) {
           console.error('Error fetching user data:', error);
@@ -56,8 +63,40 @@ function CSettingsProfile(props) {
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+  
+    // Handle specific logic based on the name of the input field
+    if (name === 'region') {
+      // Handle region change logic
+      setRegionCode(value);
+      const regionProvinces = phil.getProvincesByRegion(value);
+      setFilteredProvinces(regionProvinces);
+  
+      setProvinceCode('');
+      setCityCode('');
+      setFilteredCity([]);
+    }
+    if (name === 'province') {
+      // Handle province change logic
+      setProvinceCode(value);
+      const provincesCity = phil.getCityMunByProvince(value);
+      setFilteredCity(provincesCity);
+    }
+    if (name === 'city') {
+      // Handle city change logic
+      setCityCode(value);
+    }
+  
+    // Update formData with the changed values
+    setFormData(prevState => ({
+      ...prevState,
+      // Only update region, province, and city if they are changed
+      region: name === 'region' ? value : formData.region,
+      province: name === 'province' ? value : formData.province,
+      city: name === 'city' ? value : formData.city,
+    }));
   };
+  
 
   const toggleEmailEdit = () => {
     setEmailEditable(true);
@@ -67,12 +106,12 @@ function CSettingsProfile(props) {
     setEmailEditable(false);
     setFormData((prevFormData) => ({
       ...prevFormData,
-      firstName: '',
-      surName: '',
-      contactNum: '',
-      region: '',
-      province: '',
-      city: '' // Reset to original email
+      firstName: userData.firstName,
+      surName: userData.surName,
+      contactNum: userData.contactNum,
+      region: userData.region,
+      province: userData.province,
+      city: userData.city // Reset to original email
     }));
   };
 
@@ -172,19 +211,24 @@ function CSettingsProfile(props) {
                     {/* Region Dropdown */}
                     <div>
                       <label htmlFor="region" className="block text-sm font-medium text-gray-700">
-                          Region
+                        Region
                       </label>
-                      <select
-                          id="region"
-                          name="region"
-                          className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                          disabled={!emailEditable}
-                          value={formData.region}
-                          onChange={handleChange}
-                      >
-                          <option value="">Select Region</option>
-                          {/* Add options dynamically based on your data */}
-                      </select>
+                      {userData && (
+                        <>         
+                          <select
+                            id="region"
+                            name="region"
+                            className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            disabled={!emailEditable}
+                            value={regionCode || userData.region}
+                            onChange={handleChange}
+                          >
+                            {sortedRegions.map((region, index) => (
+                              <option key={`${region.reg_code}-${index}`} value={region.reg_code}>{region.name}</option>
+                            ))}
+                          </select>
+                        </>
+                      )}
                     </div>
 
                     {/* Province Dropdown */}
@@ -192,17 +236,22 @@ function CSettingsProfile(props) {
                       <label htmlFor="province" className="block text-sm font-medium text-gray-700">
                           Province
                       </label>
-                      <select
-                          id="province"
-                          name="province"
-                          className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                          disabled={!emailEditable}
-                          value={formData.province}
-                          onChange={handleChange}
-                      >
-                          <option value="">Select Province</option>
-                          {/* Add options dynamically based on your data */}
-                      </select>
+                      {userData && (
+                        <>
+                          <select
+                            id="province"
+                            name="province"
+                            className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            disabled={!emailEditable}
+                            value={provinceCode || userData.province}
+                            onChange={handleChange}
+                          >
+                            {filteredProvinces.map((province, index) => (
+                              <option key={`${province.prov_code}-${index}`} value={province.prov_code}>{province.name}</option>
+                            ))}
+                          </select>
+                        </>
+                      )}
                     </div>
 
                     {/* City Dropdown */}
@@ -210,17 +259,22 @@ function CSettingsProfile(props) {
                       <label htmlFor="city" className="block text-sm font-medium text-gray-700">
                           City
                       </label>
-                      <select
-                          id="city"
-                          name="city"
-                          className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                          disabled={!emailEditable}
-                          value={formData.city}
-                          onChange={handleChange}
-                      >
-                          <option value="">Select City</option>
-                          {/* Add options dynamically based on your data */}
-                      </select>
+                      {userData && (
+                        <>
+                          <select
+                            id="city"
+                            name="city"
+                            className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            disabled={!emailEditable}
+                            value={cityCode || userData.city}
+                            onChange={handleChange}
+                          >
+                            {filteredCity.map((city, index) => (
+                              <option key={`${city.mun_code}-${index}`} value={city.mun_code}>{city.name}</option>
+                            ))}
+                          </select>
+                        </>
+                      )}
                     </div>
                   </div>
 
@@ -254,9 +308,9 @@ function CSettingsProfile(props) {
               <p className="py-2 text-xl font-semibold">Profile Description</p>
               <div className="max-w-2xl">
               
-                  <label class="block sm:col-span-2" for="message">
+                  <label className="block sm:col-span-2" htmlFor="message">
                     
-                    <textarea class="h-32 w-full rounded-md border bg-white py-2 px-2 outline-none ring-yellow-500 focus:ring-2" type="text" placeholder="About you"></textarea>
+                    <textarea className="h-32 w-full rounded-md border bg-white py-2 px-2 outline-none ring-yellow-500 focus:ring-2" type="text" placeholder="About you"></textarea>
                   </label>
                 
               </div>
