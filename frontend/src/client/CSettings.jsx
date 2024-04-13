@@ -12,12 +12,12 @@ import { FaEyeSlash, FaEye } from "react-icons/fa";
 function CSettings() {
 
   const { userId } = useParams();
-  const [ userData, setUsers] = useState(null);
+  const [ userData, setUsers] = useState();
   const [showPassword, setShowPassword] = useState(false); // New state to track password visibility
   const [disabled, setDisabled] = useState(false);
   const [disabled2, setDisabled2] = useState(false);
   const [emailEditable, setEmailEditable] = useState(false);
-  const formRef = useRef(null);
+  const formRef = useRef();
   
 
   const togglePasswordVisibility = () => {
@@ -27,7 +27,7 @@ function CSettings() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`http://localhost:8800/api/client/${userId}`);
+        const response = await axios.get(`https://quircom.onrender.com/api/client/${userId}`);
         if (response.status === 200) {
           setUsers(response.data);
           setFormData({ eMail: response.data.eMail });
@@ -68,7 +68,7 @@ function CSettings() {
       formObj.append('client', JSON.stringify(userData));
       formObj.append('file', profilePic);
   
-      const response = await axios.patch(`http://localhost:8800/api/client/update/${userId}`, formObj, {
+      const response = await axios.patch(`https://quircom.onrender.com/api/client/${userId}`, formObj, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -132,7 +132,7 @@ function CSettings() {
     }));
 
     try {
-        const updateResponse = await axios.patch(`http://localhost:8800/api/client/update/${userId}`, formObj, {
+        const updateResponse = await axios.patch(`https://quircom.onrender.com/api/client/${userId}`, formObj, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },

@@ -25,7 +25,7 @@ function CSettingsProfile(props) {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-          const response = await axios.get(`http://localhost:8800/api/client/${userId}`);
+          const response = await axios.get(`https://quircom.onrender.com/api/client/${userId}`);
           if (response.status === 200) {
             setUsers(response.data);
               setFormData({

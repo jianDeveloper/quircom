@@ -1,7 +1,8 @@
 import React from 'react';
-import QRM1 from '../assets/QRM1.png'
 
 const Subscription = () => {
+    const [nav, setNav] = useState(false);
+    const [openLogin, setLogin] = useState(false);
     return (
         <div class="pt-16 pb-8 text-center leading-8 text-gray-800 md:pb-16 lg:pt-32">
             <div class="mb-20 text-center">

@@ -1,8 +1,5 @@
 import React from 'react'
 import Laptop from '../assets/service.svg'
-import Star from '../assets/star.png'
-import Shield from '../assets/sec.png'
-import Plane from '../assets/plane.png'
 
 const Services = () => {
   return (

@@ -1,10 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import mpCard1 from '../../assets/pic1.png'
 import Connect from '../../assets/link.png'
-import { Link } from 'react-router-dom';
+import axios from "axios"; // Import axios for making HTTP requests
+import { useParams } from "react-router-dom";
 import NavHeader from '../CMainNav'
 
 function CConnect () {
+    const [ userData, setUsers] = useState();
+    const { userId } = useParams();
+    
+    console.log(userId)
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+          try {
+            const response = await axios.get(`https://quircom.onrender.com/api/client/${userId}`);
+            if (response.status === 200) {
+              setUsers(response.data);
+            }
+          } catch (error) {
+            console.error("Error fetching users:", error);
+          }
+        };
+    
+        fetchUsers();
+      }, [userId]);
   return (
     <section class="mt-[-1px]"> 
       <div>
@@ -102,7 +122,7 @@ function CConnect () {
               </nav>
             </div>
 
-            <div class="mt-8 flow-root sm:mt-12">
+            <div class="mt-8 flow-root sm:mt-12 mb-8 sm:mb-12">
               <h1 class="text-3xl font-bold">Delivered To Your Door</h1>
               <p class="mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia accusantium nesciunt fuga.</p>
               <h1 class="mt-8 text-3xl font-bold">From the Fine Farms of Brazil</h1>

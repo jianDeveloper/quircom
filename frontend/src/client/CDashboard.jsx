@@ -14,9 +14,9 @@ import TaskList from "./Dashcomponents/TaskList";
 import { Link } from 'react-router-dom';
 
 import BG1 from "../assets/bg1.png";
-import BGmark from "../assets/ser.jpg";
-import BGtrack from "../assets/tra.jpg";
-import BGsubs from "../assets/sub.jpg";
+import BGmark from "../assets/ser.png";
+import BGtrack from "../assets/tra.png";
+import BGsubs from "../assets/sub.png";
 import CMainNav from "./CMainNav";
 
 function CDashboard() {
@@ -76,48 +76,48 @@ function CDashboard() {
             </div>
           </div>
           <div className="grid grid-cols-1 gap-[20px] my-[15px] md:grid-cols-3">
-          <Link to={`/client/browse-service/${userId}`}><div
-              className="flex flex-col justify-around rounded-lg "
-              style={{
-                background: `url(${BGmark})`,
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "cover",
-              }}
-            >
-              <div className="flex justify-center items-center py-14">
-                <h3 className="font-extrabold text-xl text-orange-600">
-                  Marketplace
-                </h3>
+            <Link to={`/client/browse-service/${userId}`}>
+              <div
+                className="flex flex-col justify-around rounded-lg"
+                style={{
+                  background: `url(${BGmark})`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "cover", // Ensure the image covers the entire div
+                }}
+              >
+                <div className="flex justify-center items-center py-14">
+                  <h3 className="font-extrabold text-xl text-[#F5F5DC]">Marketplace</h3>
+                </div>
               </div>
-            </div></Link>
-            <Link to={`/client/tracker/${userId}`}><div
-              className="flex flex-col justify-around rounded-lg"
-              style={{
-                background: `url(${BGtrack})`,
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "cover",
-              }}
-            >
-              <div className="flex justify-center items-center py-14">
-                <h3 className="font-extrabold text-xl text-orange-600">
-                  Progress Tracker
-                </h3>
+            </Link>
+            <Link to={`/client/tracker/${userId}`}>
+              <div
+                className="flex flex-col justify-around rounded-lg"
+                style={{
+                  background: `url(${BGtrack})`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "cover", // Ensure the image covers the entire div
+                }}
+              >
+                <div className="flex justify-center items-center py-14">
+                  <h3 className="font-extrabold text-xl text-[#F5F5DC]">Progress Tracker</h3>
+                </div>
               </div>
-            </div></Link>
-            <Link to={`/client/subscribe/${userId}`}><div
-              className="flex flex-col justify-around rounded-lg"
-              style={{
-                background: `url(${BGsubs})`,
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "cover",
-              }}
-            >
-              <div className="flex justify-center items-center py-14">
-                <h3 className="font-extrabold text-xl text-orange-600">
-                  Subscription
-                </h3>
+            </Link>
+            <Link to={`/client/subscribe/${userId}`}>
+              <div
+                className="flex flex-col justify-around rounded-lg"
+                style={{
+                  background: `url(${BGsubs})`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "cover", // Ensure the image covers the entire div
+                }}
+              >
+                <div className="flex justify-center items-center py-14">
+                  <h3 className="font-extrabold text-xl text-[#F5F5DC]">Subscription</h3>
+                </div>
               </div>
-            </div></Link>
+            </Link>
           </div>
           <div>
             <TaskList />
