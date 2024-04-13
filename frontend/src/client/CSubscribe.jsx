@@ -1,13 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react';
 import CMainNav from './CMainNav';
+import CFooter from './CFooter'
+import AddBillModal from './Subscomponents/AddBillModal';
+const CSubscribe = () => {
+    const [addbillModal, setbillModal] = React.useState(false);
 
-const Subscription = () => {
+    const toggleModal = () => {
+        setbillModal(!addbillModal);
+    };
+
     return (
         <div>
         <div>
             <CMainNav />
         </div>
-        <div className="pt-16 pb-8 text-center leading-8 text-gray-800 md:pb-16 lg:pt-32">
+        <div className="pt-16 pb-8 text-center leading-8 text-gray-800 md:pb-16 lg:pt-20">
             <div className="mb-20 text-center">
                 <div className="mb-4 text-gray-800">
                     <h2 className="text-4xl font-bold md:text-5xl md:leading-none">Elevate your Projects</h2>
@@ -77,14 +84,28 @@ const Subscription = () => {
                                         <p className="py-2 text-xl font-semibold">Project Trackers</p>
                                     </li>
                                 </ul>
-                                <div className="my-10 px-2">
-                                    <a className="block cursor-pointer rounded bg-orange-600 py-4 px-10 text-base leading-tight text-white duration-200 ease-in-out md:inline-block lg:py-4" href="#">Try it now!</a>
-                                </div>
+                                {/* <div className="my-10 px-2">
+                                    <a className="block cursor-pointer rounded bg-orange-600 py-4 px-10 text-base leading-tight text-white duration-200 ease-in-out md:inline-block lg:py-4" href='/'>Try it now!</a>
+                                </div> */}
+                                <button
+            type="button"
+            onClick={() => setbillModal(true)}
+            className="bg-blue-500 py-2 px-3 mx-4 rounded text-white"
+          >
+            <div className="flex flex-row items-center justify-center gap-2">
+              <AiFillPlusCircle size={20} color="white" />
+              <h1>Add Service</h1>
+            </div>
+          </button>
+          {addbillModal ? <AddModal setbillModal={setbillModal} /> : null}
                             </div>
                         </div>
                     </div>
                 </div>
+                <div>
+                    <CFooter />
+                </div>
           </div>
     )
 }
-export default Subscription
+export default CSubscribe

@@ -16,18 +16,18 @@ import CFooter from './CFooter'
 
 const CMarketplace = () => {
   const data = [
-    { image: mpCard1, subtitle: 'UI/UX Design', title: 'The Firepit', author: 'by Naruto', button: 'Connect' },
-    { image: mpCard2, subtitle: 'Logo Design', title: 'The Firepit', author: 'by Naruto', button: 'Connect' },
-    { image: mpCard3, subtitle: 'Word Press', title: 'The Firepit', author: 'by Naruto', button: 'Connect' },
-    { image: mpCard4, subtitle: 'Graphic Design', title: 'The Firepit', author: 'by Naruto', button: 'Connect' },
-    { image: mpCard5, subtitle: 'Landing Page Design', title: 'The Firepit', author: 'by Naruto', button: 'Connect' },
-    { image: mpCard6, subtitle: 'Web Design', title: 'The Firepit', author: 'by Naruto', button: 'Connect' },
-    { image: mpCard7, subtitle: 'Social Media Design', title: 'The Firepit', author: 'by Naruto', button: 'Connect' },
-    { image: mpCard8, subtitle: '3D Design', title: 'The Firepit', author: 'by Naruto', button: 'Connect' },
+    { image: mpCard1, subtitle: 'IT Services', title: 'Landing Pages', author: 'by Naruto', button: 'Hire' },
+    { image: mpCard2, subtitle: 'IT Services', title: 'UI/UX Designs', author: 'by Naruto', button: 'Hire' },
+    { image: mpCard3, subtitle: 'IT Services', title: 'Prototype Website', author: 'by Naruto', button: 'Hire' },
+    { image: mpCard4, subtitle: 'IT Services', title: 'AI Business Automation', author: 'by Naruto', button: 'Hire' },
+    { image: mpCard5, subtitle: 'Graphic Designs', title: 'Social Media Banner', author: 'by Naruto', button: 'Hire' },
+    { image: mpCard6, subtitle: 'Graphic Designs', title: '3D Modelling', author: 'by Naruto', button: 'Hire' },
+    { image: mpCard7, subtitle: 'Graphic Designs', title: 'Video Editing', author: 'by Naruto', button: 'Hire' },
+    { image: mpCard8, subtitle: 'Graphic Designs', title: 'Logo Designs', author: 'by Naruto', button: 'Hire' },
     // Add more items as needed
   ];
   return (
-    <div className=''>
+    <div className='flex flex-col min-h-screen'>
       <NavHeader />
       <div className='flex'>
         <div className='flex-col mx-10 my-10 w-[100%]'>
@@ -46,18 +46,20 @@ const CMarketplace = () => {
                   <circle cx="11" cy="11" r="8" class=""></circle>
                   <line x1="21" y1="21" x2="16.65" y2="16.65" class=""></line>
                 </svg>
-                <input type="name" name="search" class="h-12 w-full cursor-text rounded-md border border-gray-100 bg-gray-100 py-4 pr-40 pl-12 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" placeholder="Search by name, type, manufacturer, etc" />
+                <input type="name" name="search" class="h-12 w-full cursor-text rounded-md border border-gray-100 bg-gray-100 py-4 pr-40 pl-12 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" placeholder="Search by services..." />
               </div>
             </form>
           </div>
-          <div className=' h-[43vh] overflow-scroll grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-            {data.map((item, index) => (
-              <CCards key={index} image={item.image} subtitle={item.subtitle} title={item.title} author={item.author}  button={item.button}/>
-            ))}
+          <div className="flex-grow"> {/* This div will make the cards fill the available space */}
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+              {data.map((item, index) => (
+                <CCards key={index} image={item.image} subtitle={item.subtitle} title={item.title} author={item.author}  button={item.button}/>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-      <div className="">
+      <div className="mt-auto">
         <CFooter />
       </div>
     </div>
