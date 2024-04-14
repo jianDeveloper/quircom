@@ -2,10 +2,10 @@ import React, {useState} from 'react'
 import { Link } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import '../client/profile.css'
-import NavHeader from './FHeader'
+import NavHeader from './FMainNav'
 import FFooter from './FFooter';
 
-function CSettingsProfile(props) {
+function FSettingsProfile(props) {
   const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
   
   const files = acceptedFiles.map(file => (

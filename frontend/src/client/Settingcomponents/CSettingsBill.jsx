@@ -9,7 +9,7 @@ import CMainNav from '../CMainNav';
 function CSettingsBill() {
   
   const { userId } = useParams();
-  const [ userData, setUsers] = useState(null);
+  const [ userData, setUsers] = useState();
 
   console.log(userId)
   console.log('Display User:', userData)
@@ -17,7 +17,7 @@ function CSettingsBill() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`http://localhost:8800/api/client/${userId}`);
+        const response = await axios.get(`https://quircom.onrender.com/api/client/${userId}`);
         if (response.status === 200) {
           setUsers(response.data);
         }

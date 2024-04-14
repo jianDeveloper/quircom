@@ -21,12 +21,10 @@ import CConnect from './client/Marketcomponents/CConnect.jsx';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import FDashboard from './fl/FDashboard.jsx';
-// import FProfile from './fl/FProfile.jsx';
-// import FSettings from './fl/FSettings.jsx';
-// import FSettingsProfile from './fl/FSettingsProfile.jsx';
-// import FTracker from './fl/FTracker.jsx';
-// import FUpload from './fl/FUpload.jsx';
-// import FConnect from './fl/FConnect.jsx';
+import FProfile from './fl/FProfile.jsx';
+import FSettings from './fl/FSettings.jsx';
+import FSettingsProfile from './fl/FSettingsProfile.jsx';
+
 
 function App() {
   return (
@@ -138,20 +136,22 @@ function App() {
           path="/client/leaderboard/:userId"
           element={<CRank />}
         />
+
+        {/* ROUTE FOR FREELANCER */}
         <Route
           exact
-          path="/freelancer/dashboard/" // Adding :userId parameter
+          path="/freelancer/dashboard/:userId" // Adding :userId parameter
           element={<FDashboard />} // Rendering CDashboard component
         />
-{/* {
+        
         <Route
           exact
           path="/freelancer/profile/:userId"
           element={<FProfile />}
-        /> } */}
+        />
 
 
-        {/* <Route
+        <Route
           exact
           path="/freelancer/settings/:userId"
           element={<FSettings />}
@@ -160,25 +160,7 @@ function App() {
           exact
           path="/freelancer/settings-profile/:userId"
           element={<FSettingsProfile />}
-        />  */}
-
-        {/* <Route
-          exact
-          path="/freelancer/tracker/:userId"
-          element={<FTracker />}
-        />
-
-        <Route
-          exact
-          path="/freelancer/service-connect/:userId"
-          element={<FConnect />}
-        />
-
-        <Route
-          exact
-          path="/freelancer/service-upload/:userId"
-          element={<FUpload />}
-        /> */}
+        /> 
        
       </Routes>
       

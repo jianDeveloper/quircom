@@ -44,7 +44,7 @@ const FMainNav = () => {
 
   useEffect(() => {
     // Fetch user data using the user ID
-    axios.get(`http://localhost:8800/api/users/${userId}`)
+    axios.get(`https://quircom.onrender.com/api/freelancer/${userId}`)
       .then(response => {
         console.log('User data:', response.data);
         setUserData(response.data); // Set the user data in state
@@ -167,13 +167,13 @@ const FMainNav = () => {
             open={Boolean(anchorEl)}
             onClose={handleCloseMenu}
           >
-            <MenuItem onClick={handleCloseMenu} component={Link} to={`/client/profile/${userId}`}>
+            <MenuItem onClick={handleCloseMenu} component={Link} to={`/freelancer/profile/${userId}`}>
               <Stack direction={"row"} spacing={1}>
                 <img className="w-6 h-6" src={User} alt="Profile" />
                 <Typography variant="body1">Profile</Typography>
               </Stack>
             </MenuItem>
-            <MenuItem onClick={handleCloseMenu} component={Link} to={`/client/settings/${userId}`}>
+            <MenuItem onClick={handleCloseMenu} component={Link} to={`/freelancer/settings/${userId}`}>
               <Stack direction={"row"} spacing={1}>
                 <img className="w-6 h-6" src={Settings} alt="Settings" />
                 <Typography variant="body1">Settings</Typography>
