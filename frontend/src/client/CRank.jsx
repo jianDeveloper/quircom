@@ -6,9 +6,6 @@ import Profile from '../assets/profile.jpg'
 
 function CRank() {
   return (
-    
-
-
     <div class="relative flex flex-col w-full min-w-0 mb-0 break-words border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
         <div>
         <NavHeader />
