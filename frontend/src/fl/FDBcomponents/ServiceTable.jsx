@@ -11,7 +11,7 @@ import {
 } from "@mui/material/";
 import AddModal from "./addServiceModal";
 import Deletion from "./deleteModal";
-import Convo from "./convoModal";
+import UpdateModal from "./updateModal";
 
 import { MdDesignServices } from "react-icons/md";
 import { FaTrashCan } from "react-icons/fa6";
@@ -39,11 +39,11 @@ const serviceColumns = [
     label: "Actions",
     minWidth: 100,
     align: "center",
-    format: (setDeleteModal,setConvoModal) => (
+    format: (setDeleteModal,setUpdateModal) => (
       <div>
         <button
           type="button"
-          onClick={() => setConvoModal(true)}
+          onClick={() => setUpdateModal(true)}
           className="mr-2 px-2 py-1 bg-blue-500 rounded text-white"
         >
           <MdDesignServices className="inline" />
@@ -72,7 +72,7 @@ const serviceRows = [
 const ServiceTable = () => {
   const [addModal, setaddModal] = React.useState(false);
   const [deleteModal, setDeleteModal] = React.useState(false);
-  const [convoModal, setConvoModal] = React.useState(false);
+  const [updateModal, setUpdateModal] = React.useState(false);
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -163,13 +163,13 @@ const ServiceTable = () => {
                             align={serviceColumns.align}
                           >
                             {serviceColumns.id === "actions"
-                              ? serviceColumns.format(setDeleteModal,setConvoModal)
+                              ? serviceColumns.format(setDeleteModal,setUpdateModal)
                               : serviceColumns.format &&
                                 typeof value === "number"
-                              ? serviceColumns.format(setDeleteModal,setConvoModal)
+                              ? serviceColumns.format(setDeleteModal,setUpdateModal)
                               : value}
                             {deleteModal ? <Deletion setDeleteModal={setDeleteModal} /> : null}
-                            {convoModal ? <Convo setConvoModal={setConvoModal} /> : null}
+                            {updateModal ? <UpdateModal setUpdateModal={setUpdateModal} /> : null}
                           </TableCell>
                         );
                       })}

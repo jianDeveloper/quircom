@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const AddServiceModal = ({ setaddModal }) => {
+const UpdateServiceModal = ({ setUpdateModal }) => {
   const [type, setType] = useState("");
   const options = [
     { value: "webDev", label: "Web Development" },
@@ -23,7 +23,7 @@ const AddServiceModal = ({ setaddModal }) => {
               <div className="space-y-6">
                 <label
                   htmlFor="title"
-                  className="block text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
+                  className="block text-left text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
                 >
                   Service Title
                 </label>
@@ -35,7 +35,7 @@ const AddServiceModal = ({ setaddModal }) => {
                 />
                 <label
                   htmlFor="type"
-                  className="block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
+                  className="block text-left mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
                 >
                   Service Type
                 </label>
@@ -57,7 +57,7 @@ const AddServiceModal = ({ setaddModal }) => {
                 </div>
                 <label
                   htmlFor="description"
-                  className="block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
+                  className="block text-left mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
                 >
                   Description
                 </label>
@@ -73,7 +73,7 @@ const AddServiceModal = ({ setaddModal }) => {
                   <div className="w-[50%]">
                     <label
                       htmlFor="price"
-                      className="block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
+                      className="block text-left mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
                     >
                       Price
                     </label>
@@ -94,7 +94,7 @@ const AddServiceModal = ({ setaddModal }) => {
                   <div className="w-[50%]">
                     <label
                       htmlFor="sampleProduct"
-                      className="block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
+                      className="block text-left mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
                     >
                       Add Sample Product
                     </label>
@@ -117,14 +117,14 @@ const AddServiceModal = ({ setaddModal }) => {
               <button
                 className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
-                onClick={() => setaddModal(false)}
+                onClick={() => setUpdateModal(false)}
               >
                 Close
               </button>
               <button
                 className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
-                onClick={() => setaddModal(false)}
+                onClick={() => setUpdateModal(false)}
               >
                 Add Service
               </button>
@@ -132,9 +132,8 @@ const AddServiceModal = ({ setaddModal }) => {
           </div>
         </div>
       </div>
-      <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
     </div>
   );
 };
 
-export default AddServiceModal;
+export default UpdateServiceModal;
