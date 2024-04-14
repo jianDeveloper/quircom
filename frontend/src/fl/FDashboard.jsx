@@ -33,7 +33,7 @@ function FDashboard() {
   useEffect(() => {
     // Fetch user data using the user ID
     axios
-      .get(`https://quircom.onrender.com/api/freelancer${userId}`)
+      .get(`https://quircom.onrender.com/api/freelancer/${userId}`)
       .then((response) => {
         console.log("User data:", response.data);
         setUserData(response.data); // Set the user data in state
