@@ -5,8 +5,9 @@ const AddServiceModal = ({ setaddModal }) => {
   const options = [
     { value: "webDev", label: "Web Development" },
     { value: "softDev", label: "Software Development" },
-    { value: "videoEdit", label: "Video Editing" },
     { value: "graphicDesign", label: "Graphic Design" },
+    { value: "rpa", label: "Automation" },
+    { value: "graphicMotion", label: "Graphic Motion" },
   ];
   return (
     <div>

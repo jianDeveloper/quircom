@@ -8,19 +8,8 @@ import { useParams } from "react-router-dom";
 import BG1 from "../assets/bg1.png";
 import { MdDesignServices, MdPendingActions } from "react-icons/md";
 import { FaFileCircleCheck } from "react-icons/fa6";
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
-  TableCell,
-} from "@mui/material/";
 import FMainNav from "./FMainNav";
 import FFooter from "./FFooter";
-import { Button } from "@material-tailwind/react";
 
 import FTable from "./FDBcomponents/TrackerTable";
 import ServiceTable from "./FDBcomponents/ServiceTable";
