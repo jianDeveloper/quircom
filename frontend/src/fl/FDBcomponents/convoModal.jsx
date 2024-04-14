@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { FaFileImport, FaUpload } from "react-icons/fa6";
+import { IconBase } from "react-icons/lib";
 
 const convoModal = ({ setConvoModal }) => {
   const [clientChat, setClientChat] = useState([
@@ -32,10 +34,11 @@ const convoModal = ({ setConvoModal }) => {
 
   return (
     <div>
-      <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+      <div className="fixed inset-0 z-10 backdrop-blur-sm"></div>
+      <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none shadow-md">
         <div className="relative w-1/3 my-6 mx-auto">
-          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-            <div className="relative flex flex-col bg-white border-2 rounded-lg shadow-lg">
+          <div className="border-0 rounded-lg relative flex flex-col w-full bg-white">
+            <div className="relative flex flex-col bg-white border-2 rounded-t-lg ">
               <div className="flexitems-start justify-between p-5 border-b border-solid border-blueGray-200">
                 <h3 className="text-3xl text-blueGray-700 text-center font-semibold">
                   Conversation History
@@ -67,7 +70,13 @@ const convoModal = ({ setConvoModal }) => {
                 })}
               </div>
 
-              <form onSubmit={handleSubmit} className="flex flex-row border-t p-2">
+              <form onSubmit={handleSubmit} className="flex flex-row border-t p-2 gap-3">
+              <button
+                  className=" flex items-center justify-center px-2 border  rounded-lg ml-2 "
+                  type="submit"
+                >
+                    <FaFileImport size={15} color="gray" />
+                </button>
                 <input
                   className="w-full p-2 rounded-lg outline-none border border-blueGray-300"
                   type="text"
@@ -75,20 +84,19 @@ const convoModal = ({ setConvoModal }) => {
                   placeholder="Type reply"
                 />
                 <button
-                  className="px-4 py-2 bg-blueGray-700 rounded-lg ml-2"
+                  className="px-4 py-2 bg-[#1d7a8c] rounded-lg ml-2 "
                   type="submit"
                 >
-                  Send
+                  <h1 className="text-white">Send</h1>
                 </button>
               </form>
             </div>
-            <div className="bg-red-500 text-white">
-              <button onClick={() => setConvoModal(false)}>close</button>
+            <div className="bg-red-500 w-[100%] text-white rounded-b-md">
+              <button className="w-[100%]" onClick={() => setConvoModal(false)}>close</button>
             </div>
           </div>
         </div>
       </div>
-      <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
     </div>
   );
 };

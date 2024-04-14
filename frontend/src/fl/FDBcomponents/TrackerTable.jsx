@@ -9,6 +9,8 @@ import {
   TableRow,
   TableCell,
 } from "@mui/material/";
+import Confirmation from "./confirmModal";
+import Convo from "./convoModal";
 
 import { MdDesignServices, MdPendingActions } from "react-icons/md";
 import { FaFileCircleCheck } from "react-icons/fa6";
@@ -46,16 +48,18 @@ const column = [
     label: "Actions",
     minWidth: 100,
     align: "center",
-    format: (value) => (
+    format: (setConfirmModal,setConvoModal) => (
       <div>
         <button
           type="button"
+          onClick={() => setConvoModal(true)}
           className="mr-2 px-2 py-1 bg-blue-500 rounded text-white"
         >
           <MdDesignServices className="inline" />
         </button>
         <button
           type="button"
+          onClick={() => setConfirmModal(true)}
           className="px-2 py-1 bg-orange-500 rounded text-white"
         >
           <FaFileCircleCheck className="inline" />
@@ -96,6 +100,9 @@ const trackerRows = [
 const FTable = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [confirmModal, setConfirmModal] = React.useState(false);
+  const [convoModal, setConvoModal] = React.useState(false);
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -149,11 +156,14 @@ const FTable = () => {
                         return (
                           <TableCell key={column.id} align={column.align}>
                             {column.id === "actions"
-                              ? column.format(value)
+                              ? column.format(setConfirmModal,setConvoModal)
                               : column.format && typeof value === "number"
-                              ? column.format(value)
+                              ? column.format(setConfirmModal,setConvoModal)
                               : value}
+                            {confirmModal ? <Confirmation setConfirmModal={setConfirmModal} /> : null}
+                          {convoModal ? <Convo setConvoModal={setConvoModal} /> : null}
                           </TableCell>
+                          
                         );
                       })}
                     </TableRow>

@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 
 const AddServiceModal = ({ setaddModal }) => {
+  const [type, setType] = useState("");
+  const options = [
+    { value: "webDev", label: "Web Development" },
+    { value: "softDev", label: "Software Development" },
+    { value: "videoEdit", label: "Video Editing" },
+    { value: "graphicDesign", label: "Graphic Design" },
+  ];
   return (
     <div>
-      <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+      <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none" style={{background: "rgba(0,0,0,0.2)"}}>
         <div className="relative w-2/4 my-6 mx-auto">
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <div className="flexitems-start justify-between p-5 bg-[#1d5b79] border-b border-solid border-blueGray-200 rounded-t">
@@ -11,7 +18,6 @@ const AddServiceModal = ({ setaddModal }) => {
                 Add Services
               </h3>
             </div>
-
             {/* Creating Form */}
             <div className="relative flex flex-col p-6 gap-4">
               <label
@@ -20,12 +26,34 @@ const AddServiceModal = ({ setaddModal }) => {
               >
                 Service Title
               </label>
-                <input
-                  type="text"
-                  id="title"
-                  name="title"
-                  className="mt-1 relative rounded-md shadow-sm border border-gray-300 px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm"
-                />
+              <input
+                type="text"
+                id="title"
+                name="title"
+                className="mt-1 relative rounded-md shadow-sm border border-gray-300 px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm"
+              />
+              <label
+                htmlFor="type"
+                className="block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
+              >
+                Service Type
+              </label>
+              <div className="mt-1 relative">
+              <select
+                  id="type"
+                  name="type"
+                  value={type}
+                  onChange={(e) => setType(e.target.value)}
+                  className="block w-full px-3 py-2 pr-10 text-base leading-6 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                >
+                  {options.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+                
+              </div>
               <label
                 htmlFor="description"
                 className="block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"

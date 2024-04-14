@@ -10,11 +10,11 @@ import {
   TableCell,
 } from "@mui/material/";
 import AddModal from "./addServiceModal";
-import Confirmation from "./confirmModal";
+import Deletion from "./deleteModal";
 import Convo from "./convoModal";
 
-import { MdDesignServices, MdPendingActions } from "react-icons/md";
-import { FaFileCircleCheck } from "react-icons/fa6";
+import { MdDesignServices } from "react-icons/md";
+import { FaTrashCan } from "react-icons/fa6";
 import { AiFillPlusCircle } from "react-icons/ai";
 
 
@@ -39,7 +39,7 @@ const serviceColumns = [
     label: "Actions",
     minWidth: 100,
     align: "center",
-    format: (setConfirmModal,setConvoModal) => (
+    format: (setDeleteModal,setConvoModal) => (
       <div>
         <button
           type="button"
@@ -51,10 +51,10 @@ const serviceColumns = [
         
         <button
           type="button"
-          onClick={() => setConfirmModal(true)}
-          className="px-2 py-1 bg-orange-500 rounded text-white"
+          onClick={() => setDeleteModal(true)}
+          className="px-2 py-1 bg-red-500 rounded text-white"
         >
-          <FaFileCircleCheck className="inline" />
+          <FaTrashCan className="inline" />
         </button>
       </div>
     ),
@@ -71,7 +71,7 @@ const serviceRows = [
 
 const ServiceTable = () => {
   const [addModal, setaddModal] = React.useState(false);
-  const [confirmModal, setConfirmModal] = React.useState(false);
+  const [deleteModal, setDeleteModal] = React.useState(false);
   const [convoModal, setConvoModal] = React.useState(false);
 
   const [page, setPage] = React.useState(0);
@@ -84,9 +84,6 @@ const ServiceTable = () => {
     setPage(0);
   };
 
-  const handleTab = (track) => {
-    setActiveTab(track);
-  };
   return (
     <div className="flex flex-col justify-center items-center w-[100%]">
       <Paper sx={{ width: "100%" }}>
@@ -166,12 +163,12 @@ const ServiceTable = () => {
                             align={serviceColumns.align}
                           >
                             {serviceColumns.id === "actions"
-                              ? serviceColumns.format(setConfirmModal,setConvoModal)
+                              ? serviceColumns.format(setDeleteModal,setConvoModal)
                               : serviceColumns.format &&
                                 typeof value === "number"
-                              ? serviceColumns.format(setConfirmModal,setConvoModal)
+                              ? serviceColumns.format(setDeleteModal,setConvoModal)
                               : value}
-                            {confirmModal ? <Confirmation setConfirmModal={setConfirmModal} /> : null}
+                            {deleteModal ? <Deletion setDeleteModal={setDeleteModal} /> : null}
                             {convoModal ? <Convo setConvoModal={setConvoModal} /> : null}
                           </TableCell>
                         );
