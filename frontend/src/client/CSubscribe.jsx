@@ -1,14 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import CMainNav from './CMainNav';
 import CFooter from './CFooter'
 import AddBillModal from './Subscomponents/AddBillModal';
 const CSubscribe = () => {
-    const [addbillModal, setbillModal] = React.useState(false);
-
-    const toggleModal = () => {
-        setbillModal(!addbillModal);
-    };
-
+    const[billModal, setbillModal] = React.useState(false);
     return (
         <div>
         <div>
@@ -84,20 +79,11 @@ const CSubscribe = () => {
                                         <p className="py-2 text-xl font-semibold">Project Trackers</p>
                                     </li>
                                 </ul>
-                                {/* <div className="my-10 px-2">
-                                    <a className="block cursor-pointer rounded bg-orange-600 py-4 px-10 text-base leading-tight text-white duration-200 ease-in-out md:inline-block lg:py-4" href='/'>Try it now!</a>
-                                </div> */}
-                                <button
-            type="button"
-            onClick={() => setbillModal(true)}
-            className="bg-blue-500 py-2 px-3 mx-4 rounded text-white"
-          >
-            <div className="flex flex-row items-center justify-center gap-2">
-              <AiFillPlusCircle size={20} color="white" />
-              <h1>Add Service</h1>
-            </div>
-          </button>
-          {addbillModal ? <AddModal setbillModal={setbillModal} /> : null}
+                                <div className="my-10 px-2">
+                                    <button type='button' className='block rounded bg-orange-600 py-4 px-10 text-base leading-tight text-white duration-200 ease-in-out md:inline-block lg:py-4' onClick={() => setbillModal (true)}>Try Now!</button>
+                                    {billModal ? <AddBillModal setbillModal={setbillModal} /> : null}
+                                </div>
+                                
                             </div>
                         </div>
                     </div>

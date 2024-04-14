@@ -31,7 +31,7 @@ import ServiceTable from "./FDBcomponents/ServiceTable";
 
 function FDashboard() {
   const { userId } = useParams();
-  const [userData, setUserData] = useState(null); // State to store user data
+  const [userData, setUserData] = useState(); // State to store user data
   const [activeTab, setActiveTab] = useState("track");
 
   const handleTab = (track) => {
@@ -44,7 +44,7 @@ function FDashboard() {
   useEffect(() => {
     // Fetch user data using the user ID
     axios
-      .get(`http://localhost:8800/api/users/${userId}`)
+      .get(`https://quircom.onrender.com/api/freelancer${userId}`)
       .then((response) => {
         console.log("User data:", response.data);
         setUserData(response.data); // Set the user data in state
