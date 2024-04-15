@@ -43,7 +43,7 @@ function CSettings() {
   const [formData, setFormData] = useState({
 
     eMail: '',
-
+    passWord: '',
   });
 
   const [profilePic, setProfile] = useState()
@@ -155,6 +155,72 @@ function CSettings() {
     }
   };
 
+const handleChangePassword = async (e) => {
+  e.preventDefault();
+  setDisabled2(true);
+
+  if (!formData.passWord.includes('')) {
+      toast.error('Please enter a valid password');
+      setDisabled2(false);
+      return;
+  }
+
+  if (formData.passWord === userData.passWord) {
+      toast.error('Email is the same as the existing one');
+      setDisabled2(false);
+      return;
+  }
+
+  try {
+      const validationResponse = await axios.post(`https://quircom.onrender.com/api/auth/validate`, {
+        passWord: formData.passWord,
+      });
+
+      if (validationResponse.data.exists && validationResponse.data.passWordExists) {
+          toast.error('Password is already used');
+          setDisabled2(false);
+          return;
+      }
+  } catch (error) {
+      console.error('Error validating password:', error);
+      toast.error('Failed to validate password');
+      setDisabled2(false);
+      return;
+  }
+
+  // If the email is valid and not already registered, proceed with updating
+  const formObj = new FormData();
+  formObj.append('client', JSON.stringify({
+      ...userData,
+      passWord: formData.passWord
+  }));
+
+  try {
+      const updateResponse = await axios.patch(`https://quircom.onrender.com/api/client/${userId}`, formObj, {
+          headers: {
+              'Content-Type': 'multipart/form-data',
+          },
+      });
+
+      if (updateResponse.status === 201) {
+          console.log(updateResponse.data);
+          toast.success('Email has been updated');
+          setPasswordEditable(false);
+          setUsers(updateResponse.data); // Update userData with the latest user data
+      } else {
+          console.log('Response data not available');
+          toast.error('Failed to update email');
+      }
+  } catch (error) {
+      console.error('Error during patch:', error);
+      toast.error('Failed to change password: ' + error.message);
+  } finally {
+      setDisabled2(false);
+  }
+};
+
+
+
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -162,6 +228,9 @@ function CSettings() {
   
   const toggleEmailEdit = () => {
     setEmailEditable(true);
+  };
+  const togglePasswordEdit = () => {
+    setPasswordEditable(true);
   };
 
   const cancelEmailEdit = () => {
@@ -171,6 +240,7 @@ function CSettings() {
       eMail: userData.eMail // Reset to original email
     }));
   };
+  
 
   return (
     <div className=''>
