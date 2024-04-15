@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const UserModel = require("../models/ClientModel");
+const PaymentModel = require("../models/PaymentModel");
 const DriveService = require("../utils/DriveService");
 
 const GetAllUsers = async (req, res) => {
@@ -47,29 +48,34 @@ const CreateUser = async (req, res) => {
         });
       }
 
-    const result = await UserModel.create({
-        firstName: client.firstName,
-        surName: client.surName,
-        userName: client.userName,
-        eMail: client.eMail,
-        passWord: client.passWord,
-        contactNum: client.contactNum,
-        region: client.region,
-        province: client.province,
-        city: client.city,
-        accType: client.accType,
-        aggRee: client.aggRee,
-        profilePic: clientProfile,
-        userInfo: null,
-        subs: {
-          status: false,
-        }
-    });
-    res.status(201).json(result);
+  const payments = await PaymentModel.find({ clientId: client._id });
 
-    }catch(err){
-        res.status(404).json({message: err.message});
-    }
+  const paymentIds = payments.map((payment) => payment._id);
+
+  const result = await UserModel.create({
+    firstName: client.firstName,
+    surName: client.surName,
+    userName: client.userName,
+    eMail: client.eMail,
+    passWord: client.passWord,
+    contactNum: client.contactNum,
+    region: client.region,
+    province: client.province,
+    city: client.city,
+    accType: client.accType,
+    aggRee: client.aggRee,
+    profilePic: clientProfile,
+    userInfo: null,
+    subs: {
+      status: false,
+    },
+    paymentId: paymentIds
+  });
+  res.status(201).json(result);
+
+  }catch(err){
+    res.status(500).json({message: err.message});
+  }
 };
 
 const EditUser = async (req, res) => {

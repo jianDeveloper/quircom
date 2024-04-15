@@ -81,8 +81,12 @@ const ClientSchema = new Schema({
     dateSubscribed: {
       type: Date,
       default: ""
-    }
-  }
+    }, 
+  },
+  paymentId: [{
+    type: Schema.Types.ObjectId, 
+    ref: 'payment'
+  }]
 });
 
 module.exports = mongoose.model("client", ClientSchema);

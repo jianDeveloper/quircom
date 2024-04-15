@@ -41,32 +41,32 @@ const CreateRequest = async (req, res) => {
 
     let requestPicture = [];
     if (files && files.length > 0) {
-        for (const file of files) {
-            const { id: fileID, name: fileName } = await DriveService.UploadFiles(
-                file,
-                process.env.FOLDER_ID_REQUEST
-            );
-            requestPicture.push({
-                id: fileID,
-                name: fileName,
-                link: `https://drive.google.com/thumbnail?id=${fileID}&sz=w1000`,
-            });
-        }
+      for (const file of files) {
+        const { id: fileID, name: fileName } = await DriveService.UploadFiles(
+            file,
+            process.env.FOLDER_ID_REQUEST
+        );
+        requestPicture.push({
+            id: fileID,
+            name: fileName,
+            link: `https://drive.google.com/thumbnail?id=${fileID}&sz=w1000`,
+        });
+      }
     }
 
     let uniqueRequestId = generateUniqueRequestId();
     const newRequest = await RequestModel.create({
-        requestId: uniqueRequestId,
-        status: "checking",
-        clientId: request.clientId,
-        serviceId: request.serviceId,
-        taskTitle: request.taskTitle,
-        taskDetails: request.taskDetails,
-        taskPicture: requestPicture,
-        feedbackNum: request.feedbackNum,
-        feedbackInfo: request.feedbackInfo,
-        deadLine: request.deadLine,
-        dateUploaded: new Date()
+      requestId: uniqueRequestId,
+      status: "checking",
+      clientId: request.clientId,
+      serviceId: request.serviceId,
+      taskTitle: request.taskTitle,
+      taskDetails: request.taskDetails,
+      taskPicture: requestPicture,
+      feedbackNum: request.feedbackNum,
+      feedbackInfo: request.feedbackInfo,
+      deadLine: request.deadLine,
+      dateUploaded: new Date()
     });
 
     // After creating a request, update the associated service to include this new request's ID

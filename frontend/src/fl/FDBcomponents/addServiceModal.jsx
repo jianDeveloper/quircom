@@ -16,17 +16,17 @@ const AddServiceModal = ({ setaddModal }) => {
   // ];
 
   const { userId } = useParams();
-  const [userData, setUsers] = useState();
-  const [thumbNail, setProfile] = useState();
+  const [ userData, setUsers ] = useState();
+  const [ thumbNail, setThumbnail ] = useState();
 
   const [formData, setFormData] = useState({
-    serviceName: "RAWR",
+    serviceName: "",
     serviceType: "",
     serviceInfo: "",
     price: "",
-    requestId: "",
-    freelancerId: "",
-    dateUploaded: "",
+    requestId: [],
+    freelancerId: userId,
+    dateUploaded: new Date().toISOString(),
   });
 
   useEffect(() => {
@@ -37,8 +37,8 @@ const AddServiceModal = ({ setaddModal }) => {
         );
         if (response.status === 200) {
           setUsers(response.data);
-          setFormData({ requestId: response.data.requestId });
-          setFormData({ freelancerId: response.data._id });
+          // setFormData({ requestId: response.data.requestId });
+          // setFormData({ freelancerId: response.data._id });
         }
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -57,14 +57,11 @@ const AddServiceModal = ({ setaddModal }) => {
       formObj.append("file", thumbNail);
 
       const response = await axios.post(
-        `localhost:8800/api/service/create/`,
-        formObj,
-        {
+        `http://localhost:8800/api/service/create/`, formObj, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
-      );
+        });
 
       if (response && response.data) {
         console.log(response.data);
@@ -80,10 +77,23 @@ const AddServiceModal = ({ setaddModal }) => {
     }
   };
 
+  const handleImage = (e) => {
+    setThumbnail(e.target.files[0]);
+  }
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
   userData && console.log("User:", formData);
 
   return (
     <div>
+      <ToastContainer/>
       <div
         className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
         style={{ background: "rgba(0,0,0,0.2)" }}
@@ -113,6 +123,7 @@ const AddServiceModal = ({ setaddModal }) => {
                     id="serviceName"
                     name="serviceName"
                     value={formData.serviceName}
+                    onChange={handleChange}
                     className="mt-1 relative rounded-md shadow-sm border border-gray-300 px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm"
                   />
                   <label
@@ -125,14 +136,9 @@ const AddServiceModal = ({ setaddModal }) => {
                     <select
                       id="serviceType"
                       name="serviceType"
-                      value={formData.serviceType || ""}
+                      value={formData.serviceType}
+                      onChange={handleChange}
                       className="block w-full px-3 py-2 pr-10 text-base leading-6 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          serviceType: e.target.value,
-                        })
-                      }
                     >
                       <option value="">Select Account Type</option>
                       <option value="1">Web Development</option>
@@ -159,6 +165,7 @@ const AddServiceModal = ({ setaddModal }) => {
                       id="serviceInfo"
                       name="serviceInfo"
                       value={formData.serviceInfo}
+                      onChange={handleChange}
                       rows={4}
                       className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 px-3 py-2"
                     />
@@ -180,8 +187,7 @@ const AddServiceModal = ({ setaddModal }) => {
                           id="price"
                           name="price"
                           value={formData.price}
-                          pattern="[0-9]*"
-                          inputMode="numeric"
+                          onChange={handleChange}
                           className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-r-md sm:text-sm p-2 shadow-sm border border-gray-300"
                         />
                       </div>
@@ -191,7 +197,7 @@ const AddServiceModal = ({ setaddModal }) => {
                         htmlFor="sampleProduct"
                         className="block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
                       >
-                        Add Sample Product
+                        Add Thumbnail
                       </label>
                       <div className="relative mt-1">
                         <input
@@ -199,12 +205,51 @@ const AddServiceModal = ({ setaddModal }) => {
                           id="thumbNail"
                           name="thumbNail"
                           value={formData.thumbNail}
+                          onChange={handleImage}
                           className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full border border-gray-300 px-3 py-2"
                         />
                       </div>
-                    </div>
+                    </div>                 
                   </div>
-                </div>
+                  <div className="flex flex-row justify-between gap-12">
+                    <div className="w-[50%]">
+                      <label
+                        htmlFor="freelancerId"
+                        className="block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
+                      >
+                        Creator
+                      </label>
+                      <div className="mt-1 flex px-3 py-2">
+                        <input
+                          type="text"
+                          id="freelancerId"
+                          name="freelancerId"
+                          value={`${userData?.firstName || ''} ${userData?.surName || ''}`}
+                          readOnly
+                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-r-md sm:text-sm p-2 shadow-sm border border-gray-300"
+                        />
+                      </div>
+                    </div>
+                    <div className="w-[50%]">
+                      <label
+                        htmlFor="dateUploaded"
+                        className="block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
+                      >
+                        Date Submission
+                      </label>
+                      <div className="mt-1 flex px-3 py-2">
+                        <input
+                          type="text"
+                          id="dateUploaded"
+                          name="dateUploaded"
+                          value={new Date(formData.dateUploaded).toLocaleString()}
+                          readOnly
+                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-r-md sm:text-sm p-2 shadow-sm border border-gray-300"
+                        />
+                      </div>
+                    </div>
+                  </div>   
+                </div>               
               </div>
 
               {/* Add Close Button and Add Button */}

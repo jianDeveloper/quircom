@@ -27,7 +27,6 @@ const Reg = () => {
     accType: '',
     aggRee: false,
   });
-  
 
   const [invalidFields, setInvalidFields] = useState({});
   const [filteredProvinces, setFilteredProvinces] = useState([]);
@@ -162,9 +161,14 @@ const Reg = () => {
       // Check the accType to determine the endpoint
       const endpoint = formData.accType === 'client' ? 'client' : 'freelancer';
       formObject.append(endpoint, JSON.stringify(formData)); // Append form data
+      if (formData.accType === 'client') {
+        formObject.append('payment', '[]');
+      } else if (formData.accType === 'freelancer') {
+        formObject.append('portfolio', '[]');
+      }
   
       // Send POST request to the appropriate endpoint
-      const response = await axios.post(`https://quircom.onrender.com/api/${endpoint}/upload`, formObject, {
+      const response = await axios.post(`http://localhost:8800/api/${endpoint}/upload`, formObject, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -194,7 +198,7 @@ const Reg = () => {
       
       toast.success('Registration successful!');
     } catch (error) {
-      console.error('Error during registration: ', error.response);
+      console.error('Error during registration: ', error.message);
     }
   };
 

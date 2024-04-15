@@ -27,7 +27,7 @@ function CSettings() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`https://quircom.onrender.com/api/client/${userId}`);
+        const response = await axios.get(`http://localhost:8800/api/client/${userId}`);
         if (response.status === 200) {
           setUsers(response.data);
           setFormData({ eMail: response.data.eMail });
@@ -68,7 +68,7 @@ function CSettings() {
       formObj.append('client', JSON.stringify(userData));
       formObj.append('file', profilePic);
   
-      const response = await axios.patch(`https://quircom.onrender.com/api/client/${userId}`, formObj, {
+      const response = await axios.patch(`http://localhost:8800/api/client/update/${userId}`, formObj, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -108,7 +108,7 @@ function CSettings() {
     }
 
     try {
-        const validationResponse = await axios.post(`https://quircom.onrender.com/api/auth/validate`, {
+        const validationResponse = await axios.post(`http://localhost:8800/api/auth/validate`, {
             eMail: formData.eMail,
         });
 
@@ -132,7 +132,7 @@ function CSettings() {
     }));
 
     try {
-        const updateResponse = await axios.patch(`https://quircom.onrender.com/api/client/${userId}`, formObj, {
+        const updateResponse = await axios.patch(`http://localhost:8800/api/client/update/${userId}`, formObj, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
@@ -153,7 +153,7 @@ function CSettings() {
     } finally {
         setDisabled2(false);
     }
-};
+  };
 
 
   const handleChange = (e) => {

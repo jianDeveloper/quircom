@@ -1,4 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+
+
 import {
   Paper,
   Table,
@@ -65,10 +69,6 @@ function serviceData(serviceID, serviceTitle, serviceDetails, servicePrice) {
   return { serviceID, serviceTitle, serviceDetails, servicePrice };
 }
 
-const serviceRows = [
-  serviceData("12345", "Video Editing", "lorem ipsum dolor sit amet...", 5000),
-];
-
 const ServiceTable = () => {
   const [addModal, setaddModal] = React.useState(false);
   const [deleteModal, setDeleteModal] = React.useState(false);
@@ -83,6 +83,43 @@ const ServiceTable = () => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  const { userId } = useParams();
+  const [ serviceInfo, setService] = useState([]);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8800/api/service/`);
+        if (response.status === 200) {
+          // Log the raw response data
+          console.log("Raw API Response:", response.data);
+          
+          // Filter services based on freelancerId
+          const filteredServices = response.data.filter(service => service.freelancerId._id === userId);
+          
+          // Log the filtered services
+          console.log("Filtered Services:", filteredServices);
+          
+          // Update the state with filtered services
+          setService(filteredServices);
+        } else {
+          console.error("Error fetching services: Unexpected status code", response.status);
+        }
+      } catch (error) {
+        console.error("Error fetching services:", error);
+      }
+    };
+  
+    fetchServices();
+  }, [userId]); // Include userId in the dependency array
+  
+  
+  const serviceRows = serviceInfo.map(service => {
+    return serviceData(service.serviceId, service.serviceName, service.serviceInfo, `₱ ${service.price}`);
+  });
+
+  console.log(serviceInfo)
 
   return (
     <div className="flex flex-col justify-center items-center w-[100%]">
