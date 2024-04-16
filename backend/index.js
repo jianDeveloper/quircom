@@ -8,7 +8,7 @@ const FreelancerRoutes = require("./routes/FreelancerRoutes");
 const ValidateUser = require("./routes/ValidateRoute");
 const Services = require("./routes/ServiceRoutes");
 const Request = require("./routes/ReqServiceRoutes");
-const Credit = require("./routes/PaymentRoutes")
+const Billing = require("./routes/BillingRoutes");
 
 const app = express();
 
@@ -42,7 +42,7 @@ app.use('/api/freelancer', FreelancerRoutes)
 app.use('/api/auth', ValidateUser)
 app.use('/api/service', Services)
 app.use('/api/request', Request)
-app.use('/api/credit', Credit)
+app.use('/api/billing', Billing)
 
 app.listen(process.env.PORT, () =>
   console.log(`Server started on port ${process.env.PORT}`)

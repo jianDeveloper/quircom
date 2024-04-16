@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const UserModel = require("../models/ClientModel");
-const PaymentModel = require("../models/PaymentModel");
+const BillingModel = require("../models/BillingModel");
 const DriveService = require("../utils/DriveService");
 
 const GetAllUsers = async (req, res) => {
@@ -48,9 +48,9 @@ const CreateUser = async (req, res) => {
         });
       }
 
-  const payments = await PaymentModel.find({ clientId: client._id });
+  const payments = await BillingModel.find({ clientId: client._id });
 
-  const paymentIds = payments.map((payment) => payment._id);
+  const paymentIds = payments.map((billing) => billing._id);
 
   const result = await UserModel.create({
     firstName: client.firstName,
