@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const UpdateServiceModal = ({ setUpdateModal }) => {
+const UpdateServiceModal = ({ setUpdateModal, serviceId  }) => {
   const [type, setType] = useState("");
   const options = [
     { value: "webDev", label: "Web Development" },
@@ -8,6 +8,9 @@ const UpdateServiceModal = ({ setUpdateModal }) => {
     { value: "videoEdit", label: "Video Editing" },
     { value: "graphicDesign", label: "Graphic Design" },
   ];
+
+  console.log("yuyuyu", serviceId)
+
   return (
     <div>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none" style={{background: "rgba(0,0,0,0.2)"}}>

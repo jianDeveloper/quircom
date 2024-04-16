@@ -66,8 +66,13 @@ const serviceColumns = [
 ];
 
 function serviceData(serviceID, serviceTitle, serviceDetails, servicePrice) {
-  return { serviceID, serviceTitle, serviceDetails, servicePrice };
+  const formattedPrice = `₱ ${Number(servicePrice).toLocaleString()}`;
+  return { serviceID, serviceTitle, serviceDetails, servicePrice: formattedPrice };
 }
+
+
+
+
 
 const ServiceTable = () => {
   const [addModal, setaddModal] = React.useState(false);
@@ -116,7 +121,7 @@ const ServiceTable = () => {
   
   
   const serviceRows = serviceInfo.map(service => {
-    return serviceData(service.serviceId, service.serviceName, service.serviceInfo, `₱ ${service.price}`);
+    return serviceData(service.serviceId, service.serviceName, service.serviceInfo, service.price);
   });
 
   console.log(serviceInfo)
