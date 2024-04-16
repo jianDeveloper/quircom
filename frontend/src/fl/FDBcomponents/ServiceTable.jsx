@@ -70,10 +70,6 @@ function serviceData(serviceID, serviceTitle, serviceDetails, servicePrice) {
   return { serviceID, serviceTitle, serviceDetails, servicePrice: formattedPrice };
 }
 
-
-
-
-
 const ServiceTable = () => {
   const [addModal, setaddModal] = React.useState(false);
   const [deleteModal, setDeleteModal] = React.useState(false);
