@@ -1,5 +1,6 @@
-import React, {useState} from 'react'
-import { Link } from 'react-router-dom';
+import React, {useState, useEffect} from 'react'
+import { Link, useParams } from 'react-router-dom';
+import axios from 'axios';
 
 import NavHeader from './FMainNav'
 import FFooter from './FFooter';
