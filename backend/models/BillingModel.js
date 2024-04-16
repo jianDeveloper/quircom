@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const PaymentSchema = new Schema({
+const BillingSchema = new Schema({
   clientId: {
     type: Schema.Types.ObjectId, 
-    ref: 'client'
+    ref: "client"
   },
   firstName: {
     type: String,
@@ -18,13 +18,12 @@ const PaymentSchema = new Schema({
     required: true
   },
   cardNum: {
-    type: Number,
+    type: String,
     default: "",
     required: true
   },
   expireDate: {
     type: Date,
-    default: "",
     required: true
   },
   cvv: {
@@ -39,4 +38,4 @@ const PaymentSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model("payment", PaymentSchema);
+module.exports = mongoose.model("billing", BillingSchema);

@@ -85,7 +85,7 @@ const ClientSchema = new Schema({
   },
   paymentId: [{
     type: Schema.Types.ObjectId, 
-    ref: 'payment'
+    ref: 'billing'
   }]
 });
 
