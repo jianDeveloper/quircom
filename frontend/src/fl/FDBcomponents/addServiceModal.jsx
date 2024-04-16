@@ -53,7 +53,7 @@ const AddServiceModal = ({ setaddModal }) => {
     e.preventDefault(); // Prevent default form submission
 
     setInvalidFields({});
-    
+
     const errors = {};
     if (formData.serviceName.length === 0) {
       errors.serviceName = "Please input your Title";
@@ -61,13 +61,13 @@ const AddServiceModal = ({ setaddModal }) => {
     if (!formData.serviceType) {
       errors.serviceType = "Please select an Service type";
     }
-    if (formData.serviceInfo.length === 0) {
+    if (formData.serviceInfo.length <= 20) {
       errors.serviceInfo = "Please input atleast 20 characters";
     }
     if (formData.price.length === 0) {
       errors.price = "Please input your price";
     }
-
+    
     try {
       const formObj = new FormData();
       formObj.append("service", JSON.stringify(formData));
@@ -97,6 +97,7 @@ const AddServiceModal = ({ setaddModal }) => {
     }
 
     setInvalidFields(errors);
+   
   };
 
   const handleImage = (e) => {
@@ -148,6 +149,7 @@ const AddServiceModal = ({ setaddModal }) => {
                     onChange={handleChange}
                     className={`mt-1 relative rounded-md shadow-sm border border-gray-300 px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm  ${invalidFields.serviceName ? "border-red-500" : ""}`}
                   />
+                  {invalidFields.serviceName && <p className="text-red-500 text-[12px]">{invalidFields.serviceName}</p>}
                   <label
                     htmlFor="serviceType"
                     className={`block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300`}
@@ -175,6 +177,7 @@ const AddServiceModal = ({ setaddModal }) => {
                         </option>
                       ))} */}
                     </select>
+                    {invalidFields.serviceType && <p className="text-red-500 text-[12px]">{invalidFields.serviceType}</p>}
                   </div>
                   <label
                     htmlFor="serviceInfo"
@@ -191,6 +194,7 @@ const AddServiceModal = ({ setaddModal }) => {
                       rows={4}
                       className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 px-3 py-2 ${invalidFields.serviceInfo ? "border-red-500" : ""}`}
                     />
+                    {invalidFields.serviceInfo && <p className="text-red-500 text-[12px]">{invalidFields.serviceInfo}</p>}
                   </div>
                   <div className="flex flex-row justify-between gap-12">
                     <div className="w-[50%]">
@@ -212,7 +216,9 @@ const AddServiceModal = ({ setaddModal }) => {
                           onChange={handleChange}
                           className={` focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-r-md sm:text-sm p-2 shadow-sm border border-gray-300 ${invalidFields.price ? "border-red-500" : ""}`}
                         />
+                        
                       </div>
+                      {invalidFields.price && <p className="text-red-500 ml-2 text-[12px]">{invalidFields.price}</p>}
                     </div>
                     <div className="w-[50%]">
                       <label
