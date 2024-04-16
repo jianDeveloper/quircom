@@ -1,7 +1,32 @@
-import React from "react";
+import React, { useState } from 'react';
 
 const AddBillModal = ({ setbillModal }) => {
+  const [expDate, setExpDate] = useState('');
+
+  const handleInputChange = (event) => {
+    let value = event.target.value;
+    // Remove all characters that are not numbers or slashes
+    value = value.replace(/[^0-9/]/g, '');
+    // Automatically add a slash after MM if not yet present and length reaches 2
+    if (value.length === 2 && value.indexOf('/') === -1) {
+      value += '/';
+    }
+    // Limit the length of the input to 7 (MM/YYYY)
+    value = value.slice(0, 7);
+
+    setExpDate(value);
+  };
+
+  // State to manage checkbox checked status
+  const [isChecked, setIsChecked] = useState(true); // Initially set to true to match the original HTML
+
+  // Function to toggle the checkbox state
+  const handleCheckboxChange = () => {
+      setIsChecked(!isChecked);
+  };
+
   return (
+    
     <div>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
         <div className="relative w-2/4 my-6 mx-auto">
@@ -31,31 +56,39 @@ const AddBillModal = ({ setbillModal }) => {
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Card Number</label>
-                    <input type="text" placeholder="Card Number" class="mt-2 h-12 w-full rounded-md bg-gray-100 px-3" />
+                    <input type="number" placeholder="Enter your card number" id="number" name="number" className="mt-2 h-12 w-full rounded-md bg-gray-100 px-3" />
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Expiry Date</label>
-                    <div class="relative mt-2 bg-gray-100 rounded-md">
-                        <input class="peer hidden" type="checkbox" id="select-1" />
-                        <label for="select-1" class="flex justify-between items-center h-12 w-full cursor-pointer rounded-md px-3 text-sm text-gray-700 ring-blue-400 peer-checked:ring">
-                            Select Option
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600 transition-transform peer-checked:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </label>
-                        
-                    </div>
+                  <label className="block text-[#1D5B79] text-sm font-bold mb-2">
+                    Exp Date
+                  </label>
+                  <input
+                    type="text"
+                    id="Date"
+                    name="Date"
+                    className="w-full p-2 border rounded bg-gray-100 px-3"
+                    placeholder="MM/YYYY"
+                    value={expDate}
+                    onChange={handleInputChange}
+                  />
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">CVV</label>
                     <input type="text" placeholder="CVV" class="mt-2 h-12 w-full rounded-md bg-gray-100 px-3" />
                 </div>
-            </div>
+              </div>
 
 
-              <div class="checkbox">
-                <input type="checkbox" id="chekcbox1" checked="" />
-                <label for="checkbox1">I agree to the <a href="#" target="_blank" class="text-blue-600"> Terms and Conditions </a> </label>
+              <div className="checkbox">
+                  <input
+                      type="checkbox"
+                      id="checkbox1"
+                      checked={isChecked}
+                      onChange={handleCheckboxChange}
+                  />
+                  <label htmlFor="checkbox1">
+                      I agree to the <a href="#" target="_blank" rel="noopener noreferrer" className="text-blue-600">Terms and Conditions</a>
+                  </label>
               </div>
             </form>
 
