@@ -52,6 +52,7 @@ const AddServiceModal = ({ setaddModal }) => {
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
 
+    setInvalidFields({});
     
     const errors = {};
     if (formData.serviceName.length === 0) {
@@ -60,10 +61,10 @@ const AddServiceModal = ({ setaddModal }) => {
     if (!formData.serviceType) {
       errors.serviceType = "Please select an Service type";
     }
-    if (formData.serviceInfo.length === 20) {
+    if (formData.serviceInfo.length === 0) {
       errors.serviceInfo = "Please input atleast 20 characters";
     }
-    if (!formData.price.length === 0) {
+    if (formData.price.length === 0) {
       errors.price = "Please input your price";
     }
 
