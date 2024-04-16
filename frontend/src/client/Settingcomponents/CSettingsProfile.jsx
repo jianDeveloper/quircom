@@ -8,6 +8,9 @@ import { useDropzone } from 'react-dropzone';
 import CFooter from '../CFooter';
 import CMainNav from '../CMainNav';
 
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function CSettingsProfile(props) {
   const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
   
@@ -113,6 +116,33 @@ function CSettingsProfile(props) {
       province: userData.province,
       city: userData.city // Reset to original email
     }));
+  };
+
+  const [description, setDescription] = useState('');
+
+  // Function to handle changes in the profile description input
+  const handleDescriptionChange = (event) => {
+      setDescription(event.target.value);
+  };
+
+  // Function to validate and save the profile description
+  const saveDescription = () => {
+      if (description.trim().length === 0) {
+          // Trigger toast for empty description error
+          toast.error("Description cannot be empty.");
+          return;
+      }
+
+      // Simulate saving data to a database
+      console.log('Saving profile description:', description);
+      
+      // Here you would typically make a request to your backend server
+      // For demonstration purposes, let's simulate a successful save
+      // Assume save is successful
+      toast.success('Description saved successfully!');
+
+      // Uncomment the line below to simulate an error
+      // toast.error('Failed to save description.');
   };
 
   return (
@@ -304,17 +334,28 @@ function CSettingsProfile(props) {
                 
               </div>
               <hr className="mt-4 mb-8" />
-              {/* PORTFOLIO ZONE */}
-              <p className="py-2 text-xl font-semibold">Profile Description</p>
-              <div className="max-w-2xl">
-              
-                  <label className="block sm:col-span-2" htmlFor="message">
-                    
-                    <textarea className="h-32 w-full rounded-md border bg-white py-2 px-2 outline-none ring-yellow-500 focus:ring-2" type="text" placeholder="About you"></textarea>
-                  </label>
-                
+              {/* DESCRIPTION ZONE */}
+              <div>
+                <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+                <p className="py-2 text-xl font-semibold">Profile Description</p>
+                <div className="max-w-2xl">
+                    <label className="block sm:col-span-2" htmlFor="message">
+                        <textarea
+                            className="h-32 w-full rounded-md border bg-white py-2 px-2 outline-none ring-yellow-500 focus:ring-2"
+                            type="text"
+                            placeholder="About you"
+                            value={description}
+                            onChange={handleDescriptionChange}
+                        ></textarea>
+                    </label>
+                </div>
+                <button
+                    className="mt-4 rounded-lg bg-[#FE6D30] hover:bg-[#1D5B79] active:bg-blue-800 px-4 py-2 text-white"
+                    onClick={saveDescription}
+                >
+                    Save
+                </button>
               </div>
-              <button className="mt-4 rounded-lg bg-[#FE6D30] hover:bg-[#1D5B79] active:bg-blue-800 px-4 py-2 text-white">Save</button>
               <hr className="mt-4 mb-8" />
 
               <div className="mb-10">

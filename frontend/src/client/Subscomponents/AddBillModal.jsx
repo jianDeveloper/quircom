@@ -43,11 +43,11 @@ const AddBillModal = ({ setbillModal }) => {
 
               <div class="grid gap-3 md:grid-cols-2">
                 <div> 
-                  <label class=""> First Name </label>
+                  <label class="text-[#1d5b79] font-bold"> First Name </label>
                   <input type="text" placeholder="First Name" class="mt-2 h-12 w-full rounded-md bg-gray-100 px-3" />
                 </div>
                 <div>
-                  <label class=""> Last Name </label>
+                  <label class="text-[#1d5b79] font-bold"> Last Name </label>
                   <input type="text" placeholder="Last  Name" class="mt-2 h-12 w-full rounded-md bg-gray-100 px-3" />
                 </div>
               </div>
@@ -55,7 +55,7 @@ const AddBillModal = ({ setbillModal }) => {
               
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Card Number</label>
+                    <label class="block text-sm font-bold text-[#1d5b79]">Card Number</label>
                     <input type="number" placeholder="Enter your card number" id="number" name="number" className="mt-2 h-12 w-full rounded-md bg-gray-100 px-3" />
                 </div>
                 <div>
@@ -73,7 +73,7 @@ const AddBillModal = ({ setbillModal }) => {
                   />
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">CVV</label>
+                    <label class="block text-sm font-bold text-[#1d5b79]">CVV</label>
                     <input type="text" placeholder="CVV" class="mt-2 h-12 w-full rounded-md bg-gray-100 px-3" />
                 </div>
               </div>
@@ -86,7 +86,7 @@ const AddBillModal = ({ setbillModal }) => {
                       checked={isChecked}
                       onChange={handleCheckboxChange}
                   />
-                  <label htmlFor="checkbox1">
+                  <label htmlFor="checkbox1 text-[#1d5b79]">
                       I agree to the <a href="#" target="_blank" rel="noopener noreferrer" className="text-blue-600">Terms and Conditions</a>
                   </label>
               </div>

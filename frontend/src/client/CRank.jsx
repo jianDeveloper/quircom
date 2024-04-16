@@ -40,7 +40,7 @@ function CRank() {
               </div>
             </td>
             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-              <p class="mb-0 font-semibold leading-tight text-xs text-[#1D5B79]">Manager</p>
+              <p class="mb-0 font-semibold leading-tight text-sm text-[#1D5B79]">Manager</p>
               <p class="mb-0 leading-tight text-xs text-slate-500">Organization</p>
             </td>
             <td class="p-2 leading-normal text-center align-middle bg-transparent border-b text-sm whitespace-nowrap shadow-transparent">
@@ -48,9 +48,6 @@ function CRank() {
             </td>
             <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
               <span class="font-semibold leading-tight text-xs text-slate-500">23/04/18</span>
-            </td>
-            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-              <a href="javascript:;" class="font-semibold leading-tight text-xs text-slate-500"> Edit </a>
             </td>
           </tr>
           <tr>
@@ -66,7 +63,7 @@ function CRank() {
               </div>
             </td>
             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-              <p class="mb-0 font-semibold leading-tight text-xs">Programator</p>
+              <p class="mb-0 font-semibold leading-tight text-sm">Programator</p>
               <p class="mb-0 leading-tight text-xs text-slate-500">Developer</p>
             </td>
             <td class="p-2 leading-normal text-center align-middle bg-transparent border-b text-sm whitespace-nowrap shadow-transparent">
@@ -75,9 +72,7 @@ function CRank() {
             <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
               <span class="font-semibold leading-tight text-xs text-slate-500">11/01/19</span>
             </td>
-            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-              <a href="javascript:;" class="font-semibold leading-tight text-xs text-slate-500"> Edit </a>
-            </td>
+            
           </tr>
           <tr>
             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
@@ -92,7 +87,7 @@ function CRank() {
               </div>
             </td>
             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-              <p class="mb-0 font-semibold leading-tight text-xs">Executive</p>
+              <p class="mb-0 font-semibold leading-tight text-sm">Executive</p>
               <p class="mb-0 leading-tight text-xs text-slate-500">Projects</p>
             </td>
             <td class="p-2 leading-normal text-center align-middle bg-transparent border-b text-sm whitespace-nowrap shadow-transparent">
@@ -101,9 +96,7 @@ function CRank() {
             <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
               <span class="font-semibold leading-tight text-xs text-slate-500">19/09/17</span>
             </td>
-            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-              <a href="javascript:;" class="font-semibold leading-tight text-xs text-slate-500"> Edit </a>
-            </td>
+            
           </tr>
           <tr>
             <td class="p-2 align-middle bg-transparent border-b-0 whitespace-nowrap shadow-transparent">
@@ -118,7 +111,7 @@ function CRank() {
               </div>
             </td>
             <td class="p-2 align-middle bg-transparent border-b-0 whitespace-nowrap shadow-transparent">
-              <p class="mb-0 font-semibold leading-tight text-xs">Programtor</p>
+              <p class="mb-0 font-semibold leading-tight text-sm">Programtor</p>
               <p class="mb-0 leading-tight text-xs text-slate-500">Developer</p>
             </td>
             <td class="p-2 leading-normal text-center align-middle bg-transparent border-b-0 text-sm whitespace-nowrap shadow-transparent">
@@ -127,9 +120,7 @@ function CRank() {
             <td class="p-2 text-center align-middle bg-transparent border-b-0 whitespace-nowrap shadow-transparent">
               <span class="font-semibold leading-tight text-xs text-slate-500">14/09/20</span>
             </td>
-            <td class="p-2 align-middle bg-transparent border-b-0 whitespace-nowrap shadow-transparent">
-              <a href="javascript:;" class="font-semibold leading-tight text-xs text-slate-500"> Edit </a>
-            </td>
+            
           </tr>
         </tbody>
       </table>
