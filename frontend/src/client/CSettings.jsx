@@ -43,7 +43,9 @@ function CSettings() {
   const [formData, setFormData] = useState({
 
     eMail: '',
+    currentPassword: '',
     passWord: '',
+
   });
 
   const [profilePic, setProfile] = useState()
@@ -155,82 +157,12 @@ function CSettings() {
     }
   };
 
-const handleChangePassword = async (e) => {
-  e.preventDefault();
-  setDisabled2(true);
-
-  if (!formData.passWord.includes('')) {
-      toast.error('Please enter a valid password');
-      setDisabled2(false);
-      return;
-  }
-
-  if (formData.passWord === userData.passWord) {
-      toast.error('Email is the same as the existing one');
-      setDisabled2(false);
-      return;
-  }
-
-  try {
-      const validationResponse = await axios.post(`https://quircom.onrender.com/api/auth/validate`, {
-        passWord: formData.passWord,
-      });
-
-      if (validationResponse.data.exists && validationResponse.data.passWordExists) {
-          toast.error('Password is already used');
-          setDisabled2(false);
-          return;
-      }
-  } catch (error) {
-      console.error('Error validating password:', error);
-      toast.error('Failed to validate password');
-      setDisabled2(false);
-      return;
-  }
-
-  // If the email is valid and not already registered, proceed with updating
-  const formObj = new FormData();
-  formObj.append('client', JSON.stringify({
-      ...userData,
-      passWord: formData.passWord
-  }));
-
-  try {
-      const updateResponse = await axios.patch(`https://quircom.onrender.com/api/client/${userId}`, formObj, {
-          headers: {
-              'Content-Type': 'multipart/form-data',
-          },
-      });
-
-      if (updateResponse.status === 201) {
-          console.log(updateResponse.data);
-          toast.success('Email has been updated');
-          setPasswordEditable(false);
-          setUsers(updateResponse.data); // Update userData with the latest user data
-      } else {
-          console.log('Response data not available');
-          toast.error('Failed to update email');
-      }
-  } catch (error) {
-      console.error('Error during patch:', error);
-      toast.error('Failed to change password: ' + error.message);
-  } finally {
-      setDisabled2(false);
-  }
-};
-
-
-
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   
   const toggleEmailEdit = () => {
     setEmailEditable(true);
-  };
-  const togglePasswordEdit = () => {
-    setPasswordEditable(true);
   };
 
   const cancelEmailEdit = () => {
@@ -239,6 +171,52 @@ const handleChangePassword = async (e) => {
       ...prevFormData,
       eMail: userData.eMail // Reset to original email
     }));
+  };
+
+  const handleSubmitPassword = async (e) => {
+    e.preventDefault();
+
+    // if (formData.currentPassword.length === 0) {
+    //     toast.error('Please enter a valid email address');
+    //     return;
+    // }
+
+    // if (formData.passWord.length === 0) {
+    //   toast.error('Please enter a valid email address');
+    //   return;
+    // }
+
+    if (formData.currentPassword === userData.passWord) {
+        toast.error('Email is the same as the existing one');
+        return;
+    }
+
+    // If the email is valid and not already registered, proceed with updating
+    const formObj = new FormData();
+    formObj.append('client', JSON.stringify({
+      ...userData,
+      passWord: formData.passWord
+    }));
+
+    try {
+      const updateResponse = await axios.patch(`http://localhost:8800/api/client/update/${userId}`, formObj, {
+          headers: {
+              'Content-Type': 'multipart/form-data',
+          },
+      });
+
+      if (updateResponse.status === 201) {
+        console.log(updateResponse.data);
+        toast.success('Password has been updated');
+        setUsers(updateResponse.data); // Update userData with the latest user data
+      } else {
+          console.log('Response data not available');
+          toast.error('Failed to update password');
+      }
+    } catch (error) {
+        console.error('Error during patch:', error);
+        toast.error('Failed to change password: ' + error.message);
+    }
   };
   
 
@@ -302,79 +280,98 @@ const handleChangePassword = async (e) => {
               </div>
               <hr className="mt-4 mb-8" />
               <form ref={formRef} className="w-full max-w-screen-ss mx-auto" onSubmit={handleSubmitEmail}>
-              <p className="py-2 text-xl font-semibold">Email Address</p>
-              <div className="w-full md:w-1/2 px-3 mb-4">
-                <label htmlFor="email" className="block text-[#1D5B79] text-sm font-bold mb-2">
-                  Email
-                </label>
-                {userData && (
-                  <>
-                  <input
-                      type="email"
-                      id="email"
-                      name="eMail"
-                      value={formData.eMail}
-                      onChange={handleChange}
-                      disabled={!emailEditable}
-                      className="w-full text-[14px] p-3  border rounded"
-                      placeholder="Enter your email"
-                    />
-                  </>
-                )}
-                {emailEditable ? (
-                  <>
-                    <button type="submit" disabled={disabled2} className={`m-2 rounded font-bold py-2 px-4 ${disabled2 ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}>
-                      Save Email
+                <p className="py-2 text-xl font-semibold">Email Address</p>
+                <div className="w-full md:w-1/2 px-3 mb-4">
+                  <label htmlFor="email" className="block text-[#1D5B79] text-sm font-bold mb-2">
+                    Email
+                  </label>
+                  {userData && (
+                    <>
+                    <input
+                        type="email"
+                        id="email"
+                        name="eMail"
+                        value={formData.eMail}
+                        onChange={handleChange}
+                        disabled={!emailEditable}
+                        className="w-full text-[14px] p-3  border rounded"
+                        placeholder="Enter your email"
+                      />
+                    </>
+                  )}
+                  {emailEditable ? (
+                    <>
+                      <button type="submit" disabled={disabled2} className={`m-2 rounded font-bold py-2 px-4 ${disabled2 ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}>
+                        Save Email
+                      </button>
+                      <button type="button" onClick={cancelEmailEdit} className="m-2 rounded font-bold py-2 px-4 bg-red-500 hover:bg-red-700 text-white">
+                        Cancel
+                      </button>
+                    </>
+                  ) : (
+                    <button onClick={toggleEmailEdit} className="ml-2 mt-2 rounded font-bold py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white">
+                      Change Email
                     </button>
-                    <button type="button" onClick={cancelEmailEdit} className="m-2 rounded font-bold py-2 px-4 bg-red-500 hover:bg-red-700 text-white">
-                      Cancel
-                    </button>
-                  </>
-                ) : (
-                  <button onClick={toggleEmailEdit} className="ml-2 mt-2 rounded font-bold py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white">
-                    Change Email
-                  </button>
-                )}            
-              </div>
+                  )}            
+                </div>
               </form>
               <hr className="mt-4 mb-8" />
               <p className="py-2 text-xl font-semibold">Password</p>
               <div className="flex items-center">
-                <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-3">
-                  <label htmlFor="login-password">
-                    <span className="text-sm text-gray-500">Current Password</span>
-                    <div className="relative flex overflow-hidden rounded-md border-2 transition focus-within:border-blue-600">
-                      <input 
-                        type={showPassword ? 'text' : 'password'} 
-                        id="login-password" 
-                        className="w-full flex-shrink appearance-none border-gray-300 bg-white py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:outline-none" 
-                        placeholder="***********" 
-                      />
-                    </div>
-                  </label>
-                  <label htmlFor="login-password">
-                    <span className="text-sm text-gray-500">New Password</span>
-                    <div className="relative flex overflow-hidden rounded-md border-2 transition focus-within:border-blue-600">
-                      <input 
-                        type={showPassword ? 'text' : 'password'}
-                        id="login-password2" 
-                        className="w-full flex-shrink appearance-none border-gray-300 bg-white py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:outline-none" 
-                        placeholder="***********"
-                      />                     
-                    </div>
-                  </label>                
-                </div>
-                <button
-                  type="button"
-                  tabIndex="-1" // Add tabIndex="-1" here
-                  className="mt-5 ml-2 h-8 w-8 cursor-pointer text-sm font-semibold text-gray-600 underline decoration-2 user-select-none"
-                  onClick={togglePasswordVisibility}
-                >
-                  {showPassword ? <FaEyeSlash/> : <FaEye/> }
-                </button> 
+                <form ref={formRef} className="w-full max-w-screen-ss mx-auto" onSubmit={handleSubmitPassword}>
+                  <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-3">    
+                    <label htmlFor="login-password">
+                      <span className="text-sm text-gray-500">Current Password</span>
+                      <div className="relative flex overflow-hidden rounded-md border-2 transition focus-within:border-blue-600">
+                        {userData &&(
+                          <>
+                            <input 
+                              type={showPassword ? 'text' : 'password'} 
+                              id="currentPassword" 
+                              name="currentPassword"
+                              className="w-full flex-shrink appearance-none border-gray-300 bg-white py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:outline-none" 
+                              value={formData.currentPassword}
+                              onChange={handleChange}
+                              placeholder="***********" 
+                            />
+                          </>
+                        )}
+                        
+                      </div>
+                    </label>
+                    <label htmlFor="login-password">
+                      <span className="text-sm text-gray-500">New Password</span>
+                      <div className="relative flex overflow-hidden rounded-md border-2 transition focus-within:border-blue-600">
+                        {userData && (<>
+                          <input 
+                            type={showPassword ? 'text' : 'password'}
+                            id="passWord"
+                            name="passWord" 
+                            className="w-full flex-shrink appearance-none border-gray-300 bg-white py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:outline-none" 
+                            value={formData.passWord}
+                            onChange={handleChange}
+                            placeholder="***********"
+                          />    
+                        </>)}               
+                      </div>
+                    </label>                
+                  </div>
+                  <button
+                    type="button"
+                    tabIndex="-1" // Add tabIndex="-1" here
+                    className="mt-5 ml-2 h-8 w-8 cursor-pointer text-sm font-semibold text-gray-600 underline decoration-2 user-select-none"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {showPassword ? <FaEyeSlash/> : <FaEye/> }
+                  </button> 
+
+                  <p className="mt-2">Can't remember your current password. <a className="text-sm font-semibold text-blue-600 underline decoration-2" href="#">Recover Account</a></p>
+                  <button 
+                    type="submit"
+                    className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-white">Save Password</button>
+                </form>
               </div>
-              <p className="mt-2">Can't remember your current password. <a className="text-sm font-semibold text-blue-600 underline decoration-2" href="#">Recover Account</a></p>
-              <button className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-white">Save Password</button>
+              
               <hr className="mt-4 mb-8" />
 
               <div className="mb-10">

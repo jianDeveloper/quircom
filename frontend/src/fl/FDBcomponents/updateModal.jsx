@@ -1,15 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 const UpdateServiceModal = ({ setUpdateModal, serviceId  }) => {
   const [type, setType] = useState("");
-  const options = [
-    { value: "webDev", label: "Web Development" },
-    { value: "softDev", label: "Software Development" },
-    { value: "videoEdit", label: "Video Editing" },
-    { value: "graphicDesign", label: "Graphic Design" },
-  ];
+  // const options = [
+  //   { value: "webDev", label: "Web Development" },
+  //   { value: "softDev", label: "Software Development" },
+  //   { value: "videoEdit", label: "Video Editing" },
+  //   { value: "graphicDesign", label: "Graphic Design" },
+  // ];
 
-  console.log("yuyuyu", serviceId)
+  const { userId } = useParams();
+  const [userData, setUsers] = useState();
+  const [thumbNail, setThumbnail] = useState();
+  const [invalidFields, setInvalidFields] = useState({});
+
+  const [formData, setFormData] = useState({
+    serviceName: "",
+    serviceType: "",
+    serviceInfo: "",
+    price: "",
+  });
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8800/api/service/${serviceId}`
+        );
+        if (response.status === 200) {
+          setUsers(response.data);
+          // setFormData({ requestId: response.data.requestId });
+          // setFormData({ freelancerId: response.data.serviceId });
+        }
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+
+    fetchUsers();
+  }, [serviceId]);
+
+  console.log("service:", userData)
 
   return (
     <div>
@@ -50,11 +84,6 @@ const UpdateServiceModal = ({ setUpdateModal, serviceId  }) => {
                     onChange={(e) => setType(e.target.value)}
                     className="block w-full px-3 py-2 pr-10 text-base leading-6 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   >
-                    {options.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
                   </select>
                   
                 </div>

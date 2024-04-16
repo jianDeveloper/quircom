@@ -93,16 +93,7 @@ const ServiceTable = () => {
       try {
         const response = await axios.get(`http://localhost:8800/api/service/`);
         if (response.status === 200) {
-          // Log the raw response data
-          console.log("Raw API Response:", response.data);
-          
-          // Filter services based on freelancerId
           const filteredServices = response.data.filter(service => service.freelancerId._id === userId);
-          
-          // Log the filtered services
-          console.log("Filtered Services:", filteredServices);
-          
-          // Update the state with filtered services
           setService(filteredServices);
         } else {
           console.error("Error fetching services: Unexpected status code", response.status);
@@ -113,9 +104,9 @@ const ServiceTable = () => {
     };
   
     fetchServices();
-  }, [userId]); // Include userId in the dependency array
+  }, [userId]);
   
-  
+  console.log(serviceInfo._id)
   const serviceRows = serviceInfo.map(service => {
     return serviceData(service.serviceId, service.serviceName, service.serviceInfo, service.price);
   });
