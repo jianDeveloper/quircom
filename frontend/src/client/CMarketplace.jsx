@@ -20,32 +20,24 @@ import mpCard8 from '../assets/pic8.jpg'
 const BASE_URI = import.meta.env.RENDER_BASEURI;
 
 const CMarketplace = () => {
-  const { userId } = useParams();
-  const [users, setUsers] = useState([]);
+  const { serviceId } = useParams();
+  const [services, setServices] = useState([]);
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchServices = async () => {
       try {
         const response = await axios.get(`https://quircom.onrender.com/api/service/`);
         if (response.status === 200) {
-          setUsers(response.data);
+          setServices(response.data);
           console.log(response.data);
         }
       } catch (error) {
         console.error("Error fetching users:", error);
       }
-      // const response = await axios.get(
-        //   `https://quircom.onrender.com/api/service/`
-        // );
-        // if (response.status === 200) {
-        //   setUsers(response.data);
-        //   // setFormData({ requestId: response.data.requestId });
-        //   // setFormData({ freelancerId: response.data._id });
-        // }
     };
 
-    fetchUsers();
-  }, [userId]);
+    fetchServices();
+  }, [serviceId]);
 
 
   return (
@@ -71,11 +63,19 @@ const CMarketplace = () => {
                 <input type="name" name="search" class="h-12 w-full cursor-text rounded-md border border-gray-100 bg-gray-100 py-4 pr-40 pl-12 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" placeholder="Search by services..." />
               </div>
             </form>
+            <div class="flex mt-2 space-x-3"> {/*div for Category */}
+              <button class="px-4 py-2 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md" >Software Development</button>
+              <button class="px-4 py-2 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md" >Web Development</button>
+              <button class="px-4 py-2 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md" >Animation</button>
+              <button class="px-4 py-2 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md" >Graphic Design</button>
+              <button class="px-4 py-2 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md" >Marketing</button>
+
+            </div>
           </div>
           <div className="flex-grow"> {/* This div will make the cards fill the available space */}
             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-              {users?.map((item, index) => (
-                <CCards key={index} image={item?.thumbNail?.link} subtitle={item.serviceType} title={item.serviceName} author={item?.freelancer?.firstName}  button='Avail'/>
+              {services?.map((item, index) => (
+                <CCards key={index} serviceId={item?._id} image={item?.thumbNail?.link} subtitle={item.serviceType} title={item.serviceName} author={item?.freelancer?.firstName}  button='Avail'/>
               ))}
             </div>
           </div>
