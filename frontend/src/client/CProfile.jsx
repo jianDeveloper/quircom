@@ -75,13 +75,13 @@ function CProfile() {
                 <strong className='mx-9 text-[#13334c] text-[23px]'>Personal Information</strong>
               
                 <p className='mx-9 my-2 text-[#13334c] text-[15px]'>Email: {userData.eMail} </p>
-                <p className='mx-9 my-2 text-[#13334c] text-[15px]'>Contact Number: {userData.contactNum} </p>
+                <p className='mx-9 my-2 text-[#13334c] text-[15px]'>Contact Number: +63 {userData.contactNum} </p>
                 <p className='mx-9 my-2 text-[#13334c] text-[15px]'>Address: {phil.city_mun.find(city => city.mun_code === userData.city)?.name}, {phil.provinces.find(province => province.prov_code === userData.province)?.name},  {phil.regions.find(region => region.reg_code === userData.region)?.name} </p>
                 
               </div>
               <div className='text-inline border-l-2 border-gray-300 p-10'>
                 <strong className='mx-9 text-[#13334c] text-[23px]'> About </strong>
-                <p className='mx-9 my-2 text-[#13334c] text-[15px]'>Hi,</p>
+                <p className='mx-9 my-2 text-[#13334c] text-[15px]'> {userData.userInfo}</p>
                 
               </div>
               </>

@@ -97,11 +97,11 @@ const Reg = () => {
     if (formData.passWord.length === 0) {
       errors.passWord = 'Please input your password';
     }
-    if (!formData.contactNum || isNaN(formData.contactNum)) {
-      errors.contactNum = 'Contact number must be a valid number';
-    } else if (formData.contactNum.length !== 11) {
-      errors.contactNum = 'Contact number must be 11 digits';
-    }
+    // if (!formData.contactNum || isNaN(formData.contactNum)) {
+    //   errors.contactNum = 'Contact number must be a valid number';
+    // } else if (formData.contactNum.length !== 11) {
+    //   errors.contactNum = 'Contact number must be 11 digits';
+    // }
     if (!formData.eMail.includes('@')) {
       errors.eMail = 'Please enter a valid email address';
     }
@@ -122,10 +122,16 @@ const Reg = () => {
     }
   
     try {
+
+      const formDataForValidation = { ...formData };
+
+      // Remove leading 0 from contactNum if present
+      formDataForValidation.contactNum = formData.contactNum.replace(/^0+/, '');
+
       const response = await axios.post(`https://quircom.onrender.com/api/auth/validate`, {
         userName: formData.userName,
         eMail: formData.eMail,
-        contactNum: formData.contactNum,
+        contactNum: formDataForValidation.contactNum,
       });
   
       if (response.data.exists) {
@@ -138,6 +144,9 @@ const Reg = () => {
         if (response.data.contactNumExists) {
           errors.contactNum = 'Contact number is already registered';
         }
+        console.log("response ", response)
+        console.log("old cnum ", formData.contactNum)
+        console.log("new cnum ", formDataForValidation.contactNum)
       }
     } catch (error) {
       console.error('Error validating data:', error);

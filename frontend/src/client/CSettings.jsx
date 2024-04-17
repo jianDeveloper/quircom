@@ -344,7 +344,7 @@ function CSettings() {
                             className={`w-full flex-shrink appearance-none border-gray-300 bg-white py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:outline-none ${invalidFields.currentPassword ? 'border-red-500' : '' }`}
                             value={formData.currentPassword}
                             onChange={handleChange}
-                            placeholder="***********" 
+                            placeholder="Current Password" 
                           />
                           {invalidFields.currentPassword && <p className="text-red-500 text-xs mt-1">{invalidFields.currentPassword}</p>}
                         </>
@@ -363,7 +363,7 @@ function CSettings() {
                             className={`w-full flex-shrink appearance-none border-gray-300 bg-white py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:outline-none ${invalidFields.passWord ? 'border-red-500' : ''}`}
                             value={formData.passWord}
                             onChange={handleChange}
-                            placeholder="***********"
+                            placeholder="New Password"
                           />  
                           {invalidFields.passWord && <p className="text-red-500 text-xs mt-1">{invalidFields.passWord}</p>}
                         </>

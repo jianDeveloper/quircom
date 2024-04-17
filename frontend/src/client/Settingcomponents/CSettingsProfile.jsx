@@ -23,12 +23,12 @@ function CSettingsProfile(props) {
   const { userId } = useParams();
   const [ userData, setUsers] = useState();
   const [disabled, setDisabled] = useState(false);
-  const [emailEditable, setEmailEditable] = useState(false);
+  const [emailEditable, setEditable] = useState(false);
   const [filteredProvinces, setFilteredProvinces] = useState([]);
   const [filteredCity, setFilteredCity] = useState([]);
-  const [regionCode, setRegionCode] = useState(userData ? userData.region : '');
-  const [provinceCode, setProvinceCode] = useState(userData ? userData.province : ''); 
-  const [cityCode, setCityCode] = useState(userData ? userData.city : '');
+  const [regionCode, setRegionCode] = useState('');
+  const [provinceCode, setProvinceCode] = useState(''); 
+  const [cityCode, setCityCode] = useState('');
 
   const sortedRegions = phil.regions.sort((a, b) => a.name.localeCompare(b.name));
  
@@ -42,10 +42,24 @@ function CSettingsProfile(props) {
               firstName: response.data.firstName,
               surName: response.data.surName,
               contactNum: response.data.contactNum,
-              region: response.data.region,
-              province: response.data.province,
-              city: response.data.city
             });
+
+            const userData = response.data;
+            setUsers(userData);
+
+            // Initialize region, province, and city codes
+            setRegionCode(userData.region);
+            setProvinceCode(userData.province);
+            setCityCode(userData.city);
+             
+             console.log()
+
+            // Fetch provinces and cities based on the user's region
+            const regionProvinces = phil.getProvincesByRegion(userData.region);
+            setFilteredProvinces(regionProvinces);
+
+            const provincesCity = phil.getCityMunByProvince(userData.province);
+            setFilteredCity(provincesCity);
           }
       } catch (error) {
           console.error('Error fetching user data:', error);
@@ -58,7 +72,6 @@ function CSettingsProfile(props) {
   const [formData, setFormData] = useState({
     firstName: '',
     surName: '',
-    passWord: '',
     contactNum: '',
     region: '',
     province: '',
@@ -89,61 +102,127 @@ function CSettingsProfile(props) {
       // Handle city change logic
       setCityCode(value);
     }
-  
-    // Update formData with the changed values
-    setFormData(prevState => ({
-      ...prevState,
-      // Only update region, province, and city if they are changed
-      region: name === 'region' ? value : formData.region,
-      province: name === 'province' ? value : formData.province,
-      city: name === 'city' ? value : formData.city,
-    }));
+
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+
   };
   
 
-  const toggleEmailEdit = () => {
-    setEmailEditable(true);
+  const toggleEdit = () => {
+    setEditable(true);
   };
 
-  const cancelEmailEdit = () => {
-    setEmailEditable(false);
-    setFormData((prevFormData) => ({
-      ...prevFormData,
+  const cancelEdit = () => {
+    setEditable(false);
+    setFormData({
       firstName: userData.firstName,
       surName: userData.surName,
       contactNum: userData.contactNum,
       region: userData.region,
       province: userData.province,
-      city: userData.city // Reset to original email
+      city: userData.city
+    });
+  
+    // Update regionCode, provinceCode, and cityCode to reflect userData
+    setRegionCode(userData.region);
+    setProvinceCode(userData.province);
+    setCityCode(userData.city);
+
+    const regionProvinces = phil.getProvincesByRegion(userData.region);
+    setFilteredProvinces(regionProvinces);
+
+    const provincesCity = phil.getCityMunByProvince(userData.province);
+    setFilteredCity(provincesCity);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setDisabled(true);
+
+    if (formData.firstName === userData.firstName) {
+        toast.error('First Name is the same as the existing one');
+        setDisabled(false);
+        return;
+    }
+
+    if (formData.surName === userData.surName) {
+      toast.error('Last Name is the same as the existing one');
+      setDisabled(false);
+      return;
+    }
+    
+    if (formData.contactNum === userData.contactNum) {
+      toast.error('Contact Number is the same as the existing one');
+      setDisabled(false);
+      return;
+    }
+
+    if (formData.region === userData.region) {
+      toast.error('Region is the same as the existing one');
+      setDisabled(false);
+      return;
+    }
+
+    if (formData.province === userData.province) {
+      toast.error('Province is the same as the existing one');
+      setDisabled(false);
+      return;
+    }
+
+    if (formData.city === userData.city) {
+      toast.error('City is the same as the existing one');
+      setDisabled(false);
+      return;
+    }
+
+    try {
+        const validationResponse = await axios.post(`http://localhost:8800/api/auth/validate`, {
+            contactNum: formData.contactNum,
+        });
+
+        if (validationResponse.data.exists && validationResponse.data.eMailExists) {
+            toast.error('Contact Number is already registered');
+            setDisabled(false);
+            return;
+        }
+    } catch (error) {
+        console.error('Error validating contact:', error);
+        toast.error('Failed to validate contact');
+        setDisabled(false);
+        return;
+    }
+
+    // If the email is valid and not already registered, proceed with updating
+    const formObj = new FormData();
+    formObj.append('client', JSON.stringify({
+        ...userData,
+        eMail: formData.eMail
     }));
+
+    try {
+        const updateResponse = await axios.patch(`http://localhost:8800/api/client/update/${userId}`, formObj, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+
+        if (updateResponse.status === 201) {
+            console.log(updateResponse.data);
+            toast.success('Email has been updated');
+            setEditable(false);
+            setUsers(updateResponse.data); // Update userData with the latest user data
+        } else {
+            console.log('Response data not available');
+            toast.error('Failed to update email');
+        }
+    } catch (error) {
+        console.error('Error during patch:', error);
+        toast.error('Failed to change email: ' + error.message);
+    } finally {
+        setDisabled(false);
+    }
   };
 
-  const [description, setDescription] = useState('');
-
-  // Function to handle changes in the profile description input
-  const handleDescriptionChange = (event) => {
-      setDescription(event.target.value);
-  };
-
-  // Function to validate and save the profile description
-  const saveDescription = () => {
-      if (description.trim().length === 0) {
-          // Trigger toast for empty description error
-          toast.error("Description cannot be empty.");
-          return;
-      }
-
-      // Simulate saving data to a database
-      console.log('Saving profile description:', description);
-      
-      // Here you would typically make a request to your backend server
-      // For demonstration purposes, let's simulate a successful save
-      // Assume save is successful
-      toast.success('Description saved successfully!');
-
-      // Uncomment the line below to simulate an error
-      // toast.error('Failed to save description.');
-  };
 
   return (
     <div className=''>
@@ -189,154 +268,156 @@ function CSettingsProfile(props) {
               <div className="pt-4">
                 <h1 className="py-2 text-2xl font-semibold">Profile settings</h1>
                 <p className="font- text-slate-600 mb-5">Edit your information here.</p>
-                <form>
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
-                          First Name
-                      </label>
-                        {userData && (<>    
-                          <input
-                              type="text"
-                              name="firstName"
-                              id="firstName"
-                              className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                <form onSubmit={handleSubmit}>
+                  <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
+                            First Name
+                        </label>
+                          {userData && (<>    
+                            <input
+                                type="text"
+                                name="firstName"
+                                id="firstName"
+                                className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                disabled={!emailEditable}
+                                value={formData.firstName}
+                                onChange={handleChange}
+                            />
+                          </>)}
+                      </div>
+
+                      <div>
+                        <label htmlFor="surName" className="block text-sm font-medium text-gray-700">
+                            Last Name
+                        </label>
+                        <input
+                            type="text"
+                            name="surName"
+                            id="surName"
+                            className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            disabled={!emailEditable}
+                            value={formData.surName}
+                            onChange={handleChange}
+                        />
+                      </div>
+
+                      <div>
+                        <label htmlFor="contactNum" className="block text-sm font-medium text-gray-700">
+                            Contact Number
+                        </label>
+                        <input
+                            type="text"
+                            name="contactNum"
+                            id="contactNum"
+                            className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            disabled={!emailEditable}
+                            value={formData.contactNum}
+                            onChange={handleChange}
+                        />
+                      </div>
+
+                      {/* Region Dropdown */}
+                      <div>
+                        <label htmlFor="region" className="block text-sm font-medium text-gray-700">
+                          Region
+                        </label>
+                        {userData && (
+                          <>         
+                            <select
+                              id="region"
+                              name="region"
+                              className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                               disabled={!emailEditable}
-                              value={formData.firstName}
+                              value={regionCode || userData.region}
                               onChange={handleChange}
-                          />
-                        </>)}
-                    </div>
+                            >
+                              <option value="">Select Region</option>
+                              {sortedRegions.map((region, index) => (
+                                <option key={`${region.reg_code}-${index}`} value={region.reg_code}>{region.name}</option>
+                              ))}
+                            </select>
+                          </>
+                        )}
+                      </div>
 
-                    <div>
-                      <label htmlFor="surName" className="block text-sm font-medium text-gray-700">
-                          Last Name
-                      </label>
-                      <input
-                          type="text"
-                          name="surName"
-                          id="surName"
-                          className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                          disabled={!emailEditable}
-                          value={formData.surName}
-                          onChange={handleChange}
-                      />
-                    </div>
+                      {/* Province Dropdown */}
+                      <div>
+                        <label htmlFor="province" className="block text-sm font-medium text-gray-700">
+                            Province
+                        </label>
+                        {userData && (
+                          <>
+                            <select
+                              id="province"
+                              name="province"
+                              className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                              disabled={!emailEditable}
+                              value={provinceCode || userData.province}
+                              onChange={handleChange}
+                            >
+                              <option value="">Select Province</option>
+                              {filteredProvinces.map((province, index) => (
+                                <option key={`${province.prov_code}-${index}`} value={province.prov_code}>{province.name}</option>
+                              ))}
+                            </select>
+                          </>
+                        )}
+                      </div>
 
-                    <div>
-                      <label htmlFor="contactNum" className="block text-sm font-medium text-gray-700">
-                          Contact Number
-                      </label>
-                      <input
-                          type="text"
-                          name="contactNum"
-                          id="contactNum"
-                          className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                          disabled={!emailEditable}
-                          value={formData.contactNum}
-                          onChange={handleChange}
-                      />
-                    </div>
-
-                    {/* Region Dropdown */}
-                    <div>
-                      <label htmlFor="region" className="block text-sm font-medium text-gray-700">
-                        Region
-                      </label>
-                      {userData && (
-                        <>         
-                          <select
-                            id="region"
-                            name="region"
-                            className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            disabled={!emailEditable}
-                            value={regionCode || userData.region}
-                            onChange={handleChange}
-                          >
-                            {sortedRegions.map((region, index) => (
-                              <option key={`${region.reg_code}-${index}`} value={region.reg_code}>{region.name}</option>
-                            ))}
-                          </select>
-                        </>
-                      )}
-                    </div>
-
-                    {/* Province Dropdown */}
-                    <div>
-                      <label htmlFor="province" className="block text-sm font-medium text-gray-700">
-                          Province
-                      </label>
-                      {userData && (
-                        <>
-                          <select
-                            id="province"
-                            name="province"
-                            className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            disabled={!emailEditable}
-                            value={provinceCode || userData.province}
-                            onChange={handleChange}
-                          >
-                            {filteredProvinces.map((province, index) => (
-                              <option key={`${province.prov_code}-${index}`} value={province.prov_code}>{province.name}</option>
-                            ))}
-                          </select>
-                        </>
-                      )}
-                    </div>
-
-                    {/* City Dropdown */}
-                    <div>
-                      <label htmlFor="city" className="block text-sm font-medium text-gray-700">
-                          City
-                      </label>
-                      {userData && (
-                        <>
-                          <select
-                            id="city"
-                            name="city"
-                            className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            disabled={!emailEditable}
-                            value={cityCode || userData.city}
-                            onChange={handleChange}
-                          >
-                            {filteredCity.map((city, index) => (
-                              <option key={`${city.mun_code}-${index}`} value={city.mun_code}>{city.name}</option>
-                            ))}
-                          </select>
-                        </>
-                      )}
-                    </div>
+                      {/* City Dropdown */}
+                      <div>
+                        <label htmlFor="city" className="block text-sm font-medium text-gray-700">
+                            City
+                        </label>
+                        {userData && (
+                          <>
+                            <select
+                              id="city"
+                              name="city"
+                              className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                              disabled={!emailEditable}
+                              value={cityCode || userData.city}
+                              onChange={handleChange}
+                            >
+                              <option value="">Select City</option>
+                              {filteredCity.map((city, index) => (
+                                <option key={`${city.mun_code}-${index}`} value={city.mun_code}>{city.name}</option>
+                              ))}
+                            </select>
+                          </>
+                        )}
+                      </div>
                   </div>
 
-                  {emailEditable ? (
-                    <>
-                      <button type="submit" disabled={disabled} className={`m-2 rounded font-bold py-2 px-4 ${disabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}>
-                        Save
+                    {emailEditable ? (
+                      <>
+                        <button type="submit" disabled={disabled} className={`m-2 rounded font-bold py-2 px-4 ${disabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}>
+                          Save
+                        </button>
+                        <button type="button" onClick={cancelEdit} className="m-2 rounded font-bold py-2 px-4 bg-red-500 hover:bg-red-700 text-white">
+                          Cancel
+                        </button>
+                      </>
+                    ) : (
+                      <button onClick={toggleEdit} className="ml-2 mt-2 rounded font-bold py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white">
+                        Update Information
                       </button>
-                      <button type="button" onClick={cancelEmailEdit} className="m-2 rounded font-bold py-2 px-4 bg-red-500 hover:bg-red-700 text-white">
-                        Cancel
-                      </button>
-                    </>
-                  ) : (
-                    <button onClick={toggleEmailEdit} className="ml-2 mt-2 rounded font-bold py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white">
-                      Update Information
-                    </button>
-                  )}
-              </form>
+                    )}
+
+                </form>
               </div>
               <hr className="mt-4 mb-8" />
               <p className="py-2 text-xl font-semibold">Account Handle</p>
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
               {userData && (
-                <p className="text-gray-600">Your account is <strong>{userData.firstName} {userData.surName}</strong></p>
+                <p className="text-gray-600">Your account is <strong>{userData.userName}</strong></p>
               )}
 
                 
               </div>
               <hr className="mt-4 mb-8" />
-              {/* DESCRIPTION ZONE */}
               <div>
-                <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
                 <p className="py-2 text-xl font-semibold">Profile Description</p>
                 <div className="max-w-2xl">
                     <label className="block sm:col-span-2" htmlFor="message">
@@ -344,14 +425,11 @@ function CSettingsProfile(props) {
                             className="h-32 w-full rounded-md border bg-white py-2 px-2 outline-none ring-yellow-500 focus:ring-2"
                             type="text"
                             placeholder="About you"
-                            value={description}
-                            onChange={handleDescriptionChange}
                         ></textarea>
                     </label>
                 </div>
                 <button
                     className="mt-4 rounded-lg bg-[#FE6D30] hover:bg-[#1D5B79] active:bg-blue-800 px-4 py-2 text-white"
-                    onClick={saveDescription}
                 >
                     Save
                 </button>
