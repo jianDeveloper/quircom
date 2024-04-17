@@ -128,7 +128,7 @@ function App() {
         />
         <Route
           exact
-          path="/client/service-connect/:userId"
+          path="/client/service-connect/:userId/:serviceId"
           element={<CConnect />}
         />
         <Route

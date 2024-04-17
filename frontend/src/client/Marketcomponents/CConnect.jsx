@@ -7,7 +7,9 @@ import NavHeader from '../CMainNav'
 
 function CConnect () {
     const [ userData, setUsers] = useState();
+    const [ userServices, setServices] = useState();
     const { userId } = useParams();
+    const { serviceId } = useParams();
     const [activeTab, setActiveTab] = useState("view");
 
     const handleTab = (view) => {
@@ -30,6 +32,25 @@ function CConnect () {
     
         fetchUsers();
       }, [userId]);
+
+      useEffect(() => {
+        const fetchServices = async () => {
+          try {
+            const response = await axios.get(`https://quircom.onrender.com/api/service/${serviceId}`);
+            if (response.status === 200) {
+              setServices(response.data);
+              console.log(response.data);
+            }
+          } catch (error) {
+            console.error("Error fetching users:", error);
+          }
+        };
+    
+        fetchServices();
+      }, [serviceId]);
+    
+      console.log("ADWA",serviceId);
+
   return (
     <section class="mt-[-1px]"> 
       <div>
@@ -41,29 +62,15 @@ function CConnect () {
             <div class="lg:flex lg:items-start">
               <div class="lg:order-2 lg:ml-5">
                 <div class="max-w-xl overflow-hidden rounded-lg">
-                  <img class="h-full w-full max-w-full object-cover" src={mpCard1} alt="" />
-                </div>
-              </div>
-
-              <div class="mt-2 w-full lg:order-1 lg:w-32 lg:flex-shrink-0">
-                <div class="flex flex-row items-start lg:flex-col">
-                  <button type="button" class="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-gray-900 text-center">
-                    <img class="h-full w-full object-cover" src={mpCard1} alt="" />
-                  </button>
-                  <button type="button" class="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-transparent text-center">
-                    <img class="h-full w-full object-cover" src={mpCard1} alt="" />
-                  </button>
-                  <button type="button" class="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-transparent text-center">
-                    <img class="h-full w-full object-cover" src={mpCard1} alt="" />
-                  </button>
+                  <img class="h-full w-full max-w-[600px] max-h-[500px] object-cover" src={userServices?.thumbNail?.link} alt="" />
                 </div>
               </div>
             </div>
           </div>
 
           <div class="lg:col-span-2 lg:row-span-2 lg:row-end-2">
-            <h1 class="sm: text-2xl font-bold text-[#1D5B79] sm:text-3xl">UI/UX Design</h1>
-            <p class="sm: text-xl font-itallic text-[#1D5B79] sm:text-xl">Naruto Shippuden</p>
+            <h1 class="sm: text-2xl font-bold text-[#1D5B79] sm:text-3xl">{userServices?.serviceName}</h1>
+            <p class="sm: text-xl font-itallic text-[#1D5B79] sm:text-xl">{userServices?.freelancerId?.firstName + " " + userServices?.freelancerId?.surName }</p>
 
             <div class="mt-5 flex items-center">
               <div class="flex items-center">
@@ -88,8 +95,7 @@ function CConnect () {
 
             <div class="mt-10 flex flex-col items-center justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0 text-[#1D5B79]">
               <div class="flex items-end">
-                <h1 class="text-3xl font-bold">₱999.00</h1>
-                <span class="text-base">/month</span>
+                <h1 class="text-3xl font-bold">₱ {userServices?.price}.00</h1>
               </div>
 
               <button type="button" class="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-[#FE6D30] bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-[#1D5B79]">
@@ -143,22 +149,19 @@ function CConnect () {
                 </div>
             
             {/* inside tabs */}
-            <div className="flex flex-col justify-center items-center w-[90%]">
+            <div className="flex flex-col w-[90%]">
               {activeTab === "view" && (
-                <div class="lg:col-span-3">
-                  <div class="mt-8 flow-root sm:mt-12 mb-8 sm:mb-12 text-[#1D5B79]">
-                    <h1 class="text-3xl font-bold">Delivered To Your Door</h1>
-                    <p class="mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia accusantium nesciunt fuga.</p>
-                    <h1 class="mt-8 text-3xl font-bold">From the Fine Farms of Brazil</h1>
-                    <p class="mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio numquam enim facere.</p>
-                    <p class="mt-4">Amet consectetur adipisicing elit. Optio numquam enim facere. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolore rerum nostrum eius facere, ad neque.</p>
+                <div class=" lg:col-span-3 ">
+                  <div class="flex flex-col justify-start mt-8 sm:mt-12 mb-8 sm:mb-12 text-[#1D5B79]">
+                    <h1 class="text-3xl font-bold">About The Service</h1>
+                    <p class="mt-4 text-left">{userServices?.serviceInfo}</p>
                   </div>
                 </div>
               )}
 
               {activeTab === "review" && (
                 <>
-                <div class="w-screen">
+                <div class="w-full">
                 
                 <div class=" mx-auto max-w-screen-md px-10 py-16">
                   <div class="flex w-full flex-col">

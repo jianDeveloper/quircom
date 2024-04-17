@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios';
+import { useParams } from "react-router-dom";
 
 import NavHeader from './CMainNav'
+import CFooter from './CFooter'
 
 import mpTop from '../assets/mpTop.jpg'
 import CCards from './Marketcomponents/CCards'
@@ -12,20 +15,31 @@ import mpCard5 from '../assets/pic5.jpg'
 import mpCard6 from '../assets/pic6.png'
 import mpCard7 from '../assets/pic7.png'
 import mpCard8 from '../assets/pic8.jpg'
-import CFooter from './CFooter'
+
+
+const BASE_URI = import.meta.env.RENDER_BASEURI;
 
 const CMarketplace = () => {
-  const data = [
-    { image: mpCard1, subtitle: 'IT Services', title: 'Landing Pages', author: 'by Naruto', button: 'Hire' },
-    { image: mpCard2, subtitle: 'IT Services', title: 'UI/UX Designs', author: 'by Naruto', button: 'Hire' },
-    { image: mpCard3, subtitle: 'IT Services', title: 'Prototype Website', author: 'by Naruto', button: 'Hire' },
-    { image: mpCard4, subtitle: 'IT Services', title: 'AI Business Automation', author: 'by Naruto', button: 'Hire' },
-    { image: mpCard5, subtitle: 'Graphic Designs', title: 'Social Media Banner', author: 'by Naruto', button: 'Hire' },
-    { image: mpCard6, subtitle: 'Graphic Designs', title: '3D Modelling', author: 'by Naruto', button: 'Hire' },
-    { image: mpCard7, subtitle: 'Graphic Designs', title: 'Video Editing', author: 'by Naruto', button: 'Hire' },
-    { image: mpCard8, subtitle: 'Graphic Designs', title: 'Logo Designs', author: 'by Naruto', button: 'Hire' },
-    // Add more items as needed
-  ];
+  const { serviceId } = useParams();
+  const [services, setServices] = useState([]);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await axios.get(`https://quircom.onrender.com/api/service/`);
+        if (response.status === 200) {
+          setServices(response.data);
+          console.log(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+
+    fetchServices();
+  }, [serviceId]);
+
+
   return (
     <div className='flex flex-col min-h-screen'>
       <NavHeader />
@@ -34,8 +48,8 @@ const CMarketplace = () => {
           <h1 className='font-extrabold text-[30px] text-[#1D5B79]' >MARKETPLACE</h1>
           <div className="w-full h-[300px] relative rounded-lg" style={{background: `url(${mpTop})`, backgroundRepeat:'no-repeat', backgroundSize:'cover'}}>
             <div className="absolute bottom-10 left-10 text-white p-2">
-              <h1 className='text-[40px] font-bold mb-5'>Freelancing Services</h1>
-              <a href="#" className='bg-orange-600 p-2 rounded-md hover:bg-[#1D5B79] active:bg-blue-800'>Hire now!</a>
+              <h1 className='text-[50px] font-bold mb-5'>Freelancing Services</h1>
+              
             </div>
           </div>
           <h1 className='mt-10 font-extrabold text-[30px] text-[#1D5B79]'>Top Services</h1>
@@ -49,11 +63,19 @@ const CMarketplace = () => {
                 <input type="name" name="search" class="h-12 w-full cursor-text rounded-md border border-gray-100 bg-gray-100 py-4 pr-40 pl-12 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" placeholder="Search by services..." />
               </div>
             </form>
+            <div class="flex mt-2 space-x-3"> {/*div for Category */}
+              <button class="px-4 py-2 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md" >Software Development</button>
+              <button class="px-4 py-2 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md" >Web Development</button>
+              <button class="px-4 py-2 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md" >Animation</button>
+              <button class="px-4 py-2 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md" >Graphic Design</button>
+              <button class="px-4 py-2 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md" >Marketing</button>
+
+            </div>
           </div>
           <div className="flex-grow"> {/* This div will make the cards fill the available space */}
             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-              {data.map((item, index) => (
-                <CCards key={index} image={item.image} subtitle={item.subtitle} title={item.title} author={item.author}  button={item.button}/>
+              {services?.map((item, index) => (
+                <CCards key={index} serviceId={item?._id} image={item?.thumbNail?.link} subtitle={item.serviceType} title={item.serviceName} author={item?.freelancer?.firstName}  button='Avail'/>
               ))}
             </div>
           </div>

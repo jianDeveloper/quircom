@@ -165,11 +165,11 @@ const AddServiceModal = ({ setaddModal }) => {
                       className={`block w-full px-3 py-2 pr-10 text-base leading-6 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${invalidFields.serviceType ? "border-red-500" : ""}`}
                     >
                       <option value="">Select Account Type</option>
-                      <option value="1">Web Development</option>
-                      <option value="2">Software Development</option>
-                      <option value="3">Graphic Design</option>
-                      <option value="4">Animation</option>
-                      <option value="5">Graphic Motion</option>
+                      <option value="Web Development">Web Development</option>
+                      <option value="Software Development">Software Development</option>
+                      <option value="Graphic Design">Graphic Design</option>
+                      <option value="Animation">Animation</option>
+                      <option value="Graphic Motion">Graphic Motion</option>
 
                       {/* {options.map((option) => (
                         <option key={option.value} value={option.value}>
