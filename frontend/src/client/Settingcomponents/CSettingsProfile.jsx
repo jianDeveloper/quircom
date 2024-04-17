@@ -42,6 +42,9 @@ function CSettingsProfile(props) {
               firstName: response.data.firstName,
               surName: response.data.surName,
               contactNum: response.data.contactNum,
+              region: response.data.region,
+              province: response.data.province,
+              city: response.data.city
             });
 
             const userData = response.data;
@@ -103,7 +106,7 @@ function CSettingsProfile(props) {
       setCityCode(value);
     }
 
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [name]: value });
 
   };
   
@@ -135,94 +138,116 @@ function CSettingsProfile(props) {
     setFilteredCity(provincesCity);
   };
 
+  const [invalidFields, setInvalidFields] = useState({});
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setDisabled(true);
 
-    if (formData.firstName === userData.firstName) {
-        toast.error('First Name is the same as the existing one');
-        setDisabled(false);
-        return;
-    }
+    setInvalidFields({});
 
-    if (formData.surName === userData.surName) {
-      toast.error('Last Name is the same as the existing one');
-      setDisabled(false);
-      return;
-    }
-    
-    if (formData.contactNum === userData.contactNum) {
-      toast.error('Contact Number is the same as the existing one');
-      setDisabled(false);
-      return;
-    }
+    const isFormDataChanged =
+    formData.firstName !== userData.firstName ||
+    formData.surName !== userData.surName ||
+    formData.contactNum !== userData.contactNum ||
+    formData.region !== userData.region ||
+    formData.province !== userData.province ||
+    formData.city !== userData.city;
 
-    if (formData.region === userData.region) {
-      toast.error('Region is the same as the existing one');
+    // If no form data has been changed, show an error
+    if (!isFormDataChanged) {
+      toast.error('No changes have been made');
       setDisabled(false);
       return;
     }
 
-    if (formData.province === userData.province) {
-      toast.error('Province is the same as the existing one');
+    if (formData.firstName.length === 0) {
+      errors.firstName('Please input your first name');
       setDisabled(false);
       return;
     }
-
-    if (formData.city === userData.city) {
-      toast.error('City is the same as the existing one');
+    if (formData.surName.length === 0) {
+      errors.surName('Please input your last name');
+      setDisabled(false);
+      return;
+    }
+    if (!formData.contactNum || isNaN(formData.contactNum)) {
+      errors.contactNum('Contact number must be a valid number');
+      setDisabled(false);
+      return;
+    }
+    if (!formData.region) {
+      errors.region('Please select a region');
+      setDisabled(false);
+      return;
+    }
+    if (!formData.province) {
+      errors.province('Please select a province');
+      setDisabled(false);
+      return;
+    }
+    if (!formData.city) {
+      errors.city('Please select a city');
       setDisabled(false);
       return;
     }
 
     try {
-        const validationResponse = await axios.post(`http://localhost:8800/api/auth/validate`, {
-            contactNum: formData.contactNum,
-        });
 
-        if (validationResponse.data.exists && validationResponse.data.eMailExists) {
-            toast.error('Contact Number is already registered');
-            setDisabled(false);
-            return;
+      const validationResponse = await axios.post(`http://localhost:8800/api/auth/validate`, {
+        contactNum: formData.contactNum,
+      });
+
+      if (validationResponse.data.userId !== userId){
+        if (validationResponse.data.exists && validationResponse.data.contactNumExists) {
+          toast.error('Contact Number is already registered');
+          setDisabled(false);
+          return;
         }
+      }
+      
     } catch (error) {
-        console.error('Error validating contact:', error);
-        toast.error('Failed to validate contact');
-        setDisabled(false);
-        return;
+      console.error('Error validating contact:', error);
+      toast.error('Failed to validate contact');
+      setDisabled(false);
+      return;
     }
 
     // If the email is valid and not already registered, proceed with updating
     const formObj = new FormData();
     formObj.append('client', JSON.stringify({
-        ...userData,
-        eMail: formData.eMail
+      ...userData,
+      firstName: formData.firstName,
+      surName: formData.surName,
+      contactNum: formData.contactNum,
+      region: formData.region,
+      province: formData.province,
+      city: formData.city
     }));
 
     try {
-        const updateResponse = await axios.patch(`http://localhost:8800/api/client/update/${userId}`, formObj, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
+      const updateResponse = await axios.patch(`http://localhost:8800/api/client/update/${userId}`, formObj, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+      });
 
-        if (updateResponse.status === 201) {
-            console.log(updateResponse.data);
-            toast.success('Email has been updated');
-            setEditable(false);
-            setUsers(updateResponse.data); // Update userData with the latest user data
-        } else {
-            console.log('Response data not available');
-            toast.error('Failed to update email');
-        }
+      if (updateResponse.status === 201) {
+        console.log(updateResponse.data);
+        toast.success('Information has been updated');
+        setEditable(false);
+        setUsers(updateResponse.data); // Update userData with the latest user data
+      } else {
+        console.log('Response data not available');
+        toast.error('Failed to update information');
+      }
     } catch (error) {
-        console.error('Error during patch:', error);
-        toast.error('Failed to change email: ' + error.message);
+      console.error('Error during patch:', error);
+      toast.error('Failed to change information: ' + error.message);
     } finally {
-        setDisabled(false);
+      setDisabled(false);
     }
   };
-
 
   return (
     <div className=''>
@@ -279,7 +304,7 @@ function CSettingsProfile(props) {
                                 type="text"
                                 name="firstName"
                                 id="firstName"
-                                className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                className={`mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${invalidFields.firstName ? 'border-red-500' : ''}`}
                                 disabled={!emailEditable}
                                 value={formData.firstName}
                                 onChange={handleChange}
@@ -295,27 +320,32 @@ function CSettingsProfile(props) {
                             type="text"
                             name="surName"
                             id="surName"
-                            className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            className={`mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${invalidFields.surName ? 'border-red-500' : ''}`}
                             disabled={!emailEditable}
                             value={formData.surName}
                             onChange={handleChange}
                         />
                       </div>
 
-                      <div>
+                      <div className="relative">
                         <label htmlFor="contactNum" className="block text-sm font-medium text-gray-700">
-                            Contact Number
+                          Contact Number
                         </label>
+                        <div className={`absolute inset-y-6 left-2 top-[43px] flex items-center justify-center w-8 text-gray-500 pointer-events-none ${invalidFields.contactNum ? 'border-red-500' : ''}`}>
+                          +63
+                        </div>
                         <input
-                            type="text"
-                            name="contactNum"
-                            id="contactNum"
-                            className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            disabled={!emailEditable}
-                            value={formData.contactNum}
-                            onChange={handleChange}
+                          type="text"
+                          name="contactNum"
+                          id="contactNum"
+                          className={`pl-11 mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${invalidFields.region ? 'border-red-500' : ''}`}
+                          disabled={!emailEditable}
+                          value={formData.contactNum}
+                          onChange={handleChange}
+                          maxLength="10"
                         />
                       </div>
+
 
                       {/* Region Dropdown */}
                       <div>
@@ -327,7 +357,7 @@ function CSettingsProfile(props) {
                             <select
                               id="region"
                               name="region"
-                              className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                              className={`mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${invalidFields.province ? 'border-red-500' : ''}`}
                               disabled={!emailEditable}
                               value={regionCode || userData.region}
                               onChange={handleChange}
@@ -351,7 +381,7 @@ function CSettingsProfile(props) {
                             <select
                               id="province"
                               name="province"
-                              className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                              className={`mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${invalidFields.city ? 'border-red-500' : ''}`}
                               disabled={!emailEditable}
                               value={provinceCode || userData.province}
                               onChange={handleChange}

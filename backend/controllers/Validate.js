@@ -23,17 +23,15 @@ const ValidateUserData = async (req, res) => {
     ]);
 
     // checks[0] will contain the result from FreelancerModel, and checks[1] from ClientModel
-    const userNameExists = checks.some(result => result && result.userName === userName);
-    const eMailExists = checks.some(result => result && result.eMail === eMail);
-    const contactNumExists = checks.some(result => result && result.contactNum === contactNum);
+    const freelancerUser = checks[0];
+    const clientUser = checks[1];
 
     // If any of the fields exist in either collection, respond accordingly
-    if (userNameExists || eMailExists || contactNumExists) {
+    if (freelancerUser || clientUser) {
+      const userId = freelancerUser ? freelancerUser._id : clientUser ? clientUser._id : null;
       return res.status(200).json({
         exists: true,
-        userNameExists,
-        eMailExists,
-        contactNumExists,
+        userId
       });
     }
 
@@ -43,6 +41,7 @@ const ValidateUserData = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 const LoginUser = async (req, res) => {
   try {
