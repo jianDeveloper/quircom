@@ -369,16 +369,20 @@ function CSettings() {
                         </>
                       )}
                     </div>
-                  </label>                
+                  </label>
+                  <div className=''>
+                  <button
+                      type="button"
+                      tabIndex="-1"
+                      className="mt-7 ml-2 h-8 w-8 cursor-pointer text-sm font-semibold text-gray-600 underline decoration-2 user-select-none "
+                      onClick={togglePasswordVisibility}
+                    >
+                      {showPassword ? <FaEyeSlash/> : <FaEye/> }
+                    </button>  
+                  </div>
+                                  
                 </div>
-                <button
-                  type="button"
-                  tabIndex="-1"
-                  className="mt-5 ml-2 h-8 w-8 cursor-pointer text-sm font-semibold text-gray-600 underline decoration-2 user-select-none"
-                  onClick={togglePasswordVisibility}
-                >
-                  {showPassword ? <FaEyeSlash/> : <FaEye/> }
-                </button> 
+                
 
                 <p className="mt-2">Can't remember your current password. <a className="text-sm font-semibold text-blue-600 underline decoration-2" href="#">Recover Account</a></p>
                 <button 
