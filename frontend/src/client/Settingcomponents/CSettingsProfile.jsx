@@ -23,7 +23,7 @@ function CSettingsProfile(props) {
   const { userId } = useParams();
   const [ userData, setUsers] = useState();
   const [disabled, setDisabled] = useState(false);
-  const [emailEditable, setEditable] = useState(false);
+  const [editable, setEditable] = useState(false);
   const [filteredProvinces, setFilteredProvinces] = useState([]);
   const [filteredCity, setFilteredCity] = useState([]);
   const [regionCode, setRegionCode] = useState('');
@@ -106,16 +106,23 @@ function CSettingsProfile(props) {
       setCityCode(value);
     }
 
+    setFormData(prevState => ({
+      ...prevState,
+      region: name === 'region' ? value : formData.region,
+      province: name === 'province' ? value : formData.province,
+      city: name === 'city' ? value : formData.city,
+    }));
+
     setFormData({ ...formData, [name]: value });
 
   };
-  
 
   const toggleEdit = () => {
     setEditable(true);
   };
 
   const cancelEdit = () => {
+    setDisabled(false);
     setEditable(false);
     setFormData({
       firstName: userData.firstName,
@@ -142,19 +149,18 @@ function CSettingsProfile(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setDisabled(true);
-
-    setInvalidFields({});
 
     const isFormDataChanged =
     formData.firstName !== userData.firstName ||
     formData.surName !== userData.surName ||
-    formData.contactNum !== userData.contactNum ||
+    formData.contactNum !== userData.contactNum &&
+    Number(formData.contactNum) !== userData.contactNum ||
     formData.region !== userData.region ||
     formData.province !== userData.province ||
     formData.city !== userData.city;
 
-    // If no form data has been changed, show an error
+    setDisabled(true);
+
     if (!isFormDataChanged) {
       toast.error('No changes have been made');
       setDisabled(false);
@@ -162,32 +168,32 @@ function CSettingsProfile(props) {
     }
 
     if (formData.firstName.length === 0) {
-      errors.firstName('Please input your first name');
+      toast.error('Please input your first name');
       setDisabled(false);
       return;
     }
     if (formData.surName.length === 0) {
-      errors.surName('Please input your last name');
+      toast.error('Please input your last name');
       setDisabled(false);
       return;
     }
-    if (!formData.contactNum || isNaN(formData.contactNum)) {
-      errors.contactNum('Contact number must be a valid number');
+    if (!formData.contactNum || isNaN(formData.contactNum) || String(formData.contactNum).length <= 9) {
+      toast.error('Contact number must be a valid number');
       setDisabled(false);
       return;
     }
-    if (!formData.region) {
-      errors.region('Please select a region');
+    if (!regionCode) {
+      toast.error('Please select a region');
       setDisabled(false);
       return;
     }
-    if (!formData.province) {
-      errors.province('Please select a province');
+    if (!provinceCode) {
+      toast.error('Please select a province');
       setDisabled(false);
       return;
     }
-    if (!formData.city) {
-      errors.city('Please select a city');
+    if (!cityCode) {
+      toast.error('Please select a city');
       setDisabled(false);
       return;
     }
@@ -212,8 +218,7 @@ function CSettingsProfile(props) {
       setDisabled(false);
       return;
     }
-
-    // If the email is valid and not already registered, proceed with updating
+    
     const formObj = new FormData();
     formObj.append('client', JSON.stringify({
       ...userData,
@@ -305,7 +310,7 @@ function CSettingsProfile(props) {
                                 name="firstName"
                                 id="firstName"
                                 className={`mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${invalidFields.firstName ? 'border-red-500' : ''}`}
-                                disabled={!emailEditable}
+                                disabled={!editable}
                                 value={formData.firstName}
                                 onChange={handleChange}
                             />
@@ -321,7 +326,7 @@ function CSettingsProfile(props) {
                             name="surName"
                             id="surName"
                             className={`mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${invalidFields.surName ? 'border-red-500' : ''}`}
-                            disabled={!emailEditable}
+                            disabled={!editable}
                             value={formData.surName}
                             onChange={handleChange}
                         />
@@ -339,7 +344,7 @@ function CSettingsProfile(props) {
                           name="contactNum"
                           id="contactNum"
                           className={`pl-11 mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${invalidFields.region ? 'border-red-500' : ''}`}
-                          disabled={!emailEditable}
+                          disabled={!editable}
                           value={formData.contactNum}
                           onChange={handleChange}
                           maxLength="10"
@@ -358,8 +363,8 @@ function CSettingsProfile(props) {
                               id="region"
                               name="region"
                               className={`mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${invalidFields.province ? 'border-red-500' : ''}`}
-                              disabled={!emailEditable}
-                              value={regionCode || userData.region}
+                              disabled={!editable}
+                              value={regionCode}
                               onChange={handleChange}
                             >
                               <option value="">Select Region</option>
@@ -382,8 +387,8 @@ function CSettingsProfile(props) {
                               id="province"
                               name="province"
                               className={`mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${invalidFields.city ? 'border-red-500' : ''}`}
-                              disabled={!emailEditable}
-                              value={provinceCode || userData.province}
+                              disabled={!editable}
+                              value={provinceCode}
                               onChange={handleChange}
                             >
                               <option value="">Select Province</option>
@@ -406,8 +411,8 @@ function CSettingsProfile(props) {
                               id="city"
                               name="city"
                               className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                              disabled={!emailEditable}
-                              value={cityCode || userData.city}
+                              disabled={!editable}
+                              value={cityCode}
                               onChange={handleChange}
                             >
                               <option value="">Select City</option>
@@ -420,7 +425,7 @@ function CSettingsProfile(props) {
                       </div>
                   </div>
 
-                    {emailEditable ? (
+                    {editable ? (
                       <>
                         <button type="submit" disabled={disabled} className={`m-2 rounded font-bold py-2 px-4 ${disabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}>
                           Save
