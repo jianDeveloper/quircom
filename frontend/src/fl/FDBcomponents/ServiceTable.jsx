@@ -20,8 +20,6 @@ import { MdDesignServices } from "react-icons/md";
 import { FaTrashCan } from "react-icons/fa6";
 import { AiFillPlusCircle } from "react-icons/ai";
 
-
-
 const serviceColumns = [
   { id: "serviceID", label: "Service ID", minWidth: 100, align: "center" },
   { id: "serviceTitle", label: "Service Title", minWidth: 170 },
@@ -42,7 +40,7 @@ const serviceColumns = [
     label: "Actions",
     minWidth: 100,
     align: "center",
-    format: (setDeleteModal,setUpdateModal) => (
+    format: (setDeleteModal, setUpdateModal) => (
       <div>
         <button
           type="button"
@@ -51,7 +49,7 @@ const serviceColumns = [
         >
           <MdDesignServices className="inline" />
         </button>
-        
+
         <button
           type="button"
           onClick={() => setDeleteModal(true)}
@@ -66,7 +64,12 @@ const serviceColumns = [
 
 function serviceData(serviceID, serviceTitle, serviceDetails, servicePrice) {
   const formattedPrice = `₱ ${Number(servicePrice).toLocaleString()}`;
-  return { serviceID, serviceTitle, serviceDetails, servicePrice: formattedPrice };
+  return {
+    serviceID,
+    serviceTitle,
+    serviceDetails,
+    servicePrice: formattedPrice,
+  };
 }
 
 const ServiceTable = () => {
@@ -85,38 +88,47 @@ const ServiceTable = () => {
   };
 
   const { userId } = useParams();
-  const [ serviceInfo, setService] = useState([]);
+  const [serviceDetails, setService] = useState([]);
 
   useEffect(() => {
     const fetchServices = async () => {
       try {
         const response = await axios.get(`http://localhost:8800/api/service/`);
         if (response.status === 200) {
-          const filteredServices = response.data.filter(service => service.freelancerId._id === userId);
+          const filteredServices = response.data.filter(
+            (service) => service.freelancerId._id === userId
+          );
           setService(filteredServices);
         } else {
-          console.error("Error fetching services: Unexpected status code", response.status);
+          console.error(
+            "Error fetching services: Unexpected status code",
+            response.status
+          );
         }
       } catch (error) {
         console.error("Error fetching services:", error);
       }
     };
-  
+
     fetchServices();
   }, [userId]);
-  
-  console.log(serviceInfo._id)
-  const serviceRows = serviceInfo.map(service => {
-    return serviceData(service.serviceId, service.serviceName, service.serviceInfo, service.price);
+
+  const serviceRows = serviceDetails.map((service) => {
+    return serviceData(
+      service.serviceId,
+      service.serviceName,
+      service.serviceInfo,
+      service.price
+    );
   });
 
-  console.log(serviceInfo)
+  console.log(serviceDetails);
 
   return (
     <div className="flex flex-col justify-center items-center w-[100%]">
       <Paper sx={{ width: "100%" }}>
         <div className="flex justify-between items-center p-2 bg-[#13334C] ">
-        <button
+          <button
             type="button"
             onClick={() => setaddModal(true)}
             className="bg-blue-500 py-2 px-3 mx-4 rounded text-white"
@@ -144,7 +156,6 @@ const ServiceTable = () => {
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
-          
         </div>
         <TableContainer
           sx={{
@@ -191,13 +202,41 @@ const ServiceTable = () => {
                             align={serviceColumns.align}
                           >
                             {serviceColumns.id === "actions"
-                              ? serviceColumns.format(setDeleteModal,setUpdateModal)
+                              ? serviceColumns.format(
+                                  setDeleteModal,
+                                  setUpdateModal
+                                )
                               : serviceColumns.format &&
                                 typeof value === "number"
-                              ? serviceColumns.format(setDeleteModal,setUpdateModal)
+                              ? serviceColumns.format(
+                                  setDeleteModal,
+                                  setUpdateModal
+                                )
                               : value}
-                            {deleteModal ? <Deletion setDeleteModal={setDeleteModal} /> : null}
-                            {updateModal ? <UpdateModal setUpdateModal={setUpdateModal} /> : null}
+                            {deleteModal ? (
+                              <Deletion setDeleteModal={setDeleteModal} />
+                            ) : null}
+
+                            {updateModal ? (
+                              <UpdateModal
+                                key={rowIndex}
+                                serviceID={serviceDetails[rowIndex]?._id}
+                                serviceName={row.serviceTitle}
+                                serviceType={
+                                  serviceDetails[rowIndex]?.serviceType
+                                }
+                                serviceInfo={row.serviceDetails}
+                                price={row.servicePrice}
+                                setUpdateModal={setUpdateModal}
+                              />
+                            ) : null}
+
+                            {console.log(
+                              "userId._id of the first user:",
+                              serviceDetails.length > 0
+                                ? serviceDetails[rowIndex]._id
+                                : "No users available"
+                            )}
                           </TableCell>
                         );
                       })}
