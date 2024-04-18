@@ -1,6 +1,6 @@
 import React from 'react'
 
-const deleteModal = ({ setDeleteModal }) => {
+const deleteModal = ({ setDeleteModal, serviceID, serviceName, serviceType, serviceInfo, price }) => {
   return (
     <div>
       <div className="fixed inset-0 z-10 backdrop-blur-sm"></div>

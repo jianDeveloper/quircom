@@ -3,16 +3,15 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
-const UpdateServiceModal = ({ setUpdateModal, serviceId  }) => {
-  const [type, setType] = useState("");
-  // const options = [
-  //   { value: "webDev", label: "Web Development" },
-  //   { value: "softDev", label: "Software Development" },
-  //   { value: "videoEdit", label: "Video Editing" },
-  //   { value: "graphicDesign", label: "Graphic Design" },
-  // ];
+const UpdateServiceModal = ({ setUpdateModal, serviceID, serviceName, serviceType, serviceInfo, price }) => {
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
 
-  const { userId } = useParams();
   const [userData, setUsers] = useState();
   const [thumbNail, setThumbnail] = useState();
   const [invalidFields, setInvalidFields] = useState({});
@@ -28,7 +27,7 @@ const UpdateServiceModal = ({ setUpdateModal, serviceId  }) => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8800/api/service/${serviceId}`
+          `http://localhost:8800/api/service/${serviceID}`
         );
         if (response.status === 200) {
           setUsers(response.data);
@@ -41,9 +40,9 @@ const UpdateServiceModal = ({ setUpdateModal, serviceId  }) => {
     };
 
     fetchUsers();
-  }, [serviceId]);
+  }, [serviceID]);
 
-  console.log("service:", userData)
+  console.log("userId._id of the first user:", Number(serviceID).length > 0 ? serviceID : "No users available");
 
   return (
     <div>
@@ -69,6 +68,7 @@ const UpdateServiceModal = ({ setUpdateModal, serviceId  }) => {
                   id="title"
                   name="title"
                   className="mt-1 relative rounded-md shadow-sm border border-gray-300 px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm"
+                  placeholder={serviceName}
                 />
                 <label
                   htmlFor="type"
@@ -78,13 +78,19 @@ const UpdateServiceModal = ({ setUpdateModal, serviceId  }) => {
                 </label>
                 <div className="mt-1 relative">
                 <select
-                    id="type"
-                    name="type"
-                    value={type}
-                    onChange={(e) => setType(e.target.value)}
-                    className="block w-full px-3 py-2 pr-10 text-base leading-6 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  >
-                  </select>
+                      id="serviceType"
+                      name="serviceType"
+                      value={formData.serviceType}
+                      onChange={handleChange}
+                      className={`block w-full px-3 py-2 pr-10 text-base leading-6 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${invalidFields.serviceType ? "border-red-500" : ""}`}
+                    >
+                      <option value="">{serviceType}</option>
+                      <option value="Web Development">Web Development</option>
+                      <option value="Software Development">Software Development</option>
+                      <option value="Graphic Design">Graphic Design</option>
+                      <option value="Animation">Animation</option>
+                      <option value="Graphic Motion">Graphic Motion</option>
+                    </select>
                   
                 </div>
                 <label
@@ -99,6 +105,7 @@ const UpdateServiceModal = ({ setUpdateModal, serviceId  }) => {
                     name="description"
                     rows={4}
                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 px-3 py-2"
+                    placeholder={serviceInfo}
                   />
                 </div>
                 <div className="flex flex-row justify-between gap-12">
@@ -120,6 +127,7 @@ const UpdateServiceModal = ({ setUpdateModal, serviceId  }) => {
                         pattern="[0-9]*"
                         inputMode="numeric"
                         className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-r-md sm:text-sm p-2 shadow-sm border border-gray-300"
+                        placeholder={price}
                       />
                     </div>
                   </div>
