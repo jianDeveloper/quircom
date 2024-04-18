@@ -6,15 +6,6 @@ import { ToastContainer, toast } from "react-toastify";
 const AddServiceModal = ({ setaddModal }) => {
   const [type, setType] = useState("");
 
-  // const options = [
-  //   { value: "", label: "Select Service Type" },
-  //   { value: "webDev", label: "Web Development" },
-  //   { value: "softDev", label: "Software Development" },
-  //   { value: "graphicDesign", label: "Graphic Design" },
-  //   { value: "rpa", label: "Automation" },
-  //   { value: "graphicMotion", label: "Graphic Motion" },
-  // ];
-
   const { userId } = useParams();
   const [userData, setUsers] = useState();
   const [thumbNail, setThumbnail] = useState();

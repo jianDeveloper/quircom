@@ -7,14 +7,6 @@ import CFooter from './CFooter'
 
 import mpTop from '../assets/mpTop.jpg'
 import CCards from './Marketcomponents/CCards'
-import mpCard1 from '../assets/pic1.png'
-import mpCard2 from '../assets/pic2.jpg'
-import mpCard3 from '../assets/pic3.png'
-import mpCard4 from '../assets/pic4.jpg'
-import mpCard5 from '../assets/pic5.jpg'
-import mpCard6 from '../assets/pic6.png'
-import mpCard7 from '../assets/pic7.png'
-import mpCard8 from '../assets/pic8.jpg'
 
 
 const BASE_URI = import.meta.env.RENDER_BASEURI;

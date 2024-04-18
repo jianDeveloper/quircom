@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-
-
 import {
   Paper,
   Table,
@@ -13,6 +11,7 @@ import {
   TableRow,
   TableCell,
 } from "@mui/material/";
+
 import AddModal from "./addServiceModal";
 import Deletion from "./deleteModal";
 import UpdateModal from "./updateModal";

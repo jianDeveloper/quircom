@@ -1,5 +1,8 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import Navbar from './components/Navbar.jsx';
 import Hero from './components/Hero.jsx';
 import Trial from './components/sample.jsx';
@@ -18,8 +21,6 @@ import CTracker from './client/CTracker.jsx';
 import CRank from './client/CRank.jsx';
 import CSubscribe from './client/CSubscribe.jsx';
 import CConnect from './client/Marketcomponents/CConnect.jsx';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import FDashboard from './fl/FDashboard.jsx';
 import FProfile from './fl/FProfile.jsx';
 import FSettings from './fl/FSettings.jsx';

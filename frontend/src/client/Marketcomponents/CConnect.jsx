@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import mpCard1 from '../../assets/pic1.png'
-import Connect from '../../assets/link.png'
-import axios from "axios"; // Import axios for making HTTP requests
+import axios from "axios";
 import { useParams } from "react-router-dom";
+
 import NavHeader from '../CMainNav'
+
+import Connect from '../../assets/link.png'
 
 function CConnect () {
     const [ userData, setUsers] = useState();
