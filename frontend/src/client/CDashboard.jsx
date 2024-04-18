@@ -120,6 +120,9 @@ function CDashboard() {
             </Link>
           </div>
           <div>
+            <div>
+              <h2 class="text-2xl font-semibold leading-tight text-[#F5F5DC] mb-5">Current Projects</h2>
+            </div>
             <TaskList />
           </div>
         </div>
