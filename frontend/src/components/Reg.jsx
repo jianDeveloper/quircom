@@ -99,7 +99,7 @@ const Reg = () => {
     }
     if (!formData.contactNum || isNaN(formData.contactNum)) {
       errors.contactNum = 'Contact number must be a valid number';
-    } else if (formData.contactNum.length !== 11) {
+    } else if (formData.contactNum.length !== 10) {
       errors.contactNum = 'Contact number must be 11 digits';
     }
     if (!formData.eMail.includes('@')) {
@@ -123,26 +123,24 @@ const Reg = () => {
   
     try {
 
-      const formDataForValidation = { ...formData };
-
-      formDataForValidation.contactNum = formData.contactNum.replace(/^0+/, '');
 
       const response = await axios.post(`https://quircom.onrender.com/api/auth/validate`, {
         userName: formData.userName,
         eMail: formData.eMail,
-        contactNum: Number(formDataForValidation.contactNum),
+        contactNum: Number(formData.contactNum),
       });
   
       if (response.data.exists) {
-        if (response.data.userNameExists) {
+        if (response.data.exists) {
           errors.userName = 'Username is already taken';
         }
-        if (response.data.eMailExists) {
+        if (response.data.exists) {
           errors.eMail = 'Email is already registered';
         }
-        if (response.data.contactNumExists) {
+        if (response.data.exists) {
           errors.contactNum = 'Contact number is already registered';
         }
+
       }
     } catch (error) {
       console.error('Error validating data:', error);
@@ -294,21 +292,28 @@ const Reg = () => {
               </div>
 
               <div className="flex flex-col md:flex-row md:justify-center -mx-3">
-                <div className="w-full md:w-1/2 px-3 mb-4">
-                <label htmlFor="contactNumber" className="block text-[#1D5B79] text-sm font-bold mb-2">
-                    Contact Number
-                  </label>
+              <div className="w-full md:w-1/2 px-3 mb-4">
+                <label htmlFor="contactNum" className="block text-[#1D5B79] text-sm font-bold mb-2">
+                  Contact Number
+                </label>
+                <div className="relative">
+                  <div className="absolute left-0 inset-y-[.80rem] text-center pl-3 pointer-events-none text-[14px]">
+                    +63
+                  </div>
                   <input
                     type="tel"
-                    id="contactNumber"
+                    id="contactNum"
                     name="contactNum"
                     value={formData.contactNum}
                     onChange={handleChange}
-                    className={`w-full text-[14px] p-3 border rounded ${invalidFields.contactNum ? 'border-red-500' : ''}`}
+                    className={`w-full text-[14px] pl-12 p-3 border rounded ${invalidFields.contactNum ? 'border-red-500' : ''}`}
                     placeholder="Enter your contact number"
+                    maxLength="10"
                   />
                   {invalidFields.contactNum && <p className="text-red-500 text-[12px]">{invalidFields.contactNum}</p>}
                 </div>
+              </div>
+
                 <div className="w-full md:w-1/2 px-3 mb-4">
                   <label htmlFor="region" className="block text-[#1D5B79] text-sm font-bold mb-2">
                     Region
@@ -379,7 +384,7 @@ const Reg = () => {
                     className={`w-full text-[14px] p-3  border rounded ${invalidFields.eMail ? 'border-red-500' : ''}`}
                     placeholder="Enter your email"
                   />
-                  {invalidFields.contactNum && <p className="text-red-500 text-[12px]">{invalidFields.eMail}</p>}
+                  {invalidFields.eMail && <p className="text-red-500 text-[12px]">{invalidFields.eMail}</p>}
                 </div>
                 <div className="w-full md:w-1/2 px-3 mb-3">
                   <label htmlFor="accountType" className="block text-[#1D5B79] text-sm font-bold mb-2">

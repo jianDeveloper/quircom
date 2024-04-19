@@ -106,13 +106,6 @@ function CSettingsProfile(props) {
       setCityCode(value);
     }
 
-    setFormData(prevState => ({
-      ...prevState,
-      region: name === 'region' ? value : formData.region,
-      province: name === 'province' ? value : formData.province,
-      city: name === 'city' ? value : formData.city,
-    }));
-
     setFormData({ ...formData, [name]: value });
 
   };
@@ -144,8 +137,6 @@ function CSettingsProfile(props) {
     const provincesCity = phil.getCityMunByProvince(userData.province);
     setFilteredCity(provincesCity);
   };
-
-  const [invalidFields, setInvalidFields] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -201,11 +192,11 @@ function CSettingsProfile(props) {
     try {
 
       const validationResponse = await axios.post(`http://localhost:8800/api/auth/validate`, {
-        contactNum: formData.contactNum,
+        contactNum: Number(formData.contactNum),
       });
 
       if (validationResponse.data.userId !== userId){
-        if (validationResponse.data.exists && validationResponse.data.contactNumExists) {
+        if (validationResponse.data.exists) {
           toast.error('Contact Number is already registered');
           setDisabled(false);
           return;
@@ -309,7 +300,7 @@ function CSettingsProfile(props) {
                                 type="text"
                                 name="firstName"
                                 id="firstName"
-                                className={`mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${invalidFields.firstName ? 'border-red-500' : ''}`}
+                                className={`mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm `}
                                 disabled={!editable}
                                 value={formData.firstName}
                                 onChange={handleChange}
@@ -325,7 +316,7 @@ function CSettingsProfile(props) {
                             type="text"
                             name="surName"
                             id="surName"
-                            className={`mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${invalidFields.surName ? 'border-red-500' : ''}`}
+                            className={`mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm `}
                             disabled={!editable}
                             value={formData.surName}
                             onChange={handleChange}
@@ -336,19 +327,21 @@ function CSettingsProfile(props) {
                         <label htmlFor="contactNum" className="block text-sm font-medium text-gray-700">
                           Contact Number
                         </label>
-                        <div className={`absolute inset-y-6 left-2 top-[43px] flex items-center justify-center w-8 text-gray-500 pointer-events-none ${invalidFields.contactNum ? 'border-red-500' : ''}`}>
-                          +63
+                        <div className='relative'>
+                          <div className={`absolute left-0 inset-y-0 flex text-sm items-center pl-3 pointer-events-none`}>
+                            +63
+                          </div>
+                          <input
+                            type="text"
+                            name="contactNum"
+                            id="contactNum"
+                            className={`pl-11 mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm `}
+                            disabled={!editable}
+                            value={formData.contactNum}
+                            onChange={handleChange}
+                            maxLength="10"
+                          />
                         </div>
-                        <input
-                          type="text"
-                          name="contactNum"
-                          id="contactNum"
-                          className={`pl-11 mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${invalidFields.region ? 'border-red-500' : ''}`}
-                          disabled={!editable}
-                          value={formData.contactNum}
-                          onChange={handleChange}
-                          maxLength="10"
-                        />
                       </div>
 
 
@@ -362,7 +355,7 @@ function CSettingsProfile(props) {
                             <select
                               id="region"
                               name="region"
-                              className={`mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${invalidFields.province ? 'border-red-500' : ''}`}
+                              className={`mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm `}
                               disabled={!editable}
                               value={regionCode}
                               onChange={handleChange}
@@ -386,7 +379,7 @@ function CSettingsProfile(props) {
                             <select
                               id="province"
                               name="province"
-                              className={`mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${invalidFields.city ? 'border-red-500' : ''}`}
+                              className={`mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm `}
                               disabled={!editable}
                               value={provinceCode}
                               onChange={handleChange}
