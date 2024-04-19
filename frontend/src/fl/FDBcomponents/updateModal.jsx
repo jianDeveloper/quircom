@@ -14,7 +14,7 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
     serviceType: "",
     serviceInfo: "",
     price: "",
-    dateUpdated: "",
+    dateUpdated: new Date().toISOString,
   });
 
   const handleImage = (e) => {
@@ -70,7 +70,7 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
       errors.serviceName = "Please input your Title";
     }
     if (!formData.serviceType) {
-      errors.serviceType = "Please select an Service type";
+      errors.serviceType = "Please select a Service type";
     }
     if (formData.serviceInfo.length <= 20) {
       errors.serviceInfo = "Please input atleast 20 characters";
@@ -78,7 +78,9 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
     if (formData.price.length === 0) {
       errors.price = "Please input your price";
     }
-    
+
+    setInvalidFields(errors);
+
     try {
       const formObj = new FormData();
       formObj.append("service", JSON.stringify(formData));
@@ -106,10 +108,9 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
       console.log(error.message);
       toast.error("Failed to update Service");
     }
-
-    setInvalidFields(errors);
-   
   };
+
+  console.log(formData)
 
   // console.log("ito yun",serviceInfos._id)
 
@@ -218,6 +219,46 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
                           name="sampleProduct"
                           onChange={handleImage}
                           className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full border border-gray-300 px-3 py-2"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-row justify-between gap-12">
+                    <div className="w-[50%]">
+                      <label
+                        htmlFor="freelancerId"
+                        className="block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
+                      >
+                        Creator
+                      </label>
+                      <div className="mt-1 flex px-3 py-2">
+                        <input
+                          type="text"
+                          id="freelancerId"
+                          name="freelancerId"
+                          value={`${serviceInfos.freelancerId.firstName || ""} ${
+                            serviceInfos.freelancerId.surName || ""
+                          }`}
+                          readOnly
+                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-r-md sm:text-sm p-2 shadow-sm border border-gray-300"
+                        />
+                      </div>
+                    </div>
+                    <div className="w-[50%]">
+                      <label
+                        htmlFor="dateUpdated"
+                        className="block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
+                      >
+                        Date Updated
+                      </label>
+                      <div className="mt-1 flex px-3 py-2">
+                        <input
+                          type="text"
+                          id="dateUpdated"
+                          name="dateUpdated"
+                          value={new Date(formData.dateUpdated).toLocaleString()}
+                          readOnly
+                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-r-md sm:text-sm p-2 shadow-sm border border-gray-300"
                         />
                       </div>
                     </div>

@@ -51,7 +51,7 @@ const AddServiceModal = ({ setaddModal }) => {
       errors.serviceName = "Please input your title";
     }
     if (!formData.serviceType) {
-      errors.serviceType = "Please select an service type";
+      errors.serviceType = "Please select a service type";
     }
     if (formData.serviceInfo.length <= 20) {
       errors.serviceInfo = "Please input atleast 20 characters";
