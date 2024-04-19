@@ -93,12 +93,6 @@ const AddServiceModal = ({ setaddModal }) => {
       console.log(error.message);
       toast.error("Failed to upload Service");
     }
-
-
-    setInvalidFields(errors);
-   
-   
-    setInvalidFields(errors);
    
   };
 

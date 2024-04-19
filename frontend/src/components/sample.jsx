@@ -34,6 +34,7 @@ const Reg = () => {
     try {
       // Determine the collection based on the user's account type
       const collection = user.accType === 'client' ? 'client' : 'freelancer';
+      console.log(user)
   
       const response = await axios.delete(`https://quircom.onrender.com/api/${collection}/delete/${user._id}`);
       if (response.status === 200) {
@@ -57,6 +58,8 @@ const Reg = () => {
       return users.filter(user => user.userName.toLowerCase().includes(searchUsername.toLowerCase()));
     }
   };
+
+  
 
   return (
     <div className='w-[80%] mx-auto my-[3rem] border-2 border-blue-100 shadow-md shadow-gray-400 rounded-lg'>
