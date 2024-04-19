@@ -158,7 +158,7 @@ const ServiceTable = () => {
                   return (
                     <tr key={rowIndex} className="border-b">
                       <td className="px-6 py-4 text-center">
-                        {service?._id}
+                        {service?.serviceId}
                       </td>
                       <td className="px-6 py-4">{service?.serviceName}</td>
                       <td className="px-6 py-4">{service?.serviceInfo}</td>
@@ -181,6 +181,7 @@ const ServiceTable = () => {
                             type="button"
                             onClick={() => {
                               setDeleteModal(true);
+                              handleView({ ...service });
                             }}
                             className="px-2 py-1 bg-red-500 rounded text-white"
                           >

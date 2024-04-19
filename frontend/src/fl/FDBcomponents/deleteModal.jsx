@@ -15,8 +15,6 @@ const deleteModal = ({ serviceInfos, setDeleteModal }) => {
     }
   };
   
-  console.log(serviceInfos._id)
-  
   return (
     <div>
       <div className="fixed inset-0 z-10 backdrop-blur-sm"></div>

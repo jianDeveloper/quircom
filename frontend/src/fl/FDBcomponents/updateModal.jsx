@@ -14,7 +14,7 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
     serviceType: "",
     serviceInfo: "",
     price: "",
-    dateUpdated: new Date().toISOString,
+    dateUpdated: "",
   });
 
   const handleImage = (e) => {
@@ -39,6 +39,7 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
             serviceType: response.data.serviceType,
             serviceInfo: response.data.serviceInfo,
             price: response.data.price,
+            dateUpdated: new Date().toISOString()
           });
         }
       } catch (error) {
@@ -63,7 +64,6 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
     const errors = {};
     if (!isFormDataChanged) {
       toast.error('No changes have been made');
-      setDisabled(false);
       return;
     }
     if (formData.serviceName.length === 0) {
@@ -81,12 +81,16 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
 
     setInvalidFields(errors);
 
+    if (Object.keys(errors).length > 0) {
+      return;
+    }
+
     try {
       const formObj = new FormData();
       formObj.append("service", JSON.stringify(formData));
       formObj.append("file", thumbNail);
 
-      const response = await axios.post(
+      const response = await axios.patch(
         `https://quircom.onrender.com/api/service/edit/${serviceInfos._id}`,
         formObj,
         {
@@ -99,6 +103,7 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
       if (response && response.data) {
         console.log(response.data);
         toast.success("Service updated successfully");
+        setUpdateModal(false)
       } else {
         console.log("Response data not available");
         toast.error("Failed to update Service");
@@ -130,6 +135,9 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
             <form className="w-full max-w-screen-ss mx-auto" onSubmit={handleSubmit}>
               <div className="relative flex flex-col overflow-y-auto max-h-[400px] px-6 py-4">
                 <div className="space-y-6">
+                  <div className="flex justify-center">
+                    {serviceInfos.hasOwnProperty("thumbNail") && (<img src={serviceInfos.thumbNail.link} alt="" className='w-[200px]'/>)}
+                  </div>
                   <label
                     htmlFor="serviceName"
                     className="block text-left text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
@@ -208,7 +216,7 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
                     </div>
                     <div className="w-[50%]">
                       <label
-                        htmlFor="sampleProduct"
+                        htmlFor="thumbNail"
                         className="block text-left mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
                       >
                         Update Thumbnail
@@ -216,8 +224,9 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
                       <div className="relative mt-1">
                         <input
                           type="file"
-                          id="sampleProduct"
-                          name="sampleProduct"
+                          id="thumbNail"
+                          name="thumbNail"
+                          value={thumbNail}
                           onChange={handleImage}
                           className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full border border-gray-300 px-3 py-2"
                         />
@@ -266,25 +275,26 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
                   </div>
                 </div>
               </div>
-            </form>
+            
 
-            {/* Add Close Button and Add Button */}
-            <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
-              <button
-                className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="button"
-                onClick={() => setUpdateModal(false)}
-              >
-                Close
-              </button>
-              <button
-                className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="submit"
-                onClick={() => setUpdateModal(false)}
-              >
-                Update Service
-              </button>
-            </div>
+              {/* Add Close Button and Add Button */}
+              <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+                <button
+                  className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                  type="button"
+                  onClick={() => setUpdateModal(false)}
+                >
+                  Close
+                </button>
+                <button
+                  className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                  type="submit"
+                  // onClick={() => setUpdateModal(false)}
+                >
+                  Update Service
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

@@ -268,9 +268,7 @@ const AddServiceModal = ({ setaddModal }) => {
                           type="text"
                           id="dateUploaded"
                           name="dateUploaded"
-                          value={new Date(
-                            formData.dateUploaded
-                          ).toLocaleString()}
+                          value={new Date(formData.dateUploaded).toLocaleString()}
                           readOnly
                           className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-r-md sm:text-sm p-2 shadow-sm border border-gray-300"
                         />
