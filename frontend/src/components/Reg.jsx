@@ -125,7 +125,6 @@ const Reg = () => {
 
       const formDataForValidation = { ...formData };
 
-      // Remove leading 0 from contactNum if present
       formDataForValidation.contactNum = formData.contactNum.replace(/^0+/, '');
 
       const response = await axios.post(`https://quircom.onrender.com/api/auth/validate`, {
@@ -144,9 +143,6 @@ const Reg = () => {
         if (response.data.contactNumExists) {
           errors.contactNum = 'Contact number is already registered';
         }
-        console.log("response ", response)
-        console.log("old cnum ", typeof formData.contactNum)
-        console.log("new cnum ", typeof formDataForValidation.contactNum)
       }
     } catch (error) {
       console.error('Error validating data:', error);
