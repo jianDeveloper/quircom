@@ -102,7 +102,6 @@ const ServiceTable = () => {
 
   const handleView = (service) => {
     setServiceInfos(service);
-    console.log("Service Infos:", service);
   };
 
   return (

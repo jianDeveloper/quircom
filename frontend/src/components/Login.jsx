@@ -78,13 +78,13 @@ const Login = ({ open, onClose }) => {
               ></input>
             </div>
             <div className='mt-[10px]'>
-              <label htmlFor='password' className='text-[16px] font-medium'>
+              <label htmlFor='passWord' className='text-[16px] font-medium'>
                 Password
               </label>
               <input
                 className='block mt-[5px] w-[100%] px-[20px] py-[10px] outline-none rounded-[20px] bg-[#163646] text-white'
-                type='password'
-                id='password'
+                type='passWord'
+                id='passWord'
                 value={passWord}
                 onChange={(e) => setPassword(e.target.value)}
                 onKeyPress={handleKeyPress}

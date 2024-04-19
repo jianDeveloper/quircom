@@ -52,8 +52,9 @@ function CSettings() {
   const [profilePic, setProfile] = useState()
 
   const handleImage = (e) => {
-    setProfile(e.target.files[0]);
-  }
+    const file = e.target.files[0];
+    setProfile(file);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission

@@ -18,7 +18,8 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
   });
 
   const handleImage = (e) => {
-    setThumbnail(e.target.files[0]);
+    const file = e.target.files[0];
+    setThumbnail(file);
   };
 
   const handleChange = (e) => {
@@ -39,7 +40,7 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
             serviceType: response.data.serviceType,
             serviceInfo: response.data.serviceInfo,
             price: response.data.price,
-            dateUpdated: new Date().toISOString()
+            dateUpdated: new Date().toISOString(),
           });
         }
       } catch (error) {
@@ -59,7 +60,8 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
     formData.serviceName !== userData.serviceName ||
     formData.serviceType !== userData.serviceType ||
     formData.serviceInfo !== userData.serviceInfo ||
-    formData.price !== userData.price;
+    formData.price !== userData.price ||
+    thumbNail !== userData.thumbNail;
 
     const errors = {};
     if (!isFormDataChanged) {
@@ -87,11 +89,17 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
 
     try {
       const formObj = new FormData();
-      formObj.append("service", JSON.stringify(formData));
+      formObj.append('service', JSON.stringify({
+        ...userData,
+        serviceName: formData.serviceName,
+        serviceType: formData.serviceType,
+        serviceInfo: formData.serviceInfo,
+        price: formData.price,
+        dateUpdated: formData.dateUpdated,
+      }));
       formObj.append("file", thumbNail);
 
-      const response = await axios.patch(
-        `https://quircom.onrender.com/api/service/edit/${serviceInfos._id}`,
+      const response = await axios.patch(`https://quircom.onrender.com/api/service/edit/${serviceInfos._id}`,
         formObj,
         {
           headers: {
@@ -114,11 +122,6 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
       toast.error("Failed to update Service");
     }
   };
-
-  console.log(formData)
-  console.log(serviceInfos)
-
-  // console.log("ito yun",serviceInfos._id)
 
   return (
     <div>
@@ -226,7 +229,6 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
                           type="file"
                           id="thumbNail"
                           name="thumbNail"
-                          value={thumbNail}
                           onChange={handleImage}
                           className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full border border-gray-300 px-3 py-2"
                         />
