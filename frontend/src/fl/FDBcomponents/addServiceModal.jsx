@@ -48,16 +48,19 @@ const AddServiceModal = ({ setaddModal }) => {
 
     const errors = {};
     if (formData.serviceName.length === 0) {
-      errors.serviceName = "Please input your Title";
+      errors.serviceName = "Please input your title";
     }
     if (!formData.serviceType) {
-      errors.serviceType = "Please select an Service type";
+      errors.serviceType = "Please select an service type";
     }
     if (formData.serviceInfo.length <= 20) {
       errors.serviceInfo = "Please input atleast 20 characters";
     }
     if (formData.price.length === 0) {
       errors.price = "Please input your price";
+    }
+    if (!formData.thumbNail) {
+      errors.thumbNail = "Please upload a thumbnail";
     }
 
     setInvalidFields(errors);
@@ -225,8 +228,9 @@ const AddServiceModal = ({ setaddModal }) => {
                           name="thumbNail"
                           value={formData.thumbNail}
                           onChange={handleImage}
-                          className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full border border-gray-300 px-3 py-2"
+                          className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full border border-gray-300 px-3 py-2 ${invalidFields.thumbNail ? "border-red-500" : ""}`}
                         />
+                        {invalidFields.thumbNail && <p className="text-red-500 ml-2 text-[12px]">{invalidFields.thumbNail}</p>}
                       </div>
                     </div>
                   </div>
