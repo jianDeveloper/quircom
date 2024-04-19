@@ -180,11 +180,9 @@ const ServiceTable = () => {
                           </button>
                           <button
                             type="button"
-                            // onClick={() => {
-                            //   setDeleteModal(true);
-                            //   handleView({ ...service });
-                            // }}
-                            onClick={() => handleView({ ...service })}
+                            onClick={() => {
+                              setDeleteModal(true);
+                            }}
                             className="px-2 py-1 bg-red-500 rounded text-white"
                           >
                             <FaTrashCan className="inline" />
