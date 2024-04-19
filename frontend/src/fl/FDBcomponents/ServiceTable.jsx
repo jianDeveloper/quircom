@@ -78,9 +78,7 @@ const ServiceTable = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get(
-          `https://quircom.onrender.com/api/service/`
-        );
+        const response = await axios.get(`https://quircom.onrender.com/api/service/`);
         if (response.status === 200) {
           const filteredServices = response.data.filter(
             (service) => service.freelancerId._id === userId
@@ -151,7 +149,13 @@ const ServiceTable = () => {
               </tr>
             </thead>
             <tbody>
-              {serviceDetails
+              {serviceDetails.length === 0 ? (
+                <tr>
+                  <td colSpan="5" className="px-6 py-11 text-center">
+                    No service at the moment, try adding one
+                  </td>
+                </tr>
+              ) :serviceDetails
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((service, rowIndex) => {
                   return (

@@ -5,7 +5,13 @@ const DriveService = require("../utils/DriveService");
 
 const GetAllServices = async (req, res) => {
   try {
-    const result = await ServiceModel.find({}).populate("requestId").populate("freelancerId");
+    const result = await ServiceModel.find({}).populate({
+      path: "requestId",
+      populate: {
+        path: "clientId",
+        model: "client" // Assuming the name of the model is "Client"
+      }
+    }).populate("freelancerId");
     // variable.freelancerId.userName
 
     res.status(200).json(result);

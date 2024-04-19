@@ -110,8 +110,6 @@ const AddServiceModal = ({ setaddModal }) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  userData && console.log("User:", formData);
-
   return (
     <div>
       <ToastContainer />
