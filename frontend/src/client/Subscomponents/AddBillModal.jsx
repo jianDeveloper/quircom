@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const AddBillModal = ({ setbillModal }) => {
   const [expDate, setExpDate] = useState('');
 
-  const handleInputChange = (event) => {
+  const handleInputDate = (event) => {
     let value = event.target.value;
     // Remove all characters that are not numbers or slashes
     value = value.replace(/[^0-9/]/g, '');
@@ -16,6 +16,15 @@ const AddBillModal = ({ setbillModal }) => {
 
     setExpDate(value);
   };
+  const [cvv, setCvv] = useState('');
+
+    const handleInputCVV = (e) => {
+        const value = e.target.value;
+        // Check if the input value is numeric and does not exceed 3 characters
+        if (value.match(/^\d{0,3}$/)) {
+            setCvv(value);
+        }
+    };
 
   // State to manage checkbox checked status
   const [isChecked, setIsChecked] = useState(true); // Initially set to true to match the original HTML
@@ -69,12 +78,18 @@ const AddBillModal = ({ setbillModal }) => {
                     className="w-full p-2 border rounded bg-gray-100 px-3"
                     placeholder="MM/YYYY"
                     value={expDate}
-                    onChange={handleInputChange}
+                    onChange={handleInputDate}
                   />
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-[#1d5b79]">CVV</label>
-                    <input type="text" placeholder="CVV" class="mt-2 h-12 w-full rounded-md bg-gray-100 px-3" />
+                    <label className="block text-sm font-bold text-[#1d5b79]">CVV</label>
+                    <input 
+                        type="text" 
+                        placeholder="CVV" 
+                        value={cvv} 
+                        onChange={handleInputCVV} 
+                        className="mt-2 h-12 w-full rounded-md bg-gray-100 px-3"
+                    />
                 </div>
               </div>
 
