@@ -111,6 +111,7 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
   };
 
   console.log(formData)
+  console.log(serviceInfos)
 
   // console.log("ito yun",serviceInfos._id)
 

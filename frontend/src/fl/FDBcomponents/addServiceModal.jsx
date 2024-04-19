@@ -19,7 +19,6 @@ const AddServiceModal = ({ setaddModal }) => {
     requestId: [],
     freelancerId: userId,
     dateUploaded: new Date().toISOString(),
-    dateUpdated: null
   });
 
   useEffect(() => {
@@ -59,7 +58,7 @@ const AddServiceModal = ({ setaddModal }) => {
     if (formData.price.length === 0) {
       errors.price = "Please input your price";
     }
-    if (!formData.thumbNail) {
+    if (!thumbNail) {
       errors.thumbNail = "Please upload a thumbnail";
     }
 
@@ -73,6 +72,7 @@ const AddServiceModal = ({ setaddModal }) => {
       const formObj = new FormData();
       formObj.append("service", JSON.stringify(formData));
       formObj.append("file", thumbNail);
+      formObj.append('dateUpdated', null);
 
       const response = await axios.post(
         `https://quircom.onrender.com/api/service/create/`,
@@ -87,6 +87,7 @@ const AddServiceModal = ({ setaddModal }) => {
       if (response && response.data) {
         console.log(response.data);
         toast.success("Service uploaded successfully");
+        setaddModal(false)
       } else {
         console.log("Response data not available");
         toast.error("Failed to upload Service");
