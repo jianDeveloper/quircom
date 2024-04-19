@@ -1,17 +1,19 @@
 const mongoose = require("mongoose");
 const ServiceModel = require("../models/ServiceModel");
-const RequestModel = require("../models/ReqServiceModel")
+const RequestModel = require("../models/ReqServiceModel");
 const DriveService = require("../utils/DriveService");
 
 const GetAllServices = async (req, res) => {
   try {
-    const result = await ServiceModel.find({}).populate({
-      path: "requestId",
-      populate: {
-        path: "clientId",
-        model: "client" // Assuming the name of the model is "Client"
-      }
-    }).populate("freelancerId");
+    const result = await ServiceModel.find({})
+      .populate({
+        path: "requestId",
+        populate: {
+          path: "clientId",
+          model: "client", // Assuming the name of the model is "Client"
+        },
+      })
+      .populate("freelancerId");
     // variable.freelancerId.userName
 
     res.status(200).json(result);
@@ -28,10 +30,18 @@ const GetSpecificService = async (req, res) => {
       return res.status(400).json({ message: "Invalid ID" });
     }
 
-    const result = await ServiceModel.findById(id).populate("requestId").populate("freelancerId");
+    const result = await ServiceModel.findById(id)
+      .populate({
+        path: "requestId",
+        populate: {
+          path: "clientId",
+          model: "client", // Assuming the name of the model is "Client"
+        },
+      })
+      .populate("freelancerId");
 
     if (!result) {
-        return res.status(404).json({ message: "Service not found" });
+      return res.status(404).json({ message: "Service not found" });
     }
 
     res.status(200).json(result);
@@ -76,7 +86,7 @@ const CreateService = async (req, res) => {
       requestId: requestIds, // Assign requestIds to requestId
       freelancerId: service.freelancerId,
       dateUploaded: new Date(),
-      dateUpdated: null
+      dateUpdated: null,
     });
 
     res.status(201).json(result);
@@ -87,19 +97,19 @@ const CreateService = async (req, res) => {
   function generateUniqueServiceId() {
     let serviceId;
     do {
-        serviceId = Math.floor(10000 + Math.random() * 90000); // Generate a random number between 10000 and 99999
+      serviceId = Math.floor(10000 + Math.random() * 90000); // Generate a random number between 10000 and 99999
     } while (!isServiceIdUnique(serviceId)); // Loop until the generated serviceId is unique
     return serviceId;
-}
+  }
 
-// Function to check if the generated serviceId is unique in the database
-async function isServiceIdUnique(serviceId) {
-    const existingService = await ServiceModel.findOne({ serviceId: serviceId });
+  // Function to check if the generated serviceId is unique in the database
+  async function isServiceIdUnique(serviceId) {
+    const existingService = await ServiceModel.findOne({
+      serviceId: serviceId,
+    });
     return !existingService; // Return true if serviceId is unique, false otherwise
-}
+  }
 };
-
-
 
 const EditService = async (req, res) => {
   try {
@@ -110,7 +120,7 @@ const EditService = async (req, res) => {
     let serviceThumbnail = {};
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({message: "Invalid ID" });
+      return res.status(400).json({ message: "Invalid ID" });
     }
 
     if (file) {
@@ -131,36 +141,38 @@ const EditService = async (req, res) => {
       service._id,
       {
         $set: {
-          thumbNail: serviceThumbnail.hasOwnProperty("id") ? serviceThumbnail : service.thumbNail,
+          thumbNail: serviceThumbnail.hasOwnProperty("id")
+            ? serviceThumbnail
+            : service.thumbNail,
           serviceName: service.serviceName,
           serviceType: service.serviceType,
           serviceInfo: service.serviceInfo,
           price: service.price,
-          dateUpdated: new Date()
+          dateUpdated: new Date(),
         },
-      }, 
-    {new: true}
+      },
+      { new: true }
     );
     res.status(201).json(result);
   } catch (err) {
-      res.status(400).json({ message: err.message });
+    res.status(400).json({ message: err.message });
   }
 };
 
 const DeleteService = async (req, res) => {
   try {
     const { id } = req.params;
-  
+
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json("No service listed");
     }
-  
+
     const service = await ServiceModel.findById(id);
-  
+
     if (!service) {
       return res.status(404).json({ message: "Service not found" });
     }
-  
+
     // Delete associated taskPicture from Google Drive
     if (Array.isArray(service.thumbNail)) {
       for (const image of service.thumbNail) {
@@ -170,21 +182,20 @@ const DeleteService = async (req, res) => {
       // If thumbNail is not an array, treat it as a single object and delete it
       await DriveService.DeleteFiles(service.thumbNail.id);
     }
-  
+
     // Delete the service document from the database
     const result = await ServiceModel.findByIdAndDelete(id);
-  
+
     res.status(200).json(result);
   } catch (err) {
     res.send(err.message);
   }
-  
 };
 
 module.exports = {
-    GetAllServices,
-    GetSpecificService,
-    CreateService,
-    EditService,
-    DeleteService
+  GetAllServices,
+  GetSpecificService,
+  CreateService,
+  EditService,
+  DeleteService,
 };

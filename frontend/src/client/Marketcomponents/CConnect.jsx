@@ -44,8 +44,7 @@ function CConnect() {
         );
         if (response.status === 200) {
           setServices(response.data);
-          console.log(response.data);
-          console.log("asdsd", response.data.requestId[0].feedbackInfo);
+          console.log("asdfsadfa", response.data);
         }
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -382,7 +381,7 @@ function CConnect() {
                             const feedbackNum = Math.ceil(
                               (rating / maxRating) * 5
                             );
-
+                            console.log("asdf", service)
                             return (
                               <li
                                 className="border border-gray-200 rounded p-4 flex flex-col sm:flex-row items-center text-sm font-medium bg-white"
@@ -416,10 +415,10 @@ function CConnect() {
                                   <div className="flex items-center">
                                     <img
                                       className="w-8 h-8 rounded-full mr-2"
-                                      src={service.clientId.profilePic.link}
+                                      src={service.clientId.profilePic}
                                       alt="Profile"
                                     />
-                                    <span>{service.clientId.userName}</span>
+                                    <span>{service.clientId}</span>
                                   </div>
                                 </div>
                                 <div className="mt-2 sm:mt-0 text-[#1D5B79]">
