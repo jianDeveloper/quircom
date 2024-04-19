@@ -4,8 +4,6 @@ import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
 const AddServiceModal = ({ setaddModal }) => {
-  const [type, setType] = useState("");
-
   const { userId } = useParams();
   const [userData, setUsers] = useState();
   const [thumbNail, setThumbnail] = useState();

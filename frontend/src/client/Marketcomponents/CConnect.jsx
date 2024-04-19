@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import NavHeader from "../CMainNav";
 
 import Connect from "../../assets/link.png";
+import addReqModal from "../Trackercomponents/addReqModal";
 
 function CConnect() {
   const [userData, setUsers] = useState();
@@ -165,6 +166,7 @@ function CConnect() {
                   alt=""
                 />
                 Request
+                <addReqModal />
               </button>
             </div>
 
