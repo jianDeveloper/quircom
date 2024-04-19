@@ -19,6 +19,7 @@ const AddServiceModal = ({ setaddModal }) => {
     requestId: [],
     freelancerId: userId,
     dateUploaded: new Date().toISOString(),
+    dateUpdated: null
   });
 
   useEffect(() => {
@@ -58,6 +59,12 @@ const AddServiceModal = ({ setaddModal }) => {
     if (formData.price.length === 0) {
       errors.price = "Please input your price";
     }
+
+    setInvalidFields(errors);
+
+    if (Object.keys(errors).length > 0) {
+      return;
+    }
     
     try {
       const formObj = new FormData();
@@ -87,6 +94,10 @@ const AddServiceModal = ({ setaddModal }) => {
       toast.error("Failed to upload Service");
     }
 
+
+    setInvalidFields(errors);
+   
+   
     setInvalidFields(errors);
    
   };
@@ -97,10 +108,8 @@ const AddServiceModal = ({ setaddModal }) => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+    
+    setFormData({ ...formData, [name]: value });
   };
 
   userData && console.log("User:", formData);
@@ -120,10 +129,7 @@ const AddServiceModal = ({ setaddModal }) => {
               </h3>
             </div>
             {/* Creating Form */}
-            <form
-              className="w-full max-w-screen-ss mx-auto"
-              onSubmit={handleSubmit}
-            >
+            <form className="w-full max-w-screen-ss mx-auto" onSubmit={handleSubmit}>
               <div className="relative flex flex-col overflow-y-auto max-h-[400px] px-6 py-4">
                 <div className="space-y-6">
                   <label
@@ -156,11 +162,11 @@ const AddServiceModal = ({ setaddModal }) => {
                       className={`block w-full px-3 py-2 pr-10 text-base leading-6 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${invalidFields.serviceType ? "border-red-500" : ""}`}
                     >
                       <option value="">Select Account Type</option>
-                      <option value="Web Development">Web Development</option>
-                      <option value="Software Development">Software Development</option>
-                      <option value="Graphic Design">Graphic Design</option>
                       <option value="Animation">Animation</option>
+                      <option value="Graphic Design">Graphic Design</option>
                       <option value="Graphic Motion">Graphic Motion</option>
+                      <option value="Software Development">Software Development</option>
+                      <option value="Web Development">Web Development</option>    
 
                       {/* {options.map((option) => (
                         <option key={option.value} value={option.value}>
