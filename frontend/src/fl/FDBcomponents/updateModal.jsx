@@ -12,8 +12,6 @@ const UpdateServiceModal = ({ setUpdateModal, serviceID, serviceName, serviceTyp
     }));
   };
 
-  const [userData, setUsers] = useState();
-  const [thumbNail, setThumbnail] = useState();
   const [invalidFields, setInvalidFields] = useState({});
 
   const [formData, setFormData] = useState({
@@ -22,25 +20,6 @@ const UpdateServiceModal = ({ setUpdateModal, serviceID, serviceName, serviceTyp
     serviceInfo: "",
     price: "",
   });
-
-  // useEffect(() => {
-  //   const fetchUsers = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `https://quircom.onrender.com/api/service/${serviceID}`
-  //       );
-  //       if (response.status === 200) {
-  //         setUsers(response.data);
-  //         // setFormData({ requestId: response.data.requestId });
-  //         // setFormData({ freelancerId: response.data.serviceId });
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching users:", error);
-  //     }
-  //   };
-
-  //   fetchUsers();
-  // }, [serviceID]);
 
   console.log("userId._id of the first user:", Number(serviceID).length > 0 ? serviceID : "No users available");
 console.log("ito yun",serviceInfos.serviceName)

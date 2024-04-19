@@ -113,7 +113,7 @@ const AddServiceModal = ({ setaddModal }) => {
         style={{ background: "rgba(0,0,0,0.2)" }}
       >
         <div className="relative w-2/4 my-6 mx-auto">
-          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full text-black bg-white outline-none focus:outline-none">
             <div className="flexitems-start justify-between p-5 bg-[#1d5b79] border-b border-solid border-blueGray-200 rounded-t">
               <h3 className="text-3xl text-white text-center font-semibold">
                 Add Services
