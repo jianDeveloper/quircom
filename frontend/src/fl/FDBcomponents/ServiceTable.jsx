@@ -202,6 +202,7 @@ const ServiceTable = () => {
                             // price={service?.price}
                             serviceInfos={serviceInfos}
                             setUpdateModal={setUpdateModal}
+                            
                           />
                         )}
                       </td>
