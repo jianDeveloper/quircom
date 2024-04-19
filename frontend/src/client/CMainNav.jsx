@@ -62,7 +62,6 @@ const CMainNav = () => {
       text: "Marketplace",
       index: 1,
     },
-    { icon: Tracker, component: `/client/tracker/${userId}`, text: "Tracker", index: 2 },
     {
       icon: LBoard,
       component: `/client/leaderboard/${userId}`,

@@ -17,7 +17,6 @@ import CProfile from './client/CProfile.jsx';
 import CSettings from './client/CSettings.jsx';
 import CSettingsProfile from './client/Settingcomponents/CSettingsProfile.jsx';
 import CSettingsBill from './client/Settingcomponents/CSettingsBill.jsx';
-import CTracker from './client/CTracker.jsx';
 import CRank from './client/CRank.jsx';
 import CSubscribe from './client/CSubscribe.jsx';
 import CConnect from './client/Marketcomponents/CConnect.jsx';
@@ -116,11 +115,7 @@ function App() {
           element={<CSettingsBill />}
         />
 
-        <Route
-          exact
-          path="/client/tracker/:userId"
-          element={<CTracker />}
-        />
+        
         
         <Route
           exact
