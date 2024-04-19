@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
-const UpdateServiceModal = ({ setUpdateModal, serviceID, serviceName, serviceType, serviceInfo, price }) => {
+const UpdateServiceModal = ({ setUpdateModal, serviceID, serviceName, serviceType, serviceInfo, price, setServiceInfos, serviceInfos }) => {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prevState) => ({
@@ -23,27 +23,27 @@ const UpdateServiceModal = ({ setUpdateModal, serviceID, serviceName, serviceTyp
     price: "",
   });
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8800/api/service/${serviceID}`
-        );
-        if (response.status === 200) {
-          setUsers(response.data);
-          // setFormData({ requestId: response.data.requestId });
-          // setFormData({ freelancerId: response.data.serviceId });
-        }
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchUsers = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `https://quircom.onrender.com/api/service/${serviceID}`
+  //       );
+  //       if (response.status === 200) {
+  //         setUsers(response.data);
+  //         // setFormData({ requestId: response.data.requestId });
+  //         // setFormData({ freelancerId: response.data.serviceId });
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching users:", error);
+  //     }
+  //   };
 
-    fetchUsers();
-  }, [serviceID]);
+  //   fetchUsers();
+  // }, [serviceID]);
 
   console.log("userId._id of the first user:", Number(serviceID).length > 0 ? serviceID : "No users available");
-
+console.log("ito yun",serviceInfos.serviceName)
   return (
     <div>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none" style={{background: "rgba(0,0,0,0.2)"}}>
@@ -68,7 +68,7 @@ const UpdateServiceModal = ({ setUpdateModal, serviceID, serviceName, serviceTyp
                   id="title"
                   name="title"
                   className="mt-1 relative rounded-md shadow-sm border border-gray-300 px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm"
-                  placeholder={serviceName}
+                  value={serviceInfos.serviceName}
                 />
                 <label
                   htmlFor="type"
@@ -84,7 +84,7 @@ const UpdateServiceModal = ({ setUpdateModal, serviceID, serviceName, serviceTyp
                       onChange={handleChange}
                       className={`block w-full px-3 py-2 pr-10 text-base leading-6 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${invalidFields.serviceType ? "border-red-500" : ""}`}
                     >
-                      <option value="">{serviceType}</option>
+                      <option value="">{serviceInfos.serviceType}</option>
                       <option value="Web Development">Web Development</option>
                       <option value="Software Development">Software Development</option>
                       <option value="Graphic Design">Graphic Design</option>
@@ -105,7 +105,7 @@ const UpdateServiceModal = ({ setUpdateModal, serviceID, serviceName, serviceTyp
                     name="description"
                     rows={4}
                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 px-3 py-2"
-                    placeholder={serviceInfo}
+                    value={serviceInfos.serviceInfo}
                   />
                 </div>
                 <div className="flex flex-row justify-between gap-12">
@@ -127,7 +127,7 @@ const UpdateServiceModal = ({ setUpdateModal, serviceID, serviceName, serviceTyp
                         pattern="[0-9]*"
                         inputMode="numeric"
                         className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-r-md sm:text-sm p-2 shadow-sm border border-gray-300"
-                        placeholder={price}
+                        placeholder={serviceInfos.price}
                       />
                     </div>
                   </div>
