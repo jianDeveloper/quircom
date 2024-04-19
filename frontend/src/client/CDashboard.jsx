@@ -11,6 +11,7 @@ import UserContext from "../context/UserContext";
 
 import CFooter from "./CFooter";
 import TaskList from "./Dashcomponents/TaskList";
+import TrackerModal from "./Dashcomponents/Tracker";
 import { Link } from 'react-router-dom';
 
 import BG1 from "../assets/bg1.png";
@@ -22,6 +23,7 @@ import CMainNav from "./CMainNav";
 function CDashboard() {
   const { userId } = useParams();
   const [userData, setUserData] = useState(null); // State to store user data
+  const[trackModal, settrackModal] = React.useState(false);
 
   const { userIdLink } = useContext(UserContext);
   console.log("User ID in Dashboard:", userIdLink);
@@ -90,7 +92,7 @@ function CDashboard() {
                 </div>
               </div>
             </Link>
-            <Link to={`/client/tracker/${userId}`}>
+            
               <div
                 className="flex flex-col justify-around rounded-lg"
                 style={{
@@ -100,10 +102,11 @@ function CDashboard() {
                 }}
               >
                 <div className="flex justify-center items-center py-14">
-                  <h3 className="font-extrabold text-xl text-[#F5F5DC]">Progress Tracker</h3>
+                  <button type='button' className='font-extrabold text-xl text-[#F5F5DC]' onClick={() => settrackModal (true)}>Progress Tracker</button>
+                    {trackModal ? <TrackerModal settrackModal={settrackModal} /> : null}
                 </div>
               </div>
-            </Link>
+            
             <Link to={`/client/subscribe/${userId}`}>
               <div
                 className="flex flex-col justify-around rounded-lg"
@@ -120,9 +123,10 @@ function CDashboard() {
             </Link>
           </div>
           <div>
-            <div>
-              <h2 class="text-2xl font-semibold leading-tight text-[#F5F5DC] mb-5">Current Projects</h2>
-            </div>
+            
+              <h2 class="text-2xl justify-center place-content-center font-semibold text-[#F5F5DC]">Current Projects</h2>
+              
+            
             <TaskList />
           </div>
         </div>
