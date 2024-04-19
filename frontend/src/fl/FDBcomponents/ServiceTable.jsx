@@ -104,7 +104,6 @@ const ServiceTable = () => {
     setServiceInfos(service);
     console.log("Service Infos:", service);
   };
-  console.log("Service Infos:", serviceInfos);
 
   return (
     <div className="flex flex-col justify-center items-center w-full">
@@ -159,7 +158,7 @@ const ServiceTable = () => {
                   return (
                     <tr key={rowIndex} className="border-b">
                       <td className="px-6 py-4 text-center">
-                        {service?.serviceId}
+                        {service?._id}
                       </td>
                       <td className="px-6 py-4">{service?.serviceName}</td>
                       <td className="px-6 py-4">{service?.serviceInfo}</td>
@@ -189,7 +188,10 @@ const ServiceTable = () => {
                           </button>
                         </div>
                         {deleteModal && (
-                          <Deletion setDeleteModal={setDeleteModal} />
+                          <Deletion 
+                            serviceInfos={serviceInfos} 
+                            setDeleteModal={setDeleteModal} 
+                          />
                         )}
                         {updateModal && (
                           <UpdateModal
@@ -199,7 +201,6 @@ const ServiceTable = () => {
                             // serviceInfo={service?.serviceInfo}
                             // price={service?.price}
                             serviceInfos={serviceInfos}
-                            setServiceInfos={setServiceInfos}
                             setUpdateModal={setUpdateModal}
                           />
                         )}

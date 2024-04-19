@@ -1,6 +1,20 @@
 import React from 'react'
 
-const deleteModal = ({ setDeleteModal, serviceID, serviceName, serviceType, serviceInfo, price }) => {
+const deleteModal = ({ serviceInfos, setDeleteModal }) => {
+
+  const deleteUser = async (user) => {
+    try {
+      const response = await axios.delete(`https://quircom.onrender.com/api/service/delete/${serviceInfos._id}`);
+      if (response.status === 200) {
+        console.log("User deleted successfully");
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
+  
+  console.log(serviceInfos._id)
+  
   return (
     <div>
       <div className="fixed inset-0 z-10 backdrop-blur-sm"></div>
@@ -31,7 +45,7 @@ const deleteModal = ({ setDeleteModal, serviceID, serviceName, serviceType, serv
               <button
                 className="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
-                onClick={() => setDeleteModal(false)}
+                onClick={() => deleteUser(user)}
               >
                 Delete
               </button>

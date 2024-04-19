@@ -70,6 +70,7 @@ const CreateService = async (req, res) => {
       requestId: requestIds, // Assign requestIds to requestId
       freelancerId: service.freelancerId,
       dateUploaded: new Date(),
+      dateUpdated: null
     });
 
     res.status(201).json(result);
@@ -129,7 +130,7 @@ const EditService = async (req, res) => {
           serviceType: service.serviceType,
           serviceInfo: service.serviceInfo,
           price: service.price,
-          dateUploaded: new Date()
+          dateUpdated: new Date()
         },
       }, 
     {new: true}
