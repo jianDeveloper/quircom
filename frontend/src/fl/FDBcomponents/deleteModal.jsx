@@ -17,7 +17,7 @@ const deleteModal = ({ serviceInfos, setDeleteModal }) => {
   
   return (
     <div>
-      <div className="fixed inset-0 z-10 backdrop-blur-sm"></div>
+      <div className="fixed inset-0 z-10 bg-black bg-opacity-[0.25]"></div>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none shadow-md">
         <div className="relative w-1/3 my-6 mx-auto">
           <div className="border-0 rounded-lg relative flex flex-col w-full bg-white">
