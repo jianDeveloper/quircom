@@ -105,6 +105,7 @@ const FTable = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [confirmModal, setConfirmModal] = React.useState(false);
   const [convoModal, setConvoModal] = React.useState(false);
+  const [requestDetails, setRequest] = useState([]);
 
   useEffect(() => {
     const fetchRequests = async () => {
@@ -112,9 +113,10 @@ const FTable = () => {
         const response = await axios.get(`https://quircom.onrender.com/api/request/`);
         if (response.status === 200) {
           const filteredRequests = response.data.filter(
-            (request) => serviceId.freelancerId._id === userId
+            (request) => request.serviceId.freelancerId === userId
           );
-          setService(filteredRequests);
+          setRequest(filteredRequests);
+          console.log(filteredRequests)
         } else {
           console.error(
             "Error fetching requests: Unexpected status code",
