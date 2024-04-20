@@ -166,7 +166,7 @@ function CConnect() {
                   alt=""
                 />
                 Request
-                <addReqModal />
+                {/* <addReqModal /> */}
               </button>
             </div>
 
