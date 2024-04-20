@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 import {
   Paper,
   Table,
@@ -12,7 +14,7 @@ import {
 import Confirmation from "./confirmModal";
 import Convo from "./convoModal";
 
-import { MdDesignServices, MdPendingActions } from "react-icons/md";
+import { MdDesignServices } from "react-icons/md";
 import { FaFileCircleCheck } from "react-icons/fa6";
 
 const column = [
@@ -98,10 +100,34 @@ const trackerRows = [
 ];
 
 const FTable = () => {
+  const { userId } = useParams();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [confirmModal, setConfirmModal] = React.useState(false);
   const [convoModal, setConvoModal] = React.useState(false);
+
+  useEffect(() => {
+    const fetchRequests = async () => {
+      try {
+        const response = await axios.get(`https://quircom.onrender.com/api/request/`);
+        if (response.status === 200) {
+          const filteredRequests = response.data.filter(
+            (request) => request.serviceId._id === userId
+          );
+          setService(filteredRequests);
+        } else {
+          console.error(
+            "Error fetching requests: Unexpected status code",
+            response.status
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching requests:", error);
+      }
+    };
+  
+  fetchRequests();
+  }, [userId]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);

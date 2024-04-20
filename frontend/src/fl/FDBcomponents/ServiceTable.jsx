@@ -50,16 +50,6 @@ const serviceColumns = [
   },
 ];
 
-function serviceData(serviceID, serviceTitle, serviceDetails, servicePrice) {
-  const formattedPrice = `₱ ${Number(servicePrice).toLocaleString()}`;
-  return {
-    serviceID,
-    serviceTitle,
-    serviceDetails,
-    servicePrice: formattedPrice,
-  };
-}
-
 const ServiceTable = () => {
   // ============================= USESTATE DECLARATION =============================
   const [addModal, setaddModal] = useState(false);
