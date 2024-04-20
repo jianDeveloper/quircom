@@ -113,7 +113,7 @@ const FTable = () => {
         const response = await axios.get(`https://quircom.onrender.com/api/request/`);
         if (response.status === 200) {
           const filteredRequests = response.data.filter(
-            (request) => request.serviceId.freelancerId === userId
+            (request) => request.serviceId.freelancerId._id === userId
           );
           setRequest(filteredRequests);
           console.log(filteredRequests)
