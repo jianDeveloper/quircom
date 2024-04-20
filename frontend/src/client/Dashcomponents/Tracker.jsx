@@ -52,7 +52,6 @@ const trackerModal = ({ settrackModal }) => {
 
   return (
     <div>
-      
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none shadow-md">
         <div className="relative w-1/3 my-6 mx-auto">
           <div className="border-0 rounded-lg relative flex flex-col w-full bg-white">
@@ -88,7 +87,7 @@ const trackerModal = ({ settrackModal }) => {
                 })}
               </div>
 
-              <form onSubmit={handleSubmit} className="flex flex-row p-2 gap-3">
+              <form onSubmit={handleSubmit} className="flex flex-row border-t p-2 gap-3">
                 <div className="place-content-center">
                     <input 
                         type="file" 
