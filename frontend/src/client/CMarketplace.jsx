@@ -45,22 +45,22 @@ const CMarketplace = () => {
             </div>
           </div>
           <h1 className='mt-10 font-extrabold text-[30px] text-[#1D5B79]'>Top Services</h1>
-          <div class="m-[10px] w-[50%]">
-            <form class="">
-              <div class="relative w-full flex  items-center justify-between rounded-md">
-                <svg class="absolute left-2 block h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="11" cy="11" r="8" class=""></circle>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65" class=""></line>
+          <div className="m-[10px] w-[50%]">
+            <form className="">
+              <div className="relative w-full flex  items-center justify-between rounded-md">
+                <svg className="absolute left-2 block h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8" className=""></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" className=""></line>
                 </svg>
-                <input type="name" name="search" class="h-12 w-full cursor-text rounded-md border border-gray-100 bg-gray-100 py-4 pr-40 pl-12 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" placeholder="Search by services..." />
+                <input type="name" name="search" className="h-12 w-full cursor-text rounded-md border border-gray-100 bg-gray-100 py-4 pr-40 pl-12 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" placeholder="Search by services..." />
               </div>
             </form>
-            <div class="flex mt-2 space-x-3"> {/*div for Category */}
-              <button class="px-4 py-2 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md" >Software Development</button>
-              <button class="px-4 py-2 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md" >Web Development</button>
-              <button class="px-4 py-2 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md" >Animation</button>
-              <button class="px-4 py-2 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md" >Graphic Design</button>
-              <button class="px-4 py-2 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md" >Marketing</button>
+            <div className="flex mt-2 space-x-3"> {/*div for Category */}
+              <button className="px-4 py-2 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md" >Software Development</button>
+              <button className="px-4 py-2 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md" >Web Development</button>
+              <button className="px-4 py-2 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md" >Animation</button>
+              <button className="px-4 py-2 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md" >Graphic Design</button>
+              <button className="px-4 py-2 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md" >Marketing</button>
 
             </div>
           </div>

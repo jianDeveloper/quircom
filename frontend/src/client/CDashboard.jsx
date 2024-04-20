@@ -26,7 +26,6 @@ function CDashboard() {
   const[trackModal, settrackModal] = React.useState(false);
 
   const { userIdLink } = useContext(UserContext);
-  console.log("User ID in Dashboard:", userIdLink);
 
   useEffect(() => {
     // Fetch user data using the user ID
@@ -124,7 +123,7 @@ function CDashboard() {
           </div>
           <div>
             
-              <h2 class="text-2xl justify-center place-content-center font-semibold text-[#F5F5DC]">Current Projects</h2>
+              <h2 className="text-2xl justify-center place-content-center font-semibold text-[#F5F5DC]">Current Projects</h2>
               
             
             <TaskList />

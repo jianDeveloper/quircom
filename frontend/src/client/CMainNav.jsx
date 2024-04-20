@@ -40,9 +40,10 @@ const CMainNav = () => {
   const [current, setActive] = useState(false);
 
   const { userId } = useParams();
-  console.log(userId)
+  
 
   useEffect(() => {
+    console.log("User ID: ", userId)
     // Fetch user data using the user ID
     axios.get(`https://quircom.onrender.com/api/client/${userId}`)
       .then(response => {
