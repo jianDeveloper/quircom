@@ -42,35 +42,38 @@ const GetSpecificRequest = async (req, res) => {
 
 const CreateRequest = async (req, res) => {
   try {
-    const { body, files } = req;
-    const request = JSON.parse(body.request);
+    const request = req.body
+    // const { body, files } = req;
+    // const request = JSON.parse(body.request);
 
-    let requestPicture = [];
-    if (files && files.length > 0) {
-      for (const file of files) {
-        const { id: fileID, name: fileName } = await DriveService.UploadFiles(
-            file,
-            process.env.FOLDER_ID_REQUEST
-        );
-        requestPicture.push({
-            id: fileID,
-            name: fileName,
-            link: `https://drive.google.com/thumbnail?id=${fileID}&sz=w1000`,
-        });
-      }
-    }
+    // let requestPicture = [];
+    // if (files && files.length > 0) {
+    //   for (const file of files) {
+    //     const { id: fileID, name: fileName } = await DriveService.UploadFiles(
+    //         file,
+    //         process.env.FOLDER_ID_REQUEST
+    //     );
+    //     requestPicture.push({
+    //         id: fileID,
+    //         name: fileName,
+    //         link: `https://drive.google.com/thumbnail?id=${fileID}&sz=w1000`,
+    //     });
+    //   }
+    // }
 
     let uniqueRequestId = generateUniqueRequestId();
     const newRequest = await RequestModel.create({
       requestId: uniqueRequestId,
-      status: "checking",
+      status: "Approval",
       clientId: request.clientId,
       serviceId: request.serviceId,
       taskTitle: request.taskTitle,
       taskDetails: request.taskDetails,
-      taskPicture: requestPicture,
-      feedbackNum: request.feedbackNum,
-      feedbackInfo: request.feedbackInfo,
+      // taskPicture: requestPicture,
+      // feedbackNum: request.feedbackNum,
+      // feedbackInfo: request.feedbackInfo,
+      feedbackNum: null,
+      feedbackInfo: null,
       deadLine: request.deadLine,
       dateUploaded: new Date()
     });
@@ -104,58 +107,58 @@ const CreateRequest = async (req, res) => {
 const EditRequest = async (req, res) => {
   try {
     const { id } = req.params;
-    const { body, files } = req;
-    const request = JSON.parse(body.request);
+    const request = req.body
+    // const { body, files } = req;
+    // const request = JSON.parse(body.request);
   
-    const existingReq = await RequestModel.findById(id);
-    if (!existingReq) {
-      return res.status(404).json({ message: "No record found" });
-    }
+    // const existingReq = await RequestModel.findById(id);
+    // if (!existingReq) {
+    //   return res.status(404).json({ message: "No record found" });
+    // }
   
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ message: "Invalid ID" });
-    }
+    // if (!mongoose.Types.ObjectId.isValid(id)) {
+    //   return res.status(400).json({ message: "Invalid ID" });
+    // }
   
-    let requestPicture = existingReq.taskPicture;
+    // let requestPicture = existingReq.taskPicture;
   
-    // Compare existing images with new ones to determine removed images
-    const removedImages = existingReq.taskPicture.filter(image => !request.taskPicture.some(newImage => newImage.id === image.id));
+    // // Compare existing images with new ones to determine removed images
+    // const removedImages = existingReq.taskPicture.filter(image => !request.taskPicture.some(newImage => newImage.id === image.id));
   
-    // Delete removed images from both the array and Google Drive
-    for (const image of removedImages) {
-      await DriveService.DeleteFiles(image.id);
-      const index = requestPicture.findIndex(pic => pic.id === image.id);
-      if (index !== -1) {
-        requestPicture.splice(index, 1);
-      }
-    }
+    // // Delete removed images from both the array and Google Drive
+    // for (const image of removedImages) {
+    //   await DriveService.DeleteFiles(image.id);
+    //   const index = requestPicture.findIndex(pic => pic.id === image.id);
+    //   if (index !== -1) {
+    //     requestPicture.splice(index, 1);
+    //   }
+    // }
   
-    // Handle file uploads
-    if (files && files.length > 0) {
-      for (const file of files) {
-        const { id: fileID, name: fileName } = await DriveService.UploadFiles(
-          file,
-          process.env.FOLDER_ID_REQUEST
-        );
-        requestPicture.push({
-          id: fileID,
-          name: fileName,
-          link: `https://drive.google.com/thumbnail?id=${fileID}&sz=w1000`,
-        });
-      }
-    }
-  
+    // // Handle file uploads
+    // if (files && files.length > 0) {
+    //   for (const file of files) {
+    //     const { id: fileID, name: fileName } = await DriveService.UploadFiles(
+    //       file,
+    //       process.env.FOLDER_ID_REQUEST
+    //     );
+    //     requestPicture.push({
+    //       id: fileID,
+    //       name: fileName,
+    //       link: `https://drive.google.com/thumbnail?id=${fileID}&sz=w1000`,
+    //     });
+    //   }
+    // }
+
     const result = await RequestModel.findByIdAndUpdate(
       id,
       {
         $set: {
           taskTitle: request.taskTitle,
           taskDetails: request.taskDetails,
-          taskPicture: requestPicture,
-          feedbackNum: request.feedbackNum,
-          feedbackInfo: request.feedbackInfo,
+          // taskPicture: requestPicture,
+          // feedbackNum: request.feedbackNum,
+          // feedbackInfo: request.feedbackInfo,
           deadLine: request.deadLine,
-          dateUploaded: new Date()
         },
       },
       { new: true }
@@ -181,10 +184,10 @@ const DeleteRequest = async (req, res) => {
       return res.status(404).json({ message: "Request not found" });
     }
   
-    // Delete associated taskPicture from Google Drive
-    for (const image of request.taskPicture) {
-      await DriveService.DeleteFiles(image.id);
-    }
+    // // Delete associated taskPicture from Google Drive
+    // for (const image of request.taskPicture) {
+    //   await DriveService.DeleteFiles(image.id);
+    // }
   
     // Delete the request document from the database
     const result = await RequestModel.findByIdAndDelete(id);
