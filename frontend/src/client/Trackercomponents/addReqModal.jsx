@@ -10,12 +10,11 @@ const addReqModal = ({ setReqModal }) => {
   const [invalidFields, setInvalidFields] = useState({});
 
   const [formData, setFormData] = useState({
-    serviceName: "",
-    serviceType: "",
-    serviceInfo: "",
-    price: "",
+    taskName: "",
+    taskInfo: "",
+    deadline: new Date().toISOString(),
     requestId: [],
-    freelancerId: userId,
+    clientId: userId,
     dateUploaded: new Date().toISOString(),
   });
 
