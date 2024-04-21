@@ -39,9 +39,9 @@ const addReqModal = ({ setReqModal }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
-
+  
     setInvalidFields({});
-
+  
     const errors = {};
     if (formData.taskTitle.length === 0) {
       errors.taskTitle = "Please input your title";
@@ -49,9 +49,9 @@ const addReqModal = ({ setReqModal }) => {
     if (formData.taskDetails.length <= 20) {
       errors.taskDetails = "Please input atleast 20 characters";
     }
-
+  
     setInvalidFields(errors);
-
+  
     if (Object.keys(errors).length > 0) {
       return;
     }
@@ -61,21 +61,15 @@ const addReqModal = ({ setReqModal }) => {
       formObj.append("request", JSON.stringify(formData));
       formObj.append('feedbackNum', null);
       formObj.append('feedbackInfo', null);
-
+  
       const response = await axios.post(
         `https://quircom.onrender.com/api/request/create`,
-        formObj,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        formObj
       );
-
+  
       if (response && response.data) {
         console.log(response.data);
         toast.success("Request uploaded successfully");
-        setaddModal(false)
       } else {
         console.log("Response data not available");
         toast.error("Failed to upload request");
@@ -85,7 +79,6 @@ const addReqModal = ({ setReqModal }) => {
       console.log(error.message);
       toast.error("Failed to upload request");
     }
-   
   };
 
   const handleChange = (e) => {
