@@ -43,7 +43,7 @@ const FTable = () => {
   const handleView = (request) => {
     setServiceInfos(request);
   };
-console.log("asdaw",requestDetails)
+
   return (
     <div className="flex flex-col justify-center items-center w-[100%]">
       <div className="flex w-[100%] justify-end items-center p-2 bg-[#13334C] text-white">

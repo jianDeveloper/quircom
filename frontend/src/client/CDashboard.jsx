@@ -32,7 +32,6 @@ function CDashboard() {
     axios
       .get(`https://quircom.onrender.com/api/client/${userId}`)
       .then((response) => {
-        console.log("User data:", response.data);
         setUserData(response.data); // Set the user data in state
       })
       .catch((error) => {

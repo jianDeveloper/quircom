@@ -23,7 +23,6 @@ const CMarketplace = () => {
         );
         if (response.status === 200) {
           setServices(response.data);
-          console.log(response.data);
         }
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -150,7 +149,7 @@ const CMarketplace = () => {
                     image={item?.thumbNail?.link}
                     subtitle={item.serviceType}
                     title={item.serviceName}
-                    author={item?.freelancer?.firstName}
+                    author={item?.freelancerId.firstName + " " + item?.freelancerId.surName}
                     button="Avail"
                   />
                 ))}

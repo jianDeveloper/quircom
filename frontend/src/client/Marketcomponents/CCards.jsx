@@ -15,8 +15,6 @@ const CCards = ({ image, serviceId, subtitle, title, author, button }) => {
   const { userId } = useParams();
   const [userServices, setServices] = useState();
 
-  console.log(userId);
-
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -40,7 +38,6 @@ const CCards = ({ image, serviceId, subtitle, title, author, button }) => {
         const response = await axios.get(`https://quircom.onrender.com/api/service/${serviceId}`);
         if (response.status === 200) {
           setServices(response.data);
-          console.log(response.data);
         }
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -50,7 +47,6 @@ const CCards = ({ image, serviceId, subtitle, title, author, button }) => {
     fetchServices();
   }, [serviceId]);
 
-  console.log("ADWA",serviceId);
   return (
     <Card className="mt-6 min-w-sm max-w-96 max-h-[30rem] pt-6">
       <CardHeader className="relative h-[400px]">

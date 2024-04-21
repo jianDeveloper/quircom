@@ -14,19 +14,6 @@ function CConnect() {
   const { serviceId } = useParams();
   const [activeTab, setActiveTab] = useState("view");
   const [reqModal, setReqModal] = useState(false);
-  const sortReviews = (criteria) => {
-    // Sort userServices.requestId based on the selected criteria
-    if (criteria === 'highestRating') {
-      userServices.requestId.sort((a, b) => b.feedbackNum - a.feedbackNum);
-    } else if (criteria === 'lowestRating') {
-      userServices.requestId.sort((a, b) => a.feedbackNum - b.feedbackNum);
-    } else if (criteria === 'newest') {
-      userServices.requestId.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    } else if (criteria === 'oldest') {
-      userServices.requestId.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-    }
-  };
-  
 
   const handleTab = (view) => {
     setActiveTab(view);
@@ -307,7 +294,7 @@ function CConnect() {
                             <p className="font-medium">Reviews</p>
                             <ul className="mb-6 mt-2 space-y-2">
                               {[...Array(5)].map((_, index) => {
-                                const feedbackNum = 5 - index; // Arrange ratings with 5 at the top
+                                const feedbackNum = index + 1;
                                 const feedbackCount = userServices.requestId.filter(service => {
                                   const rating = service.feedbackNum;
                                   return Math.ceil((rating / 5) * 5) === feedbackNum;
@@ -347,29 +334,16 @@ function CConnect() {
                     {userServices.requestId.length > 0 && (
                       <div className="text-[#1D5B79]">
                         <p className="font-medium">Reviews</p>
-                        <div className="flex mb-2 mt-2">
-                          <button onClick={() => sortReviews('highestRating')} className="mr-4">
-                            Highest Rating
-                          </button>
-                          <button onClick={() => sortReviews('lowestRating')} className="mr-4">
-                            Lowest Rating
-                          </button>
-                          <button onClick={() => sortReviews('newest')} className="mr-4">
-                            Newest
-                          </button>
-                          <button onClick={() => sortReviews('oldest')} className="mr-4">
-                            Oldest
-                          </button>
-                        </div>
                         <ul className="mb-6 mt-2 space-y-4">
                           {userServices.requestId.map((service) => {
                             const maxRating = 5;
                             const rating = service.feedbackNum;
                             const feedbackNum = Math.ceil((rating / maxRating) * 5);
+                            
 
                             // Check if feedbackNum and feedbackInfo are not null
                             if (feedbackNum !== null && service.feedbackInfo !== null) {
-                              return (                               
+                              return (
                                 <li
                                   className="border border-gray-200 rounded p-4 bg-white"
                                   key={service.requestId}
@@ -420,8 +394,7 @@ function CConnect() {
                           })}
                         </ul>
                       </div>
-                    )}
-
+                    )} 
                   </div>
                 </>
               )}
