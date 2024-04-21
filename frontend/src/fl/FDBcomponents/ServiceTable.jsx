@@ -29,24 +29,6 @@ const serviceColumns = [
     label: "Actions",
     minWidth: 100,
     align: "center",
-    format: (setDeleteModal, setUpdateModal) => (
-      <div className="space-x-2">
-        <button
-          type="button"
-          onClick={() => setUpdateModal(true)}
-          className="px-2 py-1 bg-blue-500 rounded text-white"
-        >
-          <MdDesignServices className="inline" />
-        </button>
-        <button
-          type="button"
-          onClick={() => setDeleteModal(true)}
-          className="px-2 py-1 bg-red-500 rounded text-white"
-        >
-          <FaTrashCan className="inline" />
-        </button>
-      </div>
-    ),
   },
 ];
 
@@ -60,6 +42,7 @@ const ServiceTable = () => {
   const { userId } = useParams();
   const [serviceDetails, setService] = useState([]);
   const [serviceInfos, setServiceInfos] = useState([]);
+
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
@@ -154,7 +137,9 @@ const ServiceTable = () => {
                         {service?.serviceId}
                       </td>
                       <td className="px-6 py-4">{service?.serviceName}</td>
-                      <td className="px-6 py-4">{service?.serviceInfo}</td>
+                      <td className="px-6 py-4 overflow-hidden max-w-[25rem]">
+                        <div className={`whitespace-pre-wrap ${service?.serviceInfo?.length > 20 ? "break-words" : ""}`}>{service?.serviceInfo}</div>
+                      </td>
                       <td className="px-6 py-4 text-center">
                         ₱ {Number(service.price).toLocaleString()}
                       </td>

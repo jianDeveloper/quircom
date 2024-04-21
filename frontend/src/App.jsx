@@ -18,6 +18,7 @@ import CSettings from './client/CSettings.jsx';
 import CSettingsProfile from './client/Settingcomponents/CSettingsProfile.jsx';
 import CSettingsBill from './client/Settingcomponents/CSettingsBill.jsx';
 import CRank from './client/CRank.jsx';
+import FRank from './fl/FRank.jsx';
 import CSubscribe from './client/CSubscribe.jsx';
 import CConnect from './client/Marketcomponents/CConnect.jsx';
 import FDashboard from './fl/FDashboard.jsx';
@@ -145,7 +146,11 @@ function App() {
           path="/freelancer/profile/:userId"
           element={<FProfile />}
         />
-
+        <Route
+          exact
+          path="/freelancer/leaderboard/:userId"
+          element={<FRank />}
+        />
 
         <Route
           exact

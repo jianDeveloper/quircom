@@ -44,7 +44,7 @@ const ConvoModal = ({ setConvoModal }) => {
 
   return (
     <div>
-      <div className="fixed inset-0 z-50 flex justify-center items-center overflow-x-hidden overflow-y-auto bg-black bg-opacity-[0.01]" >
+      <div className="fixed inset-0 z-50 flex justify-center items-center overflow-x-hidden overflow-y-auto bg-black bg-opacity-[0.30]" >
         <div className="relative w-1/3 my-6 mx-auto" >
           <div className="border-0 rounded-lg relative flex flex-col w-full bg-white">
             <div className="flex flex-col bg-white border-2 rounded-t-lg">
