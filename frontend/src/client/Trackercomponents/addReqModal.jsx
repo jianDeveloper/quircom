@@ -44,10 +44,10 @@ const addReqModal = ({ setReqModal }) => {
 
     const errors = {};
     if (formData.taskTitle.length === 0) {
-      errors.serviceName = "Please input your title";
+      errors.taskTitle = "Please input your title";
     }
-    if (formData.taskDetails.length === 0) {
-      errors.serviceInfo = "Please input atleast 20 characters";
+    if (formData.taskDetails.length <= 20) {
+      errors.taskDetails = "Please input atleast 20 characters";
     }
 
     setInvalidFields(errors);

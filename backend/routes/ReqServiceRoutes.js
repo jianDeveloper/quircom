@@ -13,8 +13,8 @@ const {
 // Routes for Service
 router.get("/", GetAllRequest);
 router.get("/:id", GetSpecificRequest);
-router.post("/create", upload.array("files", 5), CreateRequest);
-router.patch("/edit/:id", upload.array("files", 5), EditRequest);
+router.post("/create", /*upload.array("files", 5),*/ CreateRequest);
+router.patch("/edit/:id", /*upload.array("files", 5),*/ EditRequest);
 router.delete("/delete/:id", DeleteRequest);
 
 module.exports = router;

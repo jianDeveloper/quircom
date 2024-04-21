@@ -29,11 +29,11 @@ const ReqServiceSchema = new Schema({
     default: "",
     requred: ""
   },
-  taskPicture: [{
-    id: {type: String}, 
-    name: {type: String}, 
-    link: {type: String}
-  }],
+  // taskPicture: [{
+  //   id: {type: String}, 
+  //   name: {type: String}, 
+  //   link: {type: String}
+  // }],
   deadLine: {
     type: Date,
     default: "",
