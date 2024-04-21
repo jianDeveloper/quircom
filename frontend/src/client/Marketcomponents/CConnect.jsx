@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import NavHeader from "../CMainNav";
 
 import Connect from "../../assets/link.png";
-import AddReqModal from "../Trackercomponents/addReqModal";
+import AddReqModal from "./addReqModal";
 
 function CConnect() {
   const [userData, setUsers] = useState();
