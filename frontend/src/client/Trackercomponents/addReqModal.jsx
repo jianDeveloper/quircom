@@ -5,16 +5,16 @@ import { ToastContainer, toast } from "react-toastify";
 
 const addReqModal = ({ setReqModal }) => {
   const { userId } = useParams();
+  const { serviceId } = useParams();
   const [userData, setUsers] = useState();
-  const [thumbNail, setThumbnail] = useState();
   const [invalidFields, setInvalidFields] = useState({});
 
   const [formData, setFormData] = useState({
-    taskName: "",
-    taskInfo: "",
-    deadline: new Date().toISOString(),
-    requestId: [],
     clientId: userId,
+    serviceId: serviceId,
+    taskTitle: "",
+    taskDetails: "",
+    deadLine: "",
     dateUploaded: new Date().toISOString(),
   });
 
@@ -22,7 +22,7 @@ const addReqModal = ({ setReqModal }) => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8800/api/client/${userId}`
+          `https://quircom.onrender.com/api/client/${userId}`
         );
         if (response.status === 200) {
           setUsers(response.data);
@@ -43,20 +43,11 @@ const addReqModal = ({ setReqModal }) => {
     setInvalidFields({});
 
     const errors = {};
-    if (formData.serviceName.length === 0) {
+    if (formData.taskTitle.length === 0) {
       errors.serviceName = "Please input your title";
     }
-    if (!formData.serviceType) {
-      errors.serviceType = "Please select a service type";
-    }
-    if (formData.serviceInfo.length <= 20) {
+    if (formData.taskDetails.length === 0) {
       errors.serviceInfo = "Please input atleast 20 characters";
-    }
-    if (formData.price.length === 0) {
-      errors.price = "Please input your price";
-    }
-    if (!thumbNail) {
-      errors.thumbNail = "Please upload a thumbnail";
     }
 
     setInvalidFields(errors);
@@ -67,12 +58,12 @@ const addReqModal = ({ setReqModal }) => {
     
     try {
       const formObj = new FormData();
-      formObj.append("service", JSON.stringify(formData));
-      formObj.append("file", thumbNail);
-      formObj.append('dateUpdated', null);
+      formObj.append("request", JSON.stringify(formData));
+      formObj.append('feedbackNum', null);
+      formObj.append('feedbackInfo', null);
 
       const response = await axios.post(
-        `https://quircom.onrender.com/api/request/create/`,
+        `https://quircom.onrender.com/api/request/create`,
         formObj,
         {
           headers: {
@@ -87,12 +78,12 @@ const addReqModal = ({ setReqModal }) => {
         setaddModal(false)
       } else {
         console.log("Response data not available");
-        toast.error("Failed to upload Request");
+        toast.error("Failed to upload request");
       }
     } catch (error) {
       console.error("Error during patch ", error.response);
       console.log(error.message);
-      toast.error("Failed to upload Request");
+      toast.error("Failed to upload request");
     }
    
   };
@@ -101,7 +92,6 @@ const addReqModal = ({ setReqModal }) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-  
 
   return (
     <div>
@@ -122,37 +112,37 @@ const addReqModal = ({ setReqModal }) => {
               <div className="relative flex flex-col overflow-y-auto max-h-[400px] px-6 py-4">
                 <div className="space-y-6">
                   <label
-                    htmlFor="serviceName"
+                    htmlFor="taskTitle"
                     className="block text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
                   >
                     Task Title
                   </label>
                   <input
                     type="text"
-                    id="serviceName"
-                    name="serviceName"
-                    value={formData.serviceName}
+                    id="taskTitle"
+                    name="taskTitle"
+                    value={formData.taskTitle}
                     onChange={handleChange}
                     className={`mt-1 relative rounded-md shadow-sm border border-gray-300 px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm  ${invalidFields.serviceName ? "border-red-500" : ""}`}
                   />
-                  {invalidFields.serviceName && <p className="text-red-500 text-[12px]">{invalidFields.serviceName}</p>}
+                  {invalidFields.taskTitle && <p className="text-red-500 text-[12px]">{invalidFields.taskTitle}</p>}
                   
                   <label
-                    htmlFor="serviceInfo"
+                    htmlFor="taskDetails"
                     className={`block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300`}
                   >
                     Description
                   </label>
                   <div className="mt-1">
                     <textarea
-                      id="serviceInfo"
-                      name="serviceInfo"
-                      value={formData.serviceInfo}
+                      id="taskDetails"
+                      name="taskDetails"
+                      value={formData.taskDetails}
                       onChange={handleChange}
                       rows={4}
                       className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 px-3 py-2 ${invalidFields.serviceInfo ? "border-red-500" : ""}`}
                     />
-                    {invalidFields.serviceInfo && <p className="text-red-500 text-[12px]">{invalidFields.serviceInfo}</p>}
+                    {invalidFields.taskDetails && <p className="text-red-500 text-[12px]">{invalidFields.taskDetails}</p>}
                   </div>
                   <div className="flex flex-row justify-between gap-12">
                     <div className="w-[50%]">
@@ -172,7 +162,6 @@ const addReqModal = ({ setReqModal }) => {
                           onChange={handleChange}
                           className={`focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm p-2 shadow-sm border border-gray-300 ${invalidFields.deadLine ? "border-red-500" : ""}`}
                         />
-
                       </div>
                       {invalidFields.price && <p className="text-red-500 ml-2 text-[12px]">{invalidFields.price}</p>}
                     </div>

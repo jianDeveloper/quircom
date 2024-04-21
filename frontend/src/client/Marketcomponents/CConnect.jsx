@@ -46,7 +46,6 @@ function CConnect() {
         );
         if (response.status === 200) {
           setServices(response.data);
-          console.log("asdfsadfa", response.data);
         }
       } catch (error) {
         console.error("Error fetching users:", error);
