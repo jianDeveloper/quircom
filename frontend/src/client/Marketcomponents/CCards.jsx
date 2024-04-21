@@ -52,7 +52,7 @@ const CCards = ({ image, serviceId, subtitle, title, author, button }) => {
 
   console.log("ADWA",serviceId);
   return (
-    <Card className="mt-6 min-w-sm max-w-96 max-h-[30rem]">
+    <Card className="mt-6 min-w-sm max-w-96 max-h-[30rem] pt-6">
       <CardHeader className="relative h-[400px]">
         <img
           className="rounded-md w-full h-full object-cover"
