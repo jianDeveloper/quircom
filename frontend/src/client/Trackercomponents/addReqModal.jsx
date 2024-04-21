@@ -4,13 +4,109 @@ import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
 const addReqModal = ({ setReqModal }) => {
-  const { serviceId } = useParams();
+  const { userId } = useParams();
   const [userData, setUsers] = useState();
   const [thumbNail, setThumbnail] = useState();
   const [invalidFields, setInvalidFields] = useState({});
 
+  const [formData, setFormData] = useState({
+    serviceName: "",
+    serviceType: "",
+    serviceInfo: "",
+    price: "",
+    requestId: [],
+    freelancerId: userId,
+    dateUploaded: new Date().toISOString(),
+  });
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8800/api/client/${userId}`
+        );
+        if (response.status === 200) {
+          setUsers(response.data);
+          // setFormData({ requestId: response.data.requestId });
+          // setFormData({ freelancerId: response.data._id }); 
+        }
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+
+    fetchUsers();
+  }, [userId]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+
+    setInvalidFields({});
+
+    const errors = {};
+    if (formData.serviceName.length === 0) {
+      errors.serviceName = "Please input your title";
+    }
+    if (!formData.serviceType) {
+      errors.serviceType = "Please select a service type";
+    }
+    if (formData.serviceInfo.length <= 20) {
+      errors.serviceInfo = "Please input atleast 20 characters";
+    }
+    if (formData.price.length === 0) {
+      errors.price = "Please input your price";
+    }
+    if (!thumbNail) {
+      errors.thumbNail = "Please upload a thumbnail";
+    }
+
+    setInvalidFields(errors);
+
+    if (Object.keys(errors).length > 0) {
+      return;
+    }
+    
+    try {
+      const formObj = new FormData();
+      formObj.append("service", JSON.stringify(formData));
+      formObj.append("file", thumbNail);
+      formObj.append('dateUpdated', null);
+
+      const response = await axios.post(
+        `https://quircom.onrender.com/api/request/create/`,
+        formObj,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response && response.data) {
+        console.log(response.data);
+        toast.success("Request uploaded successfully");
+        setaddModal(false)
+      } else {
+        console.log("Response data not available");
+        toast.error("Failed to upload Request");
+      }
+    } catch (error) {
+      console.error("Error during patch ", error.response);
+      console.log(error.message);
+      toast.error("Failed to upload Request");
+    }
+   
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+  
+
   return (
     <div>
+      <ToastContainer />
       <div
         className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
         style={{ background: "rgba(0,0,0,0.2)" }}
@@ -19,14 +115,11 @@ const addReqModal = ({ setReqModal }) => {
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full text-black bg-white outline-none focus:outline-none">
             <div className="flexitems-start justify-between p-5 bg-[#1d5b79] border-b border-solid border-blueGray-200 rounded-t">
               <h3 className="text-3xl text-white text-center font-semibold">
-                Avail Service
-              </h3>
+                Request Form
+            </h3>
             </div>
             {/* Creating Form */}
-            <form
-              className="w-full max-w-screen-ss mx-auto"
-            //   onSubmit={handleSubmit}
-            >
+            <form className="w-full max-w-screen-ss mx-auto" onSubmit={handleSubmit}>
               <div className="relative flex flex-col overflow-y-auto max-h-[400px] px-6 py-4">
                 <div className="space-y-6">
                   <label
@@ -39,10 +132,12 @@ const addReqModal = ({ setReqModal }) => {
                     type="text"
                     id="serviceName"
                     name="serviceName"
-                    // value={formData.serviceName}
-                    // onChange={handleChange}
-                    className={`mt-1 relative rounded-md shadow-sm border border-gray-300 px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm`}
+                    value={formData.serviceName}
+                    onChange={handleChange}
+                    className={`mt-1 relative rounded-md shadow-sm border border-gray-300 px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm  ${invalidFields.serviceName ? "border-red-500" : ""}`}
                   />
+                  {invalidFields.serviceName && <p className="text-red-500 text-[12px]">{invalidFields.serviceName}</p>}
+                  
                   <label
                     htmlFor="serviceInfo"
                     className={`block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300`}
@@ -53,49 +148,50 @@ const addReqModal = ({ setReqModal }) => {
                     <textarea
                       id="serviceInfo"
                       name="serviceInfo"
-                    //   value={formData.serviceInfo}
-                    //   onChange={handleChange}
+                      value={formData.serviceInfo}
+                      onChange={handleChange}
                       rows={4}
-                      className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 px-3 py-2`}
+                      className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 px-3 py-2 ${invalidFields.serviceInfo ? "border-red-500" : ""}`}
                     />
+                    {invalidFields.serviceInfo && <p className="text-red-500 text-[12px]">{invalidFields.serviceInfo}</p>}
                   </div>
                   <div className="flex flex-row justify-between gap-12">
                     <div className="w-[50%]">
                       <label
-                        htmlFor="price"
+                        htmlFor="estDeadline"
                         className={`block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300`}
                       >
-                        Deadline
+                        Estimated Deadline
                       </label>
                       <div className="mt-1 flex px-3 py-2">
-                        <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
-                          PHP
-                        </span>
                         <input
-                          type="number"
-                          id="price"
-                          name="price"
-                        //   value={formData.price}
-                        //   onChange={handleChange}
-                          className={` focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-r-md sm:text-sm p-2 shadow-sm border border-gray-300`}
+                          type="date"
+                          id="deadLine"
+                          name="deadline"
+                          min={new Date().toISOString().slice(0, 10)}
+                          value={new Date().toISOString().slice(0, 10)}
+                          onChange={handleChange}
+                          className={`focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm p-2 shadow-sm border border-gray-300 ${invalidFields.deadLine ? "border-red-500" : ""}`}
                         />
+
                       </div>
+                      {invalidFields.price && <p className="text-red-500 ml-2 text-[12px]">{invalidFields.price}</p>}
                     </div>
                     <div className="w-[50%]">
-                      <label
-                        htmlFor="sampleProduct"
+                    <label
+                        htmlFor="dateUploaded"
                         className="block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
                       >
-                        Add Thumbnail
+                        Request Date
                       </label>
-                      <div className="relative mt-1">
+                      <div className="mt-1 flex px-3 py-2">
                         <input
-                          type="file"
-                          id="thumbNail"
-                          name="thumbNail"
-                        //   value={formData.thumbNail}
-                        //   onChange={handleImage}
-                          className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full border border-gray-300 px-3 py-2`}
+                          type="text"
+                          id="dateUploaded"
+                          name="dateUploaded"
+                          value={new Date(formData.dateUploaded).toLocaleString()}
+                          readOnly
+                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm p-2 shadow-sm border border-gray-300"
                         />
                       </div>
                     </div>
@@ -106,40 +202,23 @@ const addReqModal = ({ setReqModal }) => {
                         htmlFor="freelancerId"
                         className="block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
                       >
-                        Creator
+                        Tasked By
                       </label>
                       <div className="mt-1 flex px-3 py-2">
                         <input
                           type="text"
                           id="freelancerId"
                           name="freelancerId"
-                        //   value={`${userData?.firstName || ""} ${
-                        //     userData?.surName || ""
-                        //   }`}
+                          value={`${userData?.firstName || ""} ${
+                            userData?.surName || ""
+                          }`}
                           readOnly
-                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-r-md sm:text-sm p-2 shadow-sm border border-gray-300"
+                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm p-2 shadow-sm border border-gray-300"
                         />
                       </div>
                     </div>
                     <div className="w-[50%]">
-                      <label
-                        htmlFor="dateUploaded"
-                        className="block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
-                      >
-                        Date Submission
-                      </label>
-                      <div className="mt-1 flex px-3 py-2">
-                        <input
-                          type="text"
-                          id="dateUploaded"
-                          name="dateUploaded"
-                          value={new Date(
-                            formData.dateUploaded
-                          ).toLocaleString()}
-                          readOnly
-                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-r-md sm:text-sm p-2 shadow-sm border border-gray-300"
-                        />
-                      </div>
+                      
                     </div>
                   </div>
                 </div>
@@ -150,14 +229,14 @@ const addReqModal = ({ setReqModal }) => {
                 <button
                   className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                   type="button"
-                //   onClick={() => setaddModal(false)}
+                  onClick={() => setReqModal(false)}
                 >
-                  Close
+                  Cancel
                 </button>
                 <button
                   className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                   type="submit"
-                  // onClick={() => setaddModal(false)}
+                  // onClick={() => setReqModal(false)}
                 >
                   Request
                 </button>

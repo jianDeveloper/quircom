@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import NavHeader from "../CMainNav";
 
 import Connect from "../../assets/link.png";
-import addReqModal from "../Trackercomponents/addReqModal";
+import AddReqModal from "../Trackercomponents/addReqModal";
 
 function CConnect() {
   const [userData, setUsers] = useState();
@@ -13,6 +13,7 @@ function CConnect() {
   const { userId } = useParams();
   const { serviceId } = useParams();
   const [activeTab, setActiveTab] = useState("view");
+  const [reqModal, setReqModal] = useState(false);
 
   const handleTab = (view) => {
     setActiveTab(view);
@@ -164,6 +165,7 @@ function CConnect() {
 
               <button
                 type="button"
+                onClick={() => setReqModal(true)}
                 className="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-[#FE6D30] bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-[#1D5B79]"
               >
                 <img
@@ -172,8 +174,8 @@ function CConnect() {
                   alt=""
                 />
                 Request
-                {/* <addReqModal /> */}
               </button>
+              {reqModal && <AddReqModal setReqModal={setReqModal} />}
             </div>
 
             <ul className="mt-8 space-y-2">
