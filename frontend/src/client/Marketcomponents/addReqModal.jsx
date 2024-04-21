@@ -39,9 +39,9 @@ const addReqModal = ({ setReqModal }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
-  
+    
     setInvalidFields({});
-  
+    
     const errors = {};
     if (formData.taskTitle.length === 0) {
       errors.taskTitle = "Please input your title";
@@ -49,27 +49,26 @@ const addReqModal = ({ setReqModal }) => {
     if (formData.taskDetails.length <= 20) {
       errors.taskDetails = "Please input atleast 20 characters";
     }
-  
+    if (new Date(formData.deadLine) - new Date() <= 3 * 24 * 60 * 60 * 1000) {
+      // If deadline is less than 1 week from now
+      errors.deadLine = "Deadline must be at least 3 days from now";
+    }
+    
     setInvalidFields(errors);
-  
+    
     if (Object.keys(errors).length > 0) {
       return;
     }
     
     try {
-      const formObj = new FormData();
-      formObj.append("request", JSON.stringify(formData));
-      formObj.append('feedbackNum', null);
-      formObj.append('feedbackInfo', null);
-  
       const response = await axios.post(
         `http://localhost:8800/api/request/create`,
-        formObj
+        formData
       );
-  
+    
       if (response && response.data) {
-        console.log(response.data);
         toast.success("Request uploaded successfully");
+        setReqModal(false)
       } else {
         console.log("Response data not available");
         toast.error("Failed to upload request");
@@ -80,6 +79,7 @@ const addReqModal = ({ setReqModal }) => {
       toast.error("Failed to upload request");
     }
   };
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -140,7 +140,7 @@ const addReqModal = ({ setReqModal }) => {
                   <div className="flex flex-row justify-between gap-12">
                     <div className="w-[50%]">
                       <label
-                        htmlFor="estDeadline"
+                        htmlFor="deadLine"
                         className={`block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300`}
                       >
                         Estimated Deadline
@@ -149,14 +149,14 @@ const addReqModal = ({ setReqModal }) => {
                         <input
                           type="date"
                           id="deadLine"
-                          name="deadline"
+                          name="deadLine"
                           min={new Date().toISOString().slice(0, 10)}
-                          value={new Date().toISOString().slice(0, 10)}
+                          value={formData.deadLine}
                           onChange={handleChange}
                           className={`focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm p-2 shadow-sm border border-gray-300 ${invalidFields.deadLine ? "border-red-500" : ""}`}
                         />
                       </div>
-                      {invalidFields.price && <p className="text-red-500 ml-2 text-[12px]">{invalidFields.price}</p>}
+                      {invalidFields.deadLine && <p className="text-red-500 ml-2 text-[12px]">{invalidFields.deadLine}</p>}
                     </div>
                     <div className="w-[50%]">
                     <label

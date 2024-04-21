@@ -7,6 +7,7 @@ const {
     GetSpecificRequest,
     CreateRequest,
     EditRequest,
+    SubmitFeedback,
     DeleteRequest
 } = require("../controllers/ReqServiceController.js");
 
@@ -15,6 +16,7 @@ router.get("/", GetAllRequest);
 router.get("/:id", GetSpecificRequest);
 router.post("/create", /*upload.array("files", 5),*/ CreateRequest);
 router.patch("/edit/:id", /*upload.array("files", 5),*/ EditRequest);
+router.patch("/feedback/:id", SubmitFeedback);
 router.delete("/delete/:id", DeleteRequest);
 
 module.exports = router;

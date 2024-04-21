@@ -170,6 +170,29 @@ const EditRequest = async (req, res) => {
   }
 };
 
+const SubmitFeedback = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const request = req.body
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid ID" });
+    }
+
+    let update = {
+      $set: {
+        feedbackNum: request.feedbackNum,
+        feedbackInfo: request.feedbackInfo
+      },
+    };
+
+    const result = await RequestModel.findByIdAndUpdate(id, update, { new: true });
+    res.status(201).json(result);
+  } catch (err) {
+      res.status(400).json({ message: err.message });
+  }
+};
+
 const DeleteRequest = async (req, res) => {
   try {
     const { id } = req.params;
@@ -203,5 +226,6 @@ module.exports = {
     GetSpecificRequest,
     CreateRequest,
     EditRequest,
+    SubmitFeedback,
     DeleteRequest
 };

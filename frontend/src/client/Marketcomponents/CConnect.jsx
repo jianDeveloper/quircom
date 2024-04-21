@@ -14,6 +14,19 @@ function CConnect() {
   const { serviceId } = useParams();
   const [activeTab, setActiveTab] = useState("view");
   const [reqModal, setReqModal] = useState(false);
+  const sortReviews = (criteria) => {
+    // Sort userServices.requestId based on the selected criteria
+    if (criteria === 'highestRating') {
+      userServices.requestId.sort((a, b) => b.feedbackNum - a.feedbackNum);
+    } else if (criteria === 'lowestRating') {
+      userServices.requestId.sort((a, b) => a.feedbackNum - b.feedbackNum);
+    } else if (criteria === 'newest') {
+      userServices.requestId.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    } else if (criteria === 'oldest') {
+      userServices.requestId.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+    }
+  };
+  
 
   const handleTab = (view) => {
     setActiveTab(view);
@@ -266,7 +279,7 @@ function CConnect() {
                             The Service <br />
                             We Want for YOU
                           </h1>
-                          <div className="my-4 rounded-xl  py-2 px-4 shadow sm:my-0 sm:ml-auto">
+                          <div className="my-4 rounded-xl py-2 px-4 shadow sm:my-0 sm:ml-auto">
                             <div className="flex h-16 items-center text-2xl font-bold text-[#1D5B79]">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -276,136 +289,37 @@ function CConnect() {
                               >
                                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                               </svg>
-                              4.7
+                              {/* Calculate the average rating */}
+                              {userServices.requestId.length > 0 && (
+                                <span className="ml-2">
+                                  {(
+                                    userServices.requestId.reduce((acc, curr) => acc + curr.feedbackNum, 0) /
+                                    userServices.requestId.length
+                                  ).toFixed(1)}
+                                </span>
+                              )}
                             </div>
-                            <p className="text-sm text-gray-500">
-                              Average User Rating
-                            </p>
+                            <p className="text-sm text-gray-500">Average User Rating</p>
                           </div>
                         </div>
-                        <div className="text-[#1D5B79]">
-                          <p className="font-medium">Reviews</p>
-                          <ul className="mb-6 mt-2 space-y-2">
-                            <li className="flex items-center text-sm font-medium">
-                              <span className="w-3">5</span>
-                              <span className="mr-4 text-yellow-400">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  className="h-5 w-5"
-                                  viewBox="0 0 20 20"
-                                  fill="currentColor"
-                                >
-                                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                              </span>
-                              <div className="mr-4 h-2 w-96 overflow-hidden rounded-full bg-gray-300">
-                                <div className="h-full w-10/12 bg-yellow-400"></div>
-                              </div>
-                              <span className="w-3">56</span>
-                            </li>
-                            <li className="flex items-center text-sm font-medium">
-                              <span className="w-3">4</span>
-                              <span className="mr-4 text-yellow-400">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  className="h-5 w-5"
-                                  viewBox="0 0 20 20"
-                                  fill="currentColor"
-                                >
-                                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                              </span>
-                              <div className="mr-4 h-2 w-96 overflow-hidden rounded-full bg-gray-300">
-                                <div className="h-full w-8/12 bg-yellow-400"></div>
-                              </div>
-                              <span className="w-3">12</span>
-                            </li>
-                            <li className="flex items-center text-sm font-medium">
-                              <span className="w-3">3</span>
-                              <span className="mr-4 text-yellow-400">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  className="h-5 w-5"
-                                  viewBox="0 0 20 20"
-                                  fill="currentColor"
-                                >
-                                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                              </span>
-                              <div className="mr-4 h-2 w-96 overflow-hidden rounded-full bg-gray-300">
-                                <div className="h-full w-1/12 bg-yellow-400"></div>
-                              </div>
-                              <span className="w-3">4</span>
-                            </li>
-                            <li className="flex items-center text-sm font-medium">
-                              <span className="w-3">2</span>
-                              <span className="mr-4 text-yellow-400">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  className="h-5 w-5"
-                                  viewBox="0 0 20 20"
-                                  fill="currentColor"
-                                >
-                                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                              </span>
-                              <div className="mr-4 h-2 w-96 overflow-hidden rounded-full bg-gray-300">
-                                <div className="h-full w-0 bg-yellow-400"></div>
-                              </div>
-                              <span className="w-3">0</span>
-                            </li>
-                            <li className="flex items-center text-sm font-medium">
-                              <span className="w-3">1</span>
-                              <span className="mr-4 text-yellow-400">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  className="h-5 w-5"
-                                  viewBox="0 0 20 20"
-                                  fill="currentColor"
-                                >
-                                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                              </span>
-                              <div className="mr-4 h-2 w-96 overflow-hidden rounded-full bg-gray-300">
-                                <div className="h-full w-1/12 bg-yellow-400"></div>
-                              </div>
-                              <span className="w-3">4</span>
-                            </li>
-                          </ul>
-                        </div>
-                        <button className="w-36 rounded-md bg-[#1D5B79] py-3 text-white font-medium">
-                          Write a review
-                        </button>
-                      </div>
-                    </div>
-                    <div className="text-[#1D5B79]">
-                      <p className="font-medium">Reviews</p>
-                      <ul className="mb-6 mt-2 space-y-4">
-                        {userServices.requestId.length > 0 ? (
-                          userServices.requestId.map((service) => {
-                            const maxRating = 5;
-                            const rating = service.feedbackNum;
-                            const feedbackNum = Math.ceil((rating / maxRating) * 5);
-                            
-                            return (
-                              <li
-                                className="border border-gray-200 rounded p-4 bg-white"
-                                key={service.requestId}
-                              >
-                                <div className="flex flex-col sm:flex-row items-center">
-                                  {/* Rating */}
-                                  <div className="flex items-center">
+                        {userServices.requestId.length > 0 && (
+                          <div className="text-[#1D5B79]">
+                            <p className="font-medium">Reviews</p>
+                            <ul className="mb-6 mt-2 space-y-2">
+                              {[...Array(5)].map((_, index) => {
+                                const feedbackNum = 5 - index; // Arrange ratings with 5 at the top
+                                const feedbackCount = userServices.requestId.filter(service => {
+                                  const rating = service.feedbackNum;
+                                  return Math.ceil((rating / 5) * 5) === feedbackNum;
+                                }).length;
+
+                                // Calculate the ratio of feedbackCount to the total number of users who provided feedback
+                                const ratio = feedbackCount / userServices.requestId.length;
+
+                                return (
+                                  <li className="flex items-center text-sm font-medium" key={index}>
                                     <span className="w-3">{feedbackNum}</span>
-                                    <div className="mr-4 h-2 w-48 overflow-hidden rounded-full bg-gray-300">
-                                      <div
-                                        className="h-full bg-yellow-400"
-                                        style={{
-                                          width: `${(rating / maxRating) * 100}%`
-                                        }}
-                                      ></div>
-                                    </div>
-                                    <span className="text-gray-500">({rating}/5)</span>
-                                    <span className="ml-auto mr-4 text-yellow-400">
+                                    <span className="mr-4 text-yellow-400">
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         className="h-5 w-5"
@@ -415,29 +329,99 @@ function CConnect() {
                                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                       </svg>
                                     </span>
-                                  </div>
-                                  {/* Profile Name */}
-                                  <div className="mt-2 sm:mt-0 text-[#1D5B79]">
-                                    <div className="flex items-center mb-2">
-                                      <img
-                                        className="w-8 h-8 rounded-full mr-2"
-                                        src={service.clientId.profilePic.link}
-                                        alt="Profile"
-                                      />
-                                      <span>{service.clientId.firstName + " " + service.clientId.surName}</span>
+                                    <div className="mr-4 h-2 w-96 overflow-hidden rounded-full bg-gray-300">
+                                      <div className={`h-full bg-yellow-400`} style={{ width: `${ratio * 100}%` }}></div>
                                     </div>
-                                    {/* Feedback Info */}
-                                    <p>Review: {service.feedbackInfo}</p>
-                                  </div>
-                                </div>
-                              </li>
-                            );
-                          })
-                        ) : (
-                          <li>No feedback yet</li>
+                                    <span className="w-3">{feedbackCount}</span>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </div>
                         )}
-                      </ul>
+                        <button className="w-36 rounded-md bg-[#1D5B79] py-3 text-white font-medium">
+                          Write a review
+                        </button>
+                      </div>
                     </div>
+                    {userServices.requestId.length > 0 && (
+                      <div className="text-[#1D5B79]">
+                        <p className="font-medium">Reviews</p>
+                        <div className="flex mb-2 mt-2">
+                          <button onClick={() => sortReviews('highestRating')} className="mr-4">
+                            Highest Rating
+                          </button>
+                          <button onClick={() => sortReviews('lowestRating')} className="mr-4">
+                            Lowest Rating
+                          </button>
+                          <button onClick={() => sortReviews('newest')} className="mr-4">
+                            Newest
+                          </button>
+                          <button onClick={() => sortReviews('oldest')} className="mr-4">
+                            Oldest
+                          </button>
+                        </div>
+                        <ul className="mb-6 mt-2 space-y-4">
+                          {userServices.requestId.map((service) => {
+                            const maxRating = 5;
+                            const rating = service.feedbackNum;
+                            const feedbackNum = Math.ceil((rating / maxRating) * 5);
+
+                            // Check if feedbackNum and feedbackInfo are not null
+                            if (feedbackNum !== null && service.feedbackInfo !== null) {
+                              return (                               
+                                <li
+                                  className="border border-gray-200 rounded p-4 bg-white"
+                                  key={service.requestId}
+                                >
+                                  <div className="flex flex-col sm:flex-row items-center">
+                                    {/* Rating */}
+                                    <div className="flex items-center">
+                                      <span className="w-3">{feedbackNum}</span>
+                                      <div className="mr-4 h-2 w-48 overflow-hidden rounded-full bg-gray-300">
+                                        <div
+                                          className="h-full bg-yellow-400"
+                                          style={{
+                                            width: `${(rating / maxRating) * 100}%`
+                                          }}
+                                        ></div>
+                                      </div>
+                                      <span className="text-gray-500">({rating}/5)</span>
+                                      <span className="ml-auto mr-4 text-yellow-400">
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          className="h-5 w-5"
+                                          viewBox="0 0 20 20"
+                                          fill="currentColor"
+                                        >
+                                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                      </span>
+                                    </div>
+                                    {/* Profile Name */}
+                                    <div className="mt-2 sm:mt-0 text-[#1D5B79]">
+                                      <div className="flex items-center mb-2">
+                                        <img
+                                          className="w-8 h-8 rounded-full mr-2"
+                                          src={service.clientId.profilePic.link}
+                                          alt="Profile"
+                                        />
+                                        <span>{service.clientId.firstName + " " + service.clientId.surName}</span>
+                                      </div>
+                                      {/* Feedback Info */}
+                                      <p>Review: {service.feedbackInfo}</p>
+                                    </div>
+                                  </div>
+                                </li>
+                              );
+                            } else {
+                              return null; // Don't render anything if feedbackNum or feedbackInfo is null
+                            }
+                          })}
+                        </ul>
+                      </div>
+                    )}
+
                   </div>
                 </>
               )}
