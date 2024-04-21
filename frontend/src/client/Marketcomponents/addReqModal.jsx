@@ -22,7 +22,7 @@ const addReqModal = ({ setReqModal }) => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          `https://quircom.onrender.com/api/client/${userId}`
+          `http://localhost:8800/api/client/${userId}`
         );
         if (response.status === 200) {
           setUsers(response.data);
@@ -63,7 +63,7 @@ const addReqModal = ({ setReqModal }) => {
       formObj.append('feedbackInfo', null);
   
       const response = await axios.post(
-        `https://quircom.onrender.com/api/request/create`,
+        `http://localhost:8800/api/request/create`,
         formObj
       );
   

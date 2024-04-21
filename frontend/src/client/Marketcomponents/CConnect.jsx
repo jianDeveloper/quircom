@@ -19,8 +19,6 @@ function CConnect() {
     setActiveTab(view);
   };
 
-  console.log(userId);
-
   useEffect(() => {
     const fetchUsers = async () => {
       try {
