@@ -326,9 +326,6 @@ function CConnect() {
                             </ul>
                           </div>
                         )}
-                        <button className="w-36 rounded-md bg-[#1D5B79] py-3 text-white font-medium">
-                          Write a review
-                        </button>
                       </div>
                     </div>
                     {userServices.requestId.length > 0 && (
