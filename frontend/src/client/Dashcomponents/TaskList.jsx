@@ -19,13 +19,18 @@ const TaskList = () => {
   const[chatModal, setchatModal] = React.useState(false);
   const[detailsModal, setdetailsModal] = React.useState(false);
   const[filesModal, setfilesModal] = React.useState(false);
+  const [requestInfos, setRequestInfos] = useState([]);
 
   useEffect(() => {
     const fetchRequests = async () => {
       try {
         const response = await axios.get(`https://quircom.onrender.com/api/request/`);
         if (response.status === 200) {
-          setRequest(response.data);
+          // setRequest(response.data);
+          const filteredRequest = response.data.filter(
+            (request) => request.clientId._id === userId
+          );
+          setService(filteredRequest);
         } else {
           console.error("Error fetching requests: Unexpected status code", response.status);
         }
@@ -40,6 +45,10 @@ const TaskList = () => {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+  };
+
+  const handleView = (request) => {
+    setServiceInfos(request);
   };
 
   return (
@@ -64,7 +73,7 @@ const TaskList = () => {
             <tr>
               <th className="px-6 py-3 text-left text-sm font-bold">Ticket ID</th>
               <th className="px-6 py-3 text-left text-sm font-bold">Freelancer Name</th>
-              <th className="px-6 py-3 text-left text-sm font-bold">Availed Service</th>
+              <th className="px-6 py-3 text-left text-sm font-bold">Availed request</th>
               <th className="px-6 py-3 text-left text-sm font-bold">Task Details</th>
               <th className="px-6 py-3 text-left text-sm font-bold">Deadline</th>
               <th className="px-6 py-3 text-left text-sm font-bold">Status</th>

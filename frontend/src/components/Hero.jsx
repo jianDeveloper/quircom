@@ -19,8 +19,7 @@ const Hero = () => {
                   An online platform for high growth freelancers
                 </p>
                 <h2 className="mb-6 max-w-lg text-5xl font-bold leading-snug tracking-tight text-[#1D5B79] sm:text-7xl sm:leading-snug">
-                  Multi-<span className='text-orange-600'>Service</span>
-                  <h2>Provider</h2>
+                  Multi-<span className='text-orange-600'>Service</span> Provider
                 </h2>
                 <p className="text-base text-[#13334C]">Quircom is always on the lookout for like-minded visionaries and businesses eager to make their mark in the world.</p>
               </div>
