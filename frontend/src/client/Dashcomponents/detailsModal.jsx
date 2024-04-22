@@ -3,9 +3,9 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
-const detailsModal = ({ setdetailsModal }) => {
+const detailsModal = ({ setdetailsModal, requestInfos }) => {
   const { userId } = useParams();
-  const [userData, setUsers] = useState();
+  const [serviceData, serService] = useState();
   const [thumbNail, setThumbnail] = useState();
   const [invalidFields, setInvalidFields] = useState({});
 
@@ -23,10 +23,10 @@ const detailsModal = ({ setdetailsModal }) => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8800/api/freelancer/${userId}`
+          `http://localhost:8800/api/service/${requestInfos.serviceId._id}`
         );
         if (response.status === 200) {
-          setUsers(response.data);
+          serService(response.data);
           // setFormData({ requestId: response.data.requestId });
           // setFormData({ freelancerId: response.data._id });
         }

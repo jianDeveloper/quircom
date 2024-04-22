@@ -17,9 +17,7 @@ function CProfile() {
 
   const { userId } = useParams();
   const [ userData, setUsers] = useState(null);
-
-  console.log(userId)
-  console.log('Display User:', userData)
+  const [nav, setNav] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -52,10 +50,10 @@ function CProfile() {
             <div className='profileDetail w-[500px] '>
               <div className=''>
               {userData && (
-                  <>
-                  <h4 className='font-extrabold text-[30px] text-[#1D5B79] my-1'>{userData.firstName} {userData.surName}</h4>
-                  <strong className='text-[15px] text-[#1D5B79] my-1'>@{userData.userName}</strong>
-                  </>
+                <>
+                <h4 className='font-extrabold text-[30px] text-[#1D5B79] my-1'>{userData.firstName} {userData.surName}</h4>
+                <strong className='text-[15px] text-[#1D5B79] my-1'>@{userData.userName}</strong>
+                </>
               )}
               </div>
             </div>
@@ -81,7 +79,11 @@ function CProfile() {
               </div>
               <div className='text-inline border-l-2 border-gray-300 p-10'>
                 <strong className='mx-9 text-[#13334c] text-[23px]'> About </strong>
-                <p className='mx-9 my-2 text-[#13334c] text-[15px]'> {userData.userInfo}</p>
+                {userData.userInfo ? (
+                  <p className='mx-9 my-2 text-[#13334c] text-[15px]'>{userData.userInfo}</p>
+                ) : (
+                  <p className='mx-9 my-2 text-[#13334c] text-[15px]'>Hello, I am {userData.firstName} {userData.surName}</p>
+                )}
                 
               </div>
               </>

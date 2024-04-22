@@ -11,9 +11,6 @@ function CSettingsBill() {
   const { userId } = useParams();
   const [ userData, setUsers] = useState();
 
-  console.log(userId)
-  console.log('Display User:', userData)
-
   useEffect(() => {
     const fetchUsers = async () => {
       try {

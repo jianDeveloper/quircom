@@ -24,6 +24,10 @@ function CSettingsProfile(props) {
   const [ userData, setUsers] = useState();
   const [disabled, setDisabled] = useState(false);
   const [editable, setEditable] = useState(false);
+  const [disabled2, setDisabled2] = useState(false);
+  const [editable2, setEditable2] = useState(false);
+  const [disabled3, setDisabled3] = useState(false);
+  const [editable3, setEditable3] = useState(false);
   const [filteredProvinces, setFilteredProvinces] = useState([]);
   const [filteredCity, setFilteredCity] = useState([]);
   const [regionCode, setRegionCode] = useState('');
@@ -35,37 +39,37 @@ function CSettingsProfile(props) {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-          const response = await axios.get(`http://localhost:8800/api/client/${userId}`);
-          if (response.status === 200) {
+        const response = await axios.get(`http://localhost:8800/api/client/${userId}`);
+        if (response.status === 200) {
           setUsers(response.data);
-            setFormData({
-              firstName: response.data.firstName,
-              surName: response.data.surName,
-              contactNum: response.data.contactNum,
-              region: response.data.region,
-              province: response.data.province,
-              city: response.data.city
-            });
+          setFormData({
+            firstName: response.data.firstName,
+            surName: response.data.surName,
+            contactNum: response.data.contactNum,
+            region: response.data.region,
+            province: response.data.province,
+            city: response.data.city,
+            userName: response.data.userName,
+            userInfo: response.data.userInfo
+          });
 
-            const userData = response.data;
-            setUsers(userData);
+          const userData = response.data;
+          setUsers(userData);
 
-            // Initialize region, province, and city codes
-            setRegionCode(userData.region);
-            setProvinceCode(userData.province);
-            setCityCode(userData.city);
-             
-             console.log()
+          // Initialize region, province, and city codes
+          setRegionCode(userData.region);
+          setProvinceCode(userData.province);
+          setCityCode(userData.city);
+          
+          // Fetch provinces and cities based on the user's region
+          const regionProvinces = phil.getProvincesByRegion(userData.region);
+          setFilteredProvinces(regionProvinces);
 
-            // Fetch provinces and cities based on the user's region
-            const regionProvinces = phil.getProvincesByRegion(userData.region);
-            setFilteredProvinces(regionProvinces);
-
-            const provincesCity = phil.getCityMunByProvince(userData.province);
-            setFilteredCity(provincesCity);
-          }
+          const provincesCity = phil.getCityMunByProvince(userData.province);
+          setFilteredCity(provincesCity);
+        }
       } catch (error) {
-          console.error('Error fetching user data:', error);
+        console.error('Error fetching user data:', error);
       }
     };
 
@@ -78,7 +82,10 @@ function CSettingsProfile(props) {
     contactNum: '',
     region: '',
     province: '',
-    city: ''
+    city: '',
+
+    userName: '',
+    userInfo: ''
   });
 
   const handleChange = (e) => {
@@ -114,6 +121,14 @@ function CSettingsProfile(props) {
     setEditable(true);
   };
 
+  const toggleEdit2 = () => {
+    setEditable2(true);
+  };
+
+  const toggleEdit3 = () => {
+    setEditable3(true);
+  };
+
   const cancelEdit = () => {
     setDisabled(false);
     setEditable(false);
@@ -136,6 +151,23 @@ function CSettingsProfile(props) {
 
     const provincesCity = phil.getCityMunByProvince(userData.province);
     setFilteredCity(provincesCity);
+  };
+
+  const cancelEdit2 = () => {
+    setDisabled2(false);
+    setEditable2(false);
+    setFormData({
+      userName: userData.userName,
+    });
+  };
+
+  const cancelEdit3 = () => {
+    setDisabled3(false);
+    setEditable3(false);
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      userInfo: userData.userInfo !== null ? userData.userInfo : ''
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -242,6 +274,126 @@ function CSettingsProfile(props) {
       toast.error('Failed to change information: ' + error.message);
     } finally {
       setDisabled(false);
+    }
+  };
+
+  const handleSubmit2 = async (e) => {
+    e.preventDefault();
+
+    const isFormDataChanged =
+    formData.userName !== userData.userName;
+
+    setDisabled2(true);
+
+    if (!isFormDataChanged) {
+      toast.error('No changes have been made');
+      setDisabled2(false);
+      return;
+    }
+
+    if (formData.userName.length === 0) {
+      toast.error('Please input your username');
+      setDisabled2(false);
+      return;
+    }
+
+    try {
+      const validationResponse = await axios.post(`http://localhost:8800/api/auth/validate`, {
+        userName: formData.userName,
+      });
+
+      if (validationResponse.data.userId !== userId){
+        if (validationResponse.data.exists) {
+          toast.error('Username is already registered');
+          setDisabled2(false);
+          return;
+        }
+      }
+      
+    } catch (error) {
+      console.error('Error validating username: ', error);
+      toast.error('Failed to validate username');
+      setDisabled2(false);
+      return;
+    }
+    
+    const formObj = new FormData();
+    formObj.append('client', JSON.stringify({
+      ...userData,
+      userName: formData.userName
+    }));
+
+    try {
+      const updateResponse = await axios.patch(`http://localhost:8800/api/client/update/${userId}`, formObj, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (updateResponse.status === 201) {
+        console.log(updateResponse.data);
+        toast.success('Username has been updated');
+        setEditable2(false);
+        setUsers(updateResponse.data); // Update userData with the latest user data
+      } else {
+        console.log('Response data not available');
+        toast.error('Failed to update Username');
+      }
+    } catch (error) {
+      console.error('Error during patch:', error);
+      toast.error('Failed to change Username: ' + error.message);
+    } finally {
+      setDisabled2(false);
+    }
+  };
+
+  const handleSubmit3 = async (e) => {
+    e.preventDefault();
+
+    const isFormDataChanged =
+    formData.userInfo !== userData.userInfo;
+
+    setDisabled3(true);
+
+    if (!isFormDataChanged) {
+      toast.error('No changes have been made');
+      setDisabled3(false);
+      return;
+    }
+
+    if (formData.userInfo.length === 0) {
+      toast.error('Please tell us about yourself');
+      setDisabled3(false);
+      return;
+    }
+    
+    const formObj = new FormData();
+    formObj.append('client', JSON.stringify({
+      ...userData,
+      userInfo: formData.userInfo
+    }));
+
+    try {
+      const updateResponse = await axios.patch(`http://localhost:8800/api/client/update/${userId}`, formObj, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (updateResponse.status === 201) {
+        console.log(updateResponse.data);
+        toast.success('Description has been updated');
+        setEditable3(false);
+        setUsers(updateResponse.data); // Update userData with the latest user data
+      } else {
+        console.log('Response data not available');
+        toast.error('Failed to update description');
+      }
+    } catch (error) {
+      console.error('Error during patch:', error);
+      toast.error('Failed to change description: ' + error.message);
+    } finally {
+      setDisabled3(false);
     }
   };
 
@@ -420,47 +572,100 @@ function CSettingsProfile(props) {
 
                     {editable ? (
                       <>
-                        <button type="submit" disabled={disabled} className={`m-2 rounded font-bold py-2 px-4 ${disabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}>
+                        <button type="submit" disabled={disabled} className={`mt-2 mr-2 rounded font-bold py-2 px-4 ${disabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}>
                           Save
                         </button>
-                        <button type="button" onClick={cancelEdit} className="m-2 rounded font-bold py-2 px-4 bg-red-500 hover:bg-red-700 text-white">
+                        <button type="button" onClick={cancelEdit} className="mt-2 mr-2 rounded font-bold py-2 px-4 bg-red-500 hover:bg-red-700 text-white">
                           Cancel
                         </button>
                       </>
                     ) : (
-                      <button onClick={toggleEdit} className="ml-2 mt-2 rounded font-bold py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white">
+                      <button onClick={toggleEdit} className="mt-2 rounded font-bold py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white">
                         Update Information
                       </button>
                     )}
 
                 </form>
               </div>
+
               <hr className="mt-4 mb-8" />
               <p className="py-2 text-xl font-semibold">Account Handle</p>
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-              {userData && (
-                <p className="text-gray-600">Your account is <strong>{userData.userName}</strong></p>
-              )}
+                <form onSubmit={handleSubmit2}>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="userName" className="block text-sm font-medium text-gray-700">
+                        Username
+                      </label>
+                      {userData && (<>    
+                        <input
+                          type="text"
+                          name="userName"
+                          id="userName"
+                          className={`mt-1 p-2 block w-full border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm `}
+                          disabled={!editable2}
+                          value={formData.userName}
+                          onChange={handleChange}
+                        />
+                      </>)}
+                    </div>
+                  </div>
 
-                
+                  {editable2 ? (
+                    <>
+                      <button type="submit" disabled={disabled2} className={`mt-2 mr-2 rounded font-bold py-2 px-4 ${disabled2 ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}>
+                        Save
+                      </button>
+                      <button type="button" onClick={cancelEdit2} className="mt-2 mr-2 rounded font-bold py-2 px-4 bg-red-500 hover:bg-red-700 text-white">
+                        Cancel
+                      </button>
+                    </>
+                  ) : (
+                    <button onClick={toggleEdit2} className="mt-2 rounded font-bold py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white">
+                      Update Account Handle
+                    </button>
+                  )}
+                </form>
               </div>
+
               <hr className="mt-4 mb-8" />
               <div>
                 <p className="py-2 text-xl font-semibold">Profile Description</p>
                 <div className="max-w-2xl">
-                    <label className="block sm:col-span-2" htmlFor="message">
-                        <textarea
-                            className="h-32 w-full rounded-md border bg-white py-2 px-2 outline-none ring-yellow-500 focus:ring-2"
+                  <form onSubmit={handleSubmit3}>
+                    <div>
+                      <label className="block sm:col-span-2" htmlFor="userInfo">
+                        {userData && (<>    
+                          <textarea
                             type="text"
+                            name="userInfo"
+                            id="userInfo"
+                            className="h-32 w-full rounded-md border bg-white py-2 px-2 outline-none ring-yellow-500 focus:ring-2"
+                            disabled={!editable3}
+                            value={formData.userInfo !== null && formData.userInfo !== undefined ? formData.userInfo : ''}
+                            onChange={handleChange}
                             placeholder="About you"
-                        ></textarea>
-                    </label>
-                </div>
-                <button
-                    className="mt-4 rounded-lg bg-[#FE6D30] hover:bg-[#1D5B79] active:bg-blue-800 px-4 py-2 text-white"
-                >
-                    Save
-                </button>
+                          />                       
+                        </>)}
+                      </label>
+                    </div>
+
+                    {editable3 ? (
+                      <>
+                        <button type="submit" disabled={disabled3} className={`mt-2 mr-2 rounded font-bold py-2 px-4 ${disabled3 ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}>
+                          Save
+                        </button>
+                        <button type="button" onClick={cancelEdit3} className="mt-2 mr-2 rounded font-bold py-2 px-4 bg-red-500 hover:bg-red-700 text-white">
+                          Cancel
+                        </button>
+                      </>
+                    ) : (
+                      <button onClick={toggleEdit3} className="mt-2 rounded font-bold py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white">
+                        Update Account Handle
+                      </button>
+                    )}
+                  </form>
+                </div>                 
               </div>
               <hr className="mt-4 mb-8" />
 
