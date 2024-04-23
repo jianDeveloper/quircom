@@ -23,8 +23,7 @@ const Login = ({ open, onClose }) => {
       console.log('Login response:', response.data); // Log the response data
       if (response.status === 200) {
         const { _id, accType } = response.data.user; // Destructure user data
-        console.log('User ID:', _id); // Log the user id
-        console.log('Account Type:', accType); // Log the account type
+        localStorage.setItem('user', response.token)
         if (accType === 'client') {
           login(_id);
           navigate(`/client/dashboard/${_id}`);

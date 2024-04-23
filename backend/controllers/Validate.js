@@ -42,7 +42,6 @@ const ValidateUserData = async (req, res) => {
   }
 };
 
-
 const LoginUser = async (req, res) => {
   try {
     const { userName, passWord } = req.body;
@@ -59,6 +58,8 @@ const LoginUser = async (req, res) => {
 
     // If user is found in freelancer collection
     if (freelancerUser) {
+      const femail = freelancerUser.eMail;
+      const authToken = jwt.sign({femail}, process.env.SECRET_KEY, {expiresIn: '1h'})
       // Check if password matches
       if (freelancerUser.passWord !== passWord) {
         return res.status(401).json({ message: 'Invalid password' });
@@ -68,12 +69,15 @@ const LoginUser = async (req, res) => {
         user: {
           _id: freelancerUser._id,
           accType: 'freelancer'
-        }
+        },
+        authToken
       });
     }
 
     // If user is found in client collection
     if (clientUser) {
+      const cemail = clientUser.eMail;
+      const authToken = jwt.sign({cemail}, process.env.SECRET_KEY, {expiresIn: '1h'})
       // Check if password matches
       if (clientUser.passWord !== passWord) {
         return res.status(401).json({ message: 'Invalid password' });
@@ -83,7 +87,8 @@ const LoginUser = async (req, res) => {
         user: {
           _id: clientUser._id,
           accType: 'client'
-        }
+        },
+        authToken
       });
     }
 
@@ -110,7 +115,7 @@ const ForgotPassword = async (req, res) => {
 
     // If user is found in freelancer collection
     if (freelancerUser) {
-      const authToken = jwt.sign({eMail}, process.env.JWT_KEY, {expiresIn: '5m'})
+      const authToken = jwt.sign({eMail}, process.env.SECRET_KEY, {expiresIn: '5m'})
       const username = freelancerUser.userName;
       const id = freelancerUser._id;
   
@@ -159,7 +164,7 @@ const ForgotPassword = async (req, res) => {
 
     // If user is found in client collection
     if (clientUser) {
-      const authToken = jwt.sign({ eMail }, process.env.JWT_KEY, { expiresIn: '5m' });
+      const authToken = jwt.sign({ eMail }, process.env.SECRET_KEY, { expiresIn: '5m' });
       const username = clientUser.userName;
       const id = clientUser._id;
   
