@@ -80,6 +80,9 @@
       if (formData.price.length === 0) {
         errors.price = "Please input your price";
       }
+      if (!thumbNail || !thumbNail.type.startsWith('image/')) {
+        errors.thumbNail = "Please upload a thumbnail";
+      }
 
       setInvalidFields(errors);
 
@@ -230,6 +233,7 @@
                             id="thumbNail"
                             name="thumbNail"
                             onChange={handleImage}
+                            accept="image/*"
                             className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full border border-gray-300 px-3 py-2"
                           />
                         </div>

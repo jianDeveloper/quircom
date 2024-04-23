@@ -36,7 +36,7 @@ const Login = ({ open, onClose }) => {
       // Here you can handle the successful login, such as setting user data in state or redirecting the user
     } catch (error) {
       console.error('Error logging in:', error.response.data.message);
-      setError(error.response.data.message);
+      setError("Server Error, Try again later");
     }
   };
 

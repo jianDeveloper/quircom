@@ -120,7 +120,7 @@ const Reg = () => {
     if (!formData.aggRee) {
       errors.aggRee = 'Please agree to the terms and conditions';
     }
-    if (!profilePic) {
+    if (!profilePic || !profilePic.type.startsWith('image/')) {
       errors.profilePic = 'Please add a picture';
     }
   
@@ -418,6 +418,7 @@ const Reg = () => {
                     name="profilePic"
                     value={formData.profilePic}
                     onChange={handleImage}
+                    accept='image/*'
                     className={`w-full text-[14px] p-3  border rounded ${invalidFields.profilePic ? 'border-red-500' : ''}`}
                     placeholder="Pic"
                   />
