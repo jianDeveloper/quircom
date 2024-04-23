@@ -14,6 +14,7 @@ function CConnect() {
   const { serviceId } = useParams();
   const [activeTab, setActiveTab] = useState("view");
   const [reqModal, setReqModal] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   const handleTab = (view) => {
     setActiveTab(view);
@@ -277,24 +278,24 @@ function CConnect() {
                                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                               </svg>
                               {/* Calculate the average rating */}
-                              {userServices.requestId.length > 0 && (
+                              {userServices.requestId.length > 0 ? (
                                 <span className="ml-2">
                                   {(
                                     userServices.requestId.reduce((acc, curr) => acc + curr.feedbackNum, 0) /
                                     userServices.requestId.length
                                   ).toFixed(1)}
                                 </span>
-                              )}
+                              ): <span className="ml-2"> 0.0 </span>}
                             </div>
                             <p className="text-sm text-gray-500">Average User Rating</p>
                           </div>
                         </div>
-                        {userServices.requestId.length > 0 && (
+                        {userServices.requestId.length > 0 ? (
                           <div className="text-[#1D5B79]">
                             <p className="font-medium">Reviews</p>
                             <ul className="mb-6 mt-2 space-y-2">
                               {[...Array(5)].map((_, index) => {
-                                const feedbackNum = index + 1;
+                                const feedbackNum = index === 4 ? 1 : 5 - index; // Adjust arrangement
                                 const feedbackCount = userServices.requestId.filter(service => {
                                   const rating = service.feedbackNum;
                                   return Math.ceil((rating / 5) * 5) === feedbackNum;
@@ -325,10 +326,49 @@ function CConnect() {
                               })}
                             </ul>
                           </div>
-                        )}
+                        ) : 
+                          <div className="text-[#1D5B79]">
+                            <p className="font-medium">Reviews</p>
+                            <ul className="mb-6 mt-2 space-y-2">
+                              {[...Array(5)].map((_, index) => {
+                                const feedbackNum = index === 4 ? 1 : 5 - index; // Adjust arrangement
+                                const feedbackCount = userServices.requestId.filter(service => {
+                                  const rating = service.feedbackNum;
+                                  return Math.ceil((rating / 5) * 5) === feedbackNum;
+                                }).length;
+                          
+                                // Calculate the ratio of feedbackCount to the total number of users who provided feedback
+                                const ratio = feedbackCount / userServices.requestId.length;
+                          
+                                // Determine the bar color based on feedbackCount
+                                const barColor = feedbackCount > 0 ? "bg-yellow-400" : "bg-gray-300"; // Gray if feedbackCount is 0
+                          
+                                return (
+                                  <li className="flex items-center text-sm font-medium" key={index}>
+                                    <span className="w-3">{feedbackNum}</span>
+                                    <span className="mr-4 text-yellow-400">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="h-5 w-5"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                      >
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                      </svg>
+                                    </span>
+                                    <div className="mr-4 h-2 w-96 overflow-hidden rounded-full">
+                                      <div className={`h-full ${barColor}`} style={{ width: `${ratio * 100}%` }}></div>
+                                    </div>
+                                    <span className="w-3">{feedbackCount}</span>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </div>
+                        }
                       </div>
                     </div>
-                    {userServices.requestId.length > 0 && (
+                    {userServices.requestId.length > 0 ? (
                       <div className="text-[#1D5B79]">
                         <p className="font-medium">Reviews</p>
                         <ul className="mb-6 mt-2 space-y-4">
@@ -391,7 +431,14 @@ function CConnect() {
                           })}
                         </ul>
                       </div>
-                    )} 
+                    ) :
+                      <div className="text-[#1D5B79]">
+                        <p className="font-medium">Reviews</p>
+                        <ul className="mb-6 mt-2 space-y-4">                  
+                          <p>There are no reviews yet :(</p>           
+                        </ul>
+                      </div>
+                    } 
                   </div>
                 </>
               )}
