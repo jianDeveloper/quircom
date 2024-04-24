@@ -7,8 +7,8 @@ import Newsletter from './Newsletter'
 
 const Hero = () => {
   return (
-    <div className="bg-beige overflow-hidden">
-        <div className="mx-auto mt-[-50px] h-full px-4 py-28 md:py-40 sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8">
+    <div className=" bg-beige overflow-hidden">
+        <section className="mx-auto mt-[-50px] h-full px-4 py-28 md:py-40 sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8">
           <div className="flex flex-col items-center justify-between lg:flex-row">
             <div className="">
               <div className="lg:max-w-xl lg:pr-5">
@@ -41,7 +41,7 @@ const Hero = () => {
               </div>
             </div>
           </div>
-      </div>
+      </section>
       <div className='flex flex-col'>
           <Stats />
           <Services />

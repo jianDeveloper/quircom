@@ -17,10 +17,10 @@ const navBar = () => {
       <Link to='/'><img className='h-[60px]' src={logo1}/></Link>
       <ul className='hidden md:flex'>
         <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/"} className='text-[#1D5B79]'>About us</Link></li>
-        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/"}>Careers</Link></li>
-        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/"}>Services</Link></li>
-        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/"}>Testimonials</Link></li>
-        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/trial"}>Trial</Link></li>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><a href="#careers">Careers</a></li>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><a href='#statistics'>Services</a></li>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><a href='#testimonials'>Testimonials</a></li>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><a href='#trial'>Trial</a></li>
       </ul>
 
       {/* Log-Reg */}

@@ -2,7 +2,7 @@ import React from 'react'
 
 const Stats =()=>{
     return(
-    <section className="relative overflow-hidden">
+    <section id="statistics" className="relative overflow-hidden">
         <div className=" relative mx-auto flex h-full w-full flex-col items-center justify-center px-4 py-12 backdrop-blur-md sm:px-6 sm:py-16 lg:px-8 lg:py-20">
             <div className="mx-auto grid max-w-screen-lg grid-cols-1 gap-y-4 gap-x-8 text-center sm:mt-12 sm:text-left md:grid-cols-3">
                 <div className="bg-white/10 relative mb-3 rounded-3xl border px-12 py-10 text-left shadow backdrop-blur-lg lg:px-12">
