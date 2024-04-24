@@ -2,9 +2,8 @@ import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import {
   BsFillArchiveFill,
-  BsFillGrid3X3GapFill,
   BsPeopleFill,
-  BsFillBellFill,
+  BsClipboard2DataFill,
 } from "react-icons/bs";
 import axios from "axios"; // Import axios for making HTTP requests
 import UserContext from "../context/UserContext";
@@ -24,8 +23,6 @@ function CDashboard() {
   const { userId } = useParams();
   const [userData, setUserData] = useState(null); // State to store user data
   const[trackModal, settrackModal] = React.useState(false);
-
-  const { userIdLink } = useContext(UserContext);
 
   useEffect(() => {
     // Fetch user data using the user ID
@@ -59,10 +56,10 @@ function CDashboard() {
             </h1>
           </div>
           {/*fixing headbox on dashboard -j*/}
-          <div className="grid grid-cols-2 gap-[20px] my-[15px]">
+          <div className="grid grid-cols-3 gap-[20px] my-[15px]">
             <div className="card">
               <div className="card-inner">
-                <h3 className="font-bold text-[#1D5B79]">On-Going Projects</h3>
+                <h3 className="font-bold text-[#1D5B79]">On-Going Contracts</h3>
                 <BsFillArchiveFill className="card_icon" />
               </div>
               <h1 className="font-medium text-[#1D5B79]">300</h1>
@@ -73,6 +70,13 @@ function CDashboard() {
                 <BsPeopleFill className="card_icon" />
               </div>
               <h1 className="font-medium text-[#1D5B79]">33</h1>
+            </div>
+            <div className="card">
+              <div className="card-inner">
+                <h3 className="font-bold text-[#1D5B79]">Total Projects</h3>
+                <BsClipboard2DataFill className="card_icon" />
+              </div>
+              <h1 className="font-medium text-[#1D5B79]">300</h1>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-[20px] my-[15px] md:grid-cols-3">
