@@ -23,7 +23,7 @@ const AddServiceModal = ({ setaddModal }) => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8800/api/freelancer/${userId}`
+          `https://quircom.onrender.com/freelancer/${userId}`
         );
         if (response.status === 200) {
           setUsers(response.data);

@@ -180,7 +180,7 @@ const Reg = () => {
 
       // Send POST request to the appropriate endpoint
       const response = await axios.post(
-        `http://localhost:8800/api/${endpoint}/upload`,
+        `https://quircom.onrender.com/api/${endpoint}/upload`,
         formObject,
         {
           headers: {
