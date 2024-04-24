@@ -58,8 +58,8 @@ const LoginUser = async (req, res) => {
 
     // If user is found in freelancer collection
     if (freelancerUser) {
-      const femail = freelancerUser.eMail;
-      const authToken = jwt.sign({femail}, process.env.SECRET_KEY, {expiresIn: '1h'})
+      // const femail = freelancerUser.eMail;
+      // const authToken = jwt.sign({femail}, process.env.SECRET_KEY, {expiresIn: '1h'})
       // Check if password matches
       if (freelancerUser.passWord !== passWord) {
         return res.status(401).json({ message: 'Invalid password' });
@@ -70,14 +70,14 @@ const LoginUser = async (req, res) => {
           _id: freelancerUser._id,
           accType: 'freelancer'
         },
-        authToken
+        // authToken
       });
     }
 
     // If user is found in client collection
     if (clientUser) {
-      const cemail = clientUser.eMail;
-      const authToken = jwt.sign({cemail}, process.env.SECRET_KEY, {expiresIn: '1h'})
+      // const cemail = clientUser.eMail;
+      // const authToken = jwt.sign({cemail}, process.env.SECRET_KEY, {expiresIn: '1h'})
       // Check if password matches
       if (clientUser.passWord !== passWord) {
         return res.status(401).json({ message: 'Invalid password' });
@@ -88,7 +88,7 @@ const LoginUser = async (req, res) => {
           _id: clientUser._id,
           accType: 'client'
         },
-        authToken
+        // authToken
       });
     }
 
