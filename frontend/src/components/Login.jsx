@@ -11,31 +11,36 @@ const Login = ({ open, onClose }) => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const { login } = useContext(UserContext);
+  // const { login } = useContext(UserContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
+      const trimmedUserName = userName.trim();
+      const trimmedPassWord = passWord.trim();
+
       const response = await axios.post('https://quircom.onrender.com/api/auth/login', {
-        userName,
-        passWord,
+        userName: trimmedUserName,
+        passWord: trimmedPassWord,
       });
-      console.log('Login response:', response.data); // Log the response data
+
       if (response.status === 200) {
-        const { _id, accType } = response.data.user; // Destructure user data
-        localStorage.setItem('user', response.token)
+        const { authToken } = response.data
+        const { _id, accType } = response.data.user;
         if (accType === 'client') {
-          login(_id);
+          // login(_id);
+          localStorage.setItem('authToken', authToken)
           navigate(`/client/dashboard/${_id}`);
         } else if (accType === 'freelancer') {
-          login(_id);
+          // login(_id);
+          localStorage.setItem('authToken', authToken)
           navigate(`/freelancer/dashboard/${_id}`); 
         }
       }
       // Here you can handle the successful login, such as setting user data in state or redirecting the user
     } catch (error) {
       console.error('Error logging in:', error.response.data.message);
-      setError("Server Error, Try again later");
+      setError(error.response.data.message);
     }
   };
 
@@ -74,7 +79,7 @@ const Login = ({ open, onClose }) => {
                 onChange={(e) => setUserName(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder='Enter Username'
-              ></input>
+              />
             </div>
             <div className='mt-[10px]'>
               <label htmlFor='passWord' className='text-[16px] font-medium'>
@@ -88,7 +93,7 @@ const Login = ({ open, onClose }) => {
                 onChange={(e) => setPassword(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder='Enter password'
-              ></input>
+              />
             </div>
             {error && <p className='text-red-500 text-sm mt-2'>{error}</p>}
             <div className='text-right mr-2'>

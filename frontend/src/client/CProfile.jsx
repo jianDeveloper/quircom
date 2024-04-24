@@ -23,7 +23,13 @@ function CProfile() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`https://quircom.onrender.com/api/client/${userId}`);
+        const token = localStorage.getItem('authToken');
+        const headers = {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        };
+        
+        const response = await axios.get(`https://quircom.onrender.com/api/client/${userId}`, {headers});
         if (response.status === 200) {
           setUsers(response.data);
         }

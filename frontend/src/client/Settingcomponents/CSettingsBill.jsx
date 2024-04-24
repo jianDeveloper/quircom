@@ -6,15 +6,23 @@ import UserContext from '../../context/UserContext';
 import CFooter from '../CFooter';
 import CMainNav from '../CMainNav';
 
+import WithAuth from '../../auth/WithAuth';
+
 function CSettingsBill() {
   
   const { userId } = useParams();
   const [ userData, setUsers] = useState();
 
   useEffect(() => {
+    const token = localStorage.getItem("authToken");
+
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": 'multipart/form-data',
+    };
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`https://quircom.onrender.com/api/client/${userId}`);
+        const response = await axios.get(`https://quircom.onrender.com/api/client/${userId}`, {headers});
         if (response.status === 200) {
           setUsers(response.data);
         }
@@ -177,4 +185,4 @@ function CSettingsBill() {
   )
 }
 
-export default CSettingsBill
+export default WithAuth(CSettingsBill)

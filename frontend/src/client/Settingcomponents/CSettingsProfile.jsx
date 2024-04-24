@@ -11,6 +11,9 @@ import CMainNav from '../CMainNav';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import WithAuth from '../../auth/WithAuth';
+
 function CSettingsProfile(props) {
   const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
   
@@ -39,7 +42,13 @@ function CSettingsProfile(props) {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8800/api/client/${userId}`);
+        const token = localStorage.getItem("authToken");
+
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": 'multipart/form-data',
+        };
+        const response = await axios.get(`https://quircom.onrender.com/api/client/${userId}`, {headers});
         if (response.status === 200) {
           setUsers(response.data);
           setFormData({
@@ -223,7 +232,7 @@ function CSettingsProfile(props) {
 
     try {
 
-      const validationResponse = await axios.post(`http://localhost:8800/api/auth/validate`, {
+      const validationResponse = await axios.post(`https://quircom.onrender.com/api/auth/validate`, {
         contactNum: Number(formData.contactNum),
       });
 
@@ -254,10 +263,14 @@ function CSettingsProfile(props) {
     }));
 
     try {
-      const updateResponse = await axios.patch(`http://localhost:8800/api/client/update/${userId}`, formObj, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
+      const token = localStorage.getItem("authToken");
+
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": 'multipart/form-data',
+      };
+      const updateResponse = await axios.patch(`https://quircom.onrender.com/api/client/update/${userId}`, formObj, {
+        headers
       });
 
       if (updateResponse.status === 201) {
@@ -298,7 +311,7 @@ function CSettingsProfile(props) {
     }
 
     try {
-      const validationResponse = await axios.post(`http://localhost:8800/api/auth/validate`, {
+      const validationResponse = await axios.post(`https://quircom.onrender.com/api/auth/validate`, {
         userName: formData.userName,
       });
 
@@ -324,10 +337,14 @@ function CSettingsProfile(props) {
     }));
 
     try {
-      const updateResponse = await axios.patch(`http://localhost:8800/api/client/update/${userId}`, formObj, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
+      const token = localStorage.getItem("authToken");
+
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": 'multipart/form-data',
+      };
+      const updateResponse = await axios.patch(`https://quircom.onrender.com/api/client/update/${userId}`, formObj, {
+        headers
       });
 
       if (updateResponse.status === 201) {
@@ -374,10 +391,13 @@ function CSettingsProfile(props) {
     }));
 
     try {
-      const updateResponse = await axios.patch(`http://localhost:8800/api/client/update/${userId}`, formObj, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
+      const token = localStorage.getItem("authToken");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": 'multipart/form-data',
+      };
+      const updateResponse = await axios.patch(`https://quircom.onrender.com/api/client/update/${userId}`, formObj, {
+        headers
       });
 
       if (updateResponse.status === 201) {
@@ -693,4 +713,4 @@ function CSettingsProfile(props) {
   )
 }
 
-export default CSettingsProfile
+export default WithAuth(CSettingsProfile)

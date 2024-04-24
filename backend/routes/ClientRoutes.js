@@ -5,21 +5,23 @@ const requireAuth = require('../utils/requireAuth')
 
 const {
   GetAllUsers,
-  GetSpecificUser,
-  CreateUser,
-  EditUser,
-  DeleteUser,
+  GetSpecificUserWithAuth,
+  CreateUserWithAuth,
+  EditUserWithAuth,
+  DeleteUserWithAuth,
+  SubscriptionStatusWithAuth,
+  EditBillingWithAuth,
   ValidateUserData,
-  SubscriptionStatus
 } = require("../controllers/ClientController.js");
 
-// router.use(requireAuth);
+router.use(requireAuth);
 router.get("/", GetAllUsers);
-router.get("/:id", GetSpecificUser);
-router.post("/upload", upload.single("file"), CreateUser);
-router.patch("/update/:id", upload.single("file"), EditUser);
-router.patch("/status/:id", SubscriptionStatus);
-router.delete("/delete/:id", DeleteUser);
+router.get("/:id", GetSpecificUserWithAuth);
+router.post("/upload", upload.single("file"), CreateUserWithAuth);
+router.patch("/update/:id", upload.single("file"), EditUserWithAuth);
+router.patch("/status/:id", SubscriptionStatusWithAuth);
+router.patch("/billing/:id", EditBillingWithAuth)
+router.delete("/delete/:id", DeleteUserWithAuth);
 router.post("/validate", ValidateUserData);
 
 module.exports = router;

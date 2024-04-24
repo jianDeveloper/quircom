@@ -27,6 +27,8 @@ import Bill from "../assets/bill.png";
 import LBoard from "../assets/crown.png";
 import User from "../assets/user.png";
 
+import WithAuth from "../auth/WithAuth";
+
 
 const CMainNav = () => {
   const [selectedIcon, setSelectedIcon] = useState(null);
@@ -43,17 +45,23 @@ const CMainNav = () => {
   
 
   useEffect(() => {
-    console.log("User ID: ", userId)
-    // Fetch user data using the user ID
-    axios.get(`https://quircom.onrender.com/api/client/${userId}`)
+    const token = localStorage.getItem('authToken');
+    const headers = {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    };
+
+    axios.get(`https://quircom.onrender.com/api/client/${userId}`, { headers })
       .then(response => {
-        console.log('User data:', response.data);
-        setUser(response.data); // Set the user data in state
+        console.log("User ID in Dashboard:", userId);
+        console.log("User data:", response.data);
+        setUser(response.data);
       })
       .catch(error => {
         console.error('Error fetching user data:', error);
       });
-  }, [userId]); // Fetch user data whenever userId changes
+  }, [userId]);
+  
 
   const icons = [
     { icon: Dboard, component: `/client/dashboard/${userId}`, text: "Dashboard", index: 0 },
@@ -89,6 +97,10 @@ const CMainNav = () => {
     setAnchorEl(null);
     setAnchorEl2(null);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem('authToken')
+  }
 
   const getLogo = () => {
     if (window.innerWidth >= 600) {
@@ -206,7 +218,7 @@ const CMainNav = () => {
                 <Typography variant="body1">Settings</Typography>
               </Stack>
             </MenuItem>
-            <MenuItem onClick={handleCloseMenu} onAuxClick={(e) => e.preventDefault()} onContextMenu={(e) => e.preventDefault()}>
+            <MenuItem onClick={ () => {handleCloseMenu(); handleLogout(); }} onAuxClick={(e) => e.preventDefault()} onContextMenu={(e) => e.preventDefault()}>
               <Stack direction={"row"} spacing={1} alignItems={"center"}>
                 <Chip
                   label="Logout"
@@ -215,7 +227,7 @@ const CMainNav = () => {
                   color="error"
                   onMouseOver={() => setIsHovered(true)}
                   onMouseOut={() => setIsHovered(false)}
-                  component={Link} to="/registration"
+                  component={Link} to="/"
                 />
               </Stack>
             </MenuItem>
@@ -226,4 +238,4 @@ const CMainNav = () => {
   );
 };
 
-export default CMainNav;
+export default WithAuth(CMainNav);

@@ -7,6 +7,8 @@ import NavHeader from "../CMainNav";
 import Connect from "../../assets/link.png";
 import AddReqModal from "./addReqModal";
 
+import WithAuth from "../../auth/WithAuth";
+
 function CConnect() {
   const [userData, setUsers] = useState();
   const [userServices, setServices] = useState();
@@ -14,7 +16,7 @@ function CConnect() {
   const { serviceId } = useParams();
   const [activeTab, setActiveTab] = useState("view");
   const [reqModal, setReqModal] = useState(false);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const handleTab = (view) => {
     setActiveTab(view);
@@ -23,8 +25,14 @@ function CConnect() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
+        const token = localStorage.getItem("authToken");
+
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        };
         const response = await axios.get(
-          `https://quircom.onrender.com/api/client/${userId}`
+          `https://quircom.onrender.com/api/client/${userId}`, {headers}
         );
         if (response.status === 200) {
           setUsers(response.data);
@@ -85,10 +93,16 @@ function CConnect() {
                 userServices?.freelancerId?.surName}
             </p>
             <p className="sm: text-sm font-itallic text-[#1D5B79] sm:text-sm">
-              Date Created: {userServices?.dateUploaded ? new Date(userServices.dateUploaded).toLocaleString() : 'No Date Provided'}
+              Date Created:{" "}
+              {userServices?.dateUploaded
+                ? new Date(userServices.dateUploaded).toLocaleString()
+                : "No Date Provided"}
             </p>
             <p className="sm: text-sm font-itallic text-[#1D5B79] sm:text-sm">
-              Date Updated: {userServices?.dateUpdated ? new Date(userServices.dateUpdated).toLocaleString() : ''}
+              Date Updated:{" "}
+              {userServices?.dateUpdated
+                ? new Date(userServices.dateUpdated).toLocaleString()
+                : ""}
             </p>
 
             <div className="mt-5 flex items-center">
@@ -281,13 +295,19 @@ function CConnect() {
                               {userServices.requestId.length > 0 ? (
                                 <span className="ml-2">
                                   {(
-                                    userServices.requestId.reduce((acc, curr) => acc + curr.feedbackNum, 0) /
-                                    userServices.requestId.length
+                                    userServices.requestId.reduce(
+                                      (acc, curr) => acc + curr.feedbackNum,
+                                      0
+                                    ) / userServices.requestId.length
                                   ).toFixed(1)}
                                 </span>
-                              ): <span className="ml-2"> 0.0 </span>}
+                              ) : (
+                                <span className="ml-2"> 0.0 </span>
+                              )}
                             </div>
-                            <p className="text-sm text-gray-500">Average User Rating</p>
+                            <p className="text-sm text-gray-500">
+                              Average User Rating
+                            </p>
                           </div>
                         </div>
                         {userServices.requestId.length > 0 ? (
@@ -296,16 +316,24 @@ function CConnect() {
                             <ul className="mb-6 mt-2 space-y-2">
                               {[...Array(5)].map((_, index) => {
                                 const feedbackNum = index === 4 ? 1 : 5 - index; // Adjust arrangement
-                                const feedbackCount = userServices.requestId.filter(service => {
-                                  const rating = service.feedbackNum;
-                                  return Math.ceil((rating / 5) * 5) === feedbackNum;
-                                }).length;
+                                const feedbackCount =
+                                  userServices.requestId.filter((service) => {
+                                    const rating = service.feedbackNum;
+                                    return (
+                                      Math.ceil((rating / 5) * 5) ===
+                                      feedbackNum
+                                    );
+                                  }).length;
 
                                 // Calculate the ratio of feedbackCount to the total number of users who provided feedback
-                                const ratio = feedbackCount / userServices.requestId.length;
+                                const ratio =
+                                  feedbackCount / userServices.requestId.length;
 
                                 return (
-                                  <li className="flex items-center text-sm font-medium" key={index}>
+                                  <li
+                                    className="flex items-center text-sm font-medium"
+                                    key={index}
+                                  >
                                     <span className="w-3">{feedbackNum}</span>
                                     <span className="mr-4 text-yellow-400">
                                       <svg
@@ -318,7 +346,10 @@ function CConnect() {
                                       </svg>
                                     </span>
                                     <div className="mr-4 h-2 w-96 overflow-hidden rounded-full bg-gray-300">
-                                      <div className={`h-full bg-yellow-400`} style={{ width: `${ratio * 100}%` }}></div>
+                                      <div
+                                        className={`h-full bg-yellow-400`}
+                                        style={{ width: `${ratio * 100}%` }}
+                                      ></div>
                                     </div>
                                     <span className="w-3">{feedbackCount}</span>
                                   </li>
@@ -326,25 +357,36 @@ function CConnect() {
                               })}
                             </ul>
                           </div>
-                        ) : 
+                        ) : (
                           <div className="text-[#1D5B79]">
                             <p className="font-medium">Reviews</p>
                             <ul className="mb-6 mt-2 space-y-2">
                               {[...Array(5)].map((_, index) => {
                                 const feedbackNum = index === 4 ? 1 : 5 - index; // Adjust arrangement
-                                const feedbackCount = userServices.requestId.filter(service => {
-                                  const rating = service.feedbackNum;
-                                  return Math.ceil((rating / 5) * 5) === feedbackNum;
-                                }).length;
-                          
+                                const feedbackCount =
+                                  userServices.requestId.filter((service) => {
+                                    const rating = service.feedbackNum;
+                                    return (
+                                      Math.ceil((rating / 5) * 5) ===
+                                      feedbackNum
+                                    );
+                                  }).length;
+
                                 // Calculate the ratio of feedbackCount to the total number of users who provided feedback
-                                const ratio = feedbackCount / userServices.requestId.length;
-                          
+                                const ratio =
+                                  feedbackCount / userServices.requestId.length;
+
                                 // Determine the bar color based on feedbackCount
-                                const barColor = feedbackCount > 0 ? "bg-yellow-400" : "bg-gray-300"; // Gray if feedbackCount is 0
-                          
+                                const barColor =
+                                  feedbackCount > 0
+                                    ? "bg-yellow-400"
+                                    : "bg-gray-300"; // Gray if feedbackCount is 0
+
                                 return (
-                                  <li className="flex items-center text-sm font-medium" key={index}>
+                                  <li
+                                    className="flex items-center text-sm font-medium"
+                                    key={index}
+                                  >
                                     <span className="w-3">{feedbackNum}</span>
                                     <span className="mr-4 text-yellow-400">
                                       <svg
@@ -357,7 +399,10 @@ function CConnect() {
                                       </svg>
                                     </span>
                                     <div className="mr-4 h-2 w-96 overflow-hidden rounded-full">
-                                      <div className={`h-full ${barColor}`} style={{ width: `${ratio * 100}%` }}></div>
+                                      <div
+                                        className={`h-full ${barColor}`}
+                                        style={{ width: `${ratio * 100}%` }}
+                                      ></div>
                                     </div>
                                     <span className="w-3">{feedbackCount}</span>
                                   </li>
@@ -365,7 +410,7 @@ function CConnect() {
                               })}
                             </ul>
                           </div>
-                        }
+                        )}
                       </div>
                     </div>
                     {userServices.requestId.length > 0 ? (
@@ -375,11 +420,15 @@ function CConnect() {
                           {userServices.requestId.map((service) => {
                             const maxRating = 5;
                             const rating = service.feedbackNum;
-                            const feedbackNum = Math.ceil((rating / maxRating) * 5);
-                            
+                            const feedbackNum = Math.ceil(
+                              (rating / maxRating) * 5
+                            );
 
                             // Check if feedbackNum and feedbackInfo are not null
-                            if (feedbackNum !== null && service.feedbackInfo !== null) {
+                            if (
+                              feedbackNum !== null &&
+                              service.feedbackInfo !== null
+                            ) {
                               return (
                                 <li
                                   className="border border-gray-200 rounded p-4 bg-white"
@@ -393,11 +442,15 @@ function CConnect() {
                                         <div
                                           className="h-full bg-yellow-400"
                                           style={{
-                                            width: `${(rating / maxRating) * 100}%`
+                                            width: `${
+                                              (rating / maxRating) * 100
+                                            }%`,
                                           }}
                                         ></div>
                                       </div>
-                                      <span className="text-gray-500">({rating}/5)</span>
+                                      <span className="text-gray-500">
+                                        ({rating}/5)
+                                      </span>
                                       <span className="ml-auto mr-4 text-yellow-400">
                                         <svg
                                           xmlns="http://www.w3.org/2000/svg"
@@ -417,7 +470,11 @@ function CConnect() {
                                           src={service.clientId.profilePic.link}
                                           alt="Profile"
                                         />
-                                        <span>{service.clientId.firstName + " " + service.clientId.surName}</span>
+                                        <span>
+                                          {service.clientId.firstName +
+                                            " " +
+                                            service.clientId.surName}
+                                        </span>
                                       </div>
                                       {/* Feedback Info */}
                                       <p>Review: {service.feedbackInfo}</p>
@@ -431,14 +488,14 @@ function CConnect() {
                           })}
                         </ul>
                       </div>
-                    ) :
+                    ) : (
                       <div className="text-[#1D5B79]">
                         <p className="font-medium">Reviews</p>
-                        <ul className="mb-6 mt-2 space-y-4">                  
-                          <p>There are no reviews yet :(</p>           
+                        <ul className="mb-6 mt-2 space-y-4">
+                          <p>There are no reviews yet :(</p>
                         </ul>
                       </div>
-                    } 
+                    )}
                   </div>
                 </>
               )}
@@ -451,4 +508,4 @@ function CConnect() {
   );
 }
 
-export default CConnect;
+export default WithAuth(CConnect);

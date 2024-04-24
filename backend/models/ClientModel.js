@@ -83,10 +83,31 @@ const ClientSchema = new Schema({
       default: ""
     }, 
   },
-  paymentId: [{
-    type: Schema.Types.ObjectId, 
-    ref: 'billing'
-  }]
+  billing: {
+    firstName: {
+      type: String,
+      default: "",
+    },
+    surName: {
+      type: String,
+      default: "",
+    },
+    cardNum: {
+      type: String,
+      default: "",
+    },
+    expireDate: {
+      type: Date,
+    },
+    cvv: {
+      type: Number,
+      default: "",
+    },
+    aggRee: {
+      type: Boolean,
+      default: false,
+    }
+  }
 });
 
 module.exports = mongoose.model("client", ClientSchema);

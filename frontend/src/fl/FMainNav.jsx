@@ -11,10 +11,10 @@ import {
   Popover,
   Chip,
 } from "@mui/material";
-import React, { useState, useContext, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom';
-import UserContext from '../context/UserContext';
-import axios from 'axios';
+import React, { useState, useContext, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import UserContext from "../context/UserContext";
+import axios from "axios";
 
 import Logo from "../assets/Icon1.png";
 import Logo2 from "../assets/clientNav.png";
@@ -25,7 +25,6 @@ import Tracker from "../assets/tracker.png";
 import Notifs from "../assets/bell.png";
 import LBoard from "../assets/crown.png";
 import User from "../assets/user.png";
-
 
 const FMainNav = () => {
   const [selectedIcon, setSelectedIcon] = useState(null);
@@ -40,26 +39,34 @@ const FMainNav = () => {
 
   const { userId } = useParams();
   const { userIdLink } = useContext(UserContext);
-  
 
   useEffect(() => {
-    // Fetch user data using the user ID
-    axios.get(`https://quircom.onrender.com/api/freelancer/${userId}`)
-      .then(response => {
-        console.log('User ID in Dashboard:', userIdLink);
-        console.log('User data:', response.data);
+
+    const token = localStorage.getItem("authToken");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+
+    axios
+      .get(`https://quircom.onrender.com/api/freelancer/${userId}`, { headers })
+      .then((response) => {
+        console.log("User ID in Dashboard:", userIdLink);
+        console.log("User data:", response.data);
         setUserData(response.data); // Set the user data in state
       })
-      .catch(error => {
-        console.error('Error fetching user data:', error);
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
       });
   }, [userId]); // Fetch user data whenever userId changes
 
   const icons = [
-    { icon: Dboard, 
-      component: `/freelancer/dashboard/${userId}`, 
-      text: "Dashboard", 
-      index: 0 },
+    {
+      icon: Dboard,
+      component: `/freelancer/dashboard/${userId}`,
+      text: "Dashboard",
+      index: 0,
+    },
     {
       icon: LBoard,
       component: `/freelancer/leaderboard/${userId}`,
@@ -84,6 +91,10 @@ const FMainNav = () => {
   const handleCloseMenu = () => {
     setAnchorEl(null);
     setAnchorEl2(null);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
   };
 
   const getLogo = () => {
@@ -126,7 +137,7 @@ const FMainNav = () => {
               <ButtonBase
                 key={index}
                 component={Link} // Use Link component instead of button
-                to={icon.component} 
+                to={icon.component}
                 onClick={() => handleIconClick(index)}
                 sx={{
                   display: "flex",
@@ -159,7 +170,6 @@ const FMainNav = () => {
           justifyContent={"center"}
           spacing={1}
         >
-  
           <IconButton onClick={handleAvatarClick}>
             <Avatar src={User} alt="User" />
           </IconButton>
@@ -168,19 +178,34 @@ const FMainNav = () => {
             open={Boolean(anchorEl)}
             onClose={handleCloseMenu}
           >
-            <MenuItem onClick={handleCloseMenu} component={Link} to={`/freelancer/profile/${userId}`}>
+            <MenuItem
+              onClick={handleCloseMenu}
+              component={Link}
+              to={`/freelancer/profile/${userId}`}
+            >
               <Stack direction={"row"} spacing={1}>
                 <img className="w-6 h-6" src={User} alt="Profile" />
                 <Typography variant="body1">Profile</Typography>
               </Stack>
             </MenuItem>
-            <MenuItem onClick={handleCloseMenu} component={Link} to={`/freelancer/settings/${userId}`}>
+            <MenuItem
+              onClick={handleCloseMenu}
+              component={Link}
+              to={`/freelancer/settings/${userId}`}
+            >
               <Stack direction={"row"} spacing={1}>
                 <img className="w-6 h-6" src={Settings} alt="Settings" />
                 <Typography variant="body1">Settings</Typography>
               </Stack>
             </MenuItem>
-            <MenuItem onClick={handleCloseMenu} onAuxClick={(e) => e.preventDefault()} onContextMenu={(e) => e.preventDefault()}>
+            <MenuItem
+              onClick={() => {
+                handleCloseMenu();
+                handleLogout();
+              }}
+              onAuxClick={(e) => e.preventDefault()}
+              onContextMenu={(e) => e.preventDefault()}
+            >
               <Stack direction={"row"} spacing={1} alignItems={"center"}>
                 <Chip
                   label="Logout"
@@ -189,7 +214,8 @@ const FMainNav = () => {
                   color="error"
                   onMouseOver={() => setIsHovered(true)}
                   onMouseOut={() => setIsHovered(false)}
-                  component={Link} to="/registration"
+                  component={Link}
+                  to="/"
                 />
               </Stack>
             </MenuItem>

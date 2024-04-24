@@ -19,15 +19,20 @@ import BGtrack from "../assets/tra.png";
 import BGsubs from "../assets/sub.png";
 import CMainNav from "./CMainNav";
 
+
 function CDashboard() {
   const { userId } = useParams();
   const [userData, setUserData] = useState(null); // State to store user data
   const[trackModal, settrackModal] = React.useState(false);
 
   useEffect(() => {
-    // Fetch user data using the user ID
+    const token = localStorage.getItem('authToken');
+    const headers = {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    };
     axios
-      .get(`https://quircom.onrender.com/api/client/${userId}`)
+      .get(`https://quircom.onrender.com/api/client/${userId}`, {headers})
       .then((response) => {
         setUserData(response.data); // Set the user data in state
       })

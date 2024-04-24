@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const upload = require("../config/Multer.js");
+const requireAuth = require('../utils/requireAuth')
 
 const {
     GetAllServices,
@@ -12,6 +13,7 @@ const {
 
 // Routes for Service
 router.get("/", GetAllServices);
+// router.use(requireAuth);
 router.get("/:id", GetSpecificService);
 router.post("/create", upload.single("file"), CreateService);
 router.patch("/edit/:id", upload.single("file"), EditService);

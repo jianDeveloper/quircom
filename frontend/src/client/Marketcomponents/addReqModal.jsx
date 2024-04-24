@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import WithAuth from "../../auth/WithAuth";
 
 const addReqModal = ({ setReqModal }) => {
   const { userId } = useParams();
@@ -21,13 +22,19 @@ const addReqModal = ({ setReqModal }) => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
+        const token = localStorage.getItem("authToken");
+
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        };
         const response = await axios.get(
-          `http://localhost:8800/api/client/${userId}`
+          `https://quircom.onrender.com/api/client/${userId}`, {headers}
         );
         if (response.status === 200) {
           setUsers(response.data);
           // setFormData({ requestId: response.data.requestId });
-          // setFormData({ freelancerId: response.data._id }); 
+          // setFormData({ freelancerId: response.data._id });
         }
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -39,9 +46,9 @@ const addReqModal = ({ setReqModal }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
-    
+
     setInvalidFields({});
-    
+
     const errors = {};
     if (formData.taskTitle.length === 0) {
       errors.taskTitle = "Please input your title";
@@ -53,22 +60,22 @@ const addReqModal = ({ setReqModal }) => {
       // If deadline is less than 1 week from now
       errors.deadLine = "Deadline must be at least 3 days from now";
     }
-    
+
     setInvalidFields(errors);
-    
+
     if (Object.keys(errors).length > 0) {
       return;
     }
-    
+
     try {
       const response = await axios.post(
-        `http://localhost:8800/api/request/create`,
+        `https://quircom.onrender.com/api/request/create`,
         formData
       );
-    
+
       if (response && response.data) {
         toast.success("Request uploaded successfully");
-        setReqModal(false)
+        setReqModal(false);
       } else {
         console.log("Response data not available");
         toast.error("Failed to upload request");
@@ -79,7 +86,6 @@ const addReqModal = ({ setReqModal }) => {
       toast.error("Failed to upload request");
     }
   };
-  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -98,10 +104,13 @@ const addReqModal = ({ setReqModal }) => {
             <div className="flexitems-start justify-between p-5 bg-[#1d5b79] border-b border-solid border-blueGray-200 rounded-t">
               <h3 className="text-3xl text-white text-center font-semibold">
                 Request Form
-            </h3>
+              </h3>
             </div>
             {/* Creating Form */}
-            <form className="w-full max-w-screen-ss mx-auto" onSubmit={handleSubmit}>
+            <form
+              className="w-full max-w-screen-ss mx-auto"
+              onSubmit={handleSubmit}
+            >
               <div className="relative flex flex-col overflow-y-auto max-h-[400px] px-6 py-4">
                 <div className="space-y-6">
                   <label
@@ -116,10 +125,16 @@ const addReqModal = ({ setReqModal }) => {
                     name="taskTitle"
                     value={formData.taskTitle}
                     onChange={handleChange}
-                    className={`mt-1 relative rounded-md shadow-sm border border-gray-300 px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm  ${invalidFields.serviceName ? "border-red-500" : ""}`}
+                    className={`mt-1 relative rounded-md shadow-sm border border-gray-300 px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm  ${
+                      invalidFields.serviceName ? "border-red-500" : ""
+                    }`}
                   />
-                  {invalidFields.taskTitle && <p className="text-red-500 text-[12px]">{invalidFields.taskTitle}</p>}
-                  
+                  {invalidFields.taskTitle && (
+                    <p className="text-red-500 text-[12px]">
+                      {invalidFields.taskTitle}
+                    </p>
+                  )}
+
                   <label
                     htmlFor="taskDetails"
                     className={`block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300`}
@@ -133,9 +148,15 @@ const addReqModal = ({ setReqModal }) => {
                       value={formData.taskDetails}
                       onChange={handleChange}
                       rows={4}
-                      className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 px-3 py-2 ${invalidFields.serviceInfo ? "border-red-500" : ""}`}
+                      className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 px-3 py-2 ${
+                        invalidFields.serviceInfo ? "border-red-500" : ""
+                      }`}
                     />
-                    {invalidFields.taskDetails && <p className="text-red-500 text-[12px]">{invalidFields.taskDetails}</p>}
+                    {invalidFields.taskDetails && (
+                      <p className="text-red-500 text-[12px]">
+                        {invalidFields.taskDetails}
+                      </p>
+                    )}
                   </div>
                   <div className="flex flex-row justify-between gap-12">
                     <div className="w-[50%]">
@@ -153,13 +174,19 @@ const addReqModal = ({ setReqModal }) => {
                           min={new Date().toISOString().slice(0, 10)}
                           value={formData.deadLine}
                           onChange={handleChange}
-                          className={`focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm p-2 shadow-sm border border-gray-300 ${invalidFields.deadLine ? "border-red-500" : ""}`}
+                          className={`focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm p-2 shadow-sm border border-gray-300 ${
+                            invalidFields.deadLine ? "border-red-500" : ""
+                          }`}
                         />
                       </div>
-                      {invalidFields.deadLine && <p className="text-red-500 ml-2 text-[12px]">{invalidFields.deadLine}</p>}
+                      {invalidFields.deadLine && (
+                        <p className="text-red-500 ml-2 text-[12px]">
+                          {invalidFields.deadLine}
+                        </p>
+                      )}
                     </div>
                     <div className="w-[50%]">
-                    <label
+                      <label
                         htmlFor="dateUploaded"
                         className="block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
                       >
@@ -170,7 +197,9 @@ const addReqModal = ({ setReqModal }) => {
                           type="text"
                           id="dateUploaded"
                           name="dateUploaded"
-                          value={new Date(formData.dateUploaded).toLocaleString()}
+                          value={new Date(
+                            formData.dateUploaded
+                          ).toLocaleString()}
                           readOnly
                           className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm p-2 shadow-sm border border-gray-300"
                         />
@@ -198,9 +227,7 @@ const addReqModal = ({ setReqModal }) => {
                         />
                       </div>
                     </div>
-                    <div className="w-[50%]">
-                      
-                    </div>
+                    <div className="w-[50%]"></div>
                   </div>
                 </div>
               </div>
@@ -231,4 +258,4 @@ const addReqModal = ({ setReqModal }) => {
   );
 };
 
-export default addReqModal;
+export default WithAuth(addReqModal);

@@ -3,6 +3,7 @@ const FreelancerModel = require("../models/FreelancerModel");
 const ClientModel = require("../models/ClientModel");
 const jwt = require("jsonwebtoken");
 const mailer = require("nodemailer")
+const requireAuth = require('../utils/requireAuth');
 
 const transporter = mailer.createTransport({
   service: 'gmail',
@@ -46,21 +47,16 @@ const LoginUser = async (req, res) => {
   try {
     const { userName, passWord } = req.body;
 
-    // Perform parallel database queries to check for existing data in both collections
     const userChecks = await Promise.all([
       FreelancerModel.findOne({ userName }),
       ClientModel.findOne({ userName })
     ]);
 
-    // Extract user data from the checks
     const freelancerUser = userChecks[0];
     const clientUser = userChecks[1];
 
-    // If user is found in freelancer collection
     if (freelancerUser) {
-      // const femail = freelancerUser.eMail;
-      // const authToken = jwt.sign({femail}, process.env.JWT_SECRET, {expiresIn: '1h'})
-      // Check if password matches
+      const authToken = jwt.sign({ _id: freelancerUser._id }, process.env.JWT_SECRET, {expiresIn: '5d'})
       if (freelancerUser.passWord !== passWord) {
         return res.status(401).json({ message: 'Invalid password' });
       }
@@ -70,15 +66,12 @@ const LoginUser = async (req, res) => {
           _id: freelancerUser._id,
           accType: 'freelancer'
         },
-        // authToken
+        authToken
       });
     }
 
-    // If user is found in client collection
     if (clientUser) {
-      // const cemail = clientUser.eMail;
-      // const authToken = jwt.sign({cemail}, process.env.JWT_SECRET, {expiresIn: '1h'})
-      // Check if password matches
+      const authToken = jwt.sign({ _id: clientUser._id }, process.env.JWT_SECRET, {expiresIn: '5d'})
       if (clientUser.passWord !== passWord) {
         return res.status(401).json({ message: 'Invalid password' });
       }
@@ -88,7 +81,7 @@ const LoginUser = async (req, res) => {
           _id: clientUser._id,
           accType: 'client'
         },
-        // authToken
+        authToken
       });
     }
 
@@ -116,7 +109,7 @@ const ForgotPassword = async (req, res) => {
 
     // If user is found in freelancer collection
     if (freelancerUser) {
-      const authToken = jwt.sign({ _id: freelancerUser._id }, process.env.JWT_SECRET, {expiresIn: '5m'})
+      const emailToken = jwt.sign({ _id: freelancerUser._id }, process.env.JWT_SECRET, {expiresIn: '5m'})
       const username = freelancerUser.userName;
       const id = freelancerUser._id;
   
@@ -160,12 +153,12 @@ const ForgotPassword = async (req, res) => {
           replyTo: '', // Set an empty reply-to address to disable reply functionality
           disableReplyTo: true
       });
-      res.status(201).json({ message: "An email has been sent into your account", authToken });
+      res.status(201).json({ message: "An email has been sent into your account", emailToken });
     }
 
     // If user is found in client collection
     if (clientUser) {
-      const authToken = jwt.sign({ _id: clientUser._id }, process.env.JWT_SECRET, { expiresIn: '30s' });
+      const emailToken = jwt.sign({ _id: clientUser._id }, process.env.JWT_SECRET, { expiresIn: '5m' });
       const username = clientUser.userName;
       const id = clientUser._id;
   
@@ -209,7 +202,7 @@ const ForgotPassword = async (req, res) => {
           replyTo: '', // Set an empty reply-to address to disable reply functionality
           disableReplyTo: true
       });
-      res.status(201).json({ message: "An email has been sent into your account", authToken });
+      res.status(201).json({ message: "An email has been sent into your account", emailToken });
   }
   
    
@@ -222,8 +215,6 @@ const ForgotPassword = async (req, res) => {
   }
 };
 
-const requireAuth = require('../utils/requireAuth');
-
 const ResetPassword = async (req, res) => {
   try {
     const { id } = req.params;
@@ -232,11 +223,7 @@ const ResetPassword = async (req, res) => {
       return res.status(404).json({ message: "Invalid ID" });
     }
 
-    // Use the requireAuth middleware to verify the token
     requireAuth(req, res, async () => {
-      // If the token is valid, continue with the reset password logic
-
-      // Search for the user in both collections using $or operator
       const user = await Promise.all([
         FreelancerModel.findOne({ _id: id }),
         ClientModel.findOne({ _id: id })
@@ -246,7 +233,6 @@ const ResetPassword = async (req, res) => {
       const clientUser = user[1];
 
       if (freelancerUser) {
-        // Update password for freelancer user
         const { passWord } = req.body;
         freelancerUser.passWord = passWord;
         await freelancerUser.save();
@@ -254,7 +240,6 @@ const ResetPassword = async (req, res) => {
       }
 
       if (clientUser) {
-        // Update password for client user
         const { passWord } = req.body;
         clientUser.passWord = passWord;
         await clientUser.save();
@@ -269,9 +254,6 @@ const ResetPassword = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
-
-module.exports = ResetPassword;
-
 
 module.exports = {
   ValidateUserData,

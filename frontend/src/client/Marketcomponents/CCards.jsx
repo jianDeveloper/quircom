@@ -18,8 +18,14 @@ const CCards = ({ image, serviceId, subtitle, title, author, button }) => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
+        const token = localStorage.getItem("authToken");
+
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        };
         const response = await axios.get(
-          `https://quircom.onrender.com/api/client/${userId}`
+          `https://quircom.onrender.com/api/client/${userId}`, {headers}
         );
         if (response.status === 200) {
           setUsers(response.data);
@@ -31,11 +37,13 @@ const CCards = ({ image, serviceId, subtitle, title, author, button }) => {
 
     fetchUsers();
   }, [userId]);
-  
+
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get(`https://quircom.onrender.com/api/service/${serviceId}`);
+        const response = await axios.get(
+          `https://quircom.onrender.com/api/service/${serviceId}`
+        );
         if (response.status === 200) {
           setServices(response.data);
         }

@@ -26,6 +26,8 @@ import FProfile from './fl/FProfile.jsx';
 import FSettings from './fl/FSettings.jsx';
 import FSettingsProfile from './fl/FSettingsProfile.jsx';
 
+import NotFoundPage from './components/NotFoundPage.jsx';
+
 
 function App() {
   return (
@@ -54,6 +56,12 @@ function App() {
               <Trial />
             </>
           }
+        />
+
+        <Route
+          exact
+          path="/page-not-found"
+          element={<NotFoundPage />}
         />
 
         <Route
