@@ -64,7 +64,8 @@ const CreateRequest = async (req, res) => {
     let uniqueRequestId = generateUniqueRequestId();
     const newRequest = await RequestModel.create({
       requestId: uniqueRequestId,
-      status: "Approval",
+      verify: null,
+      status: "Ongoing",
       clientId: request.clientId,
       serviceId: request.serviceId,
       taskTitle: request.taskTitle,
@@ -193,6 +194,28 @@ const SubmitFeedback = async (req, res) => {
   }
 };
 
+const VerifyRequest = async (req, res) => {
+  try{
+    const { id } = req.params;
+    const request = req.body;
+    
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid ID" });
+    }
+
+    let update = {
+      $set: {
+        verify: request.verify
+      },
+    };
+
+    const result = await RequestModel.findByIdAndUpdate(id, update, { new: true });
+    res.status(201).json(result);
+  } catch (err) {
+      res.status(400).json({ message: err.message });
+  }
+}
+
 const DeleteRequest = async (req, res) => {
   try {
     const { id } = req.params;
@@ -227,5 +250,6 @@ module.exports = {
     CreateRequest,
     EditRequest,
     SubmitFeedback,
+    VerifyRequest,
     DeleteRequest
 };
