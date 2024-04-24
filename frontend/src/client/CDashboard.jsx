@@ -53,13 +53,7 @@ function CDashboard() {
       <CMainNav />
       <div className="flex align-center justify-center">
         <div className="flex flex-col container mx-10 my-10">
-          {" "}
-          {/*formatting navbar & body -j*/}
-          <div className="flex">
-            <h1 className="font-extrabold text-[30px] text-[#1D5B79]">
-              DASHBOARD
-            </h1>
-          </div>
+          {" "}    
           {/*fixing headbox on dashboard -j*/}
           <div className="grid grid-cols-3 gap-[20px] my-[15px]">
             <div className="card">
@@ -109,8 +103,7 @@ function CDashboard() {
                 }}
               >
                 <div className="flex justify-center items-center py-14">
-                  <button type='button' className='font-extrabold text-xl text-[#F5F5DC]' onClick={() => settrackModal (true)}>Progress Tracker</button>
-                    {trackModal ? <TrackerModal settrackModal={settrackModal} /> : null}
+                  <Link to={`/client/leaderboard/${userId}`}><button type='button' className='font-extrabold text-xl text-[#F5F5DC]'>Leaderboards</button></Link>
                 </div>
               </div>
             
