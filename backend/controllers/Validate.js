@@ -165,7 +165,7 @@ const ForgotPassword = async (req, res) => {
 
     // If user is found in client collection
     if (clientUser) {
-      const authToken = jwt.sign({ _id: clientUser._id }, process.env.JWT_SECRET, { expiresIn: '5m' });
+      const authToken = jwt.sign({ _id: clientUser._id }, process.env.JWT_SECRET, { expiresIn: '30s' });
       const username = clientUser.userName;
       const id = clientUser._id;
   
@@ -190,7 +190,7 @@ const ForgotPassword = async (req, res) => {
                   <p>${username}, We have received a request to reset your password. If you did not make this request, please ignore this email.</p>
                   <p style="text-align: center;">To reset your password, click the button below:</p>
                   <p style="text-align: center;">
-                      <a href="http://localhost:8800/resetpass/${id}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Reset Password</a>
+                      <a href="https://quircom.netlify.app/resetpass/${id}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Reset Password</a>
                   </p>
                   <p>If you did not request a password reset, no further action is required.</p>
                   <p>Thank you,</p>
@@ -222,46 +222,56 @@ const ForgotPassword = async (req, res) => {
   }
 };
 
-const ResetPassword = async(req, res) => {
-  try{
+const requireAuth = require('../utils/requireAuth');
+
+const ResetPassword = async (req, res) => {
+  try {
     const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)){
+    if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(404).json({ message: "Invalid ID" });
     }
 
-    // Search for the user in both collections using $or operator
-    const user = await Promise.all([
-      FreelancerModel.findOne({ _id: id }),
-      ClientModel.findOne({ _id: id })
-    ]);
+    // Use the requireAuth middleware to verify the token
+    requireAuth(req, res, async () => {
+      // If the token is valid, continue with the reset password logic
 
-    const freelancerUser = user[0];
-    const clientUser = user[1];
+      // Search for the user in both collections using $or operator
+      const user = await Promise.all([
+        FreelancerModel.findOne({ _id: id }),
+        ClientModel.findOne({ _id: id })
+      ]);
 
-    if (freelancerUser) {
-      // Update password for freelancer user
-      const { passWord } = req.body;
-      freelancerUser.passWord = passWord;
-      await freelancerUser.save();
-      return res.status(200).json({ message: "Password reset successfully for freelancer user" });
-    }
+      const freelancerUser = user[0];
+      const clientUser = user[1];
 
-    if (clientUser) {
-      // Update password for client user
-      const { passWord } = req.body;
-      clientUser.passWord = passWord;
-      await clientUser.save();
-      return res.status(200).json({ message: "Password reset successfully for client user" });
-    }
+      if (freelancerUser) {
+        // Update password for freelancer user
+        const { passWord } = req.body;
+        freelancerUser.passWord = passWord;
+        await freelancerUser.save();
+        return res.status(200).json({ message: "Password reset successfully for freelancer user" });
+      }
 
-    // If user is not found in either collection, return error
-    res.status(404).json({ message: 'User not found' });
+      if (clientUser) {
+        // Update password for client user
+        const { passWord } = req.body;
+        clientUser.passWord = passWord;
+        await clientUser.save();
+        return res.status(200).json({ message: "Password reset successfully for client user" });
+      }
+
+      // If user is not found in either collection, return error
+      res.status(404).json({ message: 'User not found' });
+    });
 
   } catch (error) {
-    res.status(404).json({ message: error.message});
+    res.status(404).json({ message: error.message });
   }
-}
+};
+
+module.exports = ResetPassword;
+
 
 module.exports = {
   ValidateUserData,
