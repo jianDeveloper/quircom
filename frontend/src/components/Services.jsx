@@ -1,9 +1,11 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
+
 import Laptop from '../assets/service.svg'
 
 const Services = () => {
   return (
-    <div className='w-full bg-[#F5F5DC] py-16 px-4'>
+    <section id='services' className='w-full bg-[#F5F5DC] py-16 px-4'>
       <div className='max-w-[1240px] mx-auto grid md:grid-cols-2'>
         <img className='w-[500px] mx-auto my-4' src={Laptop} alt="" />
         <div className='flex flex-col justify-center'>
@@ -11,7 +13,7 @@ const Services = () => {
           <h1 className='md:text-4xl sm:text-3xl text-2xl font-bold py-2 text-orange-600'>Let's work together</h1>
           <p className='md:text-1xl text-xl font-normal text-[#1D5B79]'>🖥️💡 IT meets Quircom! Let's collaborate and blend the power of technology with the finesse of graphic design. Together, we can create stunning visuals, seamless user experiences, and innovative solutions. Let's bring ideas to life IT and Graphic Design, a perfect synergy! 🎨✨ #Quircom #Freelance #IT #GraphicDesign 
           </p>
-          <button  className='transition ease-in-out delay-150 bg-[#1D5B79] hover:-translate-y-1 hover:scale-110 hover:bg-orange-600 duration-300 w-[200px] rounded-md font-medium my-6 mx-auto md:mx-0 py-3 text-white'> Get Started </button> 
+          <button  className='transition ease-in-out delay-150 bg-[#1D5B79] hover:-translate-y-1 hover:scale-110 hover:bg-orange-600 duration-300 w-[200px] rounded-md font-medium my-6 mx-auto md:mx-0 py-3 text-white'><Link to={'/registration'}> Get Started </Link></button> 
         </div>
       </div>
       <div className='grid md:grid-cols-3 gap-4 md:p-10 mt-[100px] h-96'>
@@ -36,7 +38,7 @@ const Services = () => {
               </div>
           </div>
         </div>
-    </div>
+    </section>
   )
 
 }
