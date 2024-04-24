@@ -16,11 +16,11 @@ const navBar = () => {
     <div className ='header'>
       <Link to='/'><img className='h-[60px]' src={logo1}/></Link>
       <ul className='hidden md:flex'>
-        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/"} className='text-[#1D5B79]'>About us</Link></li>
-        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/"}>Careers</Link></li>
-        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/"}>Services</Link></li>
-        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/"}>Testimonials</Link></li>
-        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/trial"}>Trial</Link></li>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/"} className='text-[#1D5B79]'>Home</Link></li>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><a href="#services">Services</a></li>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><a href='#statistics'>Statistics</a></li>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><a href='#subscription'>Plans</a></li>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={'/trial'}>(trial basis)</Link></li>
       </ul>
 
       {/* Log-Reg */}
@@ -42,7 +42,7 @@ const navBar = () => {
           <li onClick={() => setNav(false)} className='p-4 border-b-2 ml-6 mr-6 border-orange-600'><a href='#'>About us</a></li>
           <li onClick={() => setNav(false)} className='p-4 border-b-2 ml-6 mr-6 border-orange-600'><a href='#'>Careers</a></li>
           <li onClick={() => setNav(false)} className='p-4 border-b-2 ml-6 mr-6 border-orange-600'><a href='#'>Services</a></li>
-          <li onClick={() => setNav(false)} className='p-4 border-b-2 ml-6 mr-6 border-orange-600'><a href='#'>Testimonials</a></li>
+          <li onClick={() => setNav(false)} className='p-4 border-b-2 ml-6 mr-6 border-orange-600'><a href='#'>Plans</a></li>
         </ul>
         <div className='flex-inline justify-center items-center mt-[50px]'> {/* Log-Reg */}
           <button onClick={() => setLogin(true)} className='flex mx-auto pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#1D5B79]'><Link to="/client/dashboard">Log In</Link></button>

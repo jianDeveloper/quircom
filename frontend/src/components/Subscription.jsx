@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Subscription = () => {
     const [nav, setNav] = useState(false);
     const [openLogin, setLogin] = useState(false);
     return (
-        <div className="pt-16 pb-8 text-center leading-8 text-gray-800 md:pb-16 lg:pt-32">
+        <section id="subscription" className="pt-16 pb-8 text-center leading-8 text-gray-800 md:pb-16 lg:pt-32">
             <div className="mb-20 text-center">
                 <div className="mb-4 text-gray-800">
                     <h2 className="text-4xl font-bold md:text-5xl md:leading-none">Elevate your Projects</h2>
@@ -48,7 +49,7 @@ const Subscription = () => {
                                 </li>
                             </ul>
                             <div className="my-10 px-2">
-                                <a className="block cursor-pointer rounded bg-sky-800 py-4 px-10 text-base leading-tight text-white duration-200 ease-in-out md:inline-block lg:py-4" href="#">Get Started</a>
+                                <Link className="block cursor-pointer rounded bg-sky-800 py-4 px-10 text-base leading-tight text-white duration-200 ease-in-out md:inline-block lg:py-4" to={'/registration'}>Get Started</Link>
                             </div>
                     </div>
                 </div>
@@ -83,12 +84,12 @@ const Subscription = () => {
                                 </li>
                             </ul>
                             <div className="my-10 px-2">
-                                <a className="block cursor-pointer rounded bg-orange-600 py-4 px-10 text-base leading-tight text-white duration-200 ease-in-out md:inline-block lg:py-4" href="#">Try it now!</a>
+                                <Link className="block cursor-pointer rounded bg-orange-600 py-4 px-10 text-base leading-tight text-white duration-200 ease-in-out md:inline-block lg:py-4" to={'/registration'}>Try it now!</Link>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
     )
 }
 export default Subscription
