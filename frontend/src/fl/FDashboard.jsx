@@ -5,7 +5,7 @@ import UserContext from "../context/UserContext";
 import { useParams } from "react-router-dom";
 
 import BG1 from "../assets/bg1.png";
-import { MdDesignServices, MdPendingActions } from "react-icons/md";
+import { MdDesignServices, MdPendingActions, MdTimeline} from "react-icons/md";
 import { FaFileCircleCheck } from "react-icons/fa6";
 import FMainNav from "./FMainNav";
 import FFooter from "./FFooter";
@@ -23,7 +23,7 @@ function FDashboard() {
     setActiveTab(track);
   };
 
-  const { userIdLink } = useContext(UserContext);
+  const { userIdLink } = useContext(UserContext);        
 
   useEffect(() => {
     axios
@@ -74,7 +74,7 @@ function FDashboard() {
         <div className="flex flex-col container my-10">
           {/*formatting navbar & body -j*/}
           {/* Box Analytics */}
-          <div className="grid grid-cols-3 gap-[20px] my-[15px]">
+          <div className="grid grid-cols-4 gap-[20px] my-[15px]">
             <div className="flex flex-col justify-around px-4 py-4 border-[#1D5B79] border-[3px] border-solid bg-white hover:shadow-lg rounded-md">
               <div className="flex items-center justify-between">
                 <h1 className="text-[20px] text-[#13334C] font-bold">
@@ -87,11 +87,20 @@ function FDashboard() {
             <div className="flex flex-col justify-around px-4 py-4 border-[#1D5B79] border-[3px] border-solid bg-white hover:shadow-lg rounded-md">
               <div className="flex items-center justify-between">
                 <h1 className="text-[20px] text-[#13334C] font-bold">
-                  Pending Projects
+                  Pending Request
                 </h1>
                 <MdPendingActions size={30} color="#1d5b79" />
               </div>
               <h1 className="font-medium text-[#1D5B79]">33</h1>
+            </div>
+            <div className="flex flex-col justify-around px-4 py-4 border-[#1D5B79] border-[3px] border-solid bg-white hover:shadow-lg rounded-md">
+              <div className="flex items-center justify-between">
+                <h1 className="text-[20px] text-[#13334C] font-bold">
+                  On-Going Project
+                </h1>
+                <MdTimeline size={30} color="#1d5b79" />
+              </div>
+              <h1 className="font-medium text-[#1D5B79]">{serviceDetails.length}</h1>
             </div>
             <div className="flex flex-col justify-around px-4 py-4 border-[#1D5B79] border-[3px] border-solid bg-white hover:shadow-lg rounded-md">
               <div className="flex items-center justify-between">
@@ -107,12 +116,12 @@ function FDashboard() {
           {/* Menu Tabs */}
           <div className="flex flex-col justify-center items-center">
             {/* outside tabs */}
-            <div className="flex justify-between items-center w-[100%] h-[100px] my-5">
+            <div className="flex justify-between w-[90%] items-center my-[50px]">
               <button
                 className={
                   activeTab === "track"
-                    ? "active-tab border-[#1D5B79] text-white bg-[#13334C] py-6 w-[49%] border-[3px] rounded-md"
-                    : "border-[#1D5B79] py-4 w-[48%] border-[3px] rounded-md hover:w-[49%] hover:py-6 hover:bg-[#13334C] hover:text-white"
+                    ? "active-tab border-[#1D5B79] text-white bg-[#13334C] w-[31%] py-6 px-4 border-[3px] rounded-md"
+                    : "border-[#1D5B79] w-[31%] p-4 border-[3px] rounded-md hover:py-6 hover:bg-[#13334C] hover:text-white"
                 }
                 onClick={() => handleTab("track")}
               >
@@ -120,9 +129,19 @@ function FDashboard() {
               </button>
               <button
                 className={
+                  activeTab === "pending"
+                    ? "active-tab border-[#1D5B79] text-white bg-[#13334C] py-6 px-4 w-[31%] border-[3px] rounded-md"
+                    : "border-[#1D5B79] w-[31%] p-4 border-[3px] rounded-md hover:py-6 hover:bg-[#13334C] hover:text-white"
+                }
+                onClick={() => handleTab("pending")}
+              >
+                <h1 className=" text-lg font-extrabold">Pending Requests</h1>
+              </button>
+              <button
+                className={
                   activeTab === "manage"
-                    ? "active-tab border-[#1D5B79] text-white bg-[#13334C] py-6 w-[49%] border-[3px] rounded-md"
-                    : "border-[#1D5B79] py-4 w-[48%] border-[3px] rounded-md hover:w-[49%] hover:py-6 hover:bg-[#13334C] hover:text-white"
+                    ? "active-tab border-[#1D5B79] text-white bg-[#13334C] py-6 px-4 w-[31%] border-[3px] rounded-md"
+                    : "border-[#1D5B79] w-[31%] p-4 border-[3px] rounded-md hover:py-6 hover:bg-[#13334C] hover:text-white"
                 }
                 onClick={() => handleTab("manage")}
               >
@@ -132,7 +151,7 @@ function FDashboard() {
             {/* inside tabs */}
             <div className="flex flex-col justify-center items-center w-[90%]">
               {activeTab === "track" && (<FTable/>)}
-
+              {activeTab === "pending" && (<FTable/>)}
               {activeTab === "manage" && (<ServiceTable />)}
             </div>
           </div>
