@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const upload = require("../config/Multer.js");
+const requireAuth = require('../utils/requireAuth')
 
 const {
   GetAllUsers,
@@ -12,6 +13,7 @@ const {
   ValidateUserData
 } = require("../controllers/FreelancerController.js");
 
+// router.use(requireAuth);
 router.get("/", GetAllUsers);
 router.get("/:id", GetSpecificUser);
 router.post("/upload", upload.single("file"), CreateUser);

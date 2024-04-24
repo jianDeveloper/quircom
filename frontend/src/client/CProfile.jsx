@@ -11,13 +11,14 @@ import 'tailwindcss/tailwind.css';
 import avatar from '../assets/avatar.png';
 
 import BG1 from '../assets/bg1.png';
-
+import Loader from '../assets/quircomloading.gif';
 
 function CProfile() {
 
   const { userId } = useParams();
   const [ userData, setUsers] = useState(null);
   const [nav, setNav] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -29,6 +30,9 @@ function CProfile() {
       } catch (error) {
         console.error("Error fetching users:", error);
       }
+      finally{
+        setLoading(false)
+      }
     };
 
     fetchUsers();
@@ -37,6 +41,11 @@ function CProfile() {
   return (
     <div className='' style={{ background: `url(${BG1})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
       <NavHeader />
+      {loading ? (   
+        <div className='flex justify-center items-center h-screen'>
+          <img src={Loader} alt="Loading..." />
+        </div>       
+      ) : <>
       <div className='flex' >
         <main className='flex-inline mx-10 my-10 w-[100%] md:mx-[300px]'>
           <div className="userInfo">
@@ -91,6 +100,7 @@ function CProfile() {
           </div>
         </main>
       </div>
+      </>} 
       <div className="flex">
         <CFooter />
       </div>
@@ -100,3 +110,8 @@ function CProfile() {
 
 export default CProfile
 
+// {loading ? (   
+//   <img src={Loader} alt="Loading..."/>                
+// ) : <>
+  
+// </>} 

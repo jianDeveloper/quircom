@@ -61,8 +61,8 @@ function CSettings() {
 
     setDisabled(true);
   
-    if (!profilePic) {
-      toast.error('Please select a profile picture');
+    if (!profilePic || !profilePic.type.startsWith('image/')) {
+      toast.error('Please select a valid profile picture');
       setDisabled(false);
       return;
     }
@@ -79,7 +79,8 @@ function CSettings() {
       });
   
       if (response && response.data) {
-        console.log(response.data);
+        setUsers({ ...userData, profilePic: response.data.profilePic });
+        setProfile({})
         toast.success('Profile picture uploaded successfully');
         setDisabled(false);
       } else {
@@ -285,7 +286,7 @@ function CSettings() {
                   )}
                 </div>
                 <div className="my-4">
-                  <input type="file" name="profilePic" id="profilePic" onChange={handleImage} />
+                  <input type="file" name="profilePic" id="profilePic" accept='image/*' onChange={handleImage} />
                   <button onClick={handleSubmit} disabled={disabled} className={`ml-2 rounded font-bold py-2 px-4 ${disabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}>
                     Upload New Profile Picture
                   </button>
