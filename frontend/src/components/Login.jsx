@@ -4,6 +4,7 @@ import axios from 'axios';
 import UserContext from '../context/UserContext';
 
 import logo1 from '../assets/Icon1.png';
+import WithoutAuth from '../auth/WithoutAuth';
 
 const Login = ({ open, onClose }) => {
   const [userName, setUserName] = useState('');
@@ -129,4 +130,4 @@ const Login = ({ open, onClose }) => {
   );
 };
 
-export default Login;
+export default WithoutAuth(Login);

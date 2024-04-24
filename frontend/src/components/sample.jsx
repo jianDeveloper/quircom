@@ -6,6 +6,7 @@ import phil from 'phil-reg-prov-mun-brgy';
 const BASE_URI = import.meta.env.RENDER_BASEURI;
 
 import avatar from '../assets/avatar.png';
+import WithoutAuth from '../auth/WithoutAuth';
 
 const Reg = () => {
   const [users, setUsers] = useState([]);
@@ -100,4 +101,4 @@ const Reg = () => {
   );
 };
 
-export default Reg;
+export default WithoutAuth(Reg);

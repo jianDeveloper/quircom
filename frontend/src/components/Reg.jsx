@@ -8,6 +8,8 @@ import "react-toastify/dist/ReactToastify.css";
 import BGreg from "../assets/bgreg.png";
 import logo2 from "../assets/Icon2.png";
 
+import WithoutAuth from "../auth/WithoutAuth";
+
 const Reg = () => {
   const sortedRegions = phil.regions.sort((a, b) =>
     a.name.localeCompare(b.name)
@@ -611,4 +613,4 @@ const Reg = () => {
   );
 };
 
-export default Reg;
+export default WithoutAuth(Reg);

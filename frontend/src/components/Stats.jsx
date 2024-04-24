@@ -1,4 +1,5 @@
 import React from 'react'
+import WithoutAuth from '../auth/WithoutAuth'
 
 const Stats =()=>{
     return(
@@ -25,4 +26,4 @@ const Stats =()=>{
 
     )
 }
-export default Stats
+export default WithoutAuth(Stats)

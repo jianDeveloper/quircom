@@ -1,4 +1,5 @@
 import React from 'react'
+import WithoutAuth from '../auth/WithoutAuth'
 
 const Newsletter = () => {
     return (
@@ -20,4 +21,4 @@ const Newsletter = () => {
     )
 }
 
-export default Newsletter
+export default WithoutAuth(Newsletter)

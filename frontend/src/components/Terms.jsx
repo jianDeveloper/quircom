@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {Link} from 'react-router-dom'
+import WithoutAuth from '../auth/WithoutAuth';
 
 
 
@@ -63,4 +64,4 @@ function Terms() {
 }
 
 
-export default Terms;
+export default WithoutAuth(Terms);

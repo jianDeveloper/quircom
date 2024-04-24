@@ -7,6 +7,7 @@ import Subscription from "./Subscription";
 import Newsletter from "./Newsletter";
 
 import Mascot from "../assets/icon00.png";
+import WithoutAuth from "../auth/WithoutAuth";
 
 
 const Hero = () => {
@@ -87,4 +88,4 @@ const Hero = () => {
     </div>
   );
 };
-export default Hero;
+export default WithoutAuth(Hero);

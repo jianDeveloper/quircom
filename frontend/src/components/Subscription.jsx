@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import WithoutAuth from '../auth/WithoutAuth';
 
 const Subscription = () => {
     const [nav, setNav] = useState(false);
@@ -92,4 +93,4 @@ const Subscription = () => {
             </section>
     )
 }
-export default Subscription
+export default WithoutAuth(Subscription)

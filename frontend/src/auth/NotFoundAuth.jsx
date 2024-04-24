@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Loader from '../assets/quircomloading.gif';
 
 const NotFoundAuth = (WrappedComponent) => {
   const NotFoundAuthWrapper = (props) => {
@@ -45,8 +46,18 @@ const NotFoundAuth = (WrappedComponent) => {
       return currentTime > exp;
     };
 
-    // Render the wrapped component if not loading
-    return isLoading ? null : <WrappedComponent {...props} />;
+    // Render the wrapped component if not loading, else show loading indicator
+    return (
+      <>
+        {isLoading ? (
+          <div className="flex justify-center items-center h-screen">
+            <img src={Loader} alt="Loading..." />
+          </div>
+        ) : (
+          <WrappedComponent {...props} />
+        )}
+      </>
+    );
   };
 
   return NotFoundAuthWrapper;

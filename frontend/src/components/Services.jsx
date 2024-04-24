@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 
 import Laptop from '../assets/service.svg'
+import WithoutAuth from '../auth/WithoutAuth';
 
 const Services = () => {
   return (
@@ -43,4 +44,4 @@ const Services = () => {
 
 }
 
-export default Services
+export default WithoutAuth(Services)

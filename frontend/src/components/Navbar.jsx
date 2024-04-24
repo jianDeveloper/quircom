@@ -6,6 +6,7 @@ import { TiThMenu } from "react-icons/ti";
 
 import logo1 from '../assets/Icon1.png';
 import Modal from './Login';
+import WithoutAuth from '../auth/WithoutAuth';
 
 
 const navBar = () => {
@@ -56,4 +57,4 @@ const navBar = () => {
   )
 }
 
-export default navBar
+export default WithoutAuth(navBar)

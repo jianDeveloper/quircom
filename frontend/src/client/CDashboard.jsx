@@ -37,7 +37,7 @@ function CDashboard() {
         setUserData(response.data); // Set the user data in state
       })
       .catch((error) => {
-        console.error("Error fetching user data:", error);
+        console.error("Error fetching user data:", error.message);
       });
   }, [userId]); // Fetch user data whenever userId changes
 

@@ -5,6 +5,7 @@ import {
     FaGithub, FaInstagram, 
     FaTwitter 
 } from 'react-icons/fa';
+import WithoutAuth from '../auth/WithoutAuth';
 
 const Footer = () => {
     return (
@@ -63,4 +64,4 @@ const Footer = () => {
     </div>
     )
 };
-export default Footer
+export default WithoutAuth(Footer)
