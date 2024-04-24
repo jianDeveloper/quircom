@@ -9,7 +9,7 @@ const { ValidateUserData, LoginUser, ForgotPassword, ResetPassword } = require('
 router.post('/validate', ValidateUserData);
 router.post('/forgotpass', ForgotPassword);
 router.post('/login', LoginUser);
-// router.use(requireAuth);
+router.use(requireAuth);
 router.patch('/resetpass/:id', ResetPassword);
 
 module.exports = router;

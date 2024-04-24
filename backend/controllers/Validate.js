@@ -59,7 +59,7 @@ const LoginUser = async (req, res) => {
     // If user is found in freelancer collection
     if (freelancerUser) {
       // const femail = freelancerUser.eMail;
-      // const authToken = jwt.sign({femail}, process.env.SECRET_KEY, {expiresIn: '1h'})
+      // const authToken = jwt.sign({femail}, process.env.JWT_SECRET, {expiresIn: '1h'})
       // Check if password matches
       if (freelancerUser.passWord !== passWord) {
         return res.status(401).json({ message: 'Invalid password' });
@@ -77,7 +77,7 @@ const LoginUser = async (req, res) => {
     // If user is found in client collection
     if (clientUser) {
       // const cemail = clientUser.eMail;
-      // const authToken = jwt.sign({cemail}, process.env.SECRET_KEY, {expiresIn: '1h'})
+      // const authToken = jwt.sign({cemail}, process.env.JWT_SECRET, {expiresIn: '1h'})
       // Check if password matches
       if (clientUser.passWord !== passWord) {
         return res.status(401).json({ message: 'Invalid password' });
@@ -112,10 +112,11 @@ const ForgotPassword = async (req, res) => {
     // Extract user data from the checks
     const freelancerUser = userChecks[0];
     const clientUser = userChecks[1];
+    
 
     // If user is found in freelancer collection
     if (freelancerUser) {
-      const authToken = jwt.sign({eMail}, process.env.SECRET_KEY, {expiresIn: '5m'})
+      const authToken = jwt.sign({ _id: freelancerUser._id }, process.env.JWT_SECRET, {expiresIn: '5m'})
       const username = freelancerUser.userName;
       const id = freelancerUser._id;
   
@@ -140,7 +141,7 @@ const ForgotPassword = async (req, res) => {
                   <p>${username}, We have received a request to reset your password. If you did not make this request, please ignore this email.</p>
                   <p style="text-align: center;">To reset your password, click the button below:</p>
                   <p style="text-align: center;">
-                      <a href="hhttp://localhost:5173/resetpass/${id}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Reset Password</a>
+                      <a href="https://quircom.netlify.app/resetpass/${id}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Reset Password</a>
                   </p>
                   <p>If you did not request a password reset, no further action is required.</p>
                   <p>Thank you,</p>
@@ -164,7 +165,7 @@ const ForgotPassword = async (req, res) => {
 
     // If user is found in client collection
     if (clientUser) {
-      const authToken = jwt.sign({ eMail }, process.env.SECRET_KEY, { expiresIn: '5m' });
+      const authToken = jwt.sign({ _id: clientUser._id }, process.env.JWT_SECRET, { expiresIn: '5m' });
       const username = clientUser.userName;
       const id = clientUser._id;
   
@@ -189,7 +190,7 @@ const ForgotPassword = async (req, res) => {
                   <p>${username}, We have received a request to reset your password. If you did not make this request, please ignore this email.</p>
                   <p style="text-align: center;">To reset your password, click the button below:</p>
                   <p style="text-align: center;">
-                      <a href="http://localhost:5173/resetpass/${id}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Reset Password</a>
+                      <a href="https://quircom.netlify.app/resetpass/${id}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Reset Password</a>
                   </p>
                   <p>If you did not request a password reset, no further action is required.</p>
                   <p>Thank you,</p>

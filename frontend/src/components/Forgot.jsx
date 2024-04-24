@@ -11,13 +11,19 @@ const ForgotPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       if (eMail.trim() === '') {
         toast.error('Please enter your email address.');
       } else {
         const response = await axios.post('http://localhost:8800/api/auth/forgotpass', { eMail });
-        toast.success(response.data.message);
+        if (response.data.authToken) {
+          // Store the token in localStorage
+          localStorage.setItem('authToken', response.data.authToken);
+          toast.success('Reset link has been sent to your email with a token.');
+        } else {
+          toast.error('No token received, check backend implementation.');
+        }
         setIsButtonDisabled(true);
         startTimer();
       }
@@ -29,6 +35,7 @@ const ForgotPassword = () => {
       }
     }
   };
+  
 
   const startTimer = () => {
     const timerId = setTimeout(() => {
