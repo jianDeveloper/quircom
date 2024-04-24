@@ -20,9 +20,9 @@ const ForgotPassword = () => {
         if (response.data.authToken) {
           // Store the token in localStorage
           localStorage.setItem('authToken', response.data.authToken);
-          toast.success('Reset link has been sent to your email with a token.');
+          toast.success('Reset link has been sent to your email.');
         } else {
-          toast.error('No token received, check backend implementation.');
+          toast.error('Bad Request');
         }
         setIsButtonDisabled(true);
         startTimer();

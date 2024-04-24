@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -9,6 +9,24 @@ const ResetPassword = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { userId } = useParams();
+  const history = useHistory();
+
+  useEffect(() => {
+    validateToken();
+  }, []);
+
+  const validateToken = async () => {
+    try {
+      // This API should be implemented to check if the token is valid or not
+      const response = await axios.get(`http://localhost:8800/api/auth/validateToken/${userId}`);
+      if (response.status !== 200) {
+        throw new Error('Token validation failed');
+      }
+    } catch (error) {
+      toast.error('Your session has expired. Please request a new password reset.');
+      history.push('/expired'); // Redirect to a route that handles expired sessions
+    }
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -16,20 +34,20 @@ const ResetPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      if (passWord.trim() === '') {
-        toast.error('Please enter your new password.');
-      } else {
+    if (passWord.trim() === '') {
+      toast.error('Please enter your new password.');
+    } else {
+      try {
         const response = await axios.patch(`http://localhost:8800/api/auth/resetpass/${userId}`, { passWord });
         toast.success(response.data.message);
         setIsButtonDisabled(true);
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 404) {
-        toast.error('No user found.');
-      } else {
-        toast.error(`Error: ${error.message}`);
+        localStorage.clear(); // Clear localStorage after successful password reset
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          toast.error('No user found.');
+        } else {
+          toast.error(`Error: ${error.message}`);
+        }
       }
     }
   };
@@ -43,7 +61,7 @@ const ResetPassword = () => {
           <form onSubmit={handleSubmit}>
             <div className="relative mb-4">
               <input
-                type={showPassword ? 'text' : 'password'} 
+                type={showPassword ? 'text' : 'password'}
                 id="passWord"
                 value={passWord}
                 onChange={(e) => setPassword(e.target.value)}
@@ -53,7 +71,7 @@ const ResetPassword = () => {
               />
               <button
                 type="button"
-                tabIndex="-1" // Add tabIndex="-1" here
+                tabIndex="-1"
                 className="absolute top-1/2 right-3 transform -translate-y-1/2 text-sm"
                 onClick={togglePasswordVisibility}
               >
@@ -65,7 +83,7 @@ const ResetPassword = () => {
               className={`w-full py-2 rounded-lg transition duration-300 ${isButtonDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-700 text-white hover:bg-orange-500'}`}
               disabled={isButtonDisabled}
             >
-              {isButtonDisabled ? `You can now close this window` : 'Confirm New Password'}
+              {isButtonDisabled ? 'You can now close this window' : 'Confirm New Password'}
             </button>
           </form>
         </div>

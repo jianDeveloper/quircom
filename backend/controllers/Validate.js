@@ -190,7 +190,7 @@ const ForgotPassword = async (req, res) => {
                   <p>${username}, We have received a request to reset your password. If you did not make this request, please ignore this email.</p>
                   <p style="text-align: center;">To reset your password, click the button below:</p>
                   <p style="text-align: center;">
-                      <a href="https://quircom.netlify.app/resetpass/${id}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Reset Password</a>
+                      <a href="http://localhost:8800/resetpass/${id}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Reset Password</a>
                   </p>
                   <p>If you did not request a password reset, no further action is required.</p>
                   <p>Thank you,</p>
