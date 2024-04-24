@@ -11,14 +11,55 @@ import FMainNav from './FMainNav';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-function FSettingsProfile(props) {
-  const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
+function FSettingsProfile() {
+  // State to hold the uploaded portfolio file
+  const [portFolio, setPortfolio] = useState(null);
+  // Extract userId from the URL parameters
   
-  const files = acceptedFiles.map(file => (
-    <li key={file.path}>
-      {file.path} - {file.size} bytes
-    </li>
-  ));
+
+  // Dropzone configuration for handling file uploads
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop: acceptedFiles => {
+      // Set the uploaded file into state and show a toast notification
+      setPortfolio(acceptedFiles[0]);
+      toast.info(`File ${acceptedFiles[0].name} uploaded successfully.`);
+    },
+    maxSize: 1024 * 1024 * 10, // Max file size (10MB for a PDF)
+    accept: 'application/pdf' // Only accept PDF files
+  });
+
+  // Function to handle saving the uploaded portfolio to the backend
+  const handleSavePortfolio = async () => {
+    // Check if there's a file to save
+    if (!portFolio) {
+      toast.error('No file uploaded to save.');
+      return;
+    }
+
+    // Create a FormData object to send the file to the backend
+    const formData = new FormData();
+    formData.append("portfolioFile", portFolio);
+
+    try {
+      // Post request to upload the portfolio file
+      const response = await axios.post(`https://quircom.onrender.com/api/freelancer/upload-portfolio/${userId}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      // Check response status and notify the user
+      if (response.status === 200) {
+        toast.success('Portfolio saved successfully!');
+      } else {
+        toast.error('Failed to save portfolio.');
+      }
+    } catch (error) {
+      // Handle errors if the request fails
+      console.error('Error uploading portfolio:', error);
+      toast.error('Error saving portfolio: ' + error.message);
+    }
+  };
   
   const { userId } = useParams();
   const [ userData, setUsers] = useState();
@@ -625,23 +666,30 @@ function FSettingsProfile(props) {
               <hr className="mt-4 mb-8" />
               {/* PORTFOLIO ZONE */}
               <p class="py-2 text-xl font-semibold">Portfolio</p>
-              <div class="max-w-2xl">
-                <div className="flex flex-col items-center justify-center w-full">
-                  <div className='flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg bg-gray-50 dark:hover:bg-bray-800 hover:bg-gray-100'>
-                    <div {...getRootProps({className: 'dropzone flex flex-col items-center'})}>
-                      <input {...getInputProps()} />
-                      <svg class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                      <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                      <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+              {/* Dropzone for file upload */}
+                <div className='max-w-2xl'>
+                  <div className='flex flex-col items-center justify-center w-full'>
+                    <div className='flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg bg-gray-50 hover:bg-gray-100'>
+                      <div {...getRootProps({className: 'dropzone flex flex-col items-center'})}>
+                        <input {...getInputProps()} />
+                        {/* Icon and text prompting user to upload files */}
+                        <svg className="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                        </svg>
+                        <p className="mb-2 text-sm text-gray-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                        <p className="text-xs text-gray-500">Only PDF files are accepted (MAX. 10MB)</p>
+                      </div>
                     </div>
+                    {/* Display the name of the uploaded file or a message if no file is uploaded */}
+                    <aside>
+                      <ul>{portFolio ? <li>{portFolio.name}</li> : <li>No file uploaded</li>}</ul>
+                    </aside>
                   </div>
-                  <aside>
-                    <ul>{files}</ul>
-                  </aside>
                 </div>
-              </div>
-              <button class="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-white">Save Portfolio</button>
-              <hr class="mt-4 mb-8" />
+                {/* Button to save the uploaded portfolio */}
+                <button onClick={handleSavePortfolio} className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-white">Save Portfolio</button>
+                <hr className="mt-4 mb-8" />
+                <ToastContainer />
 
               <div className="mb-10">
                 {/* <p className="py-2 text-xl font-semibold">Delete Portfolio</p> */}
