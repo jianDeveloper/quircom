@@ -13,7 +13,7 @@ const {
   SubscriptionStatus
 } = require("../controllers/ClientController.js");
 
-router.use(requireAuth);
+// router.use(requireAuth);
 router.get("/", GetAllUsers);
 router.get("/:id", GetSpecificUser);
 router.post("/upload", upload.single("file"), CreateUser);

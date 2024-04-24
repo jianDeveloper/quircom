@@ -13,7 +13,7 @@ const {
   ValidateUserData
 } = require("../controllers/FreelancerController.js");
 
-router.use(requireAuth);
+// router.use(requireAuth);
 router.get("/", GetAllUsers);
 router.get("/:id", GetSpecificUser);
 router.post("/upload", upload.single("file"), CreateUser);
