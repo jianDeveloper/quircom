@@ -99,6 +99,7 @@ const CMainNav = () => {
   };
 
   const handleLogout = () => {
+    console.clear()
     localStorage.removeItem('authToken')
   }
 
