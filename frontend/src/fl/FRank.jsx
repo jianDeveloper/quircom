@@ -16,7 +16,7 @@ function FRank() {
         }
       } catch (error) {
         console.error('Error fetching freelancers:', error);
-        // Optionally, you can handle errors more gracefully in your UI here
+        // Optionally, you can handle errors more gracefully in your UI here  
       }
     };
 
