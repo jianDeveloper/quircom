@@ -30,13 +30,33 @@ const FMainNav = () => {
   const [isHovered, setIsHovered] = useState(false);
 
   const [nav, setNav] = useState(false);
-  const [userData, setUserData] = useState(null);
+  const [userDetails, setUserData] = useState(null);
 
   const { userId } = useParams();
   const { userIdLink } = useContext(UserContext);
 
-  useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      const response = await axios.get(
+        `https://quircom.onrender.com/api/freelancer/`
+      );
+      if (response.status === 200) {
+        const filteredUser = response.data.filter(
+          (freelancer) => freelancer._id === userId
+        );
+        setUserData(filteredUser);
+      } else {
+        console.error(
+          "Error fetching services: Unexpected status code",
+          response.status
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching services:", error);
+    }
+  };
 
+  useEffect(() => {
     const token = localStorage.getItem("authToken");
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -46,14 +66,16 @@ const FMainNav = () => {
     axios
       .get(`https://quircom.onrender.com/api/freelancer/${userId}`, { headers })
       .then((response) => {
-        console.log("User ID in Dashboard:", userIdLink);
         console.log("User data:", response.data);
-        setUserData(response.data); // Set the user data in state
       })
       .catch((error) => {
         console.error("Error fetching user data:", error);
       });
+
+    fetchUser();
   }, [userId]); // Fetch user data whenever userId changes
+
+  console.log("User ID in Dashboard:", userDetails);
 
   const icons = [
     {
@@ -165,10 +187,26 @@ const FMainNav = () => {
           justifyContent={"center"}
           spacing={1}
         >
-          <Divider orientation="vertical" sx={{ height: 40 }} />
-          <IconButton onClick={handleAvatarClick}>
-            <Avatar src={User} alt="User" />
-          </IconButton>
+          
+
+          {userDetails &&
+            userDetails.map((user, key) => (
+              <div className="flex items-center justify-center ">
+                <p className="px-1 mx-2 w-fit h-fit max-w-max text-right font-bold text-[#1d5b79]" style={{ whiteSpace: "nowrap" }}>
+                  {user.firstName}
+                  </p>
+                <Divider orientation="vertical" sx={{ height: 40 }} />
+                <IconButton key={key} onClick={handleAvatarClick}>
+                {user.profilePic && user.profilePic.link !== "" ? (
+                  <Avatar sx={{ boxShadow: 2, width: 40, height: 40 }} src={user.profilePic.link} alt="User" />
+                ) : (
+                  <Avatar sx={{ boxShadow: 2, width: 40, height: 40 }} src={User} alt="User" />
+                )}
+              </IconButton>
+              </div>
+              
+            ))}
+
           <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
