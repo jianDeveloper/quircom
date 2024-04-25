@@ -65,7 +65,7 @@ const CreateUser = async (req, res) => {
       aggRee: freelancer.aggRee,
       profilePic: freelancerProfile,
       userInfo: null,
-      portFolio: null,
+      portFolio: [],
       ratings: freelancer.ratings,
     });
     
@@ -181,7 +181,7 @@ const EditPortfolio = async (req, res) => {
         freelancer._id,
         {
             $set: {
-                portFolio: appendPortfolio,
+              portFolio: appendPortfolio,
             },
         },
         { new: true }
