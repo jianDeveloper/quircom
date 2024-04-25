@@ -11,10 +11,10 @@ import {
   Popover,
   Chip,
 } from "@mui/material";
-import React, { useState, useContext, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom';
-import UserContext from '../context/UserContext';
-import axios from 'axios';
+import React, { useState, useContext, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import UserContext from "../context/UserContext";
+import axios from "axios";
 
 import Logo from "../assets/Icon1.png";
 import Logo2 from "../assets/clientNav.png";
@@ -29,7 +29,6 @@ import User from "../assets/user.png";
 
 import WithAuth from "../auth/WithAuth";
 
-
 const CMainNav = () => {
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -42,29 +41,33 @@ const CMainNav = () => {
   const [current, setActive] = useState(false);
 
   const { userId } = useParams();
-  
 
   useEffect(() => {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem("authToken");
     const headers = {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
     };
 
-    axios.get(`https://quircom.onrender.com/api/client/${userId}`, { headers })
-      .then(response => {
+    axios
+      .get(`https://quircom.onrender.com/api/client/${userId}`, { headers })
+      .then((response) => {
         console.log("User ID in Dashboard:", userId);
         console.log("User data:", response.data);
         setUser(response.data);
       })
-      .catch(error => {
-        console.error('Error fetching user data:', error);
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
       });
   }, [userId]);
-  
 
   const icons = [
-    { icon: Dboard, component: `/client/dashboard/${userId}`, text: "Dashboard", index: 0 },
+    {
+      icon: Dboard,
+      component: `/client/dashboard/${userId}`,
+      text: "Dashboard",
+      index: 0,
+    },
     {
       icon: Service,
       component: `/client/browse-service/${userId}`,
@@ -77,7 +80,12 @@ const CMainNav = () => {
       text: "Leaderboard",
       index: 3,
     },
-    { icon: Bill, component: `/client/subscribe/${userId}/`, text: "Subscription", index: 4 },
+    {
+      icon: Bill,
+      component: `/client/subscribe/${userId}/`,
+      text: "Subscription",
+      index: 4,
+    },
   ];
 
   const handleIconClick = (index) => {
@@ -99,9 +107,9 @@ const CMainNav = () => {
   };
 
   const handleLogout = () => {
-    console.clear()
-    localStorage.removeItem('authToken')
-  }
+    console.clear();
+    localStorage.removeItem("authToken");
+  };
 
   const getLogo = () => {
     if (window.innerWidth >= 600) {
@@ -143,7 +151,7 @@ const CMainNav = () => {
               <ButtonBase
                 key={index}
                 component={Link} // Use Link component instead of button
-                to={icon.component} 
+                to={icon.component}
                 onClick={() => handleIconClick(index)}
                 sx={{
                   display: "flex",
@@ -178,7 +186,11 @@ const CMainNav = () => {
         >
           <div>
             <IconButton onClick={handleNotifClick}>
-              <img className="w-8 h-6 hover:scale-150 duration-300" src={Notifs} alt="Notifs" />
+              <img
+                className="w-8 h-6 hover:scale-150 duration-300"
+                src={Notifs}
+                alt="Notifs"
+              />
             </IconButton>
             <Popover
               open={Boolean(anchorEl2)}
@@ -199,27 +211,45 @@ const CMainNav = () => {
             </Popover>
           </div>
           <Divider orientation="vertical" sx={{ height: 40 }} />
-          <IconButton className=" hover:scale-150 duration-300" onClick={handleAvatarClick}>
+          <IconButton
+            className=" hover:scale-150 duration-300"
+            onClick={handleAvatarClick}
+          >
             <Avatar src={User} alt="User" />
           </IconButton>
-          <Menu 
+          <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
             onClose={handleCloseMenu}
           >
-            <MenuItem onClick={handleCloseMenu} component={Link} to={`/client/profile/${userId}`}>
+            <MenuItem
+              onClick={handleCloseMenu}
+              component={Link}
+              to={`/client/profile/${userId}`}
+            >
               <Stack direction={"row"} spacing={1}>
                 <img className="w-6 h-6 " src={User} alt="Profile" />
                 <Typography variant="body1">Profile</Typography>
               </Stack>
             </MenuItem>
-            <MenuItem onClick={handleCloseMenu} component={Link} to={`/client/settings/${userId}`}>
+            <MenuItem
+              onClick={handleCloseMenu}
+              component={Link}
+              to={`/client/settings/${userId}`}
+            >
               <Stack direction={"row"} spacing={1}>
                 <img className="w-6 h-6" src={Settings} alt="Settings" />
                 <Typography variant="body1">Settings</Typography>
               </Stack>
             </MenuItem>
-            <MenuItem onClick={ () => {handleCloseMenu(); handleLogout(); }} onAuxClick={(e) => e.preventDefault()} onContextMenu={(e) => e.preventDefault()}>
+            <MenuItem
+              onClick={() => {
+                handleCloseMenu();
+                handleLogout();
+              }}
+              onAuxClick={(e) => e.preventDefault()}
+              onContextMenu={(e) => e.preventDefault()}
+            >
               <Stack direction={"row"} spacing={1} alignItems={"center"}>
                 <Chip
                   label="Logout"
@@ -228,7 +258,8 @@ const CMainNav = () => {
                   color="error"
                   onMouseOver={() => setIsHovered(true)}
                   onMouseOut={() => setIsHovered(false)}
-                  component={Link} to="/"
+                  component={Link}
+                  to="/"
                 />
               </Stack>
             </MenuItem>

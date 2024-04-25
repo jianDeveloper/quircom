@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import WithAuth from "../auth/WithAuth";
 
 import BG1 from "../assets/bg1.png";
-import { MdDesignServices, MdPendingActions, MdTimeline} from "react-icons/md";
+import { MdDesignServices, MdPendingActions, MdTimeline } from "react-icons/md";
 import { FaFileCircleCheck } from "react-icons/fa6";
 import FMainNav from "./FMainNav";
 import FFooter from "./FFooter";
@@ -14,7 +14,6 @@ import FFooter from "./FFooter";
 import FTable from "./FDBcomponents/TrackerTable";
 import ServiceTable from "./FDBcomponents/ServiceTable";
 import PendingTable from "./FDBcomponents/PendingTable";
-
 
 function FDashboard() {
   const { userId } = useParams();
@@ -26,11 +25,17 @@ function FDashboard() {
     setActiveTab(track);
   };
 
-  const { userIdLink } = useContext(UserContext);        
+  const { userIdLink } = useContext(UserContext);
 
   useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+
     axios
-      .get(`https://quircom.onrender.com/api/freelancer/${userId}`)
+      .get(`https://quircom.onrender.com/api/freelancer/${userId}`, {headers})
       .then((response) => {
         setUserData(response.data); // Set the user data in state
       })
@@ -42,7 +47,16 @@ function FDashboard() {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get(`https://quircom.onrender.com/api/service/`);
+        const token = localStorage.getItem("authToken");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
+
+        const response = await axios.get(
+          `https://quircom.onrender.com/api/service/`,
+          { headers }
+        );
         if (response.status === 200) {
           const filteredServices = response.data.filter(
             (service) => service.freelancerId._id === userId
@@ -85,7 +99,9 @@ function FDashboard() {
                 </h1>
                 <MdDesignServices size={30} color="#1d5b79" />
               </div>
-              <h1 className="font-medium text-[#1D5B79]">{serviceDetails.length}</h1>
+              <h1 className="font-medium text-[#1D5B79]">
+                {serviceDetails.length}
+              </h1>
             </div>
             <div className="flex flex-col justify-around px-4 py-4 border-[#1D5B79] border-[3px] border-solid bg-white hover:shadow-lg rounded-md">
               <div className="flex items-center justify-between">
@@ -103,7 +119,9 @@ function FDashboard() {
                 </h1>
                 <MdTimeline size={30} color="#1d5b79" />
               </div>
-              <h1 className="font-medium text-[#1D5B79]">{serviceDetails.length}</h1>
+              <h1 className="font-medium text-[#1D5B79]">
+                {serviceDetails.length}
+              </h1>
             </div>
             <div className="flex flex-col justify-around px-4 py-4 border-[#1D5B79] border-[3px] border-solid bg-white hover:shadow-lg rounded-md">
               <div className="flex items-center justify-between">
@@ -153,9 +171,9 @@ function FDashboard() {
             </div>
             {/* inside tabs */}
             <div className="flex flex-col justify-center items-center w-[90%]">
-              {activeTab === "track" && (<FTable/>)}
-              {activeTab === "pending" && (<PendingTable/>)}
-              {activeTab === "manage" && (<ServiceTable />)}
+              {activeTab === "track" && <FTable />}
+              {activeTab === "pending" && <PendingTable />}
+              {activeTab === "manage" && <ServiceTable />}
             </div>
           </div>
           {/* Menu Tabs */}

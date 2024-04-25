@@ -5,6 +5,7 @@ import {
     FaGithub, FaInstagram, 
     FaTwitter 
 } from 'react-icons/fa';
+import WithAuth from '../auth/WithAuth';
 
 function FFooter() {
   return (
@@ -62,4 +63,4 @@ function FFooter() {
   )
 }
 
-export default FFooter
+export default WithAuth(FFooter)

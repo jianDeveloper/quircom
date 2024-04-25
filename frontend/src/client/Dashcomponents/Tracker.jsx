@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaFileImport, FaUpload } from "react-icons/fa6";
+import WithAuth from "../../auth/WithAuth";
 
 const trackerModal = ({ settrackModal }) => {
   const [clientChat, setClientChat] = useState([
@@ -128,5 +129,5 @@ const trackerModal = ({ settrackModal }) => {
   );
 };
 
-export default trackerModal;
+export default WithAuth(trackerModal);
 

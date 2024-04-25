@@ -1,4 +1,5 @@
 import React from "react";
+import WithAuth from "../../auth/WithAuth";
 
 const confirmModal = ({ setConfirmModal }) => {
   return (
@@ -47,4 +48,4 @@ const confirmModal = ({ setConfirmModal }) => {
   );
 };
 
-export default confirmModal;
+export default WithAuth(confirmModal);

@@ -15,8 +15,14 @@ const Reg = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const responseClient = await axios.get(`https://quircom.onrender.com/api/client`);
-        const responseFreelancer = await axios.get(`https://quircom.onrender.com/api/freelancer`);
+        const token = localStorage.getItem("authToken");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
+
+        const responseClient = await axios.get(`https://quircom.onrender.com/api/client`, {headers});
+        const responseFreelancer = await axios.get(`https://quircom.onrender.com/api/freelancer`, {headers});
 
         if (responseClient.status === 200 && responseFreelancer.status === 200) {
           // Combine users from both responses

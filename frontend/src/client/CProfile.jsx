@@ -12,6 +12,7 @@ import avatar from "../assets/avatar.png";
 
 import BG1 from "../assets/bg1.png";
 import Loader from "../assets/quircomloading.gif";
+import WithAuth from "../auth/WithAuth";
 
 function CProfile() {
   const { userId } = useParams();
@@ -183,7 +184,7 @@ function CProfile() {
   );
 }
 
-export default CProfile;
+export default WithAuth(CProfile);
 
 // {loading ? (
 //   <img src={Loader} alt="Loading..."/>

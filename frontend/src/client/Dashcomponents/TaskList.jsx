@@ -9,6 +9,7 @@ import { FaFolder } from "react-icons/fa";
 import CchatModal from "./chatModal";
 import CdetailsModal from "./detailsModal";
 import CfilesModal from "./filesModal";
+import WithAuth from "../../auth/WithAuth";
 
 const TaskList = () => {
   const { userId } = useParams();
@@ -28,8 +29,14 @@ const TaskList = () => {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
+        const token = localStorage.getItem("authToken");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        };
+
         const response = await axios.get(
-          `https://quircom.onrender.com/api/request/`
+          `https://quircom.onrender.com/api/request/`, {headers}
         );
         if (response.status === 200) {
           // setRequest(response.data);
@@ -166,4 +173,4 @@ const TaskList = () => {
   );
 };
 
-export default TaskList;
+export default WithAuth(TaskList);

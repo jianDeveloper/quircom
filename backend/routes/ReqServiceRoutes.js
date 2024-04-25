@@ -4,23 +4,23 @@ const upload = require("../config/Multer.js");
 const requireAuth = require('../utils/requireAuth')
 
 const {
-    GetAllRequest,
-    GetSpecificRequest,
-    CreateRequest,
-    EditRequest,
-    SubmitFeedback,
-    VerifyRequest,
-    DeleteRequest
+    GetAllRequestWithAuth,
+    GetSpecificRequestWithAuth,
+    CreateRequestWithAuth,
+    EditRequestWithAuth,
+    SubmitFeedbackWithAuth,
+    VerifyRequestWithAuth,
+    DeleteRequestWithAuth
 } = require("../controllers/ReqServiceController.js");
 
 // Routes for Service
-router.get("/", GetAllRequest);
-router.get("/:id", GetSpecificRequest);
-// router.use(requireAuth);
-router.post("/create", /*upload.array("files", 5),*/ CreateRequest);
-router.patch("/edit/:id", /*upload.array("files", 5),*/ EditRequest);
-router.patch("/feedback/:id", SubmitFeedback);
-router.patch("/verify/:id", VerifyRequest);
-router.delete("/delete/:id", DeleteRequest);
+router.use(requireAuth);
+router.get("/", GetAllRequestWithAuth);
+router.get("/:id", GetSpecificRequestWithAuth);
+router.post("/create", /*upload.array("files", 5),*/ CreateRequestWithAuth);
+router.patch("/edit/:id", /*upload.array("files", 5),*/ EditRequestWithAuth);
+router.patch("/feedback/:id", SubmitFeedbackWithAuth);
+router.patch("/verify/:id", VerifyRequestWithAuth);
+router.delete("/delete/:id", DeleteRequestWithAuth);
 
 module.exports = router;

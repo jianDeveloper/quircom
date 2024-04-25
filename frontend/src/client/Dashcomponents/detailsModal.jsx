@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import WithAuth from "../../auth/WithAuth";
 
 const detailsModal = ({ setdetailsModal, requestInfos }) => {
   const { userId } = useParams();
@@ -22,8 +23,15 @@ const detailsModal = ({ setdetailsModal, requestInfos }) => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
+        const token = localStorage.getItem("authToken");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
+
         const response = await axios.get(
-          `http://localhost:8800/api/service/${requestInfos.serviceId._id}`
+          `http://localhost:8800/api/service/${requestInfos.serviceId._id}`,
+          { headers }
         );
         if (response.status === 200) {
           serService(response.data);
@@ -65,27 +73,30 @@ const detailsModal = ({ setdetailsModal, requestInfos }) => {
     if (Object.keys(errors).length > 0) {
       return;
     }
-    
+
     try {
       const formObj = new FormData();
       formObj.append("service", JSON.stringify(formData));
       formObj.append("file", thumbNail);
-      formObj.append('dateUpdated', null);
+      formObj.append("dateUpdated", null);
 
+      const token = localStorage.getItem("authToken");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      };
       const response = await axios.post(
         `https://quircom.onrender.com/api/service/create/`,
         formObj,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          headers,
         }
       );
 
       if (response && response.data) {
         console.log(response.data);
         toast.success("Service uploaded successfully");
-        setaddModal(false)
+        setaddModal(false);
       } else {
         console.log("Response data not available");
         toast.error("Failed to upload Service");
@@ -95,7 +106,6 @@ const detailsModal = ({ setdetailsModal, requestInfos }) => {
       console.log(error.message);
       toast.error("Failed to upload Service");
     }
-   
   };
 
   const handleImage = (e) => {
@@ -104,7 +114,7 @@ const detailsModal = ({ setdetailsModal, requestInfos }) => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    
+
     setFormData({ ...formData, [name]: value });
   };
 
@@ -123,7 +133,10 @@ const detailsModal = ({ setdetailsModal, requestInfos }) => {
               </h3>
             </div>
             {/* Creating Form */}
-            <form className="w-full max-w-screen-ss mx-auto" onSubmit={handleSubmit}>
+            <form
+              className="w-full max-w-screen-ss mx-auto"
+              onSubmit={handleSubmit}
+            >
               <div className="relative flex flex-col overflow-y-auto max-h-[400px] px-6 py-4">
                 <div className="space-y-6">
                   <label
@@ -148,14 +161,14 @@ const detailsModal = ({ setdetailsModal, requestInfos }) => {
                   </label>
 
                   <div className="mt-1 relative">
-                  <input
-                    type="text"
-                    id="serviceName"
-                    name="serviceName"
-                    value={formData.serviceType}
-                    disabled // Set disabled here
-                    className={`mt-1 relative rounded-md shadow-sm border border-gray-300 px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm`}
-                  />
+                    <input
+                      type="text"
+                      id="serviceName"
+                      name="serviceName"
+                      value={formData.serviceType}
+                      disabled // Set disabled here
+                      className={`mt-1 relative rounded-md shadow-sm border border-gray-300 px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm`}
+                    />
                   </div>
                   <label
                     htmlFor="serviceInfo"
@@ -185,7 +198,6 @@ const detailsModal = ({ setdetailsModal, requestInfos }) => {
                 >
                   Close
                 </button>
-                
               </div>
             </form>
           </div>
@@ -196,4 +208,4 @@ const detailsModal = ({ setdetailsModal, requestInfos }) => {
   );
 };
 
-export default detailsModal;
+export default WithAuth(detailsModal);

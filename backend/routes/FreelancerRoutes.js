@@ -4,22 +4,22 @@ const upload = require("../config/Multer.js");
 const requireAuth = require('../utils/requireAuth')
 
 const {
-  GetAllUsers,
-  GetSpecificUser,
+  GetAllUsersWithAuth,
+  GetSpecificUserWithAuth,
   CreateUser,
-  EditUser,
-  EditPortfolio,
-  DeleteUser,
+  EditUserWithAuth,
+  EditPortfolioWithAuth,
+  DeleteUserWithAuth,
   ValidateUserData
 } = require("../controllers/FreelancerController.js");
 
-// router.use(requireAuth);
-router.get("/", GetAllUsers);
-router.get("/:id", GetSpecificUser);
 router.post("/upload", upload.single("file"), CreateUser);
-router.patch("/update/:id", upload.single("file"), EditUser);
-router.patch("/update/portfolio/:id", upload.single("file"), EditPortfolio);
-router.delete("/delete/:id", DeleteUser);
+router.use(requireAuth);
+router.get("/", GetAllUsersWithAuth);
+router.get("/:id", GetSpecificUserWithAuth);
+router.patch("/update/:id", upload.single("file"), EditUserWithAuth);
+router.patch("/update/portfolio/:id", upload.single("file"), EditPortfolioWithAuth);
+router.delete("/delete/:id", DeleteUserWithAuth);
 router.post("/validate", ValidateUserData);
 
 module.exports = router;

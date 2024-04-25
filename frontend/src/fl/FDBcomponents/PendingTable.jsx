@@ -5,6 +5,7 @@ import Confirmation from "./confirmModal";
 import Convo from "./convoModal";
 
 import { FaCheck, FaXmark } from "react-icons/fa6";
+import WithAuth from "../../auth/WithAuth";
 
 const PendingTable = () => {
   const { userId } = useParams();
@@ -17,8 +18,15 @@ const PendingTable = () => {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
+        const token = localStorage.getItem("authToken");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
+
         const response = await axios.get(
-          `https://quircom.onrender.com/api/request/`
+          `https://quircom.onrender.com/api/request/`,
+          { headers }
         );
         if (response.status === 200) {
           console.log("mystring", response.data);
@@ -160,4 +168,4 @@ const PendingTable = () => {
   );
 };
 
-export default PendingTable;
+export default WithAuth(PendingTable);

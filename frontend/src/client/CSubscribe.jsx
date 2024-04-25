@@ -2,6 +2,7 @@ import React from "react";
 import CMainNav from "./CMainNav";
 import CFooter from "./CFooter";
 import AddBillModal from "./Subscomponents/AddBillModal";
+import WithAuth from "../auth/WithAuth";
 
 const CSubscribe = () => {
     
@@ -179,4 +180,4 @@ const CSubscribe = () => {
     </div>
   );
 };
-export default CSubscribe;
+export default WithAuth(CSubscribe);

@@ -7,6 +7,7 @@ import CFooter from "./CFooter";
 
 import mpTop from "../assets/mpTop.jpg";
 import CCards from "./Marketcomponents/CCards";
+import WithAuth from "../auth/WithAuth";
 
 const BASE_URI = import.meta.env.RENDER_BASEURI;
 
@@ -18,6 +19,12 @@ const CMarketplace = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
+        const token = localStorage.getItem("authToken");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
+
         const response = await axios.get(
           `https://quircom.onrender.com/api/service/`
         );
@@ -165,4 +172,4 @@ const CMarketplace = () => {
   );
 };
 
-export default CMarketplace;
+export default WithAuth(CMarketplace);

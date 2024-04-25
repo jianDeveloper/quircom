@@ -21,6 +21,7 @@ import Dboard from "../assets/dboard.png";
 import Settings from "../assets/settings.png";
 import LBoard from "../assets/crown.png";
 import User from "../assets/user.png";
+import WithAuth from "../auth/WithAuth";
 
 const FMainNav = () => {
   const [selectedIcon, setSelectedIcon] = useState(null);
@@ -221,4 +222,4 @@ const FMainNav = () => {
   );
 };
 
-export default FMainNav;
+export default WithAuth(FMainNav);

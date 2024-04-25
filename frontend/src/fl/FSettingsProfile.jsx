@@ -10,6 +10,7 @@ import FMainNav from "./FMainNav";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import WithAuth from "../auth/WithAuth";
 
 function FSettingsProfile() {
   const { userId } = useParams();
@@ -33,8 +34,14 @@ function FSettingsProfile() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
+        const token = localStorage.getItem("authToken");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
+
         const response = await axios.get(
-          `https://quircom.onrender.com/api/freelancer/${userId}`
+          `https://quircom.onrender.com/api/freelancer/${userId}`, {headers}
         );
         if (response.status === 200) {
           setUsers(response.data);
@@ -257,6 +264,12 @@ function FSettingsProfile() {
     );
 
     try {
+      const token = localStorage.getItem("authToken");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        };
+
       const updateResponse = await axios.patch(
         `http://localhost:8800/api/freelancer/update/${userId}`,
         formObj,
@@ -335,13 +348,17 @@ function FSettingsProfile() {
     );
 
     try {
+      const token = localStorage.getItem("authToken");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      };
+
       const updateResponse = await axios.patch(
         `http://localhost:8800/api/freelancer/update/${userId}`,
         formObj,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          headers,
         }
       );
 
@@ -391,13 +408,17 @@ function FSettingsProfile() {
     );
 
     try {
+      const token = localStorage.getItem("authToken");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      };
+
       const updateResponse = await axios.patch(
         `https://quircom.onrender.com/api/freelancer/update/${userId}`,
         formObj,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          headers,
         }
       );
 
@@ -853,4 +874,4 @@ function FSettingsProfile() {
   );
 }
 
-export default FSettingsProfile;
+export default WithAuth(FSettingsProfile);

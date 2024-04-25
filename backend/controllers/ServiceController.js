@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const ServiceModel = require("../models/ServiceModel");
 const RequestModel = require("../models/ReqServiceModel");
 const DriveService = require("../utils/DriveService");
+const requireAuth = require("../utils/requireAuth");
 
 const GetAllServices = async (req, res) => {
   try {
@@ -192,10 +193,36 @@ const DeleteService = async (req, res) => {
   }
 };
 
+const GetAllServicesWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await GetAllServices(req, res);
+  });
+};
+const GetSpecificServiceWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await GetSpecificService(req, res);
+  });
+};
+const CreateServiceWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await CreateService(req, res);
+  });
+};
+const EditServiceWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await EditService(req, res);
+  });
+};
+const DeleteServiceWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await DeleteService(req, res);
+  });
+};
+
 module.exports = {
-  GetAllServices,
-  GetSpecificService,
-  CreateService,
-  EditService,
-  DeleteService,
+  GetAllServicesWithAuth,
+  GetSpecificServiceWithAuth,
+  CreateServiceWithAuth,
+  EditServiceWithAuth,
+  DeleteServiceWithAuth,
 };

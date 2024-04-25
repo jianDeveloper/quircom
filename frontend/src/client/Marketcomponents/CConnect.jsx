@@ -26,11 +26,11 @@ function CConnect() {
     const fetchUsers = async () => {
       try {
         const token = localStorage.getItem("authToken");
-
         const headers = {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         };
+
         const response = await axios.get(
           `https://quircom.onrender.com/api/client/${userId}`, {headers}
         );
@@ -48,8 +48,14 @@ function CConnect() {
   useEffect(() => {
     const fetchServices = async () => {
       try {
+        const token = localStorage.getItem("authToken");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
+
         const response = await axios.get(
-          `https://quircom.onrender.com/api/service/${serviceId}`
+          `https://quircom.onrender.com/api/service/${serviceId}`, {headers}
         );
         if (response.status === 200) {
           setServices(response.data);

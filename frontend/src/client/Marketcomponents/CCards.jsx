@@ -6,9 +6,10 @@ import {
   Typography,
   Button,
 } from "@material-tailwind/react";
-import axios from "axios"; // Import axios for making HTTP requests
+import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import WithAuth from "../../auth/WithAuth";
 
 const CCards = ({ image, serviceId, subtitle, title, author, button }) => {
   const [userData, setUsers] = useState();
@@ -19,11 +20,11 @@ const CCards = ({ image, serviceId, subtitle, title, author, button }) => {
     const fetchUsers = async () => {
       try {
         const token = localStorage.getItem("authToken");
-
         const headers = {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         };
+
         const response = await axios.get(
           `https://quircom.onrender.com/api/client/${userId}`, {headers}
         );
@@ -41,8 +42,14 @@ const CCards = ({ image, serviceId, subtitle, title, author, button }) => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
+        const token = localStorage.getItem("authToken");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
+
         const response = await axios.get(
-          `https://quircom.onrender.com/api/service/${serviceId}`
+          `https://quircom.onrender.com/api/service/${serviceId}`, {headers}
         );
         if (response.status === 200) {
           setServices(response.data);
@@ -84,4 +91,4 @@ const CCards = ({ image, serviceId, subtitle, title, author, button }) => {
   );
 };
 
-export default CCards;
+export default WithAuth(CCards);

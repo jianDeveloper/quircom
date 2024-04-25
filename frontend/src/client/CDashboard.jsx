@@ -11,28 +11,29 @@ import UserContext from "../context/UserContext";
 import CFooter from "./CFooter";
 import TaskList from "./Dashcomponents/TaskList";
 import TrackerModal from "./Dashcomponents/Tracker";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 import BG1 from "../assets/bg1.png";
 import BGmark from "../assets/ser.png";
 import BGtrack from "../assets/tra.png";
 import BGsubs from "../assets/sub.png";
 import CMainNav from "./CMainNav";
-
+import WithAuth from "../auth/WithAuth";
 
 function CDashboard() {
   const { userId } = useParams();
   const [userData, setUserData] = useState(null); // State to store user data
-  const[trackModal, settrackModal] = React.useState(false);
+  const [trackModal, settrackModal] = React.useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem("authToken");
     const headers = {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
     };
+
     axios
-      .get(`https://quircom.onrender.com/api/client/${userId}`, {headers})
+      .get(`https://quircom.onrender.com/api/client/${userId}`, { headers })
       .then((response) => {
         setUserData(response.data); // Set the user data in state
       })
@@ -53,7 +54,7 @@ function CDashboard() {
       <CMainNav />
       <div className="flex align-center justify-center">
         <div className="flex flex-col container mx-10 my-10">
-          {" "}    
+          {" "}
           {/*fixing headbox on dashboard -j*/}
           <div className="grid grid-cols-3 gap-[20px] my-[15px]">
             <div className="card">
@@ -65,7 +66,9 @@ function CDashboard() {
             </div>
             <div className="card">
               <div className="card-inner">
-                <h3 className="font-bold text-[#1D5B79]">Completed Contracts</h3>
+                <h3 className="font-bold text-[#1D5B79]">
+                  Completed Contracts
+                </h3>
                 <BsPeopleFill className="card_icon" />
               </div>
               <h1 className="font-medium text-[#1D5B79]">33</h1>
@@ -89,24 +92,33 @@ function CDashboard() {
                 }}
               >
                 <div className="flex justify-center items-center py-14">
-                  <h3 className="font-extrabold text-xl text-[#F5F5DC]">Marketplace</h3>
+                  <h3 className="font-extrabold text-xl text-[#F5F5DC]">
+                    Marketplace
+                  </h3>
                 </div>
               </div>
             </Link>
-            
-              <div
-                className="flex flex-col justify-around rounded-lg"
-                style={{
-                  background: `url(${BGtrack})`,
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "cover", // Ensure the image covers the entire div
-                }}
-              >
-                <div className="flex justify-center items-center py-14">
-                  <Link to={`/client/leaderboard/${userId}`}><button type='button' className='font-extrabold text-xl text-[#F5F5DC]'>Leaderboards</button></Link>
-                </div>
+
+            <div
+              className="flex flex-col justify-around rounded-lg"
+              style={{
+                background: `url(${BGtrack})`,
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover", // Ensure the image covers the entire div
+              }}
+            >
+              <div className="flex justify-center items-center py-14">
+                <Link to={`/client/leaderboard/${userId}`}>
+                  <button
+                    type="button"
+                    className="font-extrabold text-xl text-[#F5F5DC]"
+                  >
+                    Leaderboards
+                  </button>
+                </Link>
               </div>
-            
+            </div>
+
             <Link to={`/client/subscribe/${userId}`}>
               <div
                 className="flex flex-col justify-around rounded-lg"
@@ -117,16 +129,18 @@ function CDashboard() {
                 }}
               >
                 <div className="flex justify-center items-center py-14">
-                  <h3 className="font-extrabold text-xl text-[#F5F5DC]">Subscription</h3>
+                  <h3 className="font-extrabold text-xl text-[#F5F5DC]">
+                    Subscription
+                  </h3>
                 </div>
               </div>
             </Link>
           </div>
           <div>
-            
-              <h2 className="text-2xl justify-center place-content-center font-semibold text-[#F5F5DC]">Current Projects</h2>
-              
-            
+            <h2 className="text-2xl justify-center place-content-center font-semibold text-[#F5F5DC]">
+              Current Projects
+            </h2>
+
             <TaskList />
           </div>
         </div>
@@ -138,4 +152,4 @@ function CDashboard() {
   );
 }
 
-export default CDashboard;
+export default WithAuth(CDashboard);

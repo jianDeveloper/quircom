@@ -26,10 +26,11 @@ const addReqModal = ({ setReqModal }) => {
 
         const headers = {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         };
         const response = await axios.get(
-          `https://quircom.onrender.com/api/client/${userId}`, {headers}
+          `https://quircom.onrender.com/api/client/${userId}`,
+          { headers }
         );
         if (response.status === 200) {
           setUsers(response.data);
@@ -68,9 +69,15 @@ const addReqModal = ({ setReqModal }) => {
     }
 
     try {
+      const token = localStorage.getItem("authToken");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+
       const response = await axios.post(
         `https://quircom.onrender.com/api/request/create`,
-        formData
+        formData, {headers}
       );
 
       if (response && response.data) {

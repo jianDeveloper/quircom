@@ -7,6 +7,7 @@ import NavHeader from "./FMainNav";
 import FFooter from "./FFooter";
 import avatar from "../assets/avatar.png";
 import { FaEyeSlash, FaEye, FaRegFile } from "react-icons/fa";
+import WithAuth from "../auth/WithAuth";
 
 function FSettings() {
   const { userId } = useParams();
@@ -26,8 +27,15 @@ function FSettings() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
+        const token = localStorage.getItem("authToken");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
+
         const response = await axios.get(
-          `https://quircom.onrender.com/api/freelancer/${userId}`
+          `https://quircom.onrender.com/api/freelancer/${userId}`,
+          { headers }
         );
         if (response.status === 200) {
           setUsers(response.data);
@@ -59,13 +67,26 @@ function FSettings() {
 
     setDisabled(true);
 
-    if (!profilePic || !(profilePic.type.startsWith("image/jpeg") || profilePic.type.startsWith("image/jpg") || profilePic.type.startsWith("image/png"))) {
+    if (
+      !profilePic ||
+      !(
+        profilePic.type.startsWith("image/jpeg") ||
+        profilePic.type.startsWith("image/jpg") ||
+        profilePic.type.startsWith("image/png")
+      )
+    ) {
       toast.error("Please select an image");
       setDisabled(false);
       return;
     }
 
     try {
+      const token = localStorage.getItem("authToken");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      };
+
       const formObj = new FormData();
       formObj.append("freelancer", JSON.stringify(userData));
       formObj.append("file", profilePic);
@@ -74,9 +95,7 @@ function FSettings() {
         `https://quircom.onrender.com/api/freelancer/update/${userId}`,
         formObj,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          headers,
         }
       );
 
@@ -109,13 +128,19 @@ function FSettings() {
 
     setDisabled3(true);
 
-    if (!portFolio || !portFolio.type.startsWith('application/pdf')) {
+    if (!portFolio || !portFolio.type.startsWith("application/pdf")) {
       toast.error("Please select a pdf file");
       setDisabled3(false);
       return;
     }
 
     try {
+      const token = localStorage.getItem("authToken");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "mulipart/form-data",
+      };
+
       const formObj = new FormData();
       formObj.append("freelancer", JSON.stringify(userData));
       formObj.append("file", portFolio);
@@ -124,9 +149,7 @@ function FSettings() {
         `http://localhost:8800/api/freelancer/update/portfolio/${userId}`,
         formObj,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          headers,
         }
       );
 
@@ -197,13 +220,17 @@ function FSettings() {
     );
 
     try {
+      const token = localStorage.getItem("authToken");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      };
+
       const updateResponse = await axios.patch(
         `https://quircom.onrender.com/api/freelancer/update/${userId}`,
         formObj,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          headers,
         }
       );
 
@@ -281,13 +308,17 @@ function FSettings() {
     );
 
     try {
+      const token = localStorage.getItem("authToken");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      };
+
       const updateResponse = await axios.patch(
         `https://quircom.onrender.com/api/freelancer/update/${userId}`,
         formObj,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          headers,
         }
       );
 
@@ -415,9 +446,7 @@ function FSettings() {
               <hr className="mt-4 mb-8" />
 
               <div className="pt-4">
-                <h1 className="py-2 text-2xl font-semibold">
-                  Portfolio
-                </h1>
+                <h1 className="py-2 text-2xl font-semibold">Portfolio</h1>
                 <div className="pictureBorder p-5">
                   {userData &&
                   userData.portFolio &&
@@ -427,9 +456,8 @@ function FSettings() {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <FaRegFile/> View Portfolio 
+                      <FaRegFile /> View Portfolio
                     </a>
-                    
                   ) : (
                     <span>No portfolio yet</span>
                   )}
@@ -651,4 +679,4 @@ function FSettings() {
   );
 }
 
-export default FSettings;
+export default WithAuth(FSettings);

@@ -1,6 +1,7 @@
 import React from 'react'
 import NavHeader from './CMainNav'
 import Profile from '../assets/profile.jpg'
+import WithAuth from '../auth/WithAuth'
 
 function CRank() {
   return (
@@ -130,4 +131,4 @@ function CRank() {
   )
 }
 
-export default CRank
+export default WithAuth(CRank)

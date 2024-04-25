@@ -284,7 +284,7 @@ const EditBillingWithAuth = (req, res) => {
 
 module.exports = {
   CreateUser,
-  GetAllUsers,
+  GetAllUsersWithAuth,
   GetSpecificUserWithAuth,
   EditUserWithAuth,
   DeleteUserWithAuth,

@@ -129,7 +129,14 @@ const Reg = () => {
     if (!formData.aggRee) {
       errors.aggRee = "Please agree to the terms and conditions";
     }
-    if (!profilePic || !(profilePic.type.startsWith("image/jpeg") || profilePic.type.startsWith("image/jpg") || profilePic.type.startsWith("image/png"))) {
+    if (
+      !profilePic ||
+      !(
+        profilePic.type.startsWith("image/jpeg") ||
+        profilePic.type.startsWith("image/jpg") ||
+        profilePic.type.startsWith("image/png")
+      )
+    ) {
       errors.profilePic = "Please add a picture";
     }
 
@@ -590,12 +597,10 @@ const Reg = () => {
               </div>
               <div className="flex justify-center">
                 {loading ? (
-                  <button
-                  className="bg-[#FE6D30] w-[150px] text-white p-2 rounded-full hover:bg-[#EA580C] hover:w-[155px] focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
-                >
-                  <Spinner className="inline-block mr-2 text-white-500"/>
-                  <span className="inline-block">Processing...</span>
-                </button>
+                  <button className="bg-[#FE6D30] w-[150px] text-white p-2 rounded-full hover:bg-[#EA580C] hover:w-[155px] focus:outline-none focus:shadow-outline-blue active:bg-blue-800">
+                    <Spinner className="inline-block mr-2 text-white-500" />
+                    <span className="inline-block">Processing...</span>
+                  </button>
                 ) : (
                   <button
                     type="submit"

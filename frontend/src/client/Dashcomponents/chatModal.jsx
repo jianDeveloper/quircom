@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaFileImport, FaUpload } from "react-icons/fa6";
+import WithAuth from "../../auth/WithAuth";
 
 const chatModal = ({ setchatModal }) => {
   const [clientChat, setClientChat] = useState([
@@ -120,5 +121,5 @@ const chatModal = ({ setchatModal }) => {
   );
 };
 
-export default chatModal;
+export default WithAuth(chatModal);
 

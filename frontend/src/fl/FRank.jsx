@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import NavHeader from './FMainNav';
 import Profile from '../assets/profile.jpg';
+import WithAuth from '../auth/WithAuth';
 
 function FRank() {
   const [freelancers, setFreelancers] = useState([]); // State to hold the freelancer data
@@ -9,8 +10,14 @@ function FRank() {
   useEffect(() => {
     const fetchFreelancers = async () => {
       try {
+        const token = localStorage.getItem("authToken");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
+
         // Using the provided API endpoint to fetch all freelancers
-        const response = await axios.get('https://quircom.onrender.com/api/freelancer');
+        const response = await axios.get('https://quircom.onrender.com/api/freelancer', {headers});
         if (response.status === 200) {
           setFreelancers(response.data); // Assuming the response data is an array of freelancers
         }
@@ -89,4 +96,4 @@ function FRank() {
   );
 }
 
-export default FRank;
+export default WithAuth(FRank);

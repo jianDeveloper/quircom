@@ -2,6 +2,7 @@ import React from 'react'
 import { ToastContainer, toast } from "react-toastify";
 
 import { FaFileAlt } from "react-icons/fa";
+import WithAuth from '../../auth/WithAuth';
 
 
 function filesModal({ setfilesModal }) {
@@ -45,4 +46,4 @@ function filesModal({ setfilesModal }) {
   )
 }
 
-export default filesModal
+export default WithAuth(filesModal)

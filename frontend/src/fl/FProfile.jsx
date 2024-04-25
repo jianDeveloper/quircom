@@ -11,6 +11,7 @@ import 'tailwindcss/tailwind.css';
 import avatar from '../assets/avatar.png';
 
 import BG1 from '../assets/bg1.png';
+import WithAuth from '../auth/WithAuth';
 
 
 function FProfile() {
@@ -24,7 +25,13 @@ function FProfile() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`https://quircom.onrender.com/api/freelancer/${userId}`);
+        const token = localStorage.getItem("authToken");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
+
+        const response = await axios.get(`https://quircom.onrender.com/api/freelancer/${userId}`, {headers});
         if (response.status === 200) {
           setUsers(response.data);
         }
@@ -106,5 +113,5 @@ function FProfile() {
   )
 }
 
-export default FProfile
+export default WithAuth(FProfile)
 

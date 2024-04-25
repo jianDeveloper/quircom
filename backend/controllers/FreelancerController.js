@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const UserModel = require("../models/FreelancerModel");
 const DriveService = require("../utils/DriveService");
+const requireAuth = require("../utils/requireAuth")
 
 const GetAllUsers = async (req, res) => {
   try {
@@ -239,12 +240,38 @@ const ValidateUserData = async (req, res) => {
   }
 };
 
+const GetAllUsersWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await GetAllUsers(req, res);
+  });
+};
+const GetSpecificUserWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await GetSpecificUser(req, res);
+  });
+};
+const EditUserWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await EditUser(req, res);
+  });
+};
+const EditPortfolioWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await EditPortfolio(req, res);
+  });
+};
+const DeleteUserWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await DeleteUser(req, res);
+  });
+};
+
 module.exports = {
-  GetAllUsers,
-  GetSpecificUser,
+  GetAllUsersWithAuth,
+  GetSpecificUserWithAuth,
   CreateUser,
-  EditUser,
-  EditPortfolio,
-  DeleteUser,
+  EditUserWithAuth,
+  EditPortfolioWithAuth,
+  DeleteUserWithAuth,
   ValidateUserData
 };

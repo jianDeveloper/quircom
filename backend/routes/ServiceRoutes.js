@@ -1,22 +1,22 @@
 const express = require("express");
 const router = express.Router();
 const upload = require("../config/Multer.js");
-const requireAuth = require('../utils/requireAuth')
+const requireAuth = require("../utils/requireAuth");
 
 const {
-    GetAllServices,
-    GetSpecificService,
-    CreateService,
-    EditService,
-    DeleteService
+  GetAllServicesWithAuth,
+  GetSpecificServiceWithAuth,
+  CreateServiceWithAuth,
+  EditServiceWithAuth,
+  DeleteServiceWithAuth,
 } = require("../controllers/ServiceController.js");
 
 // Routes for Service
-router.get("/", GetAllServices);
-// router.use(requireAuth);
-router.get("/:id", GetSpecificService);
-router.post("/create", upload.single("file"), CreateService);
-router.patch("/edit/:id", upload.single("file"), EditService);
-router.delete("/delete/:id", DeleteService);
+router.use(requireAuth);
+router.get("/", GetAllServicesWithAuth);
+router.get("/:id", GetSpecificServiceWithAuth);
+router.post("/create", upload.single("file"), CreateServiceWithAuth);
+router.patch("/edit/:id", upload.single("file"), EditServiceWithAuth);
+router.delete("/delete/:id", DeleteServiceWithAuth);
 
 module.exports = router;

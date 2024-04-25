@@ -4,7 +4,7 @@ const upload = require("../config/Multer.js");
 const requireAuth = require('../utils/requireAuth')
 
 const {
-  GetAllUsers,
+  GetAllUsersWithAuth,
   GetSpecificUserWithAuth,
   CreateUser,
   EditUserWithAuth,
@@ -16,7 +16,7 @@ const {
 
 router.post("/upload", upload.single("file"), CreateUser);
 router.use(requireAuth);
-router.get("/", GetAllUsers);
+router.get("/", GetAllUsersWithAuth);
 router.get("/:id", GetSpecificUserWithAuth);
 router.patch("/update/:id", upload.single("file"), EditUserWithAuth);
 router.patch("/status/:id", SubscriptionStatusWithAuth);

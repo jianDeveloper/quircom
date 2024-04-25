@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const RequestModel = require("../models/ReqServiceModel");
 const ServiceModel = require("../models/ServiceModel")
 const DriveService = require("../utils/DriveService");
+const requireAuth = require("../utils/requireAuth");
 
 const GetAllRequest = async (req, res) => {
   try {
@@ -245,12 +246,48 @@ const DeleteRequest = async (req, res) => {
   }
 };
 
+const GetAllRequestWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await GetAllRequest(req, res);
+  });
+};
+const GetSpecificRequestWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await GetSpecificRequest(req, res);
+  });
+};
+const CreateRequestWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await CreateRequest(req, res);
+  });
+};
+const EditRequestWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await EditRequest(req, res);
+  });
+};
+const SubmitFeedbackWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await SubmitFeedback(req, res);
+  });
+};
+const VerifyRequestWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await VerifyRequest(req, res);
+  });
+};
+const DeleteRequestWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await DeleteRequest(req, res);
+  });
+};
+
 module.exports = {
-    GetAllRequest,
-    GetSpecificRequest,
-    CreateRequest,
-    EditRequest,
-    SubmitFeedback,
-    VerifyRequest,
-    DeleteRequest
+    GetAllRequestWithAuth,
+    GetSpecificRequestWithAuth,
+    CreateRequestWithAuth,
+    EditRequestWithAuth,
+    SubmitFeedbackWithAuth,
+    VerifyRequestWithAuth,
+    DeleteRequestWithAuth
 };

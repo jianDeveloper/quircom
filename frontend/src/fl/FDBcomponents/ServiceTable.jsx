@@ -8,6 +8,7 @@ import UpdateModal from "./updateModal";
 import { MdDesignServices } from "react-icons/md";
 import { FaTrashCan } from "react-icons/fa6";
 import { AiFillPlusCircle } from "react-icons/ai";
+import WithAuth from "../../auth/WithAuth";
 
 const serviceColumns = [
   { id: "serviceID", label: "Service ID", minWidth: 100, align: "center" },
@@ -51,7 +52,16 @@ const ServiceTable = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get(`https://quircom.onrender.com/api/service/`);
+        const token = localStorage.getItem("authToken");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
+
+        const response = await axios.get(
+          `https://quircom.onrender.com/api/service/`,
+          { headers }
+        );
         if (response.status === 200) {
           const filteredServices = response.data.filter(
             (service) => service.freelancerId._id === userId
@@ -128,61 +138,70 @@ const ServiceTable = () => {
                     No service at the moment, try adding one
                   </td>
                 </tr>
-              ) :serviceDetails
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((service, rowIndex) => {
-                  return (
-                    <tr key={rowIndex} className="border-b">
-                      <td className="px-6 py-4 text-center">
-                        {service?.serviceId}
-                      </td>
-                      <td className="px-6 py-4">{service?.serviceName}</td>
-                      <td className="px-6 py-4 overflow-hidden max-w-[25rem]">
-                        <div className={`whitespace-pre-wrap ${service?.serviceInfo?.length > 20 ? "break-words" : ""}`}>{service?.serviceInfo}</div>
-                      </td>
-                      <td className="px-6 py-4 text-center">
-                        ₱ {Number(service.price).toLocaleString()}
-                      </td>
-                      <td className="px-6 py-4 text-center">
-                        <div className="space-x-2">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setUpdateModal(true);
-                              handleView({ ...service });
-                            }}
-                            className="px-2 py-1 bg-blue-500 rounded text-white"
+              ) : (
+                serviceDetails
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((service, rowIndex) => {
+                    return (
+                      <tr key={rowIndex} className="border-b">
+                        <td className="px-6 py-4 text-center">
+                          {service?.serviceId}
+                        </td>
+                        <td className="px-6 py-4">{service?.serviceName}</td>
+                        <td className="px-6 py-4 overflow-hidden max-w-[25rem]">
+                          <div
+                            className={`whitespace-pre-wrap ${
+                              service?.serviceInfo?.length > 20
+                                ? "break-words"
+                                : ""
+                            }`}
                           >
-                            <MdDesignServices className="inline" />
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setDeleteModal(true);
-                              handleView({ ...service });
-                            }}
-                            className="px-2 py-1 bg-red-500 rounded text-white"
-                          >
-                            <FaTrashCan className="inline" />
-                          </button>
-                        </div>
-                        {deleteModal && (
-                          <Deletion 
-                            serviceInfos={serviceInfos} 
-                            setDeleteModal={setDeleteModal} 
-                          />
-                        )}
-                        {updateModal && (
-                          <UpdateModal
-                            serviceInfos={serviceInfos}
-                            setUpdateModal={setUpdateModal}
-                            
-                          />
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
+                            {service?.serviceInfo}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-center">
+                          ₱ {Number(service.price).toLocaleString()}
+                        </td>
+                        <td className="px-6 py-4 text-center">
+                          <div className="space-x-2">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setUpdateModal(true);
+                                handleView({ ...service });
+                              }}
+                              className="px-2 py-1 bg-blue-500 rounded text-white"
+                            >
+                              <MdDesignServices className="inline" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setDeleteModal(true);
+                                handleView({ ...service });
+                              }}
+                              className="px-2 py-1 bg-red-500 rounded text-white"
+                            >
+                              <FaTrashCan className="inline" />
+                            </button>
+                          </div>
+                          {deleteModal && (
+                            <Deletion
+                              serviceInfos={serviceInfos}
+                              setDeleteModal={setDeleteModal}
+                            />
+                          )}
+                          {updateModal && (
+                            <UpdateModal
+                              serviceInfos={serviceInfos}
+                              setUpdateModal={setUpdateModal}
+                            />
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })
+              )}
             </tbody>
           </table>
         </div>
@@ -192,4 +211,4 @@ const ServiceTable = () => {
   );
 };
 
-export default ServiceTable;
+export default WithAuth(ServiceTable);
