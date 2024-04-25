@@ -6,23 +6,24 @@ import Profile from '../assets/profile.jpg';
 function FRank() {
   const [freelancers, setFreelancers] = useState([]); // State to hold the freelancer data
 
-  useEffect(() => {
-    const fetchFreelancers = async () => {
-      try {
-        // Using the provided API endpoint to fetch all freelancers
-        const response = await axios.get('https://quircom.onrender.com/api/freelancer');
-        if (response.status === 200) {
-          setFreelancers(response.data); // Assuming the response data is an array of freelancers
-        }
-      } catch (error) {
-        console.error('Error fetching freelancers:', error);
-        // Optionally, you can handle errors more gracefully in your UI here  
+  const fetchFreelancers = async () => {
+    try {
+      // Using the provided API endpoint to fetch all freelancers
+      const response = await axios.get(`https://quircom.onrender.com/api/freelancer`);
+      if (response.status === 200) {
+        setFreelancers(response.data); // Assuming the response data is an array of freelancers
       }
-    };
+    } catch (error) {
+      console.error('Error fetching freelancers:', error);
+      // Optionally, you can handle errors more gracefully in your UI here  
+    }
+  };
 
+  useEffect(() => {
     fetchFreelancers();
   }, []);
 
+  console.log("all freelancers:", freelancers);
   return (
     <div className="relative flex flex-col w-full min-w-0 mb-0 break-words border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
       <div>
@@ -49,17 +50,17 @@ function FRank() {
                     <div className="flex px-2 py-1">
                       <div>
                         <img
-                          src={freelancer.profilePic || Profile}
+                          src={freelancer.profilePic?.link || Profile}
                           alt="Profile"
                           className="inline-flex items-center justify-center mr-4 text-white transition-all duration-200 ease-soft-in-out text-sm h-10 w-10 rounded-xl"
                         />
                       </div>
                       <div className="flex flex-col justify-center">
                         <h6 className="mb-0 font-semibold leading-normal text-sm text-[#1D5B79]">
-                          {freelancer.name}
+                          {freelancer.firstName + " " + freelancer.surName}
                         </h6>
                         <p className="mb-0 leading-tight text-xs text-slate-500">
-                          {freelancer.email}
+                          {freelancer.eMail}
                         </p>
                       </div>
                     </div>
