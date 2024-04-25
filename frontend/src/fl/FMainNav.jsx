@@ -8,7 +8,6 @@ import {
   Avatar,
   Menu,
   MenuItem,
-  Popover,
   Chip,
 } from "@mui/material";
 import React, { useState, useContext, useEffect } from "react";
@@ -20,9 +19,6 @@ import Logo from "../assets/Icon1.png";
 import Logo2 from "../assets/clientNav.png";
 import Dboard from "../assets/dboard.png";
 import Settings from "../assets/settings.png";
-import Service from "../assets/service.png";
-import Tracker from "../assets/tracker.png";
-import Notifs from "../assets/bell.png";
 import LBoard from "../assets/crown.png";
 import User from "../assets/user.png";
 
@@ -34,8 +30,6 @@ const FMainNav = () => {
 
   const [nav, setNav] = useState(false);
   const [userData, setUserData] = useState(null);
-  const [openLogin, setLogin] = useState(false);
-  const [current, setActive] = useState(false);
 
   const { userId } = useParams();
   const { userIdLink } = useContext(UserContext);
@@ -170,6 +164,7 @@ const FMainNav = () => {
           justifyContent={"center"}
           spacing={1}
         >
+          <Divider orientation="vertical" sx={{ height: 40 }} />
           <IconButton onClick={handleAvatarClick}>
             <Avatar src={User} alt="User" />
           </IconButton>

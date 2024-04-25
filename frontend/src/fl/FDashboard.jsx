@@ -3,6 +3,7 @@ import React from "react";
 import axios from "axios"; // Import axios for making HTTP requests
 import UserContext from "../context/UserContext";
 import { useParams } from "react-router-dom";
+import WithAuth from "../auth/WithAuth";
 
 import BG1 from "../assets/bg1.png";
 import { MdDesignServices, MdPendingActions, MdTimeline} from "react-icons/md";
@@ -12,6 +13,8 @@ import FFooter from "./FFooter";
 
 import FTable from "./FDBcomponents/TrackerTable";
 import ServiceTable from "./FDBcomponents/ServiceTable";
+import PendingTable from "./FDBcomponents/PendingTable";
+
 
 function FDashboard() {
   const { userId } = useParams();
@@ -151,7 +154,7 @@ function FDashboard() {
             {/* inside tabs */}
             <div className="flex flex-col justify-center items-center w-[90%]">
               {activeTab === "track" && (<FTable/>)}
-              {activeTab === "pending" && (<FTable/>)}
+              {activeTab === "pending" && (<PendingTable/>)}
               {activeTab === "manage" && (<ServiceTable />)}
             </div>
           </div>
@@ -163,4 +166,4 @@ function FDashboard() {
   );
 }
 
-export default FDashboard;
+export default WithAuth(FDashboard);

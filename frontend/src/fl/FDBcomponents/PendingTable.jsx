@@ -7,7 +7,7 @@ import Convo from "./convoModal";
 import { MdDesignServices } from "react-icons/md";
 import { FaFileCircleCheck } from "react-icons/fa6";
 
-const FTable = () => {
+const PendingTable = () => {
   const { userId } = useParams();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -20,8 +20,9 @@ const FTable = () => {
       try {
         const response = await axios.get(`https://quircom.onrender.com/api/request/`);
         if (response.status === 200) {
+          console.log("mystring", response.data)
           const filteredRequests = response.data.filter(
-            (request) => request.serviceId.freelancerId._id === userId && request.verify === "approve"
+            (request) => request.serviceId.freelancerId._id === userId && request.verify === "default"
           );
           setRequest(filteredRequests);
         } else {
@@ -122,4 +123,4 @@ const FTable = () => {
   );
 };
 
-export default FTable;
+export default PendingTable;
