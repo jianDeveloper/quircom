@@ -48,6 +48,12 @@ const PendingTable = () => {
     setRequest(newRequests);
   };
 
+  const handleDecline = () => {
+    const newRequests = [...requestDetails];
+    newRequests[rowIndex].verify = "decline";
+    setRequest(newRequests);
+  };
+
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
@@ -135,7 +141,7 @@ const PendingTable = () => {
                         </button>
                         <button
                           type="button"
-                          onClick={() => setConfirmModal(true)}
+                          onClick={handleDecline}
                           className="px-2 py-1 bg-red-500 rounded text-white"
                         >
                           <FaXmark className="inline" />
