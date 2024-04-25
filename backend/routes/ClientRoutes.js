@@ -6,7 +6,7 @@ const requireAuth = require('../utils/requireAuth')
 const {
   GetAllUsers,
   GetSpecificUserWithAuth,
-  CreateUserWithAuth,
+  CreateUser,
   EditUserWithAuth,
   DeleteUserWithAuth,
   SubscriptionStatusWithAuth,
@@ -14,10 +14,10 @@ const {
   ValidateUserData,
 } = require("../controllers/ClientController.js");
 
+router.post("/upload", upload.single("file"), CreateUser);
 router.use(requireAuth);
 router.get("/", GetAllUsers);
 router.get("/:id", GetSpecificUserWithAuth);
-router.post("/upload", upload.single("file"), CreateUserWithAuth);
 router.patch("/update/:id", upload.single("file"), EditUserWithAuth);
 router.patch("/status/:id", SubscriptionStatusWithAuth);
 router.patch("/billing/:id", EditBillingWithAuth)

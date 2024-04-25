@@ -66,12 +66,12 @@ const CreateUser = async (req, res) => {
         status: false,
       },
       billing: {
-        firstName: null,
-        surName: null,
-        cardNum: null,
-        expireDate: null,
-        cvv: null,
-        aggRee: null,
+        firstName: "",
+        surName: "",
+        cardNum: "",
+        expireDate: "",
+        cvv: "",
+        aggRee: "false",
       },
     });
     res.status(201).json(result);
@@ -251,14 +251,14 @@ const ValidateUserData = async (req, res) => {
   }
 };
 
+const GetAllUsersWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await GetAllUsers(req, res);
+  });
+};
 const GetSpecificUserWithAuth = (req, res) => {
   requireAuth(req, res, async () => {
     await GetSpecificUser(req, res);
-  });
-};
-const CreateUserWithAuth = (req, res) => {
-  requireAuth(req, res, async () => {
-    await CreateUser(req, res);
   });
 };
 const EditUserWithAuth = (req, res) => {
@@ -283,9 +283,9 @@ const EditBillingWithAuth = (req, res) => {
 };
 
 module.exports = {
+  CreateUser,
   GetAllUsers,
   GetSpecificUserWithAuth,
-  CreateUserWithAuth,
   EditUserWithAuth,
   DeleteUserWithAuth,
   SubscriptionStatusWithAuth,

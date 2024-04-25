@@ -65,7 +65,7 @@ function CSettings() {
 
     setDisabled(true);
 
-    if (!profilePic || !profilePic.type.startsWith("image/")) {
+    if (!profilePic || !(profilePic.type.startsWith("image/jpeg") || profilePic.type.startsWith("image/jpg") || profilePic.type.startsWith("image/png"))) {
       toast.error("Please select a valid profile picture");
       setDisabled(false);
       return;
@@ -377,7 +377,7 @@ function CSettings() {
                     type="file"
                     name="profilePic"
                     id="profilePic"
-                    accept="image/*"
+                    accept="image/png, image/jpeg, image/jpg"
                     onChange={handleImage}
                   />
                   <button

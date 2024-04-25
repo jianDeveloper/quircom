@@ -5,6 +5,8 @@ import phil from "phil-reg-prov-mun-brgy";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import { Spinner } from "@material-tailwind/react";
+
 import BGreg from "../assets/bgreg.png";
 import logo2 from "../assets/Icon2.png";
 
@@ -14,6 +16,7 @@ const Reg = () => {
   const sortedRegions = phil.regions.sort((a, b) =>
     a.name.localeCompare(b.name)
   );
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -86,7 +89,6 @@ const Reg = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
-
     // Reset invalid fields
     setInvalidFields({});
 
@@ -127,13 +129,13 @@ const Reg = () => {
     if (!formData.aggRee) {
       errors.aggRee = "Please agree to the terms and conditions";
     }
-    if (!profilePic || !profilePic.type.startsWith("image/")) {
+    if (!profilePic || !(profilePic.type.startsWith("image/jpeg") || profilePic.type.startsWith("image/jpg") || profilePic.type.startsWith("image/png"))) {
       errors.profilePic = "Please add a picture";
     }
 
     try {
       const response = await axios.post(
-        `https://quircom.onrender.com/api/auth/validate`,
+        `http://localhost:8800/api/auth/validate`,
         {
           userName: formData.userName,
           eMail: formData.eMail,
@@ -165,24 +167,18 @@ const Reg = () => {
     }
 
     try {
-      console.log(formData);
+      setLoading(true);
 
-      // Create a FormData object
       var formObject = new FormData();
       formObject.append("file", profilePic); // Append profile picture
 
       // Check the accType to determine the endpoint
       const endpoint = formData.accType === "client" ? "client" : "freelancer";
       formObject.append(endpoint, JSON.stringify(formData)); // Append form data
-      if (formData.accType === "client") {
-        formObject.append("payment", "[]");
-      } else if (formData.accType === "freelancer") {
-        formObject.append("portfolio", "[]");
-      }
 
       // Send POST request to the appropriate endpoint
       const response = await axios.post(
-        `https://quircom.onrender.com/api/${endpoint}/upload`,
+        `http://localhost:8800/api/${endpoint}/upload`,
         formObject,
         {
           headers: {
@@ -190,7 +186,6 @@ const Reg = () => {
           },
         }
       );
-      console.log(response.data);
 
       setRegionCode(""); // Reset region dropdown
       setFilteredProvinces([]); // Reset filtered provinces dropdown
@@ -212,10 +207,12 @@ const Reg = () => {
         aggRee: false,
       });
       formRef.current.reset();
-
       toast.success("Registration successful!");
     } catch (error) {
-      console.error("Error during registration: ", error.message);
+      toast.error("Error during registration");
+      console.error("Error during registration ", error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -552,7 +549,7 @@ const Reg = () => {
                     name="profilePic"
                     value={formData.profilePic}
                     onChange={handleImage}
-                    accept="image/*"
+                    accept="image/png, image/jpeg, image/jpg"
                     className={`w-full text-[14px] p-3  border rounded ${
                       invalidFields.profilePic ? "border-red-500" : ""
                     }`}
@@ -592,12 +589,21 @@ const Reg = () => {
                 )}
               </div>
               <div className="flex justify-center">
-                <button
-                  type="submit"
+                {loading ? (
+                  <button
                   className="bg-[#FE6D30] w-[150px] text-white p-2 rounded-full hover:bg-[#EA580C] hover:w-[155px] focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
                 >
-                  Get Started
+                  <Spinner className="inline-block mr-2 text-white-500"/>
+                  <span className="inline-block">Processing...</span>
                 </button>
+                ) : (
+                  <button
+                    type="submit"
+                    className="bg-[#FE6D30] w-[150px] text-white p-2 rounded-full hover:bg-[#EA580C] hover:w-[155px] focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
+                  >
+                    Get Started
+                  </button>
+                )}
               </div>
             </form>
           </div>
