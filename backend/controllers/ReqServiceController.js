@@ -65,7 +65,7 @@ const CreateRequest = async (req, res) => {
     const newRequest = await RequestModel.create({
       requestId: uniqueRequestId,
       verify: "Default",
-      status: "Ongoing",
+      status: "",
       clientId: request.clientId,
       serviceId: request.serviceId,
       taskTitle: request.taskTitle,
@@ -205,7 +205,8 @@ const VerifyRequest = async (req, res) => {
 
     let update = {
       $set: {
-        verify: request.verify
+        verify: request.verify,
+        status: request.status
       },
     };
 
