@@ -109,7 +109,7 @@ function CRank() {
               </div>
             </td>
             <td className="p-2 align-middle bg-transparent border-b-0 whitespace-nowrap shadow-transparent">
-              <p className="mb-0 font-semibold leading-tight text-sm">Programtor</p>
+              <p className="mb-0 font-semibold leading-tight text-sm">Programmer</p>
               <p className="mb-0 leading-tight text-xs text-slate-500">Developer</p>
             </td>
             <td className="p-2 leading-normal text-center align-middle bg-transparent border-b-0 text-sm whitespace-nowrap shadow-transparent">

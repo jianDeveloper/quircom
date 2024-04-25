@@ -35,14 +35,14 @@ function FSettingsProfile() {
       toast.error('No file uploaded to save.');
       return;
     }
-
+  
     // Create a FormData object to send the file to the backend
     const formData = new FormData();
     formData.append("portfolioFile", portFolio);
 
     try {
       // Post request to upload the portfolio file
-      const response = await axios.post(`https://quircom.onrender.com/api/freelancer/upload-portfolio/${userId}`, formData, {
+      const response = await axios.post(`https://quircom.onrender.com/api/freelancer/update/portfolio/${userId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
