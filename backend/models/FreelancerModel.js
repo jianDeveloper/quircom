@@ -73,11 +73,11 @@ const FreelancerSchema = new Schema({
     type: String,
     default: "",
   },
-  portFolio: [{
+  portFolio: {
     id: {type: String}, 
     name: {type: String}, 
     link: {type: String}
-  }],
+  },
   ratings:{
     type: Number,
     default: ""
