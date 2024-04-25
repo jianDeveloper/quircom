@@ -17,7 +17,7 @@ const ReqServiceSchema = new Schema({
   },
   verify:{
     type: String,
-    default: "default"
+    default: ""
   },
   status:{
     type: String,
