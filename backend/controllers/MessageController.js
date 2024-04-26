@@ -101,9 +101,30 @@ const DeleteMessage = async (req, res) => {
   }
 };
 
+const GetMessageWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await GetMessage(req, res);
+  });
+};
+const GetSpecificMessageWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await GetSpecificMessage(req, res);
+  });
+};
+const CreateMessageWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await CreateMessage(req, res);
+  });
+};
+const DeleteMessageWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await DeleteMessage(req, res);
+  });
+};
+
 module.exports = {
-  GetMessage,
-  GetSpecificMessage,
-  CreateMessage,
-  DeleteMessage,
+  GetMessageWithAuth,
+  GetSpecificMessageWithAuth,
+  CreateMessageWithAuth,
+  DeleteMessageWithAuth,
 };

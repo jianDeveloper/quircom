@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { FaFileImport } from "react-icons/fa6";
 import WithAuth from "../../auth/WithAuth";
-import axios from "axios"
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 const ConvoModal = ({ setConvoModal, requestInfos }) => {
   const [message, setMessage] = useState([]);
@@ -13,43 +14,57 @@ const ConvoModal = ({ setConvoModal, requestInfos }) => {
     receiverType: requestInfos.clientId.accType,
     message: "",
     createdAt: new Date().toISOString(),
-  }); 
+  });
+
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const fetchMessages = async () => {
+    try {
+      const token = localStorage.getItem("authToken");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      };
+
+      const response = await axios.get(`http://localhost:8800/api/chat/`, {
+        headers,
+      });
+      const filteredMessage = response.data.filter(
+        (msg) => msg.requestId._id === requestInfos._id
+      );
+      setMessage(filteredMessage);
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+    }
+  };
 
   useEffect(() => {
-    axios.get(`http://localhost:8800/api/chat/`)
-        .then(response => {
-          const filteredMessage = response.data.filter(
-            (message) => message.requestId._id === requestInfos._id
-          );
-            setMessage(filteredMessage);
-        })
-        .catch(error => console.error('Error fetching messages:', error));
+    fetchMessages(); // Fetch messages initially
   }, []);
 
-  const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
-    if (selectedFile && selectedFile.type === "application/pdf") {
-      console.log("File uploaded:", selectedFile.name);
-    } else {
-      alert("Please upload only PDF files.");
-    }
+  useEffect(() => {
+    scrollToBottom(); // Scroll to bottom when message updates
+  }, [message]);
+
+  const [attachment, setAttachment] = useState();
+
+  const handleAttachment = (e) => {
+    setAttachment(e.target.files[0]);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setDisabled(true);
-
-    if (
-      !profilePic ||
-      !(
-        profilePic.type.startsWith("image/jpeg") ||
-        profilePic.type.startsWith("image/jpg") ||
-        profilePic.type.startsWith("image/png")
-      )
-    ) {
-      toast.error("Please select a valid profile picture");
-      setDisabled(false);
+    if (!formData.message && !attachment) {
+      toast.error("Please leave a message");
       return;
     }
 
@@ -61,11 +76,11 @@ const ConvoModal = ({ setConvoModal, requestInfos }) => {
       };
 
       const formObj = new FormData();
-      formObj.append("client", JSON.stringify(userData));
-      formObj.append("file", profilePic);
+      formObj.append("chat", JSON.stringify(formData));
+      formObj.append("file", attachment);
 
-      const response = await axios.patch(
-        `https://quircom.onrender.com/api/client/update/${userId}`,
+      const response = await axios.post(
+        `http://localhost:8800/api/chat/create`,
         formObj,
         {
           headers,
@@ -73,25 +88,31 @@ const ConvoModal = ({ setConvoModal, requestInfos }) => {
       );
 
       if (response && response.data) {
-        setUsers({ ...userData, profilePic: response.data.profilePic });
-        setProfile({});
-        toast.success("Profile picture uploaded successfully");
-        setDisabled(false);
+        setFormData({
+          requestId: requestInfos._id,
+          sender: requestInfos.serviceId.freelancerId._id,
+          senderType: requestInfos.serviceId.freelancerId.accType,
+          receiver: requestInfos.clientId._id,
+          receiverType: requestInfos.clientId.accType,
+          message: "",
+          createdAt: new Date().toISOString(),
+        });
+        setAttachment(null);
+        fetchMessages();
+        toast.success("Chat sent");
       } else {
-        console.log("Response data not available");
-        toast.error("Failed to upload profile picture");
-        setDisabled(false);
+        toast.error("Failed to send chat");
       }
     } catch (error) {
       console.error("Error during patch ", error.response);
       console.log(error.message);
-      toast.error("Failed to upload profile picture");
-      setDisabled(false);
+      toast.error("Failed to send chat");
     }
   };
 
   return (
     <div>
+      <ToastContainer />
       <div className="fixed inset-0 z-50 flex justify-center items-center overflow-x-hidden overflow-y-auto bg-black bg-opacity-[0.30]">
         <div className="relative w-1/3 my-6 mx-auto">
           <div className="border-0 rounded-lg relative flex flex-col w-full bg-white">
@@ -102,32 +123,83 @@ const ConvoModal = ({ setConvoModal, requestInfos }) => {
                 </h3>
               </div>
               <div className="flex flex-col overflow-y-auto max-h-[300px]">
-              {message.map((chat, index) => (
-                chat.senderType === 'client' && (
-                  <div key={index} className="flex flex-col px-6">
-                    <p className="p-2 text-sm font-bold text-left">
-                      {chat.sender.userName}
-                    </p>
-                    <div className="flex flex-col border mb-3 rounded-lg">
-                      <p className="p-2 text-sm text-left">{chat.message}</p>
-                      <p className="px-2 pb-1 text-xs text-right">{new Date(chat.createdAt).toLocaleString()}</p>
-                    </div>
-                  </div>
-                )
-              ))}
-              {message.map((chat, index) => (
-                chat.senderType === 'freelancer' && (
-                <div key={index} className="flex flex-col px-6">
-                  <p className="p-2 text-sm font-bold text-right">
-                    {chat.sender.userName}
-                  </p>
-                  <div className="flex flex-col border mb-3 rounded-lg">
-                    <p className="p-2 text-sm text-right">{chat.message}</p>
-                    <p className="px-2 pb-1 text-xs text-left">{new Date(chat.createdAt).toLocaleString()}</p>
-                  </div>
-                </div>
-                )
-              ))}
+                {message.map(
+                  (chat, index) =>
+                    chat.senderType === "client" && (
+                      <div key={index} className="flex flex-col px-6">
+                        <div className="flex items-center">
+                          {" "}
+                          {/* Container for profile pic and username */}
+                          <img
+                            className="w-8 h-8 rounded-full mr-2"
+                            src={chat.sender.profilePic.link}
+                            alt="Profile"
+                          />
+                          <p className="p-2 text-sm font-bold text-left">
+                            {chat.sender.userName}
+                          </p>
+                        </div>
+                        <div className="flex flex-col border mb-3 rounded-lg">
+                          <p className="p-2 text-sm text-left">
+                            {chat.message}
+                          </p>
+                          <p className="px-2 pb-1 text-xs text-right">
+                            {new Date(chat.createdAt).toLocaleString()}
+                          </p>
+                        </div>
+                      </div>
+                    )
+                )}
+                {message.map(
+                  (chat, index) =>
+                    chat.senderType === "freelancer" && (
+                      <div key={index} className="flex flex-col px-6">
+                        <div className="flex items-center justify-end">
+                          {" "}
+                          {/* Container for profile pic and username */}
+                          <p className="p-2 text-sm font-bold text-right">
+                            {chat.sender.userName}
+                          </p>
+                          <img
+                            className="w-8 h-8 rounded-full ml-2"
+                            src={chat.sender.profilePic.link}
+                            alt="Profile"
+                          />
+                        </div>
+                        <div className="flex flex-col border mb-3 rounded-lg">
+                          <p className="p-2 text-sm text-right">
+                            {chat.message}
+                          </p>
+                          {chat.attachment && chat.attachment.link && (
+                            <>
+                              {["pdf", "doc", "docx"].includes(
+                                chat.attachment.name.split(".").pop()
+                              ) ? (
+                                <a
+                                  href={chat.attachment.link}
+                                  className="p-2 text-sm text-right text-blue-600 underline"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  Attachment
+                                </a>
+                              ) : (
+                                <img
+                                  src={chat.attachment.link}
+                                  alt="Attachment"
+                                  className="w-full"
+                                />
+                              )}
+                            </>
+                          )}
+                          <p className="px-2 pb-1 text-xs text-left">
+                            {new Date(chat.createdAt).toLocaleString()}
+                          </p>
+                        </div>
+                      </div>
+                    )
+                )}
+                <div ref={messagesEndRef} />
               </div>
 
               <form
@@ -135,25 +207,25 @@ const ConvoModal = ({ setConvoModal, requestInfos }) => {
                 className="flex flex-row border-t p-2 gap-3"
               >
                 <div className="flex justify-center items-center border rounded-lg">
-                  <input
-                    type="file"
-                    id="fileInput"
-                    style={{ display: "none" }}
-                    onChange={handleFileChange}
-                  />
-                  <button
-                    className="flex items-center justify-center px-2 rounded-lg"
-                    type="button"
-                    onClick={() => document.getElementById("fileInput").click()}
-                  >
+                  <label className="flex items-center justify-center px-2 rounded-lg cursor-pointer">
                     <FaFileImport size={20} color="gray" />
-                  </button>
+                    <input
+                      type="file"
+                      id="attachment"
+                      onChange={handleAttachment}
+                      className="hidden"
+                    />
+                  </label>
                 </div>
+
                 <input
                   className="w-full p-2 rounded-lg outline-none border border-blueGray-300"
                   type="text"
-                  name="reply"
-                  placeholder="Type reply"
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="Type message"
                 />
                 <button
                   className="px-4 py-2 bg-[#1d7a8c] rounded-lg ml-2 text-white"

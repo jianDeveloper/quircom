@@ -4,15 +4,16 @@ const upload = require("../config/Multer.js");
 const requireAuth = require('../utils/requireAuth')
 
 const {
-  GetMessage,
-  GetSpecificMessage,
-  CreateMessage,
-  DeleteMessage,
+  GetMessageWithAuth,
+  GetSpecificMessageWithAuth,
+  CreateMessageWithAuth,
+  DeleteMessageWithAuth,
 } = require("../controllers/MessageController.js");
 
-router.get("/", GetMessage);
-router.get("/:id", GetSpecificMessage);
-router.post("/create", upload.single("file"), CreateMessage);
-router.delete("/delete/:id", DeleteMessage);
+router.use(requireAuth)
+router.get("/", GetMessageWithAuth);
+router.get("/:id", GetSpecificMessageWithAuth);
+router.post("/create", upload.single("file"), CreateMessageWithAuth);
+router.delete("/delete/:id", DeleteMessageWithAuth);
 
 module.exports = router;
