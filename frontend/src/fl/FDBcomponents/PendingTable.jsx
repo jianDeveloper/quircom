@@ -5,30 +5,33 @@ import WithAuth from "../../auth/WithAuth";
 
 import { FaCheck, FaXmark } from "react-icons/fa6";
 
-
 const PendingTable = () => {
   const { userId } = useParams();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [requestDetails, setRequest] = useState([]);
+  const [token, setToken] = useState("");
 
   useEffect(() => {
+    setToken(localStorage.getItem("authToken"));
+  }, []);
 
+  useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const token = localStorage.getItem("authToken");
-            const headers = {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            };
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
         const response = await axios.get(
-          `https://quircom.onrender.com/api/request/`,{headers}
+          `https://quircom.onrender.com/api/request/`, 
+          { headers }
         );
         if (response.status === 200) {
           const filteredRequests = response.data.filter(
             (request) =>
               request.serviceId.freelancerId._id === userId &&
-              request.verify === "default"
+              request.status === "Pending"
           );
           setRequest(filteredRequests);
         } else {
@@ -41,15 +44,25 @@ const PendingTable = () => {
         console.error("Error fetching requests:", error);
       }
     };
-
-    fetchRequests();
-  }, [userId]);
+  
+    if (token) {
+      fetchRequests();
+    }
+  }, [userId, token]);
 
   const handleApprove = async (id) => {
     try {
-      await axios.patch(`https://quircom.onrender.com/api/request/verify/${id}`, {
-        verify: "approved",
-      });
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+      await axios.patch(
+        `https://quircom.onrender.com/api/request/verify/${id}`,
+        {
+          status: "On progress",
+        },
+        { headers }
+      );
       // Refresh requests after approval
       fetchRequests();
     } catch (error) {
@@ -59,9 +72,17 @@ const PendingTable = () => {
 
   const handleReject = async (id) => {
     try {
-      await axios.patch(`https://quircom.onrender.com/api/request/verify/${id}`, {
-        verify: "rejected",
-      });
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+      await axios.patch(
+        `https://quircom.onrender.com/api/request/verify/${id}`,
+        {
+          status: "Declined",
+        },
+        { headers }
+      );
       // Refresh requests after rejection
       fetchRequests();
     } catch (error) {

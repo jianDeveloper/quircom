@@ -20,6 +20,8 @@ function FDashboard() {
   const [userData, setUserData] = useState(); // State to store user data
   const [activeTab, setActiveTab] = useState("track");
   const [serviceDetails, setService] = useState([]);
+  const [pendingDetails, setPending] = useState([]);
+  const [requestDetails, setRequest] = useState([]);
 
   const handleTab = (track) => {
     setActiveTab(track);
@@ -77,10 +79,16 @@ function FDashboard() {
           // Ensure response.data is not null or undefined
           if (response2.data) {
             // Filter services only if response.data is not null or undefined
-            const filteredRequest = response2.data.filter(
-              (service) => service.freelancerId && service.freelancerId._id === userId
+            const filteredPending = response2.data.filter(
+              (request) => request.serviceId.freelancerId._id === userId &&
+              request.status === "Pending"
             );
-            setService(filteredServices);
+            const filteredRequest = response2.data.filter(
+              (request) => request.serviceId.freelancerId._id === userId &&
+              request.status === "Ongoing"
+            );
+            setRequest(filteredRequest);
+            setPending(filteredPending);
           } else {
             console.error("Error fetching services: response data is null or undefined");
           }
@@ -133,7 +141,7 @@ function FDashboard() {
                 </h1>
                 <MdPendingActions size={30} color="#1d5b79" />
               </div>
-              <h1 className="font-medium text-[#1D5B79]">33</h1>
+              <h1 className="font-medium text-[#1D5B79]">{pendingDetails.length}</h1>
             </div>
             <div className="flex flex-col justify-around px-4 py-4 border-[#1D5B79] border-[3px] border-solid bg-white hover:shadow-lg rounded-md">
               <div className="flex items-center justify-between">
@@ -143,7 +151,7 @@ function FDashboard() {
                 <MdTimeline size={30} color="#1d5b79" />
               </div>
               <h1 className="font-medium text-[#1D5B79]">
-                {serviceDetails.length}
+                {requestDetails.length}
               </h1>
             </div>
             <div className="flex flex-col justify-around px-4 py-4 border-[#1D5B79] border-[3px] border-solid bg-white hover:shadow-lg rounded-md">

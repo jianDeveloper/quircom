@@ -34,7 +34,7 @@ const FTable = () => {
           const filteredRequests = response.data.filter(
             (request) =>
               request.serviceId.freelancerId._id === userId &&
-              request.verify === "approve"
+              request.status === "Ongoing"
           );
           setRequest(filteredRequests);
           console.log(filteredRequests)
