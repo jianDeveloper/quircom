@@ -5,36 +5,26 @@ import axios from "axios"
 
 const ConvoModal = ({ setConvoModal, requestInfos }) => {
   const [message, setMessage] = useState([]);
-  const [text, setText] = useState('');
-  const [file, setFile] = useState(null);
-
-  console.log(requestInfos)
+  const [formData, setFormData] = useState({
+    requestId: requestInfos._id,
+    sender: requestInfos.serviceId.freelancerId._id,
+    senderType: requestInfos.serviceId.freelancerId.accType,
+    receiver: requestInfos.clientId._id,
+    receiverType: requestInfos.clientId.accType,
+    message: "",
+    createdAt: new Date().toISOString(),
+  }); 
 
   useEffect(() => {
     axios.get(`http://localhost:8800/api/chat/`)
         .then(response => {
           const filteredMessage = response.data.filter(
-            (message) => message.requestId._id === requestInfos
+            (message) => message.requestId._id === requestInfos._id
           );
             setMessage(filteredMessage);
         })
         .catch(error => console.error('Error fetching messages:', error));
   }, []);
-
-  const [clientChat] = useState([
-    {
-      name: "Client Name",
-      message: "Hello",
-      time: "12:00 PM",
-    },
-  ]);
-  const [agentChat, setAgentChat] = useState([
-    {
-      name: "Freelancer Name",
-      message: "Hi there",
-      time: "12:05 PM",
-    },
-  ]);
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -45,19 +35,58 @@ const ConvoModal = ({ setConvoModal, requestInfos }) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const replyMessage = e.target.reply.value;
-    if (replyMessage.trim()) {
-      setAgentChat([
-        ...agentChat,
+
+    setDisabled(true);
+
+    if (
+      !profilePic ||
+      !(
+        profilePic.type.startsWith("image/jpeg") ||
+        profilePic.type.startsWith("image/jpg") ||
+        profilePic.type.startsWith("image/png")
+      )
+    ) {
+      toast.error("Please select a valid profile picture");
+      setDisabled(false);
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("authToken");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      };
+
+      const formObj = new FormData();
+      formObj.append("client", JSON.stringify(userData));
+      formObj.append("file", profilePic);
+
+      const response = await axios.patch(
+        `https://quircom.onrender.com/api/client/update/${userId}`,
+        formObj,
         {
-          name: "Freelancer Name",
-          message: replyMessage,
-          time: new Date().toLocaleTimeString(),
-        },
-      ]);
-      e.target.reply.value = "";
+          headers,
+        }
+      );
+
+      if (response && response.data) {
+        setUsers({ ...userData, profilePic: response.data.profilePic });
+        setProfile({});
+        toast.success("Profile picture uploaded successfully");
+        setDisabled(false);
+      } else {
+        console.log("Response data not available");
+        toast.error("Failed to upload profile picture");
+        setDisabled(false);
+      }
+    } catch (error) {
+      console.error("Error during patch ", error.response);
+      console.log(error.message);
+      toast.error("Failed to upload profile picture");
+      setDisabled(false);
     }
   };
 
@@ -73,30 +102,32 @@ const ConvoModal = ({ setConvoModal, requestInfos }) => {
                 </h3>
               </div>
               <div className="flex flex-col overflow-y-auto max-h-[300px]">
-                {clientChat.map((chat, index) => (
+              {message.map((chat, index) => (
+                chat.senderType === 'client' && (
                   <div key={index} className="flex flex-col px-6">
                     <p className="p-2 text-sm font-bold text-left">
-                      {chat.name}
+                      {chat.sender.userName}
                     </p>
                     <div className="flex flex-col border mb-3 rounded-lg">
                       <p className="p-2 text-sm text-left">{chat.message}</p>
-                      <p className="px-2 pb-1 text-xs text-right">
-                        {chat.time}
-                      </p>
+                      <p className="px-2 pb-1 text-xs text-right">{new Date(chat.createdAt).toLocaleString()}</p>
                     </div>
                   </div>
-                ))}
-                {agentChat.map((chat, index) => (
-                  <div key={index} className="flex flex-col px-6">
-                    <p className="p-2 text-sm font-bold text-right">
-                      {chat.name}
-                    </p>
-                    <div className="flex flex-col border mb-3 rounded-lg">
-                      <p className="p-2 text-sm text-right">{chat.message}</p>
-                      <p className="px-2 pb-1 text-xs text-left">{chat.time}</p>
-                    </div>
+                )
+              ))}
+              {message.map((chat, index) => (
+                chat.senderType === 'freelancer' && (
+                <div key={index} className="flex flex-col px-6">
+                  <p className="p-2 text-sm font-bold text-right">
+                    {chat.sender.userName}
+                  </p>
+                  <div className="flex flex-col border mb-3 rounded-lg">
+                    <p className="p-2 text-sm text-right">{chat.message}</p>
+                    <p className="px-2 pb-1 text-xs text-left">{new Date(chat.createdAt).toLocaleString()}</p>
                   </div>
-                ))}
+                </div>
+                )
+              ))}
               </div>
 
               <form
