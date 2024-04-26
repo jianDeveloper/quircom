@@ -16,7 +16,8 @@ const chatModal = ({ setchatModal, requestInfos }) => {
     createdAt: new Date().toISOString(),
   });
 
-  console.log(message);
+  const [loading, setLoading] = useState(true); // Add loading state
+
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -45,8 +46,10 @@ const chatModal = ({ setchatModal, requestInfos }) => {
         (msg) => msg.requestId._id === requestInfos._id
       );
       setMessage(filteredMessage);
+      setLoading(false); // Set loading to false after fetching messages
     } catch (error) {
       console.error("Error fetching messages:", error);
+      setLoading(false); // Set loading to false if there's an error
     }
   };
 
@@ -110,7 +113,6 @@ const chatModal = ({ setchatModal, requestInfos }) => {
           createdAt: new Date().toISOString(),
         });
         setAttachment(null);
-        toast.success("Chat sent");
       } else {
         toast.error("Failed to send chat");
       }
@@ -133,97 +135,128 @@ const chatModal = ({ setchatModal, requestInfos }) => {
                   Conversation History
                 </h3>
               </div>
-              <div className="flex flex-col overflow-y-auto max-h-[500px]">
-                {message
-                  .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
-                  .map((chat, index) => (
-                    <div key={index} className="flex flex-col px-6">
-                      <div
-                        className={`flex items-center mb-2 ${
-                          chat.senderType === "client" ? "justify-end" : ""
-                        }`}
-                      >
-                        {/* Container for profile pic and username */}
-                        {chat.senderType === "freelancer" && (
-                          <img
-                            className="w-8 h-8 rounded-full mr-2"
-                            src={chat.sender.profilePic.link}
-                            alt="Profile"
-                          />
-                        )}
-                        <p className="p-2 text-sm font-bold text-left">
-                          {chat.sender.firstName + " " + chat.sender.surName}
-                        </p>
-                        {chat.senderType === "client" && (
-                          <img
-                            className="w-8 h-8 rounded-full ml-2"
-                            src={chat.sender.profilePic.link}
-                            alt="Profile"
-                          />
-                        )}
-                      </div>
-                      <div
-                        className={`flex flex-col mb-3 rounded-lg ${
-                          chat.senderType === "client"
-                            ? "bg-blue-200 ml-auto"
-                            : "bg-gray-200 mr-auto"
-                        }`}
-                        style={{
-                          maxWidth: "60%",
-                          textAlign:
-                            chat.senderType === "client" ? "left" : "right",
-                        }}
-                      >
-                        <p
-                          className={`p-2 text-sm text-left`}
-                          style={{
-                            overflowWrap: "break-word",
-                            wordBreak: "break-all",
-                          }}
-                        >
-                          {chat.message}
-                        </p>
-                        {chat.attachment && chat.attachment.link && (
-                          <>
-                            {["pdf", "doc", "docx"].includes(
-                              chat.attachment.name.split(".").pop()
-                            ) ? (
-                              <a
-                                href={chat.attachment.link}
-                                className={`p-2 text-sm text-right text-blue-600 underline ${
-                                  chat.senderType === "freelancer"
-                                    ? ""
-                                    : "text-left"
-                                }`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                {chat.attachment.name}
-                              </a>
-                            ) : (
+              {loading ? (
+                <div className="animate-pulse flex flex-col bg-white border-0 rounded-lg relative w-2/3 mx-auto my-6 p-5 max-h-[450px] border-blueGray-200">
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                </div>
+              ) : (
+                <div className="flex flex-col overflow-y-auto max-h-[500px]">
+                  {/* Render actual chat messages here */}
+                  {message.length === 0 ? (
+                    <div className="flex items-center justify-center min-h-[500px]">
+                      No messages yet
+                    </div>
+                  ) : (
+                    message
+                      .sort(
+                        (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+                      )
+                      .map((chat, index) => (
+                        <div key={index} className="flex flex-col px-6">
+                          <div
+                            className={`flex items-center mb-2 ${
+                              chat.senderType === "client" ? "justify-end" : ""
+                            }`}
+                          >
+                            {/* Container for profile pic and username */}
+                            {chat.senderType === "freelancer" && (
                               <img
-                                src={chat.attachment.link}
-                                alt="Attachment"
-                                className="w-full"
+                                className="w-8 h-8 rounded-full mr-2"
+                                src={chat.sender.profilePic.link}
+                                alt="Profile"
                               />
                             )}
-                          </>
-                        )}
-                        <p
-                          className={`px-2 pb-1 text-xs ${
-                            chat.senderType === "freelancer"
-                              ? "text-right"
-                              : "text-left"
-                          }`}
-                        >
-                          {new Date(chat.createdAt).toLocaleString()}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
+                            <p className="p-2 text-sm font-bold text-left">
+                              {chat.sender.firstName +
+                                " " +
+                                chat.sender.surName}
+                            </p>
+                            {chat.senderType === "client" && (
+                              <img
+                                className="w-8 h-8 rounded-full ml-2"
+                                src={chat.sender.profilePic.link}
+                                alt="Profile"
+                              />
+                            )}
+                          </div>
+                          <div
+                            className={`flex flex-col mb-3 rounded-lg ${
+                              chat.senderType === "client"
+                                ? "bg-blue-200 ml-auto"
+                                : "bg-gray-200 mr-auto"
+                            }`}
+                            style={{
+                              maxWidth: "60%",
+                              textAlign:
+                                chat.senderType === "client" ? "left" : "right",
+                            }}
+                          >
+                            <p
+                              className={`p-2 text-sm text-left`}
+                              style={{
+                                overflowWrap: "break-word",
+                                wordBreak: "break-all",
+                              }}
+                            >
+                              {chat.message}
+                            </p>
+                            {chat.attachment && chat.attachment.link && (
+                              <>
+                                {["pdf", "doc", "docx"].includes(
+                                  chat.attachment.name.split(".").pop()
+                                ) ? (
+                                  <a
+                                    href={chat.attachment.link}
+                                    className={`p-2 text-sm text-right text-blue-600 underline ${
+                                      chat.senderType === "freelancer"
+                                        ? ""
+                                        : "text-left"
+                                    }`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    {chat.attachment.name}
+                                  </a>
+                                ) : (
+                                  <img
+                                    src={chat.attachment.link}
+                                    alt="Attachment"
+                                    className="w-full"
+                                  />
+                                )}
+                              </>
+                            )}
+                            <p
+                              className={`px-2 pb-1 text-xs ${
+                                chat.senderType === "freelancer"
+                                  ? "text-right"
+                                  : "text-left"
+                              }`}
+                            >
+                              {new Date(chat.createdAt).toLocaleString()}
+                            </p>
+                          </div>
+                        </div>
+                      ))
+                  )}
 
-                <div ref={messagesEndRef} />
-              </div>
+                  <div ref={messagesEndRef} />
+                </div>
+              )}
 
               <form
                 onSubmit={handleSubmit}

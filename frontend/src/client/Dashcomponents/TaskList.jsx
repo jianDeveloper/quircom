@@ -25,7 +25,9 @@ const TaskList = () => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
+  console.log(userId);
+  console.log(requestDetails);
+  console.log(requestInfos);
   useEffect(() => {
     const fetchRequests = async () => {
       try {
@@ -41,8 +43,7 @@ const TaskList = () => {
         );
         if (response.status === 200) {
           const filteredRequests = response.data.filter(
-            (request) =>
-              request.clientId._id === userId 
+            (request) => request.clientId._id === userId
           );
           setRequest(filteredRequests);
         } else {
@@ -103,68 +104,77 @@ const TaskList = () => {
             </tr>
           </thead>
           <tbody>
-            {requestDetails
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, rowIndex) => {
-                return (
-                  <tr key={rowIndex} className="border-b">
-                    <td className="px-6 py-4 text-left">{row.requestId}</td>
-                    <td className="px-6 py-4 text-left">
-                      {row.serviceId.freelancerId.firstName +
-                        " " +
-                        row.serviceId.freelancerId.surName}
-                    </td>
-                    <td className="px-6 py-4 text-left">
-                      {row.serviceId.serviceType}
-                    </td>
-                    <td className="px-6 py-4 text-left">{row.taskDetails}</td>
-                    <td className="px-6 py-4 text-left">
-                      {new Date(row.deadLine).toLocaleDateString()}
-                    </td>
-                    <td className="px-6 py-4 text-left">{row.status}</td>
-                    <td className="px-6 py-4 text-left">
-                      <button
-                        type="button"
-                        className="mr-2 px-2 py-1 bg-blue-500 rounded text-white"
-                        onClick={() => {
-                          setdetailsModal(true)
-                          handleView({ ...row });
-                        }}                      
-                      >
-                        <IoEyeSharp className="inline" />
-                      </button>
-                      {detailsModal && (
-                        <CdetailsModal 
-                          requestInfos={requestInfos}
-                          setdetailsModal={setdetailsModal}
-                        />
-                      )}
-                      <button
-                        type="button"
-                        className="px-2 py-1 bg-orange-500 rounded text-white"
-                        onClick={() => setchatModal(true)}
-                      > 
-                        <IoChatboxEllipses className="inline" />
-                      </button>
-                      {chatModal ? (
-                        <CchatModal setchatModal={setchatModal} requestInfos={requestInfos} />
-                      ) : null}
-                      <button
-                        type="button"
-                        className="ml-2 px-2 py-1 bg-orange-500 rounded text-white"
-                        onClick={() => setfilesModal(true)}
-                      >
-                        <FaFolder className="inline" />
-                      </button>
-                      {filesModal ? (
-                        <CfilesModal 
-                          
-                          setfilesModal={setfilesModal} />
-                      ) : null}
-                    </td>
-                  </tr>
-                );
-              })}
+            {requestDetails.length === 0 ? (
+              <tr>
+                <td colSpan="7" className="px-6 py-11 text-center">
+                  No client request at the moment...
+                </td>
+              </tr>
+            ) : (
+              requestDetails
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, rowIndex) => {
+                  return (
+                    <tr key={rowIndex} className="border-b">
+                      <td className="px-6 py-4 text-left">{row.requestId}</td>
+                      <td className="px-6 py-4 text-left">
+                        {row.serviceId.freelancerId.firstName +
+                          " " +
+                          row.serviceId.freelancerId.surName}
+                      </td>
+                      <td className="px-6 py-4 text-left">
+                        {row.serviceId.serviceType}
+                      </td>
+                      <td className="px-6 py-4 text-left">{row.taskDetails}</td>
+                      <td className="px-6 py-4 text-left">
+                        {new Date(row.deadLine).toLocaleDateString()}
+                      </td>
+                      <td className="px-6 py-4 text-left">{row.status}</td>
+                      <td className="px-6 py-4 text-left">
+                        <button
+                          type="button"
+                          className="mr-2 px-2 py-1 bg-blue-500 rounded text-white"
+                          onClick={() => {
+                            setdetailsModal(true);
+                            handleView({ ...row });
+                          }}
+                        >
+                          <IoEyeSharp className="inline" />
+                        </button>
+                        {detailsModal && (
+                          <CdetailsModal
+                            requestInfos={requestInfos}
+                            setdetailsModal={setdetailsModal}
+                          />
+                        )}
+                        <button
+                          type="button"
+                          className="px-2 py-1 bg-orange-500 rounded text-white"
+                          onClick={() => {setchatModal(true); handleView({ ...row });}}
+                        >
+                          <IoChatboxEllipses className="inline" />
+                        </button>
+                        {chatModal ? (
+                          <CchatModal
+                            setchatModal={setchatModal}
+                            requestInfos={requestInfos}
+                          />
+                        ) : null}
+                        <button
+                          type="button"
+                          className="ml-2 px-2 py-1 bg-orange-500 rounded text-white"
+                          onClick={() => setfilesModal(true)}
+                        >
+                          <FaFolder className="inline" />
+                        </button>
+                        {filesModal ? (
+                          <CfilesModal setfilesModal={setfilesModal} />
+                        ) : null}
+                      </td>
+                    </tr>
+                  );
+                })
+            )}
           </tbody>
         </table>
         {/* Pagination can be added here */}
