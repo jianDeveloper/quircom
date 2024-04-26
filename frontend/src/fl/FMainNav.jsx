@@ -31,14 +31,11 @@ const FMainNav = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorEl2, setAnchorEl2] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
-
-  const [nav, setNav] = useState(false);
   const [userData, setUser] = useState(null);
-  const [openLogin, setLogin] = useState(false);
-  const [current, setActive] = useState(false);
 
   const { userId } = useParams();
 
+  
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     const headers = {
@@ -56,6 +53,8 @@ const FMainNav = () => {
       .catch((error) => {
         console.error("Error fetching user data:", error);
       });
+
+      
   }, [userId]);
 
   const icons = [
@@ -195,13 +194,19 @@ const FMainNav = () => {
               <Typography sx={{ p: 2 }}>Notification 3</Typography>
             </Popover>
           </div>
-          <Divider orientation="vertical" sx={{ height: 40 }} />
-          <IconButton
-            className=" hover:scale-150 duration-300"
-            onClick={handleAvatarClick}
-          >
-            <Avatar src={User} alt="User" />
-          </IconButton>
+
+          {
+            <div>
+              <Divider orientation="vertical" sx={{ height: 40 }} />
+              <IconButton
+                className=" hover:scale-150 duration-300"
+                onClick={handleAvatarClick}
+              >
+                <Avatar src={User} alt="User" />
+              </IconButton>
+            </div>
+          }
+
           <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
