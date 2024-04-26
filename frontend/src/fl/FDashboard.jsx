@@ -57,6 +57,10 @@ function FDashboard() {
           `https://quircom.onrender.com/api/service/`,
           { headers }
         );
+        const response2 = await axios.get(
+          `https://quircom.onrender.com/api/request/`,
+          { headers }
+        );
         if (response.status === 200) {
           // Ensure response.data is not null or undefined
           if (response.data) {
@@ -68,7 +72,20 @@ function FDashboard() {
           } else {
             console.error("Error fetching services: response data is null or undefined");
           }
-        } else {
+        } 
+        if (response2.status === 200) {
+          // Ensure response.data is not null or undefined
+          if (response2.data) {
+            // Filter services only if response.data is not null or undefined
+            const filteredRequest = response2.data.filter(
+              (service) => service.freelancerId && service.freelancerId._id === userId
+            );
+            setService(filteredServices);
+          } else {
+            console.error("Error fetching services: response data is null or undefined");
+          }
+        }
+        else {
           console.error(
             "Error fetching services: Unexpected status code",
             response.status

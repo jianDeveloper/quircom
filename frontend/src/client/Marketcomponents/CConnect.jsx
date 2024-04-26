@@ -16,7 +16,7 @@ function CConnect() {
   const { serviceId } = useParams();
   const [activeTab, setActiveTab] = useState("view");
   const [reqModal, setReqModal] = useState(false);
-  const [loading, setLoading] = useState(false);
+
 
   const handleTab = (view) => {
     setActiveTab(view);
@@ -68,7 +68,7 @@ function CConnect() {
     fetchServices();
   }, [serviceId]);
 
-  
+
 
   return (
     <section className="mt-[-1px]">
