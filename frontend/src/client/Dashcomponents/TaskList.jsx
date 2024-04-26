@@ -32,19 +32,19 @@ const TaskList = () => {
         const token = localStorage.getItem("authToken");
         const headers = {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         };
 
         const response = await axios.get(
-          `https://quircom.onrender.com/api/request/`, {headers}
+          `https://quircom.onrender.com/api/request/`,
+          { headers }
         );
         if (response.status === 200) {
-          // setRequest(response.data);
-          const filteredRequest = response.data.filter(
-            (request) => request.clientId._id === userId
+          const filteredRequests = response.data.filter(
+            (request) =>
+              request.clientId._id === userId 
           );
-          setRequest(filteredRequest);
-          // console.log(filteredRequest)
+          setRequest(filteredRequests);
         } else {
           console.error(
             "Error fetching requests: Unexpected status code",
@@ -147,7 +147,7 @@ const TaskList = () => {
                         <IoChatboxEllipses className="inline" />
                       </button>
                       {chatModal ? (
-                        <CchatModal setchatModal={setchatModal} />
+                        <CchatModal setchatModal={setchatModal} requestInfos={requestInfos} />
                       ) : null}
                       <button
                         type="button"
