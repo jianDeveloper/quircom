@@ -130,7 +130,7 @@ const FTable = () => {
                           type="button"
                           onClick={() => {
                             setConvoModal(true);
-                            handleView({ ...request });
+                            handleView({ ...row });
                           }}
                           className="mr-2 px-2 py-1 bg-blue-500 rounded text-white"
                         >
