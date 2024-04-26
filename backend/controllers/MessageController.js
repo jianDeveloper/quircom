@@ -14,6 +14,29 @@ const GetMessage = async (req, res) => {
   }
 };
 
+const GetMessageWithPolling = async (req, res) => {
+  try {
+    // Retrieve messages initially
+    let result = await MessageModel.find({})
+      .populate("requestId")
+      .populate("sender")
+      .populate("receiver");
+
+    // If no messages, wait for a while before sending an empty response
+    if (result.length === 0) {
+      await new Promise(resolve => setTimeout(resolve, 3000)); // Wait for 3 seconds
+      result = await MessageModel.find({})
+        .populate("requestId")
+        .populate("sender")
+        .populate("receiver");
+    }
+
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 const GetSpecificMessage = async (req, res) => {
   try {
     const { id } = req.params;
@@ -106,6 +129,11 @@ const GetMessageWithAuth = (req, res) => {
     await GetMessage(req, res);
   });
 };
+const GetMessageWithPollingWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await GetMessageWithPolling(req, res);
+  });
+};
 const GetSpecificMessageWithAuth = (req, res) => {
   requireAuth(req, res, async () => {
     await GetSpecificMessage(req, res);
@@ -124,6 +152,7 @@ const DeleteMessageWithAuth = (req, res) => {
 
 module.exports = {
   GetMessageWithAuth,
+  GetMessageWithPollingWithAuth,
   GetSpecificMessageWithAuth,
   CreateMessageWithAuth,
   DeleteMessageWithAuth,

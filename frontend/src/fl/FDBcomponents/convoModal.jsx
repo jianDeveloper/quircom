@@ -34,7 +34,7 @@ const ConvoModal = ({ setConvoModal, requestInfos }) => {
         "Content-Type": "multipart/form-data",
       };
 
-      const response = await axios.get(`http://localhost:8800/api/chat/`, {
+      const response = await axios.get(`http://localhost:8800/api/chat/message`, {
         headers,
       });
       const filteredMessage = response.data.filter(
@@ -48,6 +48,14 @@ const ConvoModal = ({ setConvoModal, requestInfos }) => {
 
   useEffect(() => {
     fetchMessages(); // Fetch messages initially
+
+    const intervalId = setInterval(() => {
+      fetchMessages(); // Fetch messages at intervals
+    }, 3000); // Polling interval: every 3 seconds
+
+    return () => {
+      clearInterval(intervalId); // Cleanup interval on component unmount
+    };
   }, []);
 
   useEffect(() => {
@@ -98,7 +106,6 @@ const ConvoModal = ({ setConvoModal, requestInfos }) => {
           createdAt: new Date().toISOString(),
         });
         setAttachment(null);
-        fetchMessages();
         toast.success("Chat sent");
       } else {
         toast.error("Failed to send chat");
@@ -114,7 +121,7 @@ const ConvoModal = ({ setConvoModal, requestInfos }) => {
     <div>
       <ToastContainer />
       <div className="fixed inset-0 z-50 flex justify-center items-center overflow-x-hidden overflow-y-auto bg-black bg-opacity-[0.30]">
-        <div className="relative w-1/3 my-6 mx-auto">
+        <div className="relative w-2/3 my-6 mx-auto">
           <div className="border-0 rounded-lg relative flex flex-col w-full bg-white">
             <div className="flex flex-col bg-white border-2 rounded-t-lg">
               <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200">
@@ -122,31 +129,53 @@ const ConvoModal = ({ setConvoModal, requestInfos }) => {
                   Conversation History
                 </h3>
               </div>
-              <div className="flex flex-col overflow-y-auto max-h-[300px]">
-              {message
+              <div className="flex flex-col overflow-y-auto max-h-[500px]">
+                {message
                   .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
                   .map((chat, index) => (
                     <div key={index} className="flex flex-col px-6">
                       <div
-                        className={`flex items-center ${
-                          chat.senderType === "freelancer" ? "" : "justify-end"
+                        className={`flex items-center mb-2 ${
+                          chat.senderType === "freelancer" ? "justify-end" : ""
                         }`}
                       >
                         {/* Container for profile pic and username */}
-                        <img
-                          className="w-8 h-8 rounded-full mr-2"
-                          src={chat.sender.profilePic.link}
-                          alt="Profile"
-                        />
+                        {chat.senderType === "client" && (
+                          <img
+                            className="w-8 h-8 rounded-full mr-2"
+                            src={chat.sender.profilePic.link}
+                            alt="Profile"
+                          />
+                        )}
                         <p className="p-2 text-sm font-bold text-left">
-                          {chat.sender.userName}
+                          {chat.sender.firstName + " " + chat.sender.surName}
                         </p>
+                        {chat.senderType === "freelancer" && (
+                          <img
+                            className="w-8 h-8 rounded-full ml-2"
+                            src={chat.sender.profilePic.link}
+                            alt="Profile"
+                          />
+                        )}
                       </div>
-                      <div className="flex flex-col border mb-3 rounded-lg">
+                      <div
+                        className={`flex flex-col mb-3 rounded-lg ${
+                          chat.senderType === "freelancer"
+                            ? "bg-blue-200 ml-auto"
+                            : "bg-gray-200 mr-auto"
+                        }`}
+                        style={{
+                          maxWidth: "60%",
+                          textAlign:
+                            chat.senderType === "freelancer" ? "right" : "left",
+                        }}
+                      >
                         <p
-                          className={`p-2 text-sm text-left ${
-                            chat.senderType === "freelancer" ? "" : "text-right"
-                          }`}
+                          className={`p-2 text-sm text-left`}
+                          style={{
+                            overflowWrap: "break-word",
+                            wordBreak: "break-all",
+                          }}
                         >
                           {chat.message}
                         </p>
@@ -157,28 +186,29 @@ const ConvoModal = ({ setConvoModal, requestInfos }) => {
                             ) ? (
                               <a
                                 href={chat.attachment.link}
-                                className={`p-2 text-sm text-right text-blue-600 underline ${
+                                className={`p-2 text-sm ${
                                   chat.senderType === "freelancer"
-                                    ? ""
+                                    ? "text-right"
                                     : "text-left"
-                                }`}
+                                } text-blue-600 underline`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                               >
-                                Attachment
+                                {chat.attachment.name}
                               </a>
                             ) : (
                               <img
                                 src={chat.attachment.link}
                                 alt="Attachment"
-                                className="w-full"
+                                className="w-full cursor-pointer"
+                                onClick={() => handleImageClick(index)}
                               />
                             )}
                           </>
                         )}
                         <p
                           className={`px-2 pb-1 text-xs ${
-                            chat.senderType === "freelancer"
+                            chat.senderType === "client"
                               ? "text-right"
                               : "text-left"
                           }`}
@@ -188,6 +218,7 @@ const ConvoModal = ({ setConvoModal, requestInfos }) => {
                       </div>
                     </div>
                   ))}
+
                 <div ref={messagesEndRef} />
               </div>
 

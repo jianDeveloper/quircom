@@ -16,8 +16,7 @@ const chatModal = ({ setchatModal, requestInfos }) => {
     createdAt: new Date().toISOString(),
   });
 
-  console.log(requestInfos);
-
+  console.log(message);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -36,9 +35,12 @@ const chatModal = ({ setchatModal, requestInfos }) => {
         "Content-Type": "multipart/form-data",
       };
 
-      const response = await axios.get(`http://localhost:8800/api/chat/`, {
-        headers,
-      });
+      const response = await axios.get(
+        `http://localhost:8800/api/chat/message`,
+        {
+          headers,
+        }
+      );
       const filteredMessage = response.data.filter(
         (msg) => msg.requestId._id === requestInfos._id
       );
@@ -50,6 +52,14 @@ const chatModal = ({ setchatModal, requestInfos }) => {
 
   useEffect(() => {
     fetchMessages(); // Fetch messages initially
+
+    const intervalId = setInterval(() => {
+      fetchMessages(); // Fetch messages at intervals
+    }, 3000); // Polling interval: every 3 seconds
+
+    return () => {
+      clearInterval(intervalId); // Cleanup interval on component unmount
+    };
   }, []);
 
   useEffect(() => {
@@ -92,15 +102,14 @@ const chatModal = ({ setchatModal, requestInfos }) => {
       if (response && response.data) {
         setFormData({
           requestId: requestInfos._id,
-          sender: requestInfos.serviceId.freelancerId._id,
-          senderType: requestInfos.serviceId.freelancerId.accType,
-          receiver: requestInfos.clientId._id,
-          receiverType: requestInfos.clientId.accType,
+          sender: requestInfos.clientId._id,
+          senderType: requestInfos.clientId.accType,
+          receiver: requestInfos.serviceId.freelancerId._id,
+          receiverType: requestInfos.serviceId.freelancerId.accType,
           message: "",
           createdAt: new Date().toISOString(),
         });
         setAttachment(null);
-        fetchMessages();
         toast.success("Chat sent");
       } else {
         toast.error("Failed to send chat");
@@ -116,7 +125,7 @@ const chatModal = ({ setchatModal, requestInfos }) => {
     <div>
       <ToastContainer />
       <div className="fixed inset-0 z-50 flex justify-center items-center overflow-x-hidden overflow-y-auto bg-black bg-opacity-[0.30]">
-        <div className="relative w-1/3 my-6 mx-auto">
+        <div className="relative w-2/3 my-6 mx-auto">
           <div className="border-0 rounded-lg relative flex flex-col w-full bg-white">
             <div className="flex flex-col bg-white border-2 rounded-t-lg">
               <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200">
@@ -124,31 +133,53 @@ const chatModal = ({ setchatModal, requestInfos }) => {
                   Conversation History
                 </h3>
               </div>
-              <div className="flex flex-col overflow-y-auto max-h-[300px]">
+              <div className="flex flex-col overflow-y-auto max-h-[500px]">
                 {message
                   .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
                   .map((chat, index) => (
                     <div key={index} className="flex flex-col px-6">
                       <div
-                        className={`flex items-center ${
-                          chat.senderType === "freelancer" ? "" : "justify-end"
+                        className={`flex items-center mb-2 ${
+                          chat.senderType === "client" ? "justify-end" : ""
                         }`}
                       >
                         {/* Container for profile pic and username */}
-                        <img
-                          className="w-8 h-8 rounded-full mr-2"
-                          src={chat.sender.profilePic.link}
-                          alt="Profile"
-                        />
+                        {chat.senderType === "freelancer" && (
+                          <img
+                            className="w-8 h-8 rounded-full mr-2"
+                            src={chat.sender.profilePic.link}
+                            alt="Profile"
+                          />
+                        )}
                         <p className="p-2 text-sm font-bold text-left">
-                          {chat.sender.userName}
+                          {chat.sender.firstName + " " + chat.sender.surName}
                         </p>
+                        {chat.senderType === "client" && (
+                          <img
+                            className="w-8 h-8 rounded-full ml-2"
+                            src={chat.sender.profilePic.link}
+                            alt="Profile"
+                          />
+                        )}
                       </div>
-                      <div className="flex flex-col border mb-3 rounded-lg">
+                      <div
+                        className={`flex flex-col mb-3 rounded-lg ${
+                          chat.senderType === "client"
+                            ? "bg-blue-200 ml-auto"
+                            : "bg-gray-200 mr-auto"
+                        }`}
+                        style={{
+                          maxWidth: "60%",
+                          textAlign:
+                            chat.senderType === "client" ? "left" : "right",
+                        }}
+                      >
                         <p
-                          className={`p-2 text-sm text-left ${
-                            chat.senderType === "freelancer" ? "" : "text-right"
-                          }`}
+                          className={`p-2 text-sm text-left`}
+                          style={{
+                            overflowWrap: "break-word",
+                            wordBreak: "break-all",
+                          }}
                         >
                           {chat.message}
                         </p>
@@ -167,7 +198,7 @@ const chatModal = ({ setchatModal, requestInfos }) => {
                                 target="_blank"
                                 rel="noopener noreferrer"
                               >
-                                Attachment
+                                {chat.attachment.name}
                               </a>
                             ) : (
                               <img
@@ -190,6 +221,7 @@ const chatModal = ({ setchatModal, requestInfos }) => {
                       </div>
                     </div>
                   ))}
+
                 <div ref={messagesEndRef} />
               </div>
 
