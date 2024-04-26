@@ -54,8 +54,6 @@ const FMainNav = () => {
       });
   }, [userId]);
 
-  console.log("items on users:", userData);
-
   const icons = [
     {
       icon: Dboard,

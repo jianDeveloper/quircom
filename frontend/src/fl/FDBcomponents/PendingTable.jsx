@@ -1,35 +1,30 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import Confirmation from "./confirmModal";
-import Convo from "./convoModal";
+import WithAuth from "../../auth/WithAuth";
 
 import { FaCheck, FaXmark } from "react-icons/fa6";
-import WithAuth from "../../auth/WithAuth";
+
 
 const PendingTable = () => {
   const { userId } = useParams();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [confirmModal, setConfirmModal] = useState(false);
-  const [convoModal, setConvoModal] = useState(false);
   const [requestDetails, setRequest] = useState([]);
 
   useEffect(() => {
+
     const fetchRequests = async () => {
       try {
         const token = localStorage.getItem("authToken");
-        const headers = {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        };
-
+            const headers = {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            };
         const response = await axios.get(
-          `https://quircom.onrender.com/api/request/`,
-          { headers }
+          `https://quircom.onrender.com/api/request/`,{headers}
         );
         if (response.status === 200) {
-          console.log("mystring", response.data);
           const filteredRequests = response.data.filter(
             (request) =>
               request.serviceId.freelancerId._id === userId &&
@@ -50,25 +45,41 @@ const PendingTable = () => {
     fetchRequests();
   }, [userId]);
 
-  const handleVerify = () => {
-    const newRequests = [...requestDetails];
-    newRequests[rowIndex].verify = "approve";
-    setRequest(newRequests);
+  const handleApprove = async (id) => {
+    try {
+      await axios.patch(`https://quircom.onrender.com/api/request/verify/${id}`, {
+        verify: "approved",
+      });
+      // Refresh requests after approval
+      fetchRequests();
+    } catch (error) {
+      console.error("Error during approval: ", error.response);
+    }
   };
 
-  const handleDecline = () => {
-    const newRequests = [...requestDetails];
-    newRequests[rowIndex].verify = "decline";
-    setRequest(newRequests);
+  const handleReject = async (id) => {
+    try {
+      await axios.patch(`https://quircom.onrender.com/api/request/verify/${id}`, {
+        verify: "rejected",
+      });
+      // Refresh requests after rejection
+      fetchRequests();
+    } catch (error) {
+      console.error("Error during rejection: ", error.response);
+    }
+  };
+
+  const handleSubmit = async (id, action) => {
+    if (action === "approve") {
+      handleApprove(id);
+    } else if (action === "reject") {
+      handleReject(id);
+    }
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
-  };
-
-  const handleView = (request) => {
-    setServiceInfos(request);
   };
 
   return (
@@ -142,19 +153,18 @@ const PendingTable = () => {
                       <td className="px-6 py-4 text-left">
                         <button
                           type="button"
-                          onClick={handleVerify}
+                          onClick={() => handleSubmit(row._id, "approve")}
                           className="mr-2 px-2 py-1 bg-green-500 rounded text-white"
                         >
                           <FaCheck className="inline" />
                         </button>
                         <button
                           type="button"
-                          onClick={handleDecline}
+                          onClick={() => handleSubmit(row._id, "reject")}
                           className="px-2 py-1 bg-red-500 rounded text-white"
                         >
                           <FaXmark className="inline" />
                         </button>
-                        {convoModal && <Convo setConvoModal={setConvoModal} />}
                       </td>
                     </tr>
                   );
