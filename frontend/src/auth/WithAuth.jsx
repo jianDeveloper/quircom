@@ -44,7 +44,7 @@ const WithAuth = (WrappedComponent) => {
 
     return (
       <>
-        {isLoading ? console.log("s") : (
+        {isLoading ? console.clear() : (
           <WrappedComponent {...props} />
         )}
       </>
