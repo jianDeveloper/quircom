@@ -35,7 +35,6 @@ const FMainNav = () => {
 
   const { userId } = useParams();
 
-  
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     const headers = {
@@ -53,9 +52,9 @@ const FMainNav = () => {
       .catch((error) => {
         console.error("Error fetching user data:", error);
       });
-
-      
   }, [userId]);
+
+  console.log("items on users:", userData);
 
   const icons = [
     {
@@ -168,7 +167,7 @@ const FMainNav = () => {
           justifyContent={"center"}
           spacing={1}
         >
-          <div>
+          {/* <div>
             <IconButton onClick={handleNotifClick}>
               <img
                 className="w-8 h-6 hover:scale-150 duration-300"
@@ -193,19 +192,21 @@ const FMainNav = () => {
               <Typography sx={{ p: 2 }}>Notification 2</Typography>
               <Typography sx={{ p: 2 }}>Notification 3</Typography>
             </Popover>
-          </div>
-
-          {
-            <div>
-              <Divider orientation="vertical" sx={{ height: 40 }} />
-              <IconButton
-                className=" hover:scale-150 duration-300"
-                onClick={handleAvatarClick}
-              >
-                <Avatar src={User} alt="User" />
-              </IconButton>
+          </div> */}
+          
+          {userData && (
+            <div className="flex items-center justify-center">
+            <p className="text-[#1d5b79] font-bold px-2 my-2 text-nowrap">{userData.firstName}</p>
+            <Divider orientation="vertical" sx={{ height: 40 }} />
+            <IconButton onClick={handleAvatarClick}>
+              {userData.profilePic && userData.profilePic.link !== "" ? (
+                <Avatar sx={{ boxShadow: 3 }} src={userData.profilePic.link} alt="User" />
+              ) : (
+                <Avatar sx={{ boxShadow: 3 }} src={User} alt="User" />
+              )}
+            </IconButton>
             </div>
-          }
+          )}
 
           <Menu
             anchorEl={anchorEl}
