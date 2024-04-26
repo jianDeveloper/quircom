@@ -25,15 +25,12 @@ function FRank() {
         console.error('Error fetching freelancers:', error);
         // Optionally, you can handle errors more gracefully in your UI here  
       }
-    } catch (error) {
-      console.error('Error fetching freelancers:', error);
-      // Optionally, you can handle errors more gracefully in your UI here  
-    }
-  };
+    };
 
-  useEffect(() => {
     fetchFreelancers();
-  }, []);
+}, []);
+
+  
 
   console.log("all freelancers:", freelancers);
   return (

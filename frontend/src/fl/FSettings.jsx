@@ -6,7 +6,9 @@ import { toast, ToastContainer } from "react-toastify";
 import NavHeader from "./FMainNav";
 import FFooter from "./FFooter";
 import avatar from "../assets/avatar.png";
-import { FaEyeSlash, FaEye, FaRegFile } from "react-icons/fa";
+import { FaEyeSlash, FaEye } from "react-icons/fa";
+import { BsFileEarmarkPdfFill } from "react-icons/bs";
+
 import WithAuth from "../auth/WithAuth";
 
 function FSettings() {
@@ -436,7 +438,7 @@ function FSettings() {
                     className={`ml-2 rounded font-bold py-2 px-4 ${
                       disabled
                         ? "bg-gray-400 cursor-not-allowed"
-                        : "bg-blue-500 hover:bg-blue-700 text-white"
+                        : "bg-sky-700 hover:bg-sky-800 text-white"
                     }`}
                   >
                     Upload New Profile Picture
@@ -451,15 +453,21 @@ function FSettings() {
                   {userData &&
                   userData.portFolio &&
                   userData.portFolio.id !== "" ? (
-                    <a
-                      href={userData.portFolio.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <FaRegFile /> View Portfolio
-                    </a>
+                    <div>
+                      <a
+                        href={userData.portFolio.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center w-[50%] border-2 border-dashed border-orange-600 text-orange-600 hover:text-white hover:bg-sky-800 hover:border-transparent px-4 py-2 rounded transition duration-300"
+                      >
+                        <BsFileEarmarkPdfFill className="mr-2 "/> View Portfolio
+                      </a>
+                  </div>
+                    
                   ) : (
-                    <span>No portfolio yet</span>
+                    <div>
+                      <span className="flex items-center justify-center w-[50%] border-2 border-dashed border-orange-600 text-orange-600 hover:text-white hover:bg-sky-800 hover:border-transparent px-4 py-2 rounded transition duration-300">No portfolio yet</span>
+                    </div>
                   )}
                 </div>
                 <div className="my-4">
@@ -476,7 +484,7 @@ function FSettings() {
                     className={`ml-2 rounded font-bold py-2 px-4 ${
                       disabled3
                         ? "bg-gray-400 cursor-not-allowed"
-                        : "bg-blue-500 hover:bg-blue-700 text-white"
+                        : "bg-sky-700 hover:bg-sky-800 text-white"
                     }`}
                   >
                     Upload Portfolio
@@ -520,7 +528,7 @@ function FSettings() {
                         className={`m-2 rounded font-bold py-2 px-4 ${
                           disabled2
                             ? "bg-gray-400 cursor-not-allowed"
-                            : "bg-blue-500 hover:bg-blue-700 text-white"
+                            : "bg-sky-700 hover:bg-sky-800 text-white"
                         }`}
                       >
                         Save Email
@@ -536,7 +544,7 @@ function FSettings() {
                   ) : (
                     <button
                       onClick={toggleEmailEdit}
-                      className="ml-2 mt-2 rounded font-bold py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white"
+                      className="ml-2 mt-2 rounded font-bold py-2 px-4 bg-sky-700 hover:bg-sky-800 text-white"
                     >
                       Change Email
                     </button>
@@ -631,7 +639,7 @@ function FSettings() {
                   </p>
                   <button
                     type="submit"
-                    className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-white"
+                    className="mt-4 rounded-lg bg-sky-700 px-4 py-2 text-white"
                   >
                     Save Password
                   </button>

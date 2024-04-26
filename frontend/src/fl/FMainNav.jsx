@@ -8,6 +8,7 @@ import {
   Avatar,
   Menu,
   MenuItem,
+  Popover,
   Chip,
 } from "@mui/material";
 import React, { useState, useContext, useEffect } from "react";
@@ -19,8 +20,10 @@ import Logo from "../assets/Icon1.png";
 import Logo2 from "../assets/clientNav.png";
 import Dboard from "../assets/dboard.png";
 import Settings from "../assets/settings.png";
+import Notifs from "../assets/bell.png";
 import LBoard from "../assets/crown.png";
 import User from "../assets/user.png";
+
 import WithAuth from "../auth/WithAuth";
 
 const FMainNav = () => {
@@ -30,31 +33,11 @@ const FMainNav = () => {
   const [isHovered, setIsHovered] = useState(false);
 
   const [nav, setNav] = useState(false);
-  const [userDetails, setUserData] = useState(null);
+  const [userData, setUser] = useState(null);
+  const [openLogin, setLogin] = useState(false);
+  const [current, setActive] = useState(false);
 
   const { userId } = useParams();
-  const { userIdLink } = useContext(UserContext);
-
-  const fetchUser = async () => {
-    try {
-      const response = await axios.get(
-        `https://quircom.onrender.com/api/freelancer/`
-      );
-      if (response.status === 200) {
-        const filteredUser = response.data.filter(
-          (freelancer) => freelancer._id === userId
-        );
-        setUserData(filteredUser);
-      } else {
-        console.error(
-          "Error fetching services: Unexpected status code",
-          response.status
-        );
-      }
-    } catch (error) {
-      console.error("Error fetching services:", error);
-    }
-  };
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -66,16 +49,14 @@ const FMainNav = () => {
     axios
       .get(`https://quircom.onrender.com/api/freelancer/${userId}`, { headers })
       .then((response) => {
+        console.log("User ID in Dashboard:", userId);
         console.log("User data:", response.data);
+        setUser(response.data);
       })
       .catch((error) => {
         console.error("Error fetching user data:", error);
       });
-
-    fetchUser();
-  }, [userId]); // Fetch user data whenever userId changes
-
-  console.log("User ID in Dashboard:", userDetails);
+  }, [userId]);
 
   const icons = [
     {
@@ -88,7 +69,7 @@ const FMainNav = () => {
       icon: LBoard,
       component: `/freelancer/leaderboard/${userId}`,
       text: "Leaderboard",
-      index: 1,
+      index: 3,
     },
   ];
 
@@ -111,6 +92,7 @@ const FMainNav = () => {
   };
 
   const handleLogout = () => {
+    console.clear();
     localStorage.removeItem("authToken");
   };
 
@@ -187,26 +169,39 @@ const FMainNav = () => {
           justifyContent={"center"}
           spacing={1}
         >
-          
-
-          {userDetails &&
-            userDetails.map((user, key) => (
-              <div className="flex items-center justify-center ">
-                <p className="px-1 mx-2 w-fit h-fit max-w-max text-right font-bold text-[#1d5b79]" style={{ whiteSpace: "nowrap" }}>
-                  {user.firstName}
-                  </p>
-                <Divider orientation="vertical" sx={{ height: 40 }} />
-                <IconButton key={key} onClick={handleAvatarClick}>
-                {user.profilePic && user.profilePic.link !== "" ? (
-                  <Avatar sx={{ boxShadow: 2, width: 40, height: 40 }} src={user.profilePic.link} alt="User" />
-                ) : (
-                  <Avatar sx={{ boxShadow: 2, width: 40, height: 40 }} src={User} alt="User" />
-                )}
-              </IconButton>
-              </div>
-              
-            ))}
-
+          <div>
+            <IconButton onClick={handleNotifClick}>
+              <img
+                className="w-8 h-6 hover:scale-150 duration-300"
+                src={Notifs}
+                alt="Notifs"
+              />
+            </IconButton>
+            <Popover
+              open={Boolean(anchorEl2)}
+              anchorEl={anchorEl2}
+              onClose={handleCloseMenu}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+            >
+              <Typography sx={{ p: 2 }}>Notification 1</Typography>
+              <Typography sx={{ p: 2 }}>Notification 2</Typography>
+              <Typography sx={{ p: 2 }}>Notification 3</Typography>
+            </Popover>
+          </div>
+          <Divider orientation="vertical" sx={{ height: 40 }} />
+          <IconButton
+            className=" hover:scale-150 duration-300"
+            onClick={handleAvatarClick}
+          >
+            <Avatar src={User} alt="User" />
+          </IconButton>
           <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
@@ -218,7 +213,7 @@ const FMainNav = () => {
               to={`/freelancer/profile/${userId}`}
             >
               <Stack direction={"row"} spacing={1}>
-                <img className="w-6 h-6" src={User} alt="Profile" />
+                <img className="w-6 h-6 " src={User} alt="Profile" />
                 <Typography variant="body1">Profile</Typography>
               </Stack>
             </MenuItem>
