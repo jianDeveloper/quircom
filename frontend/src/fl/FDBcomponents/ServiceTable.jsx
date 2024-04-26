@@ -64,7 +64,8 @@ const ServiceTable = () => {
         );
         if (response.status === 200) {
           const filteredServices = response.data.filter(
-            (service) => service.freelancerId._id === userId
+            (service) =>
+              service.freelancerId && service.freelancerId._id === userId
           );
           setService(filteredServices);
         } else {

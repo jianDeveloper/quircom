@@ -26,7 +26,7 @@ const CMarketplace = () => {
         };
 
         const response = await axios.get(
-          `https://quircom.onrender.com/api/service/`
+          `https://quircom.onrender.com/api/service/`, {headers}
         );
         if (response.status === 200) {
           setServices(response.data);
@@ -156,7 +156,7 @@ const CMarketplace = () => {
                     image={item?.thumbNail?.link}
                     subtitle={item.serviceType}
                     title={item.serviceName}
-                    author={item?.freelancerId.firstName + " " + item?.freelancerId.surName}
+                    author={(item?.freelancerId?.firstName || '') + " " + (item?.freelancerId?.surName || '')}
                     button="Avail"
                   />
                 ))}
