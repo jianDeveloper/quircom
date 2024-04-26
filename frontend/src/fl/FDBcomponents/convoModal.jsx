@@ -1,8 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaFileImport } from "react-icons/fa6";
 import WithAuth from "../../auth/WithAuth";
+import axios from "axios"
 
-const ConvoModal = ({ setConvoModal }) => {
+const ConvoModal = ({ setConvoModal, requestInfos }) => {
+  const [message, setMessage] = useState([]);
+  const [text, setText] = useState('');
+  const [file, setFile] = useState(null);
+
+  console.log(requestInfos)
+
+  useEffect(() => {
+    axios.get(`http://localhost:8800/api/chat/`)
+        .then(response => {
+          const filteredMessage = response.data.filter(
+            (message) => message.requestId._id === requestInfos
+          );
+            setMessage(filteredMessage);
+        })
+        .catch(error => console.error('Error fetching messages:', error));
+  }, []);
+
   const [clientChat] = useState([
     {
       name: "Client Name",

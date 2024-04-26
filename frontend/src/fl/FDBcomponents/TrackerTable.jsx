@@ -15,6 +15,7 @@ const FTable = () => {
   const [confirmModal, setConfirmModal] = useState(false);
   const [convoModal, setConvoModal] = useState(false);
   const [requestDetails, setRequest] = useState([]);
+  const [requestInfos, setRequestInfos] = useState({});
 
   useEffect(() => {
     const fetchRequests = async () => {
@@ -36,6 +37,7 @@ const FTable = () => {
               request.verify === "approve"
           );
           setRequest(filteredRequests);
+          console.log(filteredRequests)
         } else {
           console.error(
             "Error fetching requests: Unexpected status code",
@@ -56,7 +58,7 @@ const FTable = () => {
   };
 
   const handleView = (request) => {
-    setServiceInfos(request);
+    setRequestInfos(request);
   };
 
   return (
@@ -126,7 +128,10 @@ const FTable = () => {
                       <td className="px-6 py-4 text-left">
                         <button
                           type="button"
-                          onClick={() => setConvoModal(true)}
+                          onClick={() => {
+                            setConvoModal(true);
+                            handleView({ ...request });
+                          }}
                           className="mr-2 px-2 py-1 bg-blue-500 rounded text-white"
                         >
                           <MdDesignServices className="inline" />
@@ -141,7 +146,12 @@ const FTable = () => {
                         {confirmModal && (
                           <Confirmation setConfirmModal={setConfirmModal} />
                         )}
-                        {convoModal && <Convo setConvoModal={setConvoModal} />}
+                        {convoModal && (
+                          <Convo
+                            setConvoModal={setConvoModal}
+                            requestInfos={requestInfos}
+                          />
+                        )}
                       </td>
                     </tr>
                   );
