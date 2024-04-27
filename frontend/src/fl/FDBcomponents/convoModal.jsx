@@ -37,7 +37,7 @@ const ConvoModal = ({ setConvoModal, requestInfos }) => {
       };
 
       const response = await axios.get(
-        `http://localhost:8800/api/chat/message`,
+        `https://quircom.onrender.com/api/chat/message`,
         {
           headers,
         }
