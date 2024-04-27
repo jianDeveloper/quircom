@@ -24,7 +24,7 @@ const GetMessageWithPolling = async (req, res) => {
 
     // If no messages, wait for a while before sending an empty response
     if (result.length === 0) {
-      await new Promise(resolve => setTimeout(resolve, 3000)); // Wait for 3 seconds
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Wait for 3 seconds
       result = await MessageModel.find({})
         .populate("requestId")
         .populate("sender")

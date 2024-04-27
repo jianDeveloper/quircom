@@ -58,7 +58,7 @@ const chatModal = ({ setchatModal, requestInfos }) => {
 
     const intervalId = setInterval(() => {
       fetchMessages(); // Fetch messages at intervals
-    }, 3000); // Polling interval: every 3 seconds
+    }, 1000); // Polling interval: every 3 seconds
 
     return () => {
       clearInterval(intervalId); // Cleanup interval on component unmount
