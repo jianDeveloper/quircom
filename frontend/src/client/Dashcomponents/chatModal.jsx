@@ -95,7 +95,7 @@ const chatModal = ({ setchatModal, requestInfos }) => {
       formObj.append("file", attachment);
 
       const response = await axios.post(
-        `http://localhost:8800/api/chat/create`,
+        `https://quircom.onrender.com/api/chat/create`,
         formObj,
         {
           headers,
