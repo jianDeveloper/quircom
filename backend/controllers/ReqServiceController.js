@@ -65,7 +65,6 @@ const CreateRequest = async (req, res) => {
     let uniqueRequestId = generateUniqueRequestId();
     const newRequest = await RequestModel.create({
       requestId: uniqueRequestId,
-      verify: "default",
       status: "Pending",
       clientId: request.clientId,
       serviceId: request.serviceId,

@@ -22,6 +22,7 @@ function FDashboard() {
   const [serviceDetails, setService] = useState([]);
   const [pendingDetails, setPending] = useState([]);
   const [requestDetails, setRequest] = useState([]);
+  const [finishDetails, setFinish] = useState([]);
 
   const handleTab = (track) => {
     setActiveTab(track);
@@ -74,7 +75,7 @@ function FDashboard() {
           } else {
             console.error("Error fetching services: response data is null or undefined");
           }
-        } 
+        }
         if (response2.status === 200) {
           // Ensure response.data is not null or undefined
           if (response2.data) {
@@ -87,7 +88,12 @@ function FDashboard() {
               (request) => request.serviceId.freelancerId._id === userId &&
               request.status === "Ongoing"
             );
+            const filteredFinished = response2.data.filter(
+              (request) => request.serviceId.freelancerId._id === userId &&
+              request.status === "Complete"
+            );
             setRequest(filteredRequest);
+            setFinish(filteredFinished);
             setPending(filteredPending);
           } else {
             console.error("Error fetching services: response data is null or undefined");
@@ -161,7 +167,7 @@ function FDashboard() {
                 </h1>
                 <FaFileCircleCheck size={27} color="#1d5b79" />
               </div>
-              <h1 className="font-medium text-[#1D5B79]">12</h1>
+              <h1 className="font-medium text-[#1D5B79]">{finishDetails.length}</h1>
             </div>
           </div>
           {/* Box Analytics */}
