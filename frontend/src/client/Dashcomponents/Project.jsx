@@ -45,7 +45,7 @@ const Project = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="">
+                <tbody>
                   <tr className="bg-blue-100 hover:bg-orange-100 border-l border-r border-gray-200 cursor-pointer">
                     <td className="px-2 py-1 text-left text-sm font-bold">1</td>
                     <td className="px-2 py-1 text-left text-sm font-bold">
@@ -75,9 +75,35 @@ const Project = () => {
             </div>
           </div>
           {/* 2nd column Grid - Chat */}
-          <div className="col-span-2">Chats</div>
-          {/* 3rd column Grid - Files */}
-          <div className="">Files</div>
+          <div className="col-span-3">
+          <div className="flex gap-4 items-baseline">
+              <h1 className="font-extrabold text-sm uppercase border-b-2 border-[#1D5B79] mb-3 text-[#1D5B79]">
+                Chat
+              </h1>
+              <h1 className="font-extrabold rounded-md text-xs uppercase text-[#1D5B79] px-1 cursor-pointer hover:bg-blue-100">
+                Files
+              </h1>
+            </div>
+            <div className="bg-white min-h-[500px] rounded-lg">
+              <table className="min-w-full rounded-t-lg shadow-md">
+                <thead className="bg-[#1d5b79] text-white">
+                  <tr>
+                    <th className="px-2 py-1 text-center text-sm font-bold rounded-t-lg">
+                      Chat
+                    </th>
+                  </tr>
+                  <tr>
+                    <th className="px-2 py-1 text-left bg-blue-200 text-[#1D5B79] h-12 text-sm font-bold">
+                      Freelancer Name
+                    </th>
+                  </tr>
+                </thead>
+                <tbody >
+                  
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
       <CFooter />
