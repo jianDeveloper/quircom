@@ -43,7 +43,7 @@ const TaskList = () => {
         );
         if (response.status === 200) {
           const filteredRequests = response.data.filter(
-            (request) => request.clientId._id === userId
+            (request) => request.clientId._id === userId && request.status === "Pending"
           );
           setRequest(filteredRequests);
         } else {
@@ -100,7 +100,6 @@ const TaskList = () => {
                 Deadline
               </th>
               <th className="px-6 py-3 text-left text-sm font-bold">Status</th>
-              <th className="px-6 py-3 text-left text-sm font-bold">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -130,47 +129,7 @@ const TaskList = () => {
                         {new Date(row.deadLine).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4 text-left">{row.status}</td>
-                      <td className="px-6 py-4 text-left">
-                        <button
-                          type="button"
-                          className="mr-2 px-2 py-1 bg-blue-500 rounded text-white"
-                          onClick={() => {
-                            setdetailsModal(true);
-                            handleView({ ...row });
-                          }}
-                        >
-                          <IoEyeSharp className="inline" />
-                        </button>
-                        {detailsModal && (
-                          <CdetailsModal
-                            requestInfos={requestInfos}
-                            setdetailsModal={setdetailsModal}
-                          />
-                        )}
-                        <button
-                          type="button"
-                          className="px-2 py-1 bg-orange-500 rounded text-white"
-                          onClick={() => {setchatModal(true); handleView({ ...row });}}
-                        >
-                          <IoChatboxEllipses className="inline" />
-                        </button>
-                        {chatModal ? (
-                          <CchatModal
-                            setchatModal={setchatModal}
-                            requestInfos={requestInfos}
-                          />
-                        ) : null}
-                        <button
-                          type="button"
-                          className="ml-2 px-2 py-1 bg-orange-500 rounded text-white"
-                          onClick={() => setfilesModal(true)}
-                        >
-                          <FaFolder className="inline" />
-                        </button>
-                        {filesModal ? (
-                          <CfilesModal setfilesModal={setfilesModal} />
-                        ) : null}
-                      </td>
+                      
                     </tr>
                   );
                 })

@@ -1,38 +1,45 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import Navbar from './components/Navbar.jsx';
-import Hero from './components/Hero.jsx';
-import Trial from './components/sample.jsx';
-import Reg from './components/Reg.jsx';
-import Footer from './components/Footer.jsx';
-import Terms from './components/Terms.jsx';
-import Forgot from './components/Forgot.jsx';
-import ResetPass from './components/ResetPass.jsx';
-import CDashboard from './client/CDashboard.jsx';
-import CMarketplace from './client/CMarketplace.jsx';
-import CProfile from './client/CProfile.jsx';
-import CSettings from './client/CSettings.jsx';
-import CSettingsProfile from './client/Settingcomponents/CSettingsProfile.jsx';
-import CSettingsBill from './client/Settingcomponents/CSettingsBill.jsx';
-import CRank from './client/CRank.jsx';
-import FRank from './fl/FRank.jsx';
-import CSubscribe from './client/CSubscribe.jsx';
-import CConnect from './client/Marketcomponents/CConnect.jsx';
-import FDashboard from './fl/FDashboard.jsx';
-import FProfile from './fl/FProfile.jsx';
-import FSettings from './fl/FSettings.jsx';
-import FSettingsProfile from './fl/FSettingsProfile.jsx';
+import Navbar from "./components/Navbar.jsx";
+import Hero from "./components/Hero.jsx";
+import Trial from "./components/sample.jsx";
+import Reg from "./components/Reg.jsx";
+import Footer from "./components/Footer.jsx";
+import Terms from "./components/Terms.jsx";
+import Forgot from "./components/Forgot.jsx";
+import ResetPass from "./components/ResetPass.jsx";
+import NotFoundPage from "./components/NotFoundPage.jsx";
 
-import NotFoundPage from './components/NotFoundPage.jsx';
+// Client Imports =============================================================
+import CDashboard from "./client/CDashboard.jsx";
+import CMarketplace from "./client/CMarketplace.jsx";
+import CProfile from "./client/CProfile.jsx";
+import CSettings from "./client/CSettings.jsx";
+import CSettingsProfile from "./client/Settingcomponents/CSettingsProfile.jsx";
+import CSettingsBill from "./client/Settingcomponents/CSettingsBill.jsx";
+import CRank from "./client/CRank.jsx";
+import CSubscribe from "./client/CSubscribe.jsx";
+import CConnect from "./client/Marketcomponents/CConnect.jsx";
+import Project from "./client/Dashcomponents/Project.jsx";
+
+// Freelancer Imports =========================================================
+import FRank from "./fl/FRank.jsx";
+import FDashboard from "./fl/FDashboard.jsx";
+import FProfile from "./fl/FProfile.jsx";
+import FSettings from "./fl/FSettings.jsx";
+import FSettingsProfile from "./fl/FSettingsProfile.jsx";
+
 
 
 function App() {
   return (
     <div>
-      <ToastContainer/>
+      <ToastContainer />
+
+      {/* Main Routing */}
       <Routes>
         <Route
           exact
@@ -45,8 +52,6 @@ function App() {
             </>
           }
         />
-
-        {/* Sample Routing */}
         <Route
           exact
           path="/trial"
@@ -57,13 +62,11 @@ function App() {
             </>
           }
         />
-
-        <Route
-          exact
-          path="/page-not-found"
-          element={<NotFoundPage />}
+        <Route 
+        exact 
+        path="/page-not-found" 
+        element={<NotFoundPage />} 
         />
-
         <Route
           exact
           path="/registration"
@@ -75,43 +78,42 @@ function App() {
             </>
           }
         />
-        <Route
-          exact
-          path="/terms"
-          element={<Terms />}
+        <Route 
+        exact 
+        path="/terms" 
+        element={<Terms />} 
         />
-        <Route
-          exact
-          path="/forgot"
-          element={<Forgot />}
+        <Route 
+        exact 
+        path="/forgot" 
+        element={<Forgot />} 
         />
-        <Route
-          exact
-          path="/resetpass/:userId"
-          element={<ResetPass />}
-        />
-        <Route
-          exact
-          path="/client/dashboard/:userId" // Adding :userId parameter
-          element={<CDashboard />} // Rendering CDashboard component
+        <Route 
+        exact 
+        path="/resetpass/:userId" 
+        element={<ResetPass />} 
         />
 
+        {/* Client Routes */}
         <Route
           exact
-          path="/client/profile/:userId"
-          element={<CProfile />}
+          path="/client/dashboard/:userId"
+          element={<CDashboard />} 
         />
-
+        <Route 
+        exact 
+        path="/client/profile/:userId" 
+        element={<CProfile />} 
+        />
         <Route
           exact
           path="/client/browse-service/:userId"
           element={<CMarketplace />}
         />
-
-        <Route
-          exact
-          path="/client/settings/:userId"
-          element={<CSettings />}
+        <Route 
+        exact 
+        path="/client/settings/:userId" 
+        element={<CSettings />} 
         />
         <Route
           exact
@@ -123,9 +125,6 @@ function App() {
           path="/client/settings-bill/:userId"
           element={<CSettingsBill />}
         />
-
-        
-        
         <Route
           exact
           path="/client/subscribe/:userId"
@@ -133,22 +132,26 @@ function App() {
         />
         <Route
           exact
-          path="/client/service-connect/:userId/:serviceId"
-          element={<CConnect />}
+          path="/client/projects/:userId"
+          element={<Project />}
         />
         <Route
           exact
-          path="/client/leaderboard/:userId"
-          element={<CRank />}
+          path="/client/service-connect/:userId/:serviceId"
+          element={<CConnect />}
+        />
+        <Route 
+        exact 
+        path="/client/leaderboard/:userId" 
+        element={<CRank />} 
         />
 
         {/* ROUTE FOR FREELANCER */}
         <Route
           exact
-          path="/freelancer/dashboard/:userId" // Adding :userId parameter
-          element={<FDashboard />} // Rendering CDashboard component
+          path="/freelancer/dashboard/:userId"
+          element={<FDashboard />}
         />
-        
         <Route
           exact
           path="/freelancer/profile/:userId"
@@ -159,7 +162,6 @@ function App() {
           path="/freelancer/leaderboard/:userId"
           element={<FRank />}
         />
-
         <Route
           exact
           path="/freelancer/settings/:userId"
@@ -169,10 +171,8 @@ function App() {
           exact
           path="/freelancer/settings-profile/:userId"
           element={<FSettingsProfile />}
-        /> 
-       
+        />
       </Routes>
-      
     </div>
   );
 }

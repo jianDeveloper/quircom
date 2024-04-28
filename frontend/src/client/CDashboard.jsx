@@ -10,7 +10,6 @@ import UserContext from "../context/UserContext";
 
 import CFooter from "./CFooter";
 import TaskList from "./Dashcomponents/TaskList";
-import TrackerModal from "./Dashcomponents/Tracker";
 import { Link } from "react-router-dom";
 
 import BG1 from "../assets/bg1.png";
@@ -23,7 +22,6 @@ import WithAuth from "../auth/WithAuth";
 function CDashboard() {
   const { userId } = useParams();
   const [userData, setUserData] = useState(null); // State to store user data
-  const [trackModal, settrackModal] = React.useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -108,18 +106,18 @@ function CDashboard() {
               }}
             >
               <div className="flex justify-center items-center py-14">
-                <Link to={`/client/leaderboard/${userId}`}>
+                <Link to={`/client/projects/${userId}`}>
                   <button
                     type="button"
                     className="font-extrabold text-xl text-[#F5F5DC]"
                   >
-                    Leaderboards
+                    Projects
                   </button>
                 </Link>
               </div>
             </div>
 
-            <Link to={`/client/subscribe/${userId}`}>
+            <Link to={`/client/leaderboard/${userId}`}>
               <div
                 className="flex flex-col justify-around rounded-lg"
                 style={{
@@ -130,7 +128,7 @@ function CDashboard() {
               >
                 <div className="flex justify-center items-center py-14">
                   <h3 className="font-extrabold text-xl text-[#F5F5DC]">
-                    Subscription
+                    Leaderboards
                   </h3>
                 </div>
               </div>
@@ -138,9 +136,8 @@ function CDashboard() {
           </div>
           <div>
             <h2 className="text-2xl justify-center place-content-center font-semibold text-[#F5F5DC]">
-              Current Projects
+              Pending Contracts
             </h2>
-
             <TaskList />
           </div>
         </div>
