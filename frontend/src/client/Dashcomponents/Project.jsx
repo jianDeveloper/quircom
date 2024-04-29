@@ -76,34 +76,29 @@ const Project = () => {
           </div>
           {/* 2nd column Grid - Chat */}
           <div className="col-span-3">
-          <div className="flex gap-4 items-baseline">
+            <div className="flex gap-4 items-baseline">
               <h1 className="font-extrabold text-sm uppercase border-b-2 border-[#1D5B79] mb-3 text-[#1D5B79]">
                 Chat
               </h1>
-              <h1 className="font-extrabold rounded-md text-xs uppercase text-[#1D5B79] px-1 cursor-pointer hover:bg-blue-100">
-                Files
-              </h1>
             </div>
-            <div className="bg-white min-h-[500px] rounded-lg">
-              <table className="min-w-full rounded-t-lg shadow-md">
-                <thead className="bg-[#1d5b79] text-white">
-                  <tr>
-                    <th className="px-2 py-1 text-center text-sm font-bold rounded-t-lg">
-                      Chat
-                    </th>
-                  </tr>
-                  <tr>
-                    <th className="px-2 py-1 text-left bg-blue-200 text-[#1D5B79] h-12 text-sm font-bold">
-                      Freelancer Name
-                    </th>
-                  </tr>
-                </thead>
-                <tbody >
-                  
-                </tbody>
-              </table>
+            <div className="grid grid-rows-12 bg-white">
+              <div className="items-center py-1 px-2 justify-center bg-[#1D5B79] rounded-t-md">
+                <h1 className="font-extrabold text-sm uppercase text-white text-center">
+                  Task Title
+                </h1>
+              </div>
+              <div className="bg-blue-100 flex">
+              <div className="">
+              <h1>Freelancer Name</h1>
+              </div>
+              <div className="">
+              {/* Icons Insert */}
+              </div>
+              </div>
+              
             </div>
           </div>
+          {/* End of 2nd column */}
         </div>
       </div>
       <CFooter />

@@ -64,7 +64,7 @@ const WithoutAuth = (WrappedComponent) => {
     if (isLoading) {
       return (
         <div className='flex justify-center items-center h-screen'>
-          <img src={Loader} alt="Loading..." />
+          <img src={Loader} className="w-[80px]" alt="Loading..." />
         </div>
       );
     }
