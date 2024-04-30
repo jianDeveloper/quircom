@@ -13,6 +13,9 @@ import Forgot from "./components/Forgot.jsx";
 import ResetPass from "./components/ResetPass.jsx";
 import NotFoundPage from "./components/NotFoundPage.jsx";
 
+// Admin Imports =============================================================
+import ADashboard from "./admin/ADashboard.jsx";
+
 // Client Imports =============================================================
 import CDashboard from "./client/CDashboard.jsx";
 import CMarketplace from "./client/CMarketplace.jsx";
@@ -93,6 +96,13 @@ function App() {
         path="/resetpass/:userId" 
         element={<ResetPass />} 
         />
+        
+        {/* Admin Routes
+        <Route
+          exact
+          path="/admin/dashboard/:userId"
+          element={<ADashboard />} 
+        /> */}
 
         {/* Client Routes */}
         <Route
