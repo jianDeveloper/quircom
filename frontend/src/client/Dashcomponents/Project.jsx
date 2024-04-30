@@ -3,6 +3,7 @@ import React from "react";
 import BG1 from "../../assets/bg1.png";
 import CMainNav from "../CMainNav";
 import CFooter from "../CFooter";
+import { Avatar } from "@mui/material";
 
 const Project = () => {
   return (
@@ -75,27 +76,37 @@ const Project = () => {
             </div>
           </div>
           {/* 2nd column Grid - Chat */}
-          <div className="col-span-3">
+          <div className="col-span-3 flex flex-col max-h-[600px]">
             <div className="flex gap-4 items-baseline">
               <h1 className="font-extrabold text-sm uppercase border-b-2 border-[#1D5B79] mb-3 text-[#1D5B79]">
                 Chat
               </h1>
+              <h1 className="font-extrabold rounded-md text-xs uppercase text-[#1D5B79] px-1 cursor-pointer hover:bg-blue-100">
+                File storage
+              </h1>
             </div>
-            <div className="grid grid-rows-12 bg-white">
+            <div className="flex flex-col bg-white h-full">
               <div className="items-center py-1 px-2 justify-center bg-[#1D5B79] rounded-t-md">
                 <h1 className="font-extrabold text-sm uppercase text-white text-center">
                   Task Title
                 </h1>
               </div>
-              <div className="bg-blue-100 flex">
-              <div className="">
-              <h1>Freelancer Name</h1>
+              <div className=" bg-blue-100 flex flex-row justify-between items-center h-16 px-4">
+                <div className="flex gap-4">
+                  <Avatar src={''} sx={{ width: 35, height: 35}}/>
+                  <h1 className="text-lg font-bold text-[#1D5B79] flex items-center">Freelancer Name</h1>
+                </div>
+                <div className="">
+                  {/* Icons Insert */}
+                  <h1>dawdawdad</h1>
+                </div>
               </div>
-              <div className="">
-              {/* Icons Insert */}
+              <div className="bg-red-200 h-full">
+                chat body
               </div>
+              <div className="bg-slate-500 h-12">
+                chat footer
               </div>
-              
             </div>
           </div>
           {/* End of 2nd column */}
