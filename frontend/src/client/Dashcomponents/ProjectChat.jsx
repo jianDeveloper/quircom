@@ -7,16 +7,52 @@ import { FaFileImport, FaInfoCircle } from "react-icons/fa";
 
 const ProjectChat = ({ requestInfos }) => {
   const [message, setMessage] = useState([]);
+  const [formData, setFormData] = useState({
+    requestId: "",
+    sender: "",
+    senderType: "",
+    receiver: "",
+    receiverType: "",
+    message: "",
+    createdAt: new Date().toISOString(),
+  });
   const [loading, setLoading] = useState(true);
-  const [currentDate, setCurrentDate] = useState("");
+
+  useEffect(() => {
+    if (requestInfos) {
+      setFormData({
+        requestId: requestInfos._id || "",
+        sender: requestInfos.clientId?._id || "",
+        senderType: requestInfos.clientId?.accType || "",
+        receiver: requestInfos.serviceId?.freelancerId?._id || "",
+        receiverType: requestInfos.serviceId?.freelancerId?.accType || "",
+        message: "",
+        createdAt: new Date().toISOString(),
+      });
+    }
+  }, [requestInfos]);
+
+  // Reset message state when requestInfos changes
+  useEffect(() => {
+    setMessage([]);
+  }, [requestInfos]);
+
   const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   useEffect(() => {
     if (!requestInfos) {
       setLoading(false);
       return;
     }
-
+    setLoading(true);
     const fetchMessages = async () => {
       try {
         const token = localStorage.getItem("authToken");
@@ -24,15 +60,14 @@ const ProjectChat = ({ requestInfos }) => {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         };
-
+  
         const response = await axios.get(
           `https://quircom.onrender.com/api/chat/message`,
-          {
-            headers,
-          }
+          { headers }
         );
+  
         const filteredMessage = response.data.filter(
-          (msg) => msg.requestId?._id === requestInfos?._id
+          (msg) => msg.requestId?._id === requestInfos._id
         );
         setMessage(filteredMessage);
         setLoading(false);
@@ -41,33 +76,94 @@ const ProjectChat = ({ requestInfos }) => {
         setLoading(false);
       }
     };
-
+  
     fetchMessages();
-
+  
     const intervalId = setInterval(() => {
       fetchMessages();
     }, 3000);
-
+  
     return () => {
       clearInterval(intervalId);
     };
   }, [requestInfos]);
+  
+
+  useEffect(() => {
+    scrollToBottom(); // Scroll to bottom when message updates
+  }, [message]);
+
+  const [attachment, setAttachment] = useState();
+
+  const handleAttachment = (e) => {
+    setAttachment(e.target.files[0]);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!formData.message && !attachment) {
+      toast.error("Please leave a message");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("authToken");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      };
+
+      const formObj = new FormData();
+      formObj.append("chat", JSON.stringify(formData));
+      formObj.append("file", attachment);
+
+      const response = await axios.post(
+        `https://quircom.onrender.com/api/chat/create`,
+        formObj,
+        {
+          headers,
+        }
+      );
+
+      if (response && response.data) {
+        setFormData({
+          requestId: requestInfos._id,
+          sender: requestInfos.clientId._id,
+          senderType: requestInfos.clientId.accType,
+          receiver: requestInfos.serviceId.freelancerId._id,
+          receiverType: requestInfos.serviceId.freelancerId.accType,
+          message: "",
+          createdAt: new Date().toISOString(),
+        });
+        setAttachment(null);
+      } else {
+        toast.error("Failed to send chat");
+      }
+    } catch (error) {
+      console.error("Error during patch ", error.response);
+      console.log(error.message);
+      toast.error("Failed to send chat");
+    }
+  };
 
   const messagesWithDate = useMemo(() => {
-    if (!message.length) return [];
-
+    if (!requestInfos || !message.length) return [];
+    
     let currentDate = "";
     return message.map((chat) => {
       const messageDate = new Date(chat.createdAt).toLocaleDateString();
       const isFirstMessageOfDate = messageDate !== currentDate;
       currentDate = messageDate;
-
+  
       return { ...chat, messageDate, isFirstMessageOfDate };
     });
-  }, [message]);
+  }, [requestInfos, message]);
+
 
   return (
     <div className="flex flex-col h-full">
+      <ToastContainer />
       <div className="flex gap-4 items-baseline">
         <h1 className="font-extrabold text-sm uppercase border-b-2 border-[#1D5B79] mb-3 text-[#1D5B79]">
           Chat
@@ -77,7 +173,7 @@ const ProjectChat = ({ requestInfos }) => {
         </h1>
       </div>
       <div className="flex flex-col shadow-md h-full">
-        {requestInfos ? (
+        {requestInfos && Object.keys(requestInfos).length !== 0 ? (
           <>
             <div className="items-center py-1 px-2 justify-center bg-[#1D5B79] rounded-t-md">
               <h1 className="font-extrabold text-sm uppercase text-white text-center">
@@ -89,7 +185,9 @@ const ProjectChat = ({ requestInfos }) => {
             <div className="bg-blue-100 flex flex-row justify-between items-center h-16 px-4 shadow-md">
               <div className="flex gap-4 items-center justify-center">
                 <Avatar
-                  src={requestInfos?.serviceId?.freelancerId?.profilePic.link || ""}
+                  src={
+                    requestInfos?.serviceId?.freelancerId?.profilePic.link || ""
+                  }
                   className="w-10 h-10 shadow-md border-2 border-orange-500"
                 />
                 <h1 className="text-lg font-bold text-[#1D5B79] flex items-center">
@@ -125,7 +223,9 @@ const ProjectChat = ({ requestInfos }) => {
                       <div key={index} className="flex flex-col px-6">
                         {chat.isFirstMessageOfDate && (
                           <div className="flex w-full text-center justify-center mb-2">
-                            <h1 className="text-xs font-medium text-gray-500">{chat.messageDate}</h1>
+                            <h1 className="text-xs font-medium text-gray-500">
+                              {chat.messageDate}
+                            </h1>
                           </div>
                         )}
                         <div
@@ -170,7 +270,7 @@ const ProjectChat = ({ requestInfos }) => {
                               overflowWrap: "break-word",
                               wordBreak: "break-all",
                               textAlign:
-                              chat.senderType === "client" ? "right" : "left",
+                                chat.senderType === "client" ? "right" : "left",
                             }}
                           >
                             {chat.message}
@@ -208,7 +308,10 @@ const ProjectChat = ({ requestInfos }) => {
                                 : "text-left"
                             }`}
                           >
-                            {new Date(chat.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            {new Date(chat.createdAt).toLocaleTimeString([], {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
                           </p>
                         </div>
                       </div>
@@ -220,18 +323,65 @@ const ProjectChat = ({ requestInfos }) => {
             </div>
           </>
         ) : (
-          <div className="flex items-center justify-center h-full">
-            <h1 className="font-bold text-md text-gray-400">Select Chat</h1>
-          </div>
+          <>
+            <div className="items-center py-1 px-2 justify-center bg-[#1D5B79] rounded-t-md">
+              <h1 className="font-extrabold text-sm uppercase text-white text-center">
+                {requestInfos?.serviceId?.serviceType}
+                {requestInfos?.taskTitle ? ": " : ""}
+                {requestInfos?.taskTitle || ""}
+              </h1>
+            </div>
+            <div className="bg-blue-100 flex flex-row justify-between items-center h-16 px-4 shadow-md">
+              <div className="flex gap-4 items-center justify-center">
+                <Avatar
+                  src={
+                    requestInfos?.serviceId?.freelancerId?.profilePic.link || ""
+                  }
+                  className="w-10 h-10 shadow-md border-2 border-orange-500"
+                />
+                <h1 className="text-lg font-bold text-[#1D5B79] flex items-center">
+                  {(requestInfos?.serviceId?.freelancerId?.firstName || "") +
+                    " " +
+                    (requestInfos?.serviceId?.freelancerId?.surName || "")}
+                </h1>
+              </div>
+              <IconButton>
+                <FaInfoCircle size={20} color="#1D5B79" />
+              </IconButton>
+            </div>
+            <div className="bg-white h-full overflow-auto">
+              {loading ? (
+                <div className="animate-pulse flex flex-col bg-white border-0 rounded-lg relative w-2/3 mx-auto my-6 p-5 max-h-[450px] border-blueGray-200">
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                </div>
+              ) : (
+                <div className="flex items-center justify-center h-full">
+                  <h1 className="font-bold text-md text-gray-400">
+                    Select Chat
+                  </h1>
+                </div>
+              )}
+            </div>
+          </>
         )}
+
         <div className="bg-[#1D5B79] h-16 rounded-b-md flex items-center">
-          <form className="flex flex-row py-1 px-2 gap-3 w-full">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-row py-1 px-2 gap-3 w-full"
+          >
             <div className="flex justify-center items-center border rounded-lg bg-blue-100 text-[#1D5B79] hover:text-white hover:bg-orange-500">
               <label className="flex items-center justify-center px-2 rounded-lg cursor-pointer">
                 <FaFileImport size={18} />
                 <input
                   type="file"
                   id="attachment"
+                  onChange={handleAttachment}
                   className="hidden"
                 />
               </label>
@@ -242,6 +392,8 @@ const ProjectChat = ({ requestInfos }) => {
               type="text"
               id="message"
               name="message"
+              value={formData.message}
+              onChange={handleChange}
               placeholder="Type message"
             />
             <button

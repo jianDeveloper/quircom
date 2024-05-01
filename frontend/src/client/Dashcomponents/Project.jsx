@@ -18,8 +18,6 @@ const Project = () => {
   const [requestInfos, setRequestInfos] = useState([]);
   const [requestDetails, setRequest] = useState([]);
 
-
-
   useEffect(() => {
     const fetchRequests = async () => {
       try {

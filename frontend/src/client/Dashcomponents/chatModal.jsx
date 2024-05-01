@@ -20,6 +20,14 @@ const chatModal = ({requestInfos}) => {
 
   const messagesEndRef = useRef(null);
 
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   const fetchMessages = async () => {
     try {
       const token = localStorage.getItem("authToken");
@@ -62,6 +70,10 @@ const chatModal = ({requestInfos}) => {
   }, [message]);
 
   const [attachment, setAttachment] = useState();
+
+  const handleAttachment = (e) => {
+    setAttachment(e.target.files[0]);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
