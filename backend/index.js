@@ -9,6 +9,7 @@ const ValidateUser = require("./routes/ValidateRoute");
 const Services = require("./routes/ServiceRoutes");
 const Request = require("./routes/ReqServiceRoutes");
 const Message = require("./routes/MessageRoutes");
+const Admin = require("./routes/AdminRoutes");
 
 const app = express();
 
@@ -43,6 +44,7 @@ app.use('/api/auth', ValidateUser)
 app.use('/api/service', Services)
 app.use('/api/request', Request)
 app.use('/api/chat', Message)
+app.use('/api/admin', Admin)
 
 app.listen(process.env.PORT, () =>
   console.log(`Server started on port ${process.env.PORT}`)

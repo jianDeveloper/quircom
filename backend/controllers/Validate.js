@@ -1,16 +1,17 @@
 const mongoose = require("mongoose");
 const FreelancerModel = require("../models/FreelancerModel");
 const ClientModel = require("../models/ClientModel");
+const AdminModel = require("../models/AdminModel");
 const jwt = require("jsonwebtoken");
-const mailer = require("nodemailer")
-const requireAuth = require('../utils/requireAuth');
+const mailer = require("nodemailer");
+const requireAuth = require("../utils/requireAuth");
 
 const transporter = mailer.createTransport({
-  service: 'gmail',
+  service: "gmail",
   auth: {
     user: process.env.GMAIL_SENDER,
-    pass: process.env.GMAIL_PASSWORD
-  }
+    pass: process.env.GMAIL_PASSWORD,
+  },
 });
 
 const ValidateUserData = async (req, res) => {
@@ -19,8 +20,10 @@ const ValidateUserData = async (req, res) => {
 
     // Perform parallel database queries to check for existing data in both collections
     const checks = await Promise.all([
-      FreelancerModel.findOne({ $or: [{ userName }, { eMail }, { contactNum }] }),
-      ClientModel.findOne({ $or: [{ userName }, { eMail }, { contactNum }] })
+      FreelancerModel.findOne({
+        $or: [{ userName }, { eMail }, { contactNum }],
+      }),
+      ClientModel.findOne({ $or: [{ userName }, { eMail }, { contactNum }] }),
     ]);
 
     // checks[0] will contain the result from FreelancerModel, and checks[1] from ClientModel
@@ -29,10 +32,14 @@ const ValidateUserData = async (req, res) => {
 
     // If any of the fields exist in either collection, respond accordingly
     if (freelancerUser || clientUser) {
-      const userId = freelancerUser ? freelancerUser._id : clientUser ? clientUser._id : null;
+      const userId = freelancerUser
+        ? freelancerUser._id
+        : clientUser
+        ? clientUser._id
+        : null;
       return res.status(200).json({
         exists: true,
-        userId
+        userId,
       });
     }
 
@@ -49,46 +56,86 @@ const LoginUser = async (req, res) => {
 
     const userChecks = await Promise.all([
       FreelancerModel.findOne({ userName }),
-      ClientModel.findOne({ userName })
+      ClientModel.findOne({ userName }),
     ]);
 
     const freelancerUser = userChecks[0];
     const clientUser = userChecks[1];
 
     if (freelancerUser) {
-      const authToken = jwt.sign({ _id: freelancerUser._id }, process.env.JWT_SECRET, {expiresIn: '5d'})
+      const authToken = jwt.sign(
+        { _id: freelancerUser._id },
+        process.env.JWT_SECRET,
+        { expiresIn: "5d" }
+      );
       if (freelancerUser.passWord !== passWord) {
-        return res.status(401).json({ message: 'Invalid password' });
+        return res.status(401).json({ message: "Invalid password" });
       }
       return res.status(200).json({
-        message: 'Login successful',
+        message: "Login successful",
         user: {
           _id: freelancerUser._id,
-          accType: 'freelancer'
+          accType: "freelancer",
         },
-        authToken
+        authToken,
       });
     }
 
     if (clientUser) {
-      const authToken = jwt.sign({ _id: clientUser._id }, process.env.JWT_SECRET, {expiresIn: '5d'})
+      const authToken = jwt.sign(
+        { _id: clientUser._id },
+        process.env.JWT_SECRET,
+        { expiresIn: "5d" }
+      );
       if (clientUser.passWord !== passWord) {
-        return res.status(401).json({ message: 'Invalid password' });
+        return res.status(401).json({ message: "Invalid password" });
       }
       return res.status(200).json({
-        message: 'Login successful',
+        message: "Login successful",
         user: {
           _id: clientUser._id,
-          accType: 'client'
+          accType: "client",
         },
-        authToken
+        authToken,
       });
     }
 
     // If user is not found in either collection, return error
-    res.status(404).json({ message: 'User not found' });
+    res.status(404).json({ message: "User not found" });
   } catch (error) {
-    res.status(500).json({ message: error.message});
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const LoginAdmin = async (req, res) => {
+  try {
+    const { admin, password } = req.body;
+
+    // Check if the admin exists
+    const foundAdmin = await AdminModel.findOne({ admin });
+    if (!foundAdmin) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if the password is correct
+    if (foundAdmin.password !== password) {
+      return res.status(401).json({ message: "Invalid password" });
+    }
+
+    // Generate JWT token
+    const authToken = jwt.sign({ _id: foundAdmin._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    res.status(200).json({
+      message: "Login successful",
+      user: {
+        _id: foundAdmin._id,
+      },
+      authToken
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -99,23 +146,27 @@ const ForgotPassword = async (req, res) => {
     // Perform parallel database queries to check for existing data in both collections
     const userChecks = await Promise.all([
       FreelancerModel.findOne({ eMail }),
-      ClientModel.findOne({ eMail })
+      ClientModel.findOne({ eMail }),
     ]);
 
     // Extract user data from the checks
     const freelancerUser = userChecks[0];
     const clientUser = userChecks[1];
-    
 
     // If user is found in freelancer collection
     if (freelancerUser) {
-      const emailToken = jwt.sign({ _id: freelancerUser._id }, process.env.JWT_SECRET, {expiresIn: '5m'})
+      const emailToken = jwt.sign(
+        { _id: freelancerUser._id },
+        process.env.JWT_SECRET,
+        { expiresIn: "5m" }
+      );
       const username = freelancerUser.userName;
       const id = freelancerUser._id;
-  
+
       // Direct URL of the company logo image
-      const companyLogoUrl = 'https://drive.google.com/uc?id=1wc0kK6tHtpDCuPszIRimda3xX_Ctd9bG';
-  
+      const companyLogoUrl =
+        "https://drive.google.com/uc?id=1wc0kK6tHtpDCuPszIRimda3xX_Ctd9bG";
+
       // HTML content with embedded image and username
       const htmlContent = `
           <!DOCTYPE html>
@@ -143,28 +194,38 @@ const ForgotPassword = async (req, res) => {
   
           </body>
           </html>`;
-  
+
       // Sending email without attachment and disable reply to this email
       await transporter.sendMail({
-          from: process.env.GMAIL_SENDER,
-          to: freelancerUser.eMail,
-          subject: "Reset Password",
-          html: htmlContent,
-          replyTo: '', // Set an empty reply-to address to disable reply functionality
-          disableReplyTo: true
+        from: process.env.GMAIL_SENDER,
+        to: freelancerUser.eMail,
+        subject: "Reset Password",
+        html: htmlContent,
+        replyTo: "", // Set an empty reply-to address to disable reply functionality
+        disableReplyTo: true,
       });
-      res.status(201).json({ message: "An email has been sent into your account", emailToken });
+      res
+        .status(201)
+        .json({
+          message: "An email has been sent into your account",
+          emailToken,
+        });
     }
 
     // If user is found in client collection
     if (clientUser) {
-      const emailToken = jwt.sign({ _id: clientUser._id }, process.env.JWT_SECRET, { expiresIn: '5m' });
+      const emailToken = jwt.sign(
+        { _id: clientUser._id },
+        process.env.JWT_SECRET,
+        { expiresIn: "5m" }
+      );
       const username = clientUser.userName;
       const id = clientUser._id;
-  
+
       // Direct URL of the company logo image
-      const companyLogoUrl = 'https://drive.google.com/uc?id=1wc0kK6tHtpDCuPszIRimda3xX_Ctd9bG';
-  
+      const companyLogoUrl =
+        "https://drive.google.com/uc?id=1wc0kK6tHtpDCuPszIRimda3xX_Ctd9bG";
+
       // HTML content with embedded image and username
       const htmlContent = `
           <!DOCTYPE html>
@@ -192,26 +253,30 @@ const ForgotPassword = async (req, res) => {
   
           </body>
           </html>`;
-  
+
       // Sending email without attachment and disable reply to this email
       await transporter.sendMail({
-          from: process.env.GMAIL_SENDER,
-          to: clientUser.eMail,
-          subject: "Reset Password",
-          html: htmlContent,
-          replyTo: '', // Set an empty reply-to address to disable reply functionality
-          disableReplyTo: true
+        from: process.env.GMAIL_SENDER,
+        to: clientUser.eMail,
+        subject: "Reset Password",
+        html: htmlContent,
+        replyTo: "", // Set an empty reply-to address to disable reply functionality
+        disableReplyTo: true,
       });
-      res.status(201).json({ message: "An email has been sent into your account", emailToken });
-  }
-  
-   
-  if (!freelancerUser && !clientUser) {
-    // Send error response indicating user not found
-    res.status(404).json({ message: "User not found" });
-  }
+      res
+        .status(201)
+        .json({
+          message: "An email has been sent into your account",
+          emailToken,
+        });
+    }
+
+    if (!freelancerUser && !clientUser) {
+      // Send error response indicating user not found
+      res.status(404).json({ message: "User not found" });
+    }
   } catch (error) {
-    res.status(404).json({ message: error.message});
+    res.status(404).json({ message: error.message });
   }
 };
 
@@ -226,7 +291,7 @@ const ResetPassword = async (req, res) => {
     requireAuth(req, res, async () => {
       const user = await Promise.all([
         FreelancerModel.findOne({ _id: id }),
-        ClientModel.findOne({ _id: id })
+        ClientModel.findOne({ _id: id }),
       ]);
 
       const freelancerUser = user[0];
@@ -236,20 +301,23 @@ const ResetPassword = async (req, res) => {
         const { passWord } = req.body;
         freelancerUser.passWord = passWord;
         await freelancerUser.save();
-        return res.status(200).json({ message: "Password reset successfully for freelancer user" });
+        return res
+          .status(200)
+          .json({ message: "Password reset successfully for freelancer user" });
       }
 
       if (clientUser) {
         const { passWord } = req.body;
         clientUser.passWord = passWord;
         await clientUser.save();
-        return res.status(200).json({ message: "Password reset successfully for client user" });
+        return res
+          .status(200)
+          .json({ message: "Password reset successfully for client user" });
       }
 
       // If user is not found in either collection, return error
-      res.status(404).json({ message: 'User not found' });
+      res.status(404).json({ message: "User not found" });
     });
-
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -258,6 +326,7 @@ const ResetPassword = async (req, res) => {
 module.exports = {
   ValidateUserData,
   LoginUser,
+  LoginAdmin,
   ForgotPassword,
-  ResetPassword
+  ResetPassword,
 };
