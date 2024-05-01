@@ -11,9 +11,8 @@ import {
   Popover,
   Chip,
 } from "@mui/material";
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import UserContext from "../context/UserContext";
 import axios from "axios";
 
 import Logo from "../assets/Icon1.png";
@@ -32,7 +31,6 @@ const FMainNav = () => {
   const [anchorEl2, setAnchorEl2] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
   const [userData, setUser] = useState(null);
-
   const { userId } = useParams();
 
   useEffect(() => {
@@ -65,7 +63,7 @@ const FMainNav = () => {
       icon: LBoard,
       component: `/freelancer/leaderboard/${userId}`,
       text: "Leaderboard",
-      index: 3,
+      index: 1,
     },
   ];
 
@@ -106,7 +104,7 @@ const FMainNav = () => {
       sx={{
         width: "full",
         backgroundColor: "#F5F5DC",
-        height: "10vh",
+        height: "8vh",
         boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
       }}
     >

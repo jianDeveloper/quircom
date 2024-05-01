@@ -11,9 +11,8 @@ import {
   Popover,
   Chip,
 } from "@mui/material";
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import UserContext from "../context/UserContext";
 import axios from "axios";
 
 import Logo from "../assets/Icon1.png";
@@ -21,7 +20,6 @@ import Logo2 from "../assets/clientNav.png";
 import Dboard from "../assets/dboard.png";
 import Settings from "../assets/settings.png";
 import Service from "../assets/service.png";
-import Tracker from "../assets/tracker.png";
 import Notifs from "../assets/bell.png";
 import Bill from "../assets/bill.png";
 import LBoard from "../assets/crown.png";
@@ -34,12 +32,7 @@ const CMainNav = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorEl2, setAnchorEl2] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
-
-  const [nav, setNav] = useState(false);
   const [userData, setUser] = useState(null);
-  const [openLogin, setLogin] = useState(false);
-  const [current, setActive] = useState(false);
-
   const { userId } = useParams();
 
   useEffect(() => {
@@ -125,14 +118,16 @@ const CMainNav = () => {
       sx={{
         width: "full",
         backgroundColor: "#F5F5DC",
-        height: "10vh",
-        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-      }}
+        height: "8vh",
+        borderBottom: "1px solid #ccc", // Add bottom border
+        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.5)", // Add bottom shadow
+      }
+    }
     >
       <Stack
         direction={"row"}
         alignItems={"center"}
-        sx={{ height: "100%", width: "100%" }}
+        sx={{ height: "100%", width: "100%"}}
         justifyContent={"space-between"}
       >
         <Stack
@@ -142,7 +137,7 @@ const CMainNav = () => {
           alignItems="center"
         >
           <Box sx={{ height: "full", width: 180 }}>
-            <div className="hidden sm:flex">{getLogo()}</div>
+            <div className="hidden h-16 sm:flex">{getLogo()}</div>
             <div className="flex h-16 sm:hidden">{getLogo()}</div>
           </Box>
           <Divider orientation="vertical" sx={{ height: 40 }} />
@@ -184,10 +179,21 @@ const CMainNav = () => {
           justifyContent={"center"}
           spacing={1}
         >
+          {userData && (
+            <div className="flex items-center justify-center">
+            <p className="text-[#1d5b79] font-bold px-2 my-2 text-nowrap">{userData.firstName}</p>
+            <IconButton onClick={handleAvatarClick}>
+              {userData.profilePic && userData.profilePic.link !== "" ? (
+                <Avatar sx={{ boxShadow: 3 }} src={userData.profilePic.link} alt="User" />
+              ) : (
+                <Avatar sx={{ boxShadow: 3 }} src={User} alt="User" />
+              )}
+            </IconButton>
+            <Divider orientation="vertical" sx={{ height: 40 }} />
           <div>
             <IconButton onClick={handleNotifClick}>
               <img
-                className="w-8 h-6 hover:scale-150 duration-300"
+                className="w-10 h-6 hover:scale-150 duration-300"
                 src={Notifs}
                 alt="Notifs"
               />
@@ -210,13 +216,12 @@ const CMainNav = () => {
               <Typography sx={{ p: 2 }}>Notification 3</Typography>
             </Popover>
           </div>
-          <Divider orientation="vertical" sx={{ height: 40 }} />
-          <IconButton
-            className=" hover:scale-150 duration-300"
-            onClick={handleAvatarClick}
-          >
-            <Avatar src={User} alt="User" />
-          </IconButton>
+            </div>
+            
+          )}
+          
+          
+          
           <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}

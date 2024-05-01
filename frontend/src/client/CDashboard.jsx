@@ -43,14 +43,14 @@ function CDashboard() {
   return (
     <div
       className="flex flex-col"
-      style={{
+      
+    >
+      <CMainNav />
+      <div className="flex align-center justify-center" style={{
         background: `url(${BG1})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
-      }}
-    >
-      <CMainNav />
-      <div className="flex align-center justify-center">
+      }}>
         <div className="flex flex-col container mx-10 my-10">
           {" "}
           {/*fixing headbox on dashboard -j*/}
