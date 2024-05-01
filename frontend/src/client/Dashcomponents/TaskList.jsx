@@ -60,9 +60,7 @@ const TaskList = () => {
     fetchRequests();
   }, [userId]);
 
-  const handleView = (request) => {
-    setRequestInfos(request);
-  };
+  
 
   return (
     <div className="flex flex-col justify-center items-center w-[100%]">

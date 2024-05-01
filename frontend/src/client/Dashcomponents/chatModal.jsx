@@ -4,7 +4,7 @@ import WithAuth from "../../auth/WithAuth";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
-const chatModal = ({ setchatModal, requestInfos }) => {
+const chatModal = ({requestInfos}) => {
   const [message, setMessage] = useState([]);
   const [formData, setFormData] = useState({
     requestId: requestInfos._id,
@@ -19,14 +19,6 @@ const chatModal = ({ setchatModal, requestInfos }) => {
   const [loading, setLoading] = useState(true); // Add loading state
 
   const messagesEndRef = useRef(null);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   const fetchMessages = async () => {
     try {
@@ -70,10 +62,6 @@ const chatModal = ({ setchatModal, requestInfos }) => {
   }, [message]);
 
   const [attachment, setAttachment] = useState();
-
-  const handleAttachment = (e) => {
-    setAttachment(e.target.files[0]);
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -290,11 +278,6 @@ const chatModal = ({ setchatModal, requestInfos }) => {
                   Send
                 </button>
               </form>
-            </div>
-            <div className="bg-red-500 w-full text-white rounded-b-md">
-              <button className="w-full" onClick={() => setchatModal(false)}>
-                close
-              </button>
             </div>
           </div>
         </div>
