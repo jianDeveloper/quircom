@@ -129,14 +129,14 @@ const ProjectChat = ({ requestInfos }) => {
       <div className="flex flex-col shadow-md h-full">
         <div className="items-center py-1 px-2 justify-center bg-[#1D5B79] rounded-t-md">
           <h1 className="font-extrabold text-sm uppercase text-white text-center">
-            Task Title
+            {requestInfos?.serviceId?.serviceType+": "+requestInfos?.taskTitle}
           </h1>
         </div>
         <div className=" bg-blue-100 flex flex-row justify-between items-center h-16 px-4 shadow-md">
           <div className="flex gap-4">
             <Avatar src={""} sx={{ width: 35, height: 35 }} />
             <h1 className="text-lg font-bold text-[#1D5B79] flex items-center">
-              Freelancer Name
+              {requestInfos?.serviceId?.freelancerId?.firstName + " " + requestInfos?.serviceId?.freelancerId?.surName}
             </h1>
           </div>
           <div className="">
@@ -145,7 +145,19 @@ const ProjectChat = ({ requestInfos }) => {
           </div>
         </div>
         {/* =========== Body Section =========== */}
-        <div className="bg-white h-full">
+        <div className="bg-white h-full overflow-auto">
+        {loading ? (
+                <div className="animate-pulse flex flex-col bg-white border-0 rounded-lg relative w-2/3 mx-auto my-6 p-5 max-h-[450px] border-blueGray-200">
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+                  <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
+
+
+                </div>
+              ) : (
           <div className="flex flex-col overflow-y-auto h-full">
             {/* Render actual chat messages here */}
             {message.length === 0 ? (
@@ -243,6 +255,7 @@ const ProjectChat = ({ requestInfos }) => {
             )}
             <div ref={messagesEndRef} />
           </div>
+          )}
         </div>
       </div>
       {/* =========== Footer Section =========== */}

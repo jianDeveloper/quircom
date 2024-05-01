@@ -53,7 +53,7 @@ const Project = () => {
     fetchRequests();
   }, [userId]);
 
-  const handleView = (request) => {
+  const handleTableRowClick  = (request) => {
     setRequestInfos(request);
   };
   const formatDate = (dateString) => {
@@ -67,6 +67,7 @@ const Project = () => {
     return formattedDate;
   };
 
+  console.log("current:",requestInfos);
   return (
     <div>
       <ToastContainer />
@@ -112,6 +113,7 @@ const Project = () => {
                       className={`${
                         index % 2 === 0 ? "bg-blue-100" : "bg-white"
                       } hover:bg-orange-100 border-l border-r border-gray-200 cursor-pointer`}
+                      onClick={() => handleTableRowClick(request)}
                     >
                       <td className="px-2 py-1 text-left text-sm font-bold">
                         {request.requestId}
