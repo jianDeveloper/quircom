@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const AddBillModal = ({ setbillModal }) => {
   const [expDate, setExpDate] = useState('');
-
+  
   const handleInputDate = (event) => {
     let value = event.target.value;
     // Remove all characters that are not numbers or slashes
@@ -121,7 +122,7 @@ const AddBillModal = ({ setbillModal }) => {
               <button
                 className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
-                onClick={() =>  setbillModal (false)}
+                onClick={linkData}
               >
                 Pay Now
               </button>

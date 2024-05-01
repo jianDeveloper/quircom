@@ -1,14 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
 import CMainNav from "./CMainNav";
 import CFooter from "./CFooter";
-import AddBillModal from "./Subscomponents/AddBillModal";
 import WithAuth from "../auth/WithAuth";
-
+import axios from "axios";
 
 
 const CSubscribe = () => {
     
-  const [billModal, setbillModal] = React.useState(false);
+  const [linkData, setLinkData] = useState(null);
+  const [error, setError] = useState(null);
+
+
+    const createAndRetrieveLink = async () => {
+      try {
+        // Step 1: Create a link
+        const requestBody = {
+          data: {
+            attributes: {
+              amount: 19900,
+              description: 'Subscription Payment'
+            }
+          }
+        };
+
+        const createLinkResponse = await axios.post('https://api.paymongo.com/v1/links', requestBody, {
+          headers: {
+            accept: 'application/json',
+            'Authorization': 'Basic c2tfdGVzdF9najNTOEFOVzcyUkY2aW1OWVZNQktKcnY6',
+            'Content-Type': 'application/json'
+          }
+        });
+        console.log(createLinkResponse.data);
+        // const linkId = createLinkResponse.data.data.id;
+
+        // Step 2: Retrieve the created link
+        // const retrieveLinkResponse = await axios.get(`https://api.paymongo.com/v1/links/${linkId}`, {
+        //   headers: {
+        //     accept: 'application/json',
+        //     authorization: `Basic c2tfdGVzdF9najNTOEFOVzcyUkY2aW1OWVZNQktKcnY6`
+        //   }
+        // });
+
+        // setLinkData(retrieveLinkResponse.data);
+        window.open(createLinkResponse.data.data.attributes.checkout_url, '_blank');
+      } catch (error) {
+        setError(error);
+      }
+    };
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <div>
@@ -164,13 +206,10 @@ const CSubscribe = () => {
                 <button
                   type="button"
                   className="block rounded bg-orange-600 py-4 px-10 text-base leading-tight text-white duration-200 ease-in-out md:inline-block lg:py-4"
-                  onClick={() => setbillModal(true)}
+                  onClick={createAndRetrieveLink}
                 >
                   Try Now!
                 </button>
-                {billModal ? (
-                  <AddBillModal setbillModal={setbillModal} />
-                ) : null}
               </div>
             </div>
           </div>
