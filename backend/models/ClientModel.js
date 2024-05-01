@@ -82,31 +82,42 @@ const ClientSchema = new Schema({
       type: Date,
       default: ""
     }, 
+    dateExpire: {
+      type: Date,
+      default: ""
+    }
   },
   billing: {
-    firstName: {
-      type: String,
-      default: "",
-    },
-    surName: {
-      type: String,
-      default: "",
-    },
-    cardNum: {
-      type: String,
-      default: "",
-    },
-    expireDate: {
-      type: Date,
-    },
-    cvv: {
+    amount: {
       type: Number,
       default: "",
+      required: true
     },
-    aggRee: {
-      type: Boolean,
-      default: false,
-    }
+    name: {
+      type: String,
+      default: "",
+      required: true
+    },
+    refNum: {
+      type: String,
+      default: "",
+      required: true
+    },
+    gCashNum: {
+      type: Number,
+      default: "", 
+      required: true
+    },
+    date: {
+      type: Date,
+      default: "",
+      required: true
+    },
+    expire: {
+      type: Date,
+      default: "",
+      required: true
+    },
   }
 });
 

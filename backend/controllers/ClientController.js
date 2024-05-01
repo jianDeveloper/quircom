@@ -64,14 +64,16 @@ const CreateUser = async (req, res) => {
       userInfo: null,
       subs: {
         status: false,
+        dateSubscribed: "", 
+        dateExpire: ""
       },
       billing: {
-        firstName: "",
-        surName: "",
-        cardNum: "",
-        expireDate: "",
-        cvv: "",
-        aggRee: "false",
+        amount: "",
+        name: "",
+        refNum: "",
+        gCashNum: "",
+        date: "",
+        expire: "",
       },
     });
     res.status(201).json(result);
@@ -174,12 +176,12 @@ const EditBilling = async (req, res) => {
 
     let update = {
       $set: {
-        'billing.firstName': billing.firstName,
-        'billing.surName': billing.surName,
-        'billing.cardNum': billing.cardNum,
-        'billing.expireDate': new Date(), // Assuming you want to update the expireDate to current date
-        'billing.cvv': billing.cvv,
-        'billing.aggRee': billing.aggRee
+        'billing.amount': billing.amount,
+        'billing.name': billing.name,
+        'billing.refNum': billing.refNum,
+        'billing.gCashNum': billing.gCashNum,
+        'billing.date': new Date(),
+        'billing.expire': billing.expire,
       },
     };
 
