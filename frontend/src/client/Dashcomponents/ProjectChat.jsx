@@ -282,6 +282,7 @@ const ProjectChat = ({ requestInfos }) => {
                               ) ? (
                                 <a
                                   href={chat.attachment.link}
+                                  download={chat.attachment.name}
                                   className={`p-2 text-sm text-right text-blue-600 underline ${
                                     chat.senderType === "freelancer"
                                       ? ""
