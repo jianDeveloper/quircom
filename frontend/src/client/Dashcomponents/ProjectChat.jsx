@@ -60,12 +60,12 @@ const ProjectChat = ({ requestInfos }) => {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         };
-  
+
         const response = await axios.get(
           `https://quircom.onrender.com/api/chat/message`,
           { headers }
         );
-  
+
         const filteredMessage = response.data.filter(
           (msg) => msg.requestId?._id === requestInfos._id
         );
@@ -76,18 +76,17 @@ const ProjectChat = ({ requestInfos }) => {
         setLoading(false);
       }
     };
-  
+
     fetchMessages();
-  
+
     const intervalId = setInterval(() => {
       fetchMessages();
     }, 3000);
-  
+
     return () => {
       clearInterval(intervalId);
     };
   }, [requestInfos]);
-  
 
   useEffect(() => {
     scrollToBottom(); // Scroll to bottom when message updates
@@ -149,17 +148,16 @@ const ProjectChat = ({ requestInfos }) => {
 
   const messagesWithDate = useMemo(() => {
     if (!requestInfos || !message.length) return [];
-    
+
     let currentDate = "";
     return message.map((chat) => {
       const messageDate = new Date(chat.createdAt).toLocaleDateString();
       const isFirstMessageOfDate = messageDate !== currentDate;
       currentDate = messageDate;
-  
+
       return { ...chat, messageDate, isFirstMessageOfDate };
     });
   }, [requestInfos, message]);
-
 
   return (
     <div className="flex flex-col h-full">
@@ -277,12 +275,15 @@ const ProjectChat = ({ requestInfos }) => {
                           </p>
                           {chat.attachment && chat.attachment.link && (
                             <>
-                              {["pdf", "doc", "docx"].includes(
-                                chat.attachment.name.split(".").pop()
+                              {["pdf", "doc", "docx", "zip", "rar"].includes(
+                                chat.attachment.name
+                                  .split(".")
+                                  .pop()
+                                  .toLowerCase() // Ensure lowercase comparison
                               ) ? (
                                 <a
-                                  href={chat.attachment.link}
-                                  download={chat.attachment.name}
+                                  href={chat.attachment.name}
+                                  download
                                   className={`p-2 text-sm text-right text-blue-600 underline ${
                                     chat.senderType === "freelancer"
                                       ? ""
@@ -302,6 +303,7 @@ const ProjectChat = ({ requestInfos }) => {
                               )}
                             </>
                           )}
+
                           <p
                             className={`px-2 pb-1 text-xs text-gray-500 ${
                               chat.senderType === "freelancer"
