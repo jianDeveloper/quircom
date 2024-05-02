@@ -1,21 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-
 import { ToastContainer } from "react-toastify";
 
+import ProjectChat from "./ProjectChat";
+import ProjectCompleteList from "./ProjectCompleteList";
 import CMainNav from "../CMainNav";
 import CFooter from "../CFooter";
 
 import BG1 from "../../assets/bg1.png";
 
-import ProjectCompleteList from "./ProjectCompleteList";
-import ProjectChat from "./ProjectChat";
-
 const Project = () => {
   const { userId } = useParams();
   const [requestInfos, setRequestInfos] = useState([]);
   const [requestDetails, setRequest] = useState([]);
+  const [activeTab, setActiveTab] = useState("list");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -57,6 +56,11 @@ const Project = () => {
   const handleTableRowClick = (request) => {
     setRequestInfos(request);
   };
+
+  const handleTab = (list) => {
+    setActiveTab(list);
+  };
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const formattedDate = `${(date.getMonth() + 1)
@@ -68,7 +72,6 @@ const Project = () => {
     return formattedDate;
   };
 
-  console.log("current:", requestInfos);
   return (
     <div>
       <ToastContainer />
@@ -85,93 +88,112 @@ const Project = () => {
           {/* 1st column Grid - List Projects */}
           <div className="col-span-2 mr-2 ">
             <div className="flex gap-4 items-baseline w-auto">
-              <h1 className="font-extrabold text-sm uppercase border-b-2 border-[#1D5B79] mb-3 text-[#1D5B79]">
+              <button
+                className={
+                  activeTab === "list"
+                    ? "font-extrabold text-sm uppercase border-b-2 border-[#1D5B79] mb-3 text-[#1D5B79]"
+                    : "font-extrabold rounded-md text-xs uppercase text-[#1D5B79] px-1 cursor-pointer hover:bg-blue-100"
+                }
+                onClick={() => handleTab("list")}
+              >
                 List of Projects
-              </h1>
-              <h1 className="font-extrabold rounded-md text-xs uppercase text-[#1D5B79] px-1 cursor-pointer hover:bg-blue-100">
+              </button>
+              <button
+                className={
+                  activeTab === "completed"
+                    ? "font-extrabold text-sm uppercase border-b-2 border-[#1D5B79] mb-3 text-[#1D5B79]"
+                    : "font-extrabold rounded-md text-xs uppercase text-[#1D5B79] px-1 cursor-pointer hover:bg-blue-100"
+                }
+                onClick={() => handleTab("completed")}
+              >
                 Completed
-              </h1>
+              </button>
             </div>
-            <div className="bg-white min-h-[500px] rounded-lg">
-              <table className="min-w-full rounded-t-lg shadow-md">
-                <thead className="bg-[#1d5b79] text-white">
-                  <tr>
-                    <th className="px-2 py-1 text-left text-sm font-bold rounded-tl-lg">
-                      ID
-                    </th>
-                    <th className="px-2 py-1 text-left text-sm font-bold">
-                      Availed Service
-                    </th>
-                    <th className="px-2 py-1 text-left text-sm font-bold rounded-tr-lg">
-                      Deadline
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {loading ? (
-                    <>
+            {activeTab === "list" && (
+              <>
+                <div className="bg-white min-h-[500px] rounded-lg">
+                  <table className="min-w-full rounded-t-lg shadow-md">
+                    <thead className="bg-[#1d5b79] text-white">
                       <tr>
-                        <td className="px-2 py-1 text-left text-sm font-bold">
-                          <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
-                        </td>
-                        <td className="px-2 py-1 text-left text-sm font-bold">
-                          <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
-                        </td>
-                        <td className="px-2 py-1 text-left text-sm font-bold">
-                          <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
-                        </td>
+                        <th className="px-2 py-1 text-left text-sm font-bold rounded-tl-lg">
+                          ID
+                        </th>
+                        <th className="px-2 py-1 text-left text-sm font-bold">
+                          Availed Service
+                        </th>
+                        <th className="px-2 py-1 text-left text-sm font-bold rounded-tr-lg">
+                          Deadline
+                        </th>
                       </tr>
-                      <tr>
-                        <td className="px-2 py-1 text-left text-sm font-bold">
-                          <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
-                        </td>
-                        <td className="px-2 py-1 text-left text-sm font-bold">
-                          <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
-                        </td>
-                        <td className="px-2 py-1 text-left text-sm font-bold">
-                          <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="px-2 py-1 text-left text-sm font-bold">
-                          <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
-                        </td>
-                        <td className="px-2 py-1 text-left text-sm font-bold">
-                          <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
-                        </td>
-                        <td className="px-2 py-1 text-left text-sm font-bold">
-                          <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
-                        </td>
-                      </tr>
-                    </>
-                  ) : (
-                    <>
-                      {requestDetails.map((request, index) => (
-                        <tr
-                          key={index}
-                          className={`${
-                            index % 2 === 0 ? "bg-blue-100" : "bg-white"
-                          } hover:bg-orange-100 border-l border-r border-gray-200 cursor-pointer`}
-                          onClick={() => handleTableRowClick(request)}
-                        >
-                          <td className="px-2 py-1 text-left text-sm font-bold">
-                            {request.requestId}
-                          </td>
-                          <td className="px-2 py-1 text-left text-sm font-bold">
-                            <span className="whitespace-nowrap overflow-hidden text-ellipsis">
-                              {request.taskTitle}
-                            </span>
-                          </td>
-                          <td className="px-2 py-1 text-left text-sm font-bold ">
-                            {formatDate(request.deadLine)}
-                          </td>
-                        </tr>
-                      ))}
-                    </>
-                  )}
-                </tbody>
-              </table>
-            </div>
+                    </thead>
+                    <tbody className="h-full overflow-auto">
+                      {loading ? (
+                        <>
+                          <tr>
+                            <td className="px-2 py-1 text-left text-sm font-bold">
+                              <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
+                            </td>
+                            <td className="px-2 py-1 text-left text-sm font-bold">
+                              <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
+                            </td>
+                            <td className="px-2 py-1 text-left text-sm font-bold">
+                              <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="px-2 py-1 text-left text-sm font-bold">
+                              <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
+                            </td>
+                            <td className="px-2 py-1 text-left text-sm font-bold">
+                              <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
+                            </td>
+                            <td className="px-2 py-1 text-left text-sm font-bold">
+                              <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="px-2 py-1 text-left text-sm font-bold">
+                              <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
+                            </td>
+                            <td className="px-2 py-1 text-left text-sm font-bold">
+                              <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
+                            </td>
+                            <td className="px-2 py-1 text-left text-sm font-bold">
+                              <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
+                            </td>
+                          </tr>
+                        </>
+                      ) : (
+                        <>
+                          {requestDetails.map((request, index) => (
+                            <tr
+                              key={index}
+                              className={`${
+                                index % 2 === 0 ? "bg-blue-100" : "bg-white"
+                              } hover:bg-orange-100 border-l border-r border-gray-200 cursor-pointer`}
+                              onClick={() => handleTableRowClick(request)}
+                            >
+                              <td className="px-2 py-1 text-left text-sm font-bold">
+                                {request.requestId}
+                              </td>
+                              <td className="px-2 py-1 text-left text-sm font-bold">
+                                <span className="whitespace-nowrap overflow-hidden text-ellipsis">
+                                  {request.taskTitle}
+                                </span>
+                              </td>
+                              <td className="px-2 py-1 text-left text-sm font-bold ">
+                                {formatDate(request.deadLine)}
+                              </td>
+                            </tr>
+                          ))}
+                        </>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )}
+            {activeTab === "completed" && <ProjectCompleteList />}
           </div>
           {/* 2nd column Grid - Chat */}
           <div className="col-span-3 flex flex-col h-full">
