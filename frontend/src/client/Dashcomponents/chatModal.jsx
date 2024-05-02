@@ -33,7 +33,7 @@ const chatModal = ({requestInfos}) => {
       const token = localStorage.getItem("authToken");
       const headers = {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
       };
 
       const response = await axios.get(

@@ -12,11 +12,11 @@ import BG1 from "../../assets/bg1.png";
 import ProjectCompleteList from "./ProjectCompleteList";
 import ProjectChat from "./ProjectChat";
 
-
 const Project = () => {
   const { userId } = useParams();
   const [requestInfos, setRequestInfos] = useState([]);
   const [requestDetails, setRequest] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchRequests = async () => {
@@ -37,21 +37,24 @@ const Project = () => {
               request?.clientId?._id === userId && request?.status === "Ongoing"
           );
           setRequest(filteredRequests);
+          setLoading(false);
         } else {
           console.error(
             "Error fetching requests: Unexpected status code",
             response.status
           );
+          setLoading(false);
         }
       } catch (error) {
         console.error("Error fetching requests:", error);
+        setLoading(false);
       }
     };
 
     fetchRequests();
   }, [userId]);
 
-  const handleTableRowClick  = (request) => {
+  const handleTableRowClick = (request) => {
     setRequestInfos(request);
   };
   const formatDate = (dateString) => {
@@ -65,7 +68,7 @@ const Project = () => {
     return formattedDate;
   };
 
-  console.log("current:",requestInfos);
+  console.log("current:", requestInfos);
   return (
     <div>
       <ToastContainer />
@@ -105,27 +108,67 @@ const Project = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {requestDetails.map((request, index) => (
-                    <tr
-                      key={index}
-                      className={`${
-                        index % 2 === 0 ? "bg-blue-100" : "bg-white"
-                      } hover:bg-orange-100 border-l border-r border-gray-200 cursor-pointer`}
-                      onClick={() => handleTableRowClick(request)}
-                    >
-                      <td className="px-2 py-1 text-left text-sm font-bold">
-                        {request.requestId}
-                      </td>
-                      <td className="px-2 py-1 text-left text-sm font-bold">
-                        <span className="whitespace-nowrap overflow-hidden text-ellipsis">
-                          {request.taskTitle}
-                        </span>
-                      </td>
-                      <td className="px-2 py-1 text-left text-sm font-bold ">
-                        {formatDate(request.deadLine)}
-                      </td>
-                    </tr>
-                  ))}
+                  {loading ? (
+                    <>
+                      <tr>
+                        <td className="px-2 py-1 text-left text-sm font-bold">
+                          <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
+                        </td>
+                        <td className="px-2 py-1 text-left text-sm font-bold">
+                          <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
+                        </td>
+                        <td className="px-2 py-1 text-left text-sm font-bold">
+                          <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="px-2 py-1 text-left text-sm font-bold">
+                          <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
+                        </td>
+                        <td className="px-2 py-1 text-left text-sm font-bold">
+                          <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
+                        </td>
+                        <td className="px-2 py-1 text-left text-sm font-bold">
+                          <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="px-2 py-1 text-left text-sm font-bold">
+                          <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
+                        </td>
+                        <td className="px-2 py-1 text-left text-sm font-bold">
+                          <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
+                        </td>
+                        <td className="px-2 py-1 text-left text-sm font-bold">
+                          <div className="animate-pulse h-5 bg-gray-200 rounded-full"></div>
+                        </td>
+                      </tr>
+                    </>
+                  ) : (
+                    <>
+                      {requestDetails.map((request, index) => (
+                        <tr
+                          key={index}
+                          className={`${
+                            index % 2 === 0 ? "bg-blue-100" : "bg-white"
+                          } hover:bg-orange-100 border-l border-r border-gray-200 cursor-pointer`}
+                          onClick={() => handleTableRowClick(request)}
+                        >
+                          <td className="px-2 py-1 text-left text-sm font-bold">
+                            {request.requestId}
+                          </td>
+                          <td className="px-2 py-1 text-left text-sm font-bold">
+                            <span className="whitespace-nowrap overflow-hidden text-ellipsis">
+                              {request.taskTitle}
+                            </span>
+                          </td>
+                          <td className="px-2 py-1 text-left text-sm font-bold ">
+                            {formatDate(request.deadLine)}
+                          </td>
+                        </tr>
+                      ))}
+                    </>
+                  )}
                 </tbody>
               </table>
             </div>

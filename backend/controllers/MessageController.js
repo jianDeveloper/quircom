@@ -93,6 +93,42 @@ const CreateMessage = async (req, res) => {
   }
 };
 
+const DownloadAttachment = async (req, res) => {
+  try {
+    const { id } = req.params; // Get the attachment ID from request parameters
+
+    if (!id) {
+      return res.status(400).json({ message: "Missing attachment ID" });
+    }
+
+    // Fetch the message with the attachment ID
+    const message = await MessageModel.findOne({ "attachment.id": id });
+
+    if (!message) {
+      return res.status(404).json({ message: "Attachment not found" });
+    }
+
+    // Download the file using DriveService
+    const fileStream = await DriveService.DownloadFiles(id);
+
+    // Set headers for download
+    if (message.attachment.mimeType) {
+      res.setHeader('Content-Type', message.attachment.mimeType);
+    } else {
+      // Set a default Content-Type if mimeType is undefined
+      res.setHeader('Content-Type', 'application/octet-stream');
+    }
+    res.setHeader('Content-Disposition', `attachment; filename="${message.attachment.name}"`);
+
+    // Pipe the read stream to the response to download the file
+    fileStream.pipe(res);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
 const DeleteMessage = async (req, res) => {
   try {
     const { id } = req.params;
@@ -144,6 +180,11 @@ const CreateMessageWithAuth = (req, res) => {
     await CreateMessage(req, res);
   });
 };
+const DownloadAttachmentWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await DownloadAttachment(req, res);
+  });
+};
 const DeleteMessageWithAuth = (req, res) => {
   requireAuth(req, res, async () => {
     await DeleteMessage(req, res);
@@ -155,5 +196,6 @@ module.exports = {
   GetMessageWithPollingWithAuth,
   GetSpecificMessageWithAuth,
   CreateMessageWithAuth,
+  DownloadAttachmentWithAuth,
   DeleteMessageWithAuth,
 };

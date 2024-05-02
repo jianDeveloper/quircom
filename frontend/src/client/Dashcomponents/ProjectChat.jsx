@@ -32,15 +32,10 @@ const ProjectChat = ({ requestInfos }) => {
     }
   }, [requestInfos]);
 
-  // Reset message state when requestInfos changes
-  useEffect(() => {
-    setMessage([]);
-  }, [requestInfos]);
-
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   };
 
   const handleChange = (e) => {
@@ -58,7 +53,7 @@ const ProjectChat = ({ requestInfos }) => {
         const token = localStorage.getItem("authToken");
         const headers = {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         };
 
         const response = await axios.get(
@@ -70,9 +65,10 @@ const ProjectChat = ({ requestInfos }) => {
           (msg) => msg.requestId?._id === requestInfos._id
         );
         setMessage(filteredMessage);
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching messages:", error);
+        setLoading(false);
+      } finally {
         setLoading(false);
       }
     };
@@ -158,6 +154,38 @@ const ProjectChat = ({ requestInfos }) => {
       return { ...chat, messageDate, isFirstMessageOfDate };
     });
   }, [requestInfos, message]);
+
+  const handleDownload = async (fileId, fileName) => {
+    try {
+      const token = localStorage.getItem("authToken");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+
+      const response = await axios.get(
+        `http://localhost:8800/api/chat/download/${fileId}`,
+        {
+          headers,
+          responseType: "blob",
+        }
+      );
+
+      // Create a temporary URL for the downloaded file
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", fileName);
+      document.body.appendChild(link);
+      link.click();
+
+      // Clean up
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading file:", error);
+      // Handle error
+    }
+  };
 
   return (
     <div className="flex flex-col h-full">
@@ -279,27 +307,51 @@ const ProjectChat = ({ requestInfos }) => {
                                 chat.attachment.name
                                   .split(".")
                                   .pop()
-                                  .toLowerCase() // Ensure lowercase comparison
+                                  .toLowerCase()
                               ) ? (
-                                <a
-                                  href={chat.attachment.name}
-                                  download
+                                <button
                                   className={`p-2 text-sm text-right text-blue-600 underline ${
                                     chat.senderType === "freelancer"
                                       ? ""
                                       : "text-left"
                                   }`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
+                                  onClick={() => {
+                                    handleDownload(
+                                      chat.attachment.id,
+                                      chat.attachment.name
+                                    );
+                                  }}
                                 >
                                   {chat.attachment.name}
-                                </a>
+                                </button>
                               ) : (
-                                <img
-                                  src={chat.attachment.link}
-                                  alt="Attachment"
-                                  className="w-full"
-                                />
+                                <div>
+                                  <img
+                                    src={chat.attachment.link}
+                                    alt="Attachment"
+                                    className="w-full"
+                                    down
+                                    onClick={() =>
+                                      window.open(
+                                        chat.attachment.link,
+                                        "_blank"
+                                      )
+                                    }
+                                    style={{ cursor: "pointer" }}
+                                  />
+                                  <span
+                                    onClick={() =>
+                                      window.open(
+                                        chat.attachment.link,
+                                        "_blank"
+                                      )
+                                    }
+                                    style={{
+                                      cursor: "pointer",
+                                      textDecoration: "underline",
+                                    }}
+                                  ></span>
+                                </div>
                               )}
                             </>
                           )}

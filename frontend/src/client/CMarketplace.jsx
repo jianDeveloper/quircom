@@ -9,12 +9,13 @@ import mpTop from "../assets/mpTop.jpg";
 import CCards from "./Marketcomponents/CCards";
 import WithAuth from "../auth/WithAuth";
 
-const BASE_URI = import.meta.env.RENDER_BASEURI;
+import { Card, CardBody, CardHeader, Typography } from "@material-tailwind/react";
 
 const CMarketplace = () => {
   const { serviceId } = useParams();
   const [services, setServices] = useState([]);
   const [selectedServiceType, setSelectedServiceType] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -26,13 +27,16 @@ const CMarketplace = () => {
         };
 
         const response = await axios.get(
-          `https://quircom.onrender.com/api/service/`, {headers}
+          `https://quircom.onrender.com/api/service/`,
+          { headers }
         );
         if (response.status === 200) {
           setServices(response.data);
+          setLoading(false);
         }
       } catch (error) {
         console.error("Error fetching users:", error);
+        setLoading(false);
       }
     };
 
@@ -145,22 +149,58 @@ const CMarketplace = () => {
             </div>
           </div>
           <div className="flex-grow">
-            {filteredServices.length === 0 ? (
-              <p className="text-center my-28 text-[32px] font-extrabold text-gray-800">No Available Service at the moment ...</p>
-            ) : (
+            {loading ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {filteredServices.map((item, index) => (
-                  <CCards
-                    key={index}
-                    serviceId={item?._id}
-                    image={item?.thumbNail?.link}
-                    subtitle={item.serviceType}
-                    title={item.serviceName}
-                    author={(item?.freelancerId?.firstName || '') + " " + (item?.freelancerId?.surName || '')}
-                    button="Avail"
-                  />
+                {[...Array(8)].map((_, index) => (
+                  <div key={index} className="animate-pulse">
+                    <Card className="mt-6 min-w-sm max-w-96 max-h-[30rem] pt-6">
+                      <CardHeader className="relative h-[400px] bg-gray-200 rounded-md"></CardHeader>
+                      <CardBody className="flex flex-col justify-between items-start h-full">
+                        <div className="flex flex-col">
+                          <Typography className="mb-2 text-gray-400">
+                          <div className="h-5 w-24 bg-gray-200 rounded-full"></div>
+                          </Typography>
+                          <Typography className="mb-2 text-gray-400 font-bold text-3xl">
+                            <div className="h-8 w-44 bg-gray-200 rounded-full"></div>
+                          </Typography>
+                          <Typography className="text-gray-400">
+                            <div className="h-5 w-32 bg-gray-200 rounded-full"></div>
+                          </Typography>
+                        </div>
+                        <div className="align-bottom mt-10 w-full flex justify-center bg-gray-200 rounded-md hover:bg-gray-300 active:bg-gray-400">
+                          <div className="h-10 w-24 bg-gray-200 rounded-md"></div>
+                        </div>
+                      </CardBody>
+                    </Card>
+                  </div>
                 ))}
               </div>
+            ) : (
+              <>
+                {filteredServices.length === 0 ? (
+                  <p className="text-center my-28 text-[32px] font-extrabold text-gray-800">
+                    No Available Service at the moment ...
+                  </p>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {filteredServices.map((item, index) => (
+                      <CCards
+                        key={index}
+                        serviceId={item?._id}
+                        image={item?.thumbNail?.link}
+                        subtitle={item.serviceType}
+                        title={item.serviceName}
+                        author={
+                          (item?.freelancerId?.firstName || "") +
+                          " " +
+                          (item?.freelancerId?.surName || "")
+                        }
+                        button="Avail"
+                      />
+                    ))}
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>
