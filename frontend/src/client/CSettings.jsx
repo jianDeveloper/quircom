@@ -18,6 +18,7 @@ function CSettings() {
   const [disabled2, setDisabled2] = useState(false);
   const [emailEditable, setEmailEditable] = useState(false);
   const [invalidFields, setInvalidFields] = useState({});
+  const [loading, setLoading] = useState(true);
   const formRef = useRef();
 
   const togglePasswordVisibility = () => {
@@ -40,9 +41,11 @@ function CSettings() {
         if (response.status === 200) {
           setUsers(response.data);
           setFormData({ eMail: response.data.eMail });
+          setLoading(false);
         }
       } catch (error) {
         console.error("Error fetching users:", error);
+        setLoading(false);
       }
     };
 
@@ -365,21 +368,47 @@ function CSettings() {
                 <h1 className="py-2 text-2xl font-semibold">
                   Account settings
                 </h1>
-                <div className="pictureBorder p-5">
-                  {userData && userData.hasOwnProperty("profilePic") ? (
-                    <img
-                      className="profilePicture"
-                      src={userData.profilePic.link}
-                      alt="Profile Picture"
-                    />
-                  ) : (
-                    <img
-                      className="profilePicture"
-                      src={avatar}
-                      alt="Profile Picture"
-                    /> // Render a default avatar if profilePic is not available
-                  )}
-                </div>
+
+                {loading ? (
+                  <div className="flex animate-pulse flex-wrap items-center gap-8">
+                    <div className="pictureBorder p-5">
+                      <div className="grid profilePicture place-items-center rounded-full bg-gray-300">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={2}
+                          stroke="currentColor"
+                          className="h-12 w-12 text-gray-500"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Z"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <div className="pictureBorder p-5">
+                      {userData && userData.hasOwnProperty("profilePic") ? (
+                        <img
+                          className="profilePicture"
+                          src={userData.profilePic.link}
+                          alt="Profile Picture"
+                        />
+                      ) : (
+                        <img
+                          className="profilePicture"
+                          src={avatar}
+                          alt="Profile Picture"
+                        /> // Render a default avatar if profilePic is not available
+                      )}
+                    </div>
+                  </>
+                )}
                 <div className="my-4">
                   <input
                     type="file"
@@ -399,25 +428,6 @@ function CSettings() {
                   >
                     Upload New Profile Picture
                   </button>
-                </div>
-              </div>
-
-              <div className="flex animate-pulse flex-wrap items-center gap-8">
-                <div className="grid h-36 w-36 place-items-center rounded-lg bg-gray-300">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    className="h-12 w-12 text-gray-500"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-                    />
-                  </svg>
                 </div>
               </div>
 

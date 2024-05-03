@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
-import phil from 'phil-reg-prov-mun-brgy'
+import phil from 'philippine-location-json-for-geer'
 
 import { useDropzone } from 'react-dropzone';
 
@@ -16,7 +16,8 @@ import WithAuth from '../../auth/WithAuth';
 
 function CSettingsProfile(props) {
   const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
-  
+  const [loading, setLoading] = useState(true)
+
   const files = acceptedFiles.map(file => (
     <li key={file.path}>
       {file.path} - {file.size} bytes
@@ -76,6 +77,7 @@ function CSettingsProfile(props) {
 
           const provincesCity = phil.getCityMunByProvince(userData.province);
           setFilteredCity(provincesCity);
+          
         }
       } catch (error) {
         console.error('Error fetching user data:', error);

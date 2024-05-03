@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import phil from "phil-reg-prov-mun-brgy";
+import phil from "philippine-location-json-for-geer";
 
 import { useDropzone } from "react-dropzone";
 

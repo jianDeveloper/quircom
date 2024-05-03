@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import phil from 'phil-reg-prov-mun-brgy';
+import phil from 'philippine-location-json-for-geer';
 
 const BASE_URI = import.meta.env.RENDER_BASEURI;
 

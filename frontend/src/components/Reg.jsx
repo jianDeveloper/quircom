@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import phil from "phil-reg-prov-mun-brgy";
+import phil from "philippine-location-json-for-geer";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
