@@ -142,7 +142,7 @@ const Reg = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:8800/api/auth/validate`,
+        `https://quircom.onrender.com/api/auth/validate`,
         {
           userName: formData.userName,
           eMail: formData.eMail,
@@ -185,7 +185,7 @@ const Reg = () => {
 
       // Send POST request to the appropriate endpoint
       const response = await axios.post(
-        `http://localhost:8800/api/${endpoint}/upload`,
+        `https://quircom.onrender.com/api/${endpoint}/upload`,
         formObject,
         {
           headers: {
