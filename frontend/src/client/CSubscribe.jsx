@@ -6,12 +6,9 @@ import axios from "axios";
 
 
 const CSubscribe = () => {
-    
-  const [linkData, setLinkData] = useState(null);
   const [error, setError] = useState(null);
 
-
-    const createAndRetrieveLink = async () => {
+    const createLink = async () => {
       try {
         // Step 1: Create a link
         const requestBody = {
@@ -26,22 +23,24 @@ const CSubscribe = () => {
         const createLinkResponse = await axios.post('https://api.paymongo.com/v1/links', requestBody, {
           headers: {
             accept: 'application/json',
-            'Authorization': 'Basic c2tfdGVzdF9najNTOEFOVzcyUkY2aW1OWVZNQktKcnY6',
+            'Authorization': `Basic c2tfdGVzdF9najNTOEFOVzcyUkY2aW1OWVZNQktKcnY6`,
             'Content-Type': 'application/json'
           }
         });
+        const linkId = createLinkResponse.data.data.id;
+        
+
+        //Step 2: Retrieve the created link
+        const retrieveLinkResponse = await axios.get(`https://api.paymongo.com/v1/links/${linkId}`, {
+          headers: {
+            accept: 'application/json',
+            authorization: `Basic c2tfdGVzdF9najNTOEFOVzcyUkY2aW1OWVZNQktKcnY6`
+          }
+        });
+
+        setLinkData(retrieveLinkResponse.data);
+
         console.log(createLinkResponse.data);
-        // const linkId = createLinkResponse.data.data.id;
-
-        // Step 2: Retrieve the created link
-        // const retrieveLinkResponse = await axios.get(`https://api.paymongo.com/v1/links/${linkId}`, {
-        //   headers: {
-        //     accept: 'application/json',
-        //     authorization: `Basic c2tfdGVzdF9najNTOEFOVzcyUkY2aW1OWVZNQktKcnY6`
-        //   }
-        // });
-
-        // setLinkData(retrieveLinkResponse.data);
         window.open(createLinkResponse.data.data.attributes.checkout_url, '_blank');
       } catch (error) {
         setError(error);
@@ -206,7 +205,7 @@ const CSubscribe = () => {
                 <button
                   type="button"
                   className="block rounded bg-orange-600 py-4 px-10 text-base leading-tight text-white duration-200 ease-in-out md:inline-block lg:py-4"
-                  onClick={createAndRetrieveLink}
+                  onClick={createLink}
                 >
                   Try Now!
                 </button>
