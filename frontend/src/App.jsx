@@ -5,7 +5,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 import Navbar from "./components/Navbar.jsx";
 import Hero from "./components/Hero.jsx";
-import Trial from "./components/sample.jsx";
 import Reg from "./components/Reg.jsx";
 import Footer from "./components/Footer.jsx";
 import Terms from "./components/Terms.jsx";
@@ -14,7 +13,7 @@ import ResetPass from "./components/ResetPass.jsx";
 import NotFoundPage from "./components/NotFoundPage.jsx";
 
 // Admin Imports =============================================================
-// import ADashboard from "./admin/ADashboard.jsx";
+import ALogPage from "./admin/ALogPage.jsx";
 
 // Client Imports =============================================================
 import CDashboard from "./client/CDashboard.jsx";
@@ -34,6 +33,7 @@ import FDashboard from "./fl/FDashboard.jsx";
 import FProfile from "./fl/FProfile.jsx";
 import FSettings from "./fl/FSettings.jsx";
 import FSettingsProfile from "./fl/FSettingsProfile.jsx";
+import ADashboard from "./admin/ADasboard.jsx";
 
 
 
@@ -52,16 +52,6 @@ function App() {
               <Navbar />
               <Hero />
               <Footer />
-            </>
-          }
-        />
-        <Route
-          exact
-          path="/trial"
-          element={
-            <>
-              <Navbar />
-              <Trial />
             </>
           }
         />
@@ -182,6 +172,19 @@ function App() {
           path="/freelancer/settings-profile/:userId"
           element={<FSettingsProfile />}
         />
+
+        {/* ROUTE FOR Admin */}
+        <Route
+          exact
+          path="/admin"
+          element={<ALogPage />}
+        />
+        <Route
+          exact
+          path="/admin/dashboard"
+          element={<ADashboard />}
+        />
+
       </Routes>
     </div>
   );
