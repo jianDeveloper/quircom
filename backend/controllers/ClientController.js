@@ -68,12 +68,12 @@ const CreateUser = async (req, res) => {
         dateExpire: ""
       },
       billing: {
-        amount: "",
-        name: "",
-        refNum: "",
-        gCashNum: "",
-        date: "",
-        expire: "",
+        amount: null,
+        name: null,
+        refNum: null,
+        gCashNum: null,
+        date: null,
+        expire: null,
       },
     });
     res.status(201).json(result);
