@@ -15,7 +15,7 @@ import React, { useState } from "react";
 import Logo from "../assets/icon00.png";
 import Logo2 from "../assets/clientNav.png";
 import Dboard from "../assets/dboard.png";
-import LBoard from "../assets/crown.png";
+import LBoard from "../assets/tracker.png";
 import { Link } from "react-router-dom";
 
 const AMainNav = () => {
@@ -78,7 +78,7 @@ const AMainNav = () => {
           alignItems="center"
         >
           <Box sx={{ height: "full", width: 200 }}>
-            <div className="hidden h-14 my-1 sm:flex sm-justify-center sm-items-center sm:gap-2">{getLogo()} <h1 className="flex flex-row justify-center items-center text-lg font-extrabold uppercase text-center text-white">management</h1></div>
+            <div className="hidden h-14 my-1 sm:flex sm-justify-center sm-items-center sm:gap-2">{getLogo()} <h1 className="flex flex-row justify-center items-center text-lg font-extrabold uppercase text-center text-white cursor-default">management</h1></div>
             <div className="flex h-14 sm:hidden">{getLogo()}</div>
           </Box>
           <Divider orientation="vertical" sx={{ height: 40 }} />

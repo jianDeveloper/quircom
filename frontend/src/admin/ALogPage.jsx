@@ -16,8 +16,8 @@ const ALogPage = () => {
     >
       <div className="relative min-h-screen flex flex-col sm:justify-center sm:flex sm:flex-col justify-center items-center mx-[30px]">
         <div className="relative sm:max-w-sm w-full sm:items-center">
-          <div className="w-[100%] h-[100%] bg-blue-500 rounded-3xl absolute transform shadow-md -rotate-6" />
-          <div className="w-[100%] h-[100%] bg-orange-500 rounded-3xl absolute transform shadow-md rotate-6" />
+          <div className="w-[100%] h-[100%] bg-blue-500 border-[1px] border-[#1D5B79] rounded-3xl absolute transform shadow-lg -rotate-6" />
+          <div className="w-[100%] h-[100%] bg-orange-500 border-[1px] border-[#1D5B79] rounded-3xl absolute transform shadow-lg rotate-6" />
           <div className="relative w-full rounded-3xl  px-6 py-6 bg-[#1D5B79] text-white shadow-lg">
             <label
               for=""

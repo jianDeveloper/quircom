@@ -23,10 +23,34 @@ function CFooter() {
           leave their imprint on the world.
         </p>
         <div className="flex justify-between w-[75%] my-6 mx-10">
-        <a href='https://facebook.com/quircomoffical' target='_blank' rel='noopener noreferrer'><FaFacebook size={32} color="skyblue" /></a>
-                <a href='https://github.com/jianDeveloper/quircom' target='_blank' rel='noopener noreferrer'><FaGithub size={32} color="skyblue" /></a>
-                <a href='https://instagram.com/quircomoffical' target='_blank' rel='noopener noreferrer'><FaInstagram size={32} color="skyblue" /></a>
-                <a href='https://twitter.com/quircomofficial' target='_blank' rel='noopener noreferrer'><FaTwitter size={32} color="skyblue" /></a>
+          <a
+            href="https://facebook.com/quircomoffical"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaFacebook size={32} color="skyblue" />
+          </a>
+          <a
+            href="https://github.com/jianDeveloper/quircom"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaGithub size={32} color="skyblue" />
+          </a>
+          <a
+            href="https://instagram.com/quircomoffical"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaInstagram size={32} color="skyblue" />
+          </a>
+          <a
+            href="https://twitter.com/quircomofficial"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaTwitter size={32} color="skyblue" />
+          </a>
         </div>
       </div>
       <div className="lg:col-span-2 flex justify-between mt-6 bg-[#1D5B79] bg-opacity-95 p-4 ">
