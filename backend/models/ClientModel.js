@@ -91,32 +91,26 @@ const ClientSchema = new Schema({
     amount: {
       type: Number,
       default: "",
-      required: true
     },
     name: {
       type: String,
       default: "",
-      required: true
     },
     refNum: {
       type: String,
       default: "",
-      required: true
     },
     gCashNum: {
       type: Number,
       default: "", 
-      required: true
     },
     date: {
       type: Date,
       default: "",
-      required: true
     },
     expire: {
       type: Date,
       default: "",
-      required: true
     },
   }
 });
