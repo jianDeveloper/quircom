@@ -18,37 +18,30 @@ const ValidateUserData = async (req, res) => {
   try {
     const { userName, eMail, contactNum } = req.body;
 
-    // Perform parallel database queries to check for existing data in both collections
-    const checks = await Promise.all([
-      FreelancerModel.findOne({
-        $or: [{ userName }, { eMail }, { contactNum }],
-      }),
-      ClientModel.findOne({ $or: [{ userName }, { eMail }, { contactNum }] }),
-    ]);
+    // Perform individual checks for each field
+    const userNameUser = await FreelancerModel.findOne({ userName }) || await ClientModel.findOne({ userName });
+    const eMailUser = await FreelancerModel.findOne({ eMail }) || await ClientModel.findOne({ eMail });
+    const contactNumUser = await FreelancerModel.findOne({ contactNum }) || await ClientModel.findOne({ contactNum });
 
-    // checks[0] will contain the result from FreelancerModel, and checks[1] from ClientModel
-    const freelancerUser = checks[0];
-    const clientUser = checks[1];
-
-    // If any of the fields exist in either collection, respond accordingly
-    if (freelancerUser || clientUser) {
-      const userId = freelancerUser
-        ? freelancerUser._id
-        : clientUser
-        ? clientUser._id
-        : null;
-      return res.status(200).json({
-        exists: true,
-        userId,
-      });
-    }
-
-    // If none of the fields exist in either collection, proceed
-    res.status(200).json({ exists: false });
+    res.status(200).json({
+      userName: {
+        exists: !!userNameUser,
+        userId: userNameUser ? userNameUser._id : null,
+      },
+      eMail: {
+        exists: !!eMailUser,
+        userId: eMailUser ? eMailUser._id : null,
+      },
+      contactNum: {
+        exists: !!contactNumUser,
+        userId: contactNumUser ? contactNumUser._id : null,
+      }
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 const LoginUser = async (req, res) => {
   try {

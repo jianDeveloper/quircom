@@ -142,24 +142,24 @@ const Reg = () => {
 
     try {
       const response = await axios.post(
-        `https://quircom.onrender.com/api/auth/validate`,
+        `http://localhost:8800/api/auth/validate`,
         {
           userName: formData.userName,
           eMail: formData.eMail,
           contactNum: Number(formData.contactNum),
         }
       );
+      
+      const data = response.data
 
-      if (response.data.exists) {
-        if (response.data.exists) {
-          errors.userName = "Username is already taken";
-        }
-        if (response.data.exists) {
-          errors.eMail = "Email is already registered";
-        }
-        if (response.data.exists) {
-          errors.contactNum = "Contact number is already registered";
-        }
+      if (data.userName.exists) {
+        errors.userName = "Username is already taken";
+      }
+      if (data.eMail.exists) {
+        errors.eMail = "Email is already registered";
+      }
+      if (data.contactNum.exists) {
+        errors.contactNum = "Contact number is already registered";
       }
     } catch (error) {
       console.error("Error validating data:", error);
@@ -185,7 +185,7 @@ const Reg = () => {
 
       // Send POST request to the appropriate endpoint
       const response = await axios.post(
-        `https://quircom.onrender.com/api/${endpoint}/upload`,
+        `http://localhost:8800/api/${endpoint}/upload`,
         formObject,
         {
           headers: {
