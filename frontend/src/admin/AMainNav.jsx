@@ -10,18 +10,43 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import axios from "axios";
 
 import Logo from "../assets/icon00.png";
 import Logo2 from "../assets/clientNav.png";
 import Dboard from "../assets/dboard.png";
 import LBoard from "../assets/tracker.png";
-import { Link } from "react-router-dom";
+
+import WithAuth from "../auth/WithAuth";
 
 const AMainNav = () => {
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl2, setAnchorEl2] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [userData, setUser] = useState(null);
+  const { userId } = useParams();
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+
+    axios
+      .get(`https://quircom.onrender.com/api/freelancer/${userId}`, { headers })
+      .then((response) => {
+        console.log("User ID in Dashboard:", userId);
+        console.log("User data:", response.data);
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
+  }, [userId]);
 
   const getLogo = () => {
     if (window.innerWidth >= 600) {
@@ -46,6 +71,11 @@ const AMainNav = () => {
     },
   ];
 
+  const handleIconClick = (index) => {
+    setSelectedIcon(index);
+    console.log(icons[index].path);
+  };
+
   const handleAvatarClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -55,6 +85,10 @@ const AMainNav = () => {
     setAnchorEl2(null);
   };
 
+  const handleLogout = () => {
+    console.clear();
+    localStorage.removeItem("authToken");
+  };
   return (
     <Box
       px={2}
@@ -94,7 +128,7 @@ const AMainNav = () => {
                   flexDirection: "row",
                   alignItems: "center",
                   backgroundColor:
-                    selectedIcon === index ? "#fff" : "transparent",
+                    selectedIcon === index ? "#ED9455" : "transparent",
                   borderRadius: 1,
                   boxShadow:
                     selectedIcon === index
@@ -120,15 +154,19 @@ const AMainNav = () => {
           justifyContent={"center"}
           spacing={1}
         >
-          <div className="flex items-center justify-center">
-            <p className="text-[#1d5b79] font-bold px-2 my-2 text-nowrap">
-              NAME ADMIN
-            </p>
+          {userData && (
+            <div className="flex items-center justify-center">
+            <p className="text-[#1d5b79] font-bold px-2 my-2 text-nowrap">{userData.firstName}</p>
             <Divider orientation="vertical" sx={{ height: 40 }} />
             <IconButton onClick={handleAvatarClick}>
-              <Avatar sx={{ boxShadow: 3 }} src={""} alt="User" />
+              {userData.profilePic && userData.profilePic.link !== "" ? (
+                <Avatar sx={{ boxShadow: 3 }} src={userData.profilePic.link} alt="User" />
+              ) : (
+                <Avatar sx={{ boxShadow: 3 }} src={User} alt="User" />
+              )}
             </IconButton>
-          </div>
+            </div>
+          )}
           <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
@@ -137,7 +175,7 @@ const AMainNav = () => {
             <MenuItem
               onClick={handleCloseMenu}
               component={Link}
-              to={``}
+              to={`#`}
             >
               <Stack direction={"row"} spacing={1}>
                 <img className="w-6 h-6 " src={""} alt="Profile" />
@@ -147,7 +185,7 @@ const AMainNav = () => {
             <MenuItem
               onClick={handleCloseMenu}
               component={Link}
-              to={``}
+              to={`#`}
             >
               <Stack direction={"row"} spacing={1}>
                 <img className="w-6 h-6" src={""} alt="Settings" />

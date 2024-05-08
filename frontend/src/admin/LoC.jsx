@@ -31,7 +31,7 @@ const LoC = () => {
           <thead className="bg-[#1d5b79] text-white">
             <tr>
               <th className="px-6 py-3 text-left text-sm font-bold">
-                Freelancer Name
+                Client Name
               </th>
               <th className="px-6 py-3 text-left text-sm font-bold">
                 Username
@@ -39,7 +39,7 @@ const LoC = () => {
               <th className="px-6 py-3 text-left text-sm font-bold">Email</th>
               <th className="px-6 py-3 text-left text-sm font-bold">Contact</th>
               <th className="px-6 py-3 text-left text-sm font-bold">
-                Portfolio
+                Subscription
               </th>
               <th className="px-6 py-3 text-left text-sm font-bold">Action</th>
             </tr>

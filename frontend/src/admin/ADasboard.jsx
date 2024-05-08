@@ -1,4 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+
+
 import AMainNav from "./AMainNav";
 import { MdDesignServices } from "react-icons/md";
 import AFooter from "./AFooter";
@@ -9,10 +13,33 @@ import LoRepAcc from "./LoRepAcc";
 
 const ADasboard = () => {
   const [activeTab, setActiveTab] = useState("freelancers");
-
+  
   const handleTab = (freelancers) => {
     setActiveTab(freelancers);
   };
+
+  const { userId } = useParams();
+
+  useEffect(() => {
+      const token = localStorage.getItem("authToken");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+
+      axios
+        .get(`https://quircom.onrender.com/api/admin/${userId}`, {headers})
+        .then((response) => {
+          setUserData(response.data); // Set the user data in state
+        })
+        .catch((error) => {
+          console.error("Error fetching user data:", error);
+        });
+    }, [userId]);
+
+    
+  
+  
 
   return (
     <div className="flex flex-col h-full text-white bg-gradient-to-b to-[#13334C] from-[#1D5B79]">

@@ -1,10 +1,61 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import WithoutAuth from "../auth/WithoutAuth";
+import { Spinner } from "@material-tailwind/react";
 
 import BGreg from "../assets/bgreg.png";
 import { Avatar } from "@mui/material";
 import Icon1 from "../assets/icon00.png";
+
 const ALogPage = () => {
+  const [userName, setUserName] = useState("");
+  const [passWord, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const trimmedUserName = userName.trim();
+      const trimmedPassWord = passWord.trim();
+
+      setLoading(true);
+
+      const response = await axios.post(
+        "https://quircom.onrender.com/api/auth/login-admin",
+        {
+          userName: trimmedUserName,
+          passWord: trimmedPassWord,
+        }
+      );
+
+      if (response.status === 200) {
+        const { authToken } = response.data;
+        const { _id, accType } = response.data.user;
+        if (accType === "admin") {
+          // login(_id);
+          setLoading(false);
+          localStorage.setItem("authToken", authToken);
+          navigate(`/admin/dashboard/${_id}`);
+        }
+      }
+      // Here you can handle the successful login, such as setting user data in state or redirecting the user
+    } catch (error) {
+      setLoading(false);
+      setError(error.response.data.message);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleLogin(e);
+    }
+  };
+
+  if (!open) return null;
+
   return (
     <div
       className="font-poppins"
@@ -29,18 +80,27 @@ const ALogPage = () => {
             <form method="#" action="#" className="mt-4">
               <div>
                 <input
-                  type="email"
-                  placeholder="Username"
+                  type="text"
+                  id="userName"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  placeholder="Enter Username"
                   className="mt-1 px-2 text-[#1D5B79] block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"
                 />
               </div>
               <div className="mt-7">
                 <input
-                  type="password"
-                  placeholder="Password"
+                  type="passWord"
+                  id="passWord"
+                  value={passWord}
+                  onChange={(e) => setPassword(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  placeholder="Enter password"
                   className="mt-1 px-2 text-[#1D5B79] block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"
                 />
               </div>
+              {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
               <div className="mt-7 flex text-white">
                 <label
                   for="remember_me"
@@ -65,9 +125,21 @@ const ALogPage = () => {
                 </div>
               </div>
               <div class="mt-7">
-              <Link to="/admin"><button className="bg-blue-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+              {loading ? (
+                <button
+                  onClick={handleLogin}
+                  className=" bg-[#FE6D30] hover:bg-[#EA580C] w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105 "
+                >
+                  <Spinner className="inline-block mr-2 text-white-500"/>
+                  <span className="inline-block">Processing...</span>
+                </button>
+              ) : (
+              <button 
+                onClick={handleLogin}
+                className="bg-blue-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                  Login
-                </button></Link> 
+                </button>
+                )}
               </div>
             </form>
           </div>
@@ -77,4 +149,4 @@ const ALogPage = () => {
   );
 };
 
-export default ALogPage;
+export default WithoutAuth(ALogPage);
