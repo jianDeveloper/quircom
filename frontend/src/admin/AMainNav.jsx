@@ -37,7 +37,7 @@ const AMainNav = () => {
     };
 
     axios
-      .get(`https://quircom.onrender.com/api/freelancer/${userId}`, { headers })
+      .get(`https://quircom.onrender.com/api/admin/${userId}`, { headers })
       .then((response) => {
         console.log("User ID in Dashboard:", userId);
         console.log("User data:", response.data);
@@ -62,12 +62,6 @@ const AMainNav = () => {
       component: ``,
       text: "Dashboard",
       index: 0,
-    },
-    {
-      icon: LBoard,
-      component: ``,
-      text: "Manage Accounts",
-      index: 1,
     },
   ];
 
@@ -220,4 +214,4 @@ const AMainNav = () => {
   );
 };
 
-export default AMainNav;
+export default WithAuth(AMainNav);

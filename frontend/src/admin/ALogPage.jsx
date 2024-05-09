@@ -18,30 +18,31 @@ const ALogPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const trimmedUserName = admin.trim();
-      const trimmedPassWord = password.trim();
-
+      const trimmedUserName = userName.trim();
+      const trimmedPassWord = passWord.trim();
+  
       setLoading(true);
-
+  
       const response = await axios.post(
         "https://quircom.onrender.com/api/auth/login-admin",
         {
-          admin: trimmedUserName,
-          password: trimmedPassWord,
+          admin: trimmedUserName, // Send 'admin' instead of 'userName'
+          password: trimmedPassWord, // Send 'password' instead of 'passWord'
         }
       );
-
+  
+      // Handle the response from the server
       if (response.status === 200) {
-        const { authToken } = response.data;
-        const { _id, accType } = response.data.user;
-        
-          // login(_id);
-          setLoading(false);
-          localStorage.setItem("authToken", authToken);
-          navigate(`/admin/dashboard/${_id}`);
-        
+        const { authToken, user } = response.data;
+        const { _id } = user;
+  
+        setLoading(false);
+        localStorage.setItem("authToken", authToken);
+        navigate(`/admin/dashboard/${_id}`);
+      } else {
+        // Handle other status codes (e.g., 404 for user not found, 401 for invalid password)
+        setError(response.data.message);
       }
-      // Here you can handle the successful login, such as setting user data in state or redirecting the user
     } catch (error) {
       setLoading(false);
       setError(error.response.data.message);
