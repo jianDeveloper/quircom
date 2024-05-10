@@ -15,7 +15,7 @@ const Hero = () => {
     <div className=" bg-beige overflow-hidden">
       <section className="mx-auto mt-[-50px] h-full px-4 py-28 md:py-40 sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8">
         <div className="flex flex-col items-center justify-between lg:flex-row">
-          <div className="">
+          <div className="mx-5 md:mx-0">
             <div className="lg:max-w-xl lg:pr-5">
               <p className="flex text-sm uppercase text-[#1D5B79]">
                 <svg

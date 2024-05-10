@@ -16,11 +16,11 @@ const navBar = () => {
   return (
     <div className ='header'>
       <Link to='/'><img className='h-[60px]' src={logo1}/></Link>
-      <ul className='hidden md:flex'>
-        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><Link to={"/"} className='text-[#1D5B79]'>Home</Link></li>
-        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><a href="#services">Services</a></li>
-        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><a href='#statistics'>Statistics</a></li>
-        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#303030]'><a href='#subscription'>Plans</a></li>
+      <ul className='hidden md:flex text-[#303030]'>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold'><Link to={"/"} className='text-[#1D5B79]'>Home</Link></li>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold '><a href="#services">Services</a></li>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold '><a href='#statistics'>Statistics</a></li>
+        <li onClick={() => setNav(false)} className='pt-2 pb-2 pl-3 pr-3 text-center font-bold '><a href='#subscription'>Plans</a></li>
       </ul>
 
       {/* Log-Reg */}
@@ -34,7 +34,7 @@ const navBar = () => {
 
       {/* Minimized NavBar */}
       <div onClick={() => setNav(!nav)} className='block md:hidden'>
-        {!nav ? <TiThMenu size={22}/> : <AiOutlineClose size={22}/> }
+        {!nav ? <TiThMenu size={22} color='#133C55'/> : <AiOutlineClose size={22}/> }
       </div>
       <div className={nav ? 'fixed md:hidden left-0 top-0 w-[300px] z-[5] h-full border-l-solid border-l-[15px] border-l-[#1D5B79] bg-white ease-in-out duration-500' : 'fixed left-[-100%]'}>
       <img className='h-[70px] m-[10px] pt-[9px]' src={logo1} />
