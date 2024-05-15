@@ -78,13 +78,14 @@ const Hero = () => {
             </div>
           </div>
         </div>
-      </section>
-      <div className="flex flex-col">
+        <div className="flex flex-col gap-2">
         <Services />
         <Stats />
         <Subscription />
         <Newsletter />
       </div>
+      </section>
+      
     </div>
   );
 };
