@@ -140,8 +140,13 @@ const CMainNav = () => {
             <div className="hidden h-16 sm:flex">{getLogo()}</div>
             <div className="flex h-16 sm:hidden">{getLogo()}</div>
           </Box>
-          <Divider orientation="vertical" sx={{ height: 40 }} />
-          <Stack direction={"row"} spacing={2}>
+          <Divider orientation="vertical" sx={{ height: 40,"@media (max-width: 958px)": {
+            display: "none", // Hide the icon buttons on medium screens
+          }}} />
+          <Stack direction={"row"} spacing={2} sx={{
+          "@media (max-width: 958px)": {
+            display: "none", // Hide the icon buttons on medium screens
+          }}}>
             {icons.map((icon, index) => (
               <ButtonBase
                 key={index}
@@ -177,10 +182,10 @@ const CMainNav = () => {
           direction={"row"}
           alignItems={"center"}
           justifyContent={"center"}
-          spacing={1}
+          spacing={2}
         >
           {userData && (
-            <div className="flex items-center justify-center">
+            <div className="md:flex items-center justify-center hidden ">
             <p className="text-[#1d5b79] font-bold px-2 my-2 text-nowrap">{userData.firstName}</p>
             <IconButton onClick={handleAvatarClick}>
               {userData.profilePic && userData.profilePic.link !== "" ? (
@@ -193,7 +198,7 @@ const CMainNav = () => {
           <div>
             <IconButton onClick={handleNotifClick}>
               <img
-                className="w-10 h-6 hover:scale-150 duration-300"
+                className="w-10 h-6 mx-4 xl:mx-1 hover:scale-150 duration-300"
                 src={Notifs}
                 alt="Notifs"
               />

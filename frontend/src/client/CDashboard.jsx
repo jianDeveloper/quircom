@@ -51,10 +51,10 @@ function CDashboard() {
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
       }}>
-        <div className="flex flex-col container mx-10 my-10">
+        <div className="flex flex-col container mx-10 sm:my-10 p-10 sm:p-4">
           {" "}
           {/*fixing headbox on dashboard -j*/}
-          <div className="grid grid-cols-3 gap-[20px] my-[15px]">
+          <div className="grid md:grid-cols-3 gap-[20px] my-[15px]">
             <div className="card">
               <div className="card-inner">
                 <h3 className="font-bold text-[#1D5B79]">On-Going Contracts</h3>
