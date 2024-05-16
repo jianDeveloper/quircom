@@ -9,7 +9,12 @@ import mpTop from "../assets/mpTop.jpg";
 import CCards from "./Marketcomponents/CCards";
 import WithAuth from "../auth/WithAuth";
 
-import { Card, CardBody, CardHeader, Typography } from "@material-tailwind/react";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Typography,
+} from "@material-tailwind/react";
 
 const CMarketplace = () => {
   const { serviceId } = useParams();
@@ -158,7 +163,7 @@ const CMarketplace = () => {
                       <CardBody className="flex flex-col justify-between items-start h-full">
                         <div className="flex flex-col">
                           <Typography className="mb-2 text-gray-400">
-                          <div className="h-5 w-24 bg-gray-200 rounded-full"></div>
+                            <div className="h-5 w-24 bg-gray-200 rounded-full"></div>
                           </Typography>
                           <Typography className="mb-2 text-gray-400 font-bold text-3xl">
                             <div className="h-8 w-44 bg-gray-200 rounded-full"></div>
