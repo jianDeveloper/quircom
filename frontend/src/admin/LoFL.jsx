@@ -15,32 +15,31 @@ const LoFL = () => {
     };
 
     useEffect(() => {
-      const fetchFreelancers = async () => {
-          try {
-              const token = localStorage.getItem("authToken");
-              const headers = {
-                  Authorization: `Bearer ${token}`,
-                  "Content-Type": "application/json",
-              };
-  
-              const response = await axios.get("https://quircom.onrender.com/api/freelancers", { headers });
-              console.log("Freelancer Data:", response.data); // Add this line to log the freelancer data
-  
-              if (response.status === 200) {
-                  setFreelancers(response.data);
-              }
-  
-              setLoading(false);
-          } catch (error) {
-              console.error("Error fetching freelancers:", error);
-              setError("Error fetching freelancers. Please try again later.");
-              setLoading(false);
-          }
-      };
-  
-      fetchFreelancers();
-  }, []);
-  
+        const fetchFreelancers = async () => {
+            try {
+                const token = localStorage.getItem("authToken");
+                const headers = {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                };
+
+                const response = await axios.get("https://quircom.onrender.com/api/freelancer", { headers });
+                console.log("Freelancer Data:", response.data); // Add this line to log the freelancer data
+
+                if (response.status === 200) {
+                    setFreelancers(response.data);
+                }
+
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching freelancers:", error);
+                setError("Error fetching freelancers. Please try again later.");
+                setLoading(false);
+            }
+        };
+
+        fetchFreelancers();
+    }, []);
 
     if (loading) {
         return <div>Loading...</div>;
