@@ -10,7 +10,7 @@ const LoRepAcc = () => {
     setPage(0);
   };
   return (
-    <div className="flex flex-col bg-red-500 items-center h-full w-[90%]">
+    <div className="flex flex-col bg-blue-200 items-center h-full w-[90%]">
       <div className="flex w-[100%] items-center py-2 px-5 bg-[#F5F5DC] text-[#13334C] font-medium">
         <span>Rows per page:</span>
         <select

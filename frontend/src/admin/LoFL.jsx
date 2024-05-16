@@ -3,10 +3,12 @@ import axios from 'axios';
 import { FaTrash } from 'react-icons/fa';
 import { FaPersonDotsFromLine } from 'react-icons/fa6';
 import WithAuth from '../auth/WithAuth';
+import { useParams } from "react-router-dom";
 
 const LoFL = () => {
+    const { userId } = useParams();
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [freelancers, setFreelancers] = useState([]);
+    const [flDetails, setFreelancers] = useState([]);
     const [loading, setLoading] = useState(true); // State for loading status
     const [error, setError] = useState(null); // State for error handling
 
@@ -40,6 +42,8 @@ const LoFL = () => {
 
         fetchFreelancers();
     }, []);
+      console.log('Request Details', flDetails)
+    
 
     if (loading) {
         return <div>Loading...</div>;
@@ -50,7 +54,7 @@ const LoFL = () => {
     }
 
     return (
-        <div className="flex flex-col bg-transparent items-center h-full w-[90%]">
+        <div className="flex flex-col bg-blue-200 items-center h-full w-[90%]">
             <div className="flex w-[100%] items-center py-2 px-5 bg-[#F5F5DC] text-[#13334C] font-medium">
                 <span>Rows per page:</span>
                 <select
@@ -78,13 +82,13 @@ const LoFL = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {freelancers.map((freelancer) => (
-                            <tr key={freelancer._id} className="border-b bg-blue-200 text-[#13334C]">
-                                <td className="px-6 py-4 text-left">{freelancer.firstName} {freelancer.surName}</td>
-                                <td className="px-6 py-4 text-left">{freelancer.userName}</td>
-                                <td className="px-6 py-4 text-left">{freelancer.eMail}</td>
-                                <td className="px-6 py-4 text-left">{freelancer.contactNum}</td>
-                                <td className="px-6 py-4 text-left">{freelancer.portFolio?.name}</td>
+                        {flDetails.map((index,fl) => (
+                            <tr key={index} className="border-b bg-blue-200 text-[#13334C]">
+                                <td className="px-6 py-4 text-left">{fl.firstName} {fl.surName}</td>
+                                <td className="px-6 py-4 text-left">{fl.userName}</td>
+                                <td className="px-6 py-4 text-left">{fl.eMail}</td>
+                                <td className="px-6 py-4 text-left">{fl.contactNum}</td>
+                                <td className="px-6 py-4 text-left">{fl.portFolio?.name}</td>
                                 <td className="px-6 py-4 text-left">
                                     <button
                                         type="button"
