@@ -7,49 +7,69 @@ import axios from "axios";
 
 const CSubscribe = () => {
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [referenceNumber, setReferenceNumber] = useState(null);
+  const [paymentStatus, setPaymentStatus] = useState(null);
 
-    const createLink = async () => {
-      try {
-        // Step 1: Create a link
-        const requestBody = {
-          data: {
-            attributes: {
-              amount: 19900,
-              description: 'Subscription Payment'
-            }
+  const createLink = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const requestBody = {
+        data: {
+          attributes: {
+            amount: 19900,
+            description: 'Subscription Payment'
           }
-        };
+        }
+      };
 
-        const createLinkResponse = await axios.post('https://api.paymongo.com/v1/links', requestBody, {
-          headers: {
-            accept: 'application/json',
-            'Authorization': `Basic c2tfdGVzdF9najNTOEFOVzcyUkY2aW1OWVZNQktKcnY6`,
-            'Content-Type': 'application/json'
-          }
-        });
-        const linkId = createLinkResponse.data.data.id;
-        
+      const createLinkResponse = await axios.post('https://api.paymongo.com/v1/links', requestBody, {
+        headers: {
+          accept: 'application/json',
+          'Authorization': `Basic ${import.meta.env.VITE_PAYMONGO_KEY}`,
+          'Content-Type': 'application/json'
+        }
+      });
 
-        //Step 2: Retrieve the created link
-        const retrieveLinkResponse = await axios.get(`https://api.paymongo.com/v1/links/${linkId}`, {
-          headers: {
-            accept: 'application/json',
-            authorization: `Basic c2tfdGVzdF9najNTOEFOVzcyUkY2aW1OWVZNQktKcnY6`
-          }
-        });
+      const referenceNumber = createLinkResponse.data.data.attributes.reference_number;
+      setReferenceNumber(referenceNumber);
+      window.open(createLinkResponse.data.data.attributes.checkout_url, '_blank');
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        setLinkData(retrieveLinkResponse.data);
+  const checkPaymentStatus = async () => {
+    if (!referenceNumber) {
+      setError("Reference number is not available");
+      return;
+    }
 
-        console.log(createLinkResponse.data);
-        window.open(createLinkResponse.data.data.attributes.checkout_url, '_blank');
-      } catch (error) {
-        setError(error);
+    try {
+      const response = await axios.get(`https://api.paymongo.com/v1/links?reference_number=${referenceNumber}`, {
+        headers: {
+          accept: 'application/json',
+          authorization: `Basic ${import.meta.env.VITE_PAYMONGO_KEY}`
+        }
+      });
+
+      console.log(response.data);
+      // Assume response.data.data.attributes.status exists and indicates payment status
+      const status = response.data.data[0].attributes.status;
+      if (status === 'paid') {
+        setPaymentStatus('Payment was successful');
+      } else {
+        setPaymentStatus('Payment not completed yet');
       }
-    };
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
+    } catch (error) {
+      console.error(error);
+      setError(error);
+    }
+  };
 
   return (
     <div>

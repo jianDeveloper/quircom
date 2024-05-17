@@ -8,9 +8,9 @@ import { useParams } from "react-router-dom";
 const LoFL = () => {
     const { userId } = useParams();
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [flDetails, setFreelancers] = useState([]);
-    const [loading, setLoading] = useState(true); // State for loading status
-    const [error, setError] = useState(null); // State for error handling
+    const [freelancers, setFreelancers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
@@ -25,8 +25,8 @@ const LoFL = () => {
                     "Content-Type": "application/json",
                 };
 
-                const response = await axios.get("https://quircom.onrender.com/api/freelancer", { headers });
-                console.log("Freelancer Data:", response.data); // Add this line to log the freelancer data
+                const response = await axios.get("http://localhost:8800/api/freelancer", { headers });
+                console.log("Freelancer Data:", response.data);
 
                 if (response.status === 200) {
                     setFreelancers(response.data);
@@ -42,8 +42,8 @@ const LoFL = () => {
 
         fetchFreelancers();
     }, []);
-      console.log('Request Details', flDetails)
-    
+
+    console.log('Request Details:', freelancers);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -52,7 +52,7 @@ const LoFL = () => {
     if (error) {
         return <div>{error}</div>;
     }
-
+    
     return (
         <div className="flex flex-col bg-blue-200 items-center h-full w-[90%]">
             <div className="flex w-[100%] items-center py-2 px-5 bg-[#F5F5DC] text-[#13334C] font-medium">
