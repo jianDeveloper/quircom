@@ -114,10 +114,10 @@ function CSettingsBill() {
             <div className="col-span-8 rounded-xl sm:bg-[#F7F6DF] sm:px-8 sm:shadow">
               <div className="pt-4">
                 <h1 className="py-2 text-2xl font-semibold">
-                  Billing settings
+                  Billing Settings
                 </h1>
                 <p className="font- text-slate-600">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Here is your detail for your billing.
                 </p>
               </div>
 
@@ -127,15 +127,15 @@ function CSettingsBill() {
                 <div className="space-y-8">
                   <div className="">
                     <div className="flex">
-                      <p className="font-medium mb-1">Billing Period</p>
+                      <p className="font-medium mb-1">Billing Status</p>
                       <button className="ml-auto inline-flex text-sm font-semibold text-blue-600 underline decoration-2">
                         Change
                       </button>
                     </div>
                     <div className="flex items-center rounded-md border border-gray-100 bg-white py-3 shadow">
                       <p className="ml-4 w-56">
-                        <strong className="block text-lg font-medium">
-                          MONTHLY
+                        <strong className="block text-lg font-medium text-[#0BDA51]">
+                          SUBSCRIBED
                         </strong>
                         <span className="text-xs text-gray-400">
                           {" "}
@@ -159,10 +159,7 @@ function CSettingsBill() {
                       />
                       <p className="ml-4 w-56">
                         <strong className="block text-lg font-medium">
-                          **** **** **** 453{" "}
-                        </strong>
-                        <strong className="block text-lg font-medium">
-                          ALBERT K. DANIEL{" "}
+                          Gcash{" "}
                         </strong>
                         <span className="text-xs text-gray-400">
                           {" "}
@@ -179,52 +176,29 @@ function CSettingsBill() {
                     <input
                       className="w-full rounded-md border bg-white py-2 px-2 outline-none ring-blue-600 focus:ring-1"
                       type="text"
-                      value="Shakir Ali"
+                      value="Vence Puno"
                     />
                   </label>
                   <label className="block" for="name">
-                    <p className="text-sm">Email Address</p>
+                    <p className="text-sm">Contacts</p>
                     <input
                       className="w-full rounded-md border bg-white py-2 px-2 outline-none ring-blue-600 focus:ring-1"
                       type="text"
-                      value="shakir.ali@corpora.de"
+                      value="09772864983"
                     />
                   </label>
-                  <label className="block sm:col-span-2" for="name">
-                    <p className="text-sm">Billing Address</p>
-                    <input
-                      className="w-full rounded-md border bg-white py-2 px-2 outline-none ring-blue-600 focus:ring-1"
-                      type="text"
-                      value="82844 Boyle Extension Suite 541 - Covington, HI / 28013"
-                    />
-                  </label>
-                  <label className="block" for="name">
-                    <p className="text-sm">VAT #</p>
-                    <input
-                      className="w-full rounded-md border bg-white py-2 px-2 outline-none ring-blue-600 focus:ring-1"
-                      type="text"
-                      value="6346322"
-                    />
-                  </label>
-                  <label className="block" for="name">
-                    <p className="text-sm">Country</p>
-                    <input
-                      className="w-full rounded-md border bg-white py-2 px-2 outline-none ring-blue-600 focus:ring-1"
-                      type="text"
-                      value="Germany"
-                    />
-                  </label>
+                  
                 </div>
               </div>
 
               <div className="amx-auto mb-10 overflow-hidden rounded-lg border bg-white">
-                <p className="mb-6 bg-gray-100 py-1 text-center text-lg font-medium">
+                <p className="mb-6 bg-[#1D5B79] py-1 text-center text-lg font-medium text-white">
                   Billing History
                 </p>
                 <table className="w-full">
                   <thead>
                     <td className="text-center font-semibold">Date</td>
-                    <td className="text-center font-semibold">Invoice #</td>
+                    <td className="text-center font-semibold">Reference No.</td>
                     <td className="text-center font-semibold">Amount</td>
                     <td className="text-center font-semibold"></td>
                   </thead>
@@ -285,7 +259,7 @@ function CSettingsBill() {
                         X-543242
                       </td>
                       <td className="border-b py-2 text-center text-sm">
-                        $99.00
+                        ₱199.00
                       </td>
                       <td className="border-b py-2 text-center text-sm">
                         <button className="text-sm text-blue-600 underline">

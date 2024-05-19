@@ -267,7 +267,7 @@ const AddServiceModal = ({ setaddModal }) => {
                           value={formData.thumbNail}
                           onChange={handleImage}
                           accept="image/*"
-                          className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full border border-gray-300 px-3 py-2 ${
+                          className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-md border border-gray-300 px-3 py-2 ${
                             invalidFields.thumbNail ? "border-red-500" : ""
                           }`}
                         />
@@ -296,7 +296,7 @@ const AddServiceModal = ({ setaddModal }) => {
                             userData?.surName || ""
                           }`}
                           readOnly
-                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-r-md sm:text-sm p-2 shadow-sm border border-gray-300"
+                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm p-2 shadow-sm border border-gray-300"
                         />
                       </div>
                     </div>
@@ -316,7 +316,7 @@ const AddServiceModal = ({ setaddModal }) => {
                             formData.dateUploaded
                           ).toLocaleString()}
                           readOnly
-                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-r-md sm:text-sm p-2 shadow-sm border border-gray-300"
+                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm p-2 shadow-sm border border-gray-300"
                         />
                       </div>
                     </div>
