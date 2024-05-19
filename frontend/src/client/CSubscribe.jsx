@@ -35,6 +35,7 @@ const CSubscribe = () => {
 
       const referenceNumber = createLinkResponse.data.data.attributes.reference_number;
       setReferenceNumber(referenceNumber);
+      console.log("Reference:", referenceNumber);
       window.open(createLinkResponse.data.data.attributes.checkout_url, '_blank');
     } catch (error) {
       setError(error);
@@ -58,6 +59,7 @@ const CSubscribe = () => {
       });
 
       console.log(response.data);
+      
       // Assume response.data.data.attributes.status exists and indicates payment status
       const status = response.data.data[0].attributes.status;
       if (status === 'paid') {
@@ -69,6 +71,7 @@ const CSubscribe = () => {
       console.error(error);
       setError(error);
     }
+    
   };
 
   return (
