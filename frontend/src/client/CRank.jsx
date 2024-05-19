@@ -54,16 +54,16 @@ function CRank() {
     return averageRating.toFixed(1);
   };
   return (
-    <div className="relative flex flex-col w-full min-w-0 mb-0 break-words border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
+    <div className="relative flex flex-col break-words border-transparent border-solid shadow-soft-xl">
       <div>
         <NavHeader />
       </div>
-      <div className="mt-[60px] ml-[150px] mr-[150px] font-extrabold text-[30px] text-[#1D5B79]">
+      <div className="flex justify-center mt-[60px] font-extrabold text-[30px] text-[#1D5B79]">
         <h6>LEADERBOARD</h6>
       </div>
-      <div className="flex-auto px-0 pt-0 pb-2 mx-[150px]">
-        <div className="p-0 overflow-x-auto">
-          <table className="items-center w-full mb-0 align-top border-gray-200 text-[#1D5B79]">
+      <div className="flex justify-center pb-2 w-full">
+        <div className="overflow-x-auto">
+          <table className="items-center w-full align-top border-gray-200 text-[#1D5B79]">
             <thead className="align-bottom">
               <tr>
                 <th className="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-orange-500 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-[#1D5B79] opacity-100">

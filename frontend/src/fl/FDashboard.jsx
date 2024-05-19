@@ -124,11 +124,11 @@ function FDashboard() {
       }}
     >
       <FMainNav />
-      <div className="flex align-center justify-center mx-[100px]">
+      <div className="flex align-center justify-center md:mx-[100px]">
         <div className="flex flex-col container my-10">
           {/*formatting navbar & body -j*/}
           {/* Box Analytics */}
-          <div className="grid grid-cols-4 gap-[20px] my-[15px]">
+          <div className="grid grid-cols-1 md:grid-cols-4 sm:grid-cols-2 gap-[20px] my-[15px] mx-[15px]">
             <div className="flex flex-col justify-around px-4 py-4 border-[#1D5B79] border-[3px] border-solid bg-white hover:shadow-lg rounded-md">
               <div className="flex items-center justify-between">
                 <h1 className="text-[20px] text-[#13334C] font-bold">
@@ -207,7 +207,7 @@ function FDashboard() {
               </button>
             </div>
             {/* inside tabs */}
-            <div className="flex flex-col justify-center items-center w-[90%]">
+            <div className="flex flex-col justify-center items-center w-[90%] overflow-x-auto">
               {activeTab === "track" && <FTable />}
               {activeTab === "pending" && <PendingTable />}
               {activeTab === "manage" && <ServiceTable />}

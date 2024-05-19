@@ -91,13 +91,6 @@ const FMainNav = () => {
     localStorage.removeItem("authToken");
   };
 
-  const getLogo = () => {
-    if (window.innerWidth >= 600) {
-      return <img src={Logo} alt="Logo" />;
-    } else {
-      return <img src={Logo2} alt="Logo 2" />;
-    }
-  };
 
   return (
     <Box
@@ -122,8 +115,8 @@ const FMainNav = () => {
           alignItems="center"
         >
           <Box sx={{ height: "full", width: 180 }}>
-            <div className="hidden sm:flex">{getLogo()}</div>
-            <div className="flex h-16 sm:hidden">{getLogo()}</div>
+            <div className="sm:flex"><img src={Logo} alt="Logo" /></div>
+            
           </Box>
           <Divider orientation="vertical" sx={{ height: 40,
               "@media (max-width: 958px)": {
@@ -173,11 +166,6 @@ const FMainNav = () => {
           alignItems={"center"}
           justifyContent={"center"}
           spacing={1}
-          sx={{
-            "@media (max-width: 958px)": {
-              display: "none", // Hide the icon buttons on medium screens
-            },
-          }}
         >
           {/* <div>
             <IconButton onClick={handleNotifClick}>
@@ -288,9 +276,8 @@ const FMainNav = () => {
                 onClick={() => setNav(false)}
                 className="flex items-center justify-items-start py-4 border-b-2 ml-6 mr-6 border-orange-600"
               >
-
                 <IconButton>
-                <Link to={`/client/profile/${userId}`}>
+                <Link to={`/freelancer/profile/${userId}`}>
                 {userData?.profilePic && userData?.profilePic.link !== "" ? (
                   <Avatar
                     sx={{ boxShadow: 3}}
@@ -301,19 +288,19 @@ const FMainNav = () => {
                   <Avatar sx={{ boxShadow: 3 }} src={User} alt="User" />
                 )} </Link>
               </IconButton>
-              <p className="font-medium cursor-pointer"><Link to={`/client/profile/${userId}`}>{userData?.firstName + " " + userData?.surName || ""}</Link></p>
+              <p className="font-medium cursor-pointer"><Link to={`/freelancer/profile/${userId}`}>{userData?.firstName + " " + userData?.surName || ""}</Link></p>
               </li>
               <li
                 onClick={() => setNav(false)}
                 className="p-4 border-b-2 ml-6 mr-6 border-orange-600 hover:bg-orange-300"
               >
-                <Link to={"/client/dashboard/" + userId || ""}>Dashboard</Link>
+                <Link to={"/freelancer/dashboard/" + userId || ""}>Dashboard</Link>
               </li>
               <li
                 onClick={() => setNav(false)}
                 className="p-4 border-b-2 ml-6 mr-6 border-orange-600 hover:bg-orange-300"
               >
-                <a href="#">Subscription</a>
+                <a href="#">Leaderboards</a>
               </li>
               <li
                 onClick={() => setNav(false)}

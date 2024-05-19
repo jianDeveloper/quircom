@@ -62,8 +62,8 @@ const FTable = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-[100%]">
-      <div className="flex w-[100%] justify-end items-center p-2 bg-[#13334C] text-white">
+    <div className="flex flex-col justify-center items-center w-full">
+      <div className="flex w-full justify-end items-center p-2 bg-[#13334C] text-white">
         <span>Rows per page:</span>
         <select
           value={rowsPerPage}
@@ -77,8 +77,8 @@ const FTable = () => {
           ))}
         </select>
       </div>
-      <div className="w-full bg-white shadow-md">
-        <table className="min-w-full">
+      <div className=" w-full bg-white shadow-md overflow-x-auto">
+        <table className="">
           <thead className="bg-[#1d5b79] text-white">
             <tr>
               <th className="px-6 py-3 text-left text-sm font-bold">

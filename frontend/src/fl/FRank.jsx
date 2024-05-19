@@ -58,10 +58,10 @@ function FRank() {
       <div>
         <NavHeader />
       </div>
-      <div className="mt-[60px] ml-[150px] mr-[150px] font-extrabold text-[30px] text-[#1D5B79]">
+      <div className="mt-[60px] mx-4 md:mx-[100px] font-extrabold text-[30px] text-[#1D5B79]">
         <h6>LEADERBOARD</h6>
       </div>
-      <div className="flex-auto px-0 pt-0 pb-2 mx-[150px]">
+      <div className="flex-auto px-0 pt-0 pb-2 mx-4 md:mx-[100px]">
         <div className="p-0 overflow-x-auto">
           <table className="items-center w-full mb-0 align-top border-gray-200 text-[#1D5B79]">
             <thead className="align-bottom">

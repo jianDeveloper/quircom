@@ -119,7 +119,7 @@ const PendingTable = () => {
           ))}
         </select>
       </div>
-      <div className="w-full bg-white shadow-md">
+      <div className="w-full bg-white shadow-md overflow-x-auto">
         <table className="min-w-full">
           <thead className="bg-[#1d5b79] text-white">
             <tr>
