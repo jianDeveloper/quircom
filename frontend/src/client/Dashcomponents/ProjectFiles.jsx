@@ -4,7 +4,7 @@ import { MdFileDownload, MdFileOpen } from "react-icons/md";
 const ProjectFiles = () => {
   return (
     <div className="bg-white min-h-[500px] rounded-lg">
-      <div className="text-white font-medium text-sm bg-orange-500 rounded-t-lg">
+      <div className="text-white font-medium text-sm bg-blue-700 sm:bg-orange-500 rounded-t-lg">
         <button className="rounded-t-lg py-1 w-[50%] h-full bg-[#1D5B79]">
           Image
         </button>

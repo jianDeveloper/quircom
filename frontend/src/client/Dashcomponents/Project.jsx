@@ -84,9 +84,9 @@ const Project = () => {
           backgroundSize: "cover",
         }}
       >
-        <div className="grid grid-cols-5 justify-center py-10 px-14 gap-10">
+        <div className="grid grid-cols-2 justify-center py-10 px-14 sm:gap-10 md:grid-cols-5">
           {/* 1st column Grid - List Projects */}
-          <div className="col-span-2 mr-2 ">
+          <div className="col-span-2 mr-2 mb-5">
             <div className="flex gap-4 items-baseline w-auto">
               <button
                 className={
@@ -111,8 +111,8 @@ const Project = () => {
             </div>
             {activeTab === "list" && (
               <>
-                <div className="bg-white min-h-[500px] rounded-lg">
-                  <table className="min-w-full rounded-t-lg shadow-md">
+                <div className="bg-white min-h-[500px] rounded-lg  overflow-x-auto">
+                  <table className="w-full rounded-t-lg shadow-md">
                     <thead className="bg-[#1d5b79] text-white">
                       <tr>
                         <th className="px-2 py-1 text-left text-sm font-bold rounded-tl-lg">

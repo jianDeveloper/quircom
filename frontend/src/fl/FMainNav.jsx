@@ -14,16 +14,16 @@ import {
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-
 import Logo from "../assets/Icon1.png";
 import Logo2 from "../assets/clientNav.png";
 import Dboard from "../assets/dboard.png";
 import Settings from "../assets/settings.png";
-import Notifs from "../assets/bell.png";
 import LBoard from "../assets/crown.png";
 import User from "../assets/user.png";
 
 import WithAuth from "../auth/WithAuth";
+import { TiThMenu } from "react-icons/ti";
+import { AiOutlineClose } from "react-icons/ai";
 
 const FMainNav = () => {
   const [selectedIcon, setSelectedIcon] = useState(null);
@@ -31,6 +31,7 @@ const FMainNav = () => {
   const [anchorEl2, setAnchorEl2] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
   const [userData, setUser] = useState(null);
+  const [nav, setNav] = useState(false);
   const { userId } = useParams();
 
   useEffect(() => {
@@ -124,8 +125,18 @@ const FMainNav = () => {
             <div className="hidden sm:flex">{getLogo()}</div>
             <div className="flex h-16 sm:hidden">{getLogo()}</div>
           </Box>
-          <Divider orientation="vertical" sx={{ height: 40 }} />
-          <Stack direction={"row"} spacing={2}>
+          <Divider orientation="vertical" sx={{ height: 40,
+              "@media (max-width: 958px)": {
+                display: "none", // Hide the icon buttons on medium screens
+              },
+           }} 
+          />
+          <Stack direction={"row"} spacing={2}
+          sx={{
+            "@media (max-width: 958px)": {
+              display: "none", // Hide the icon buttons on medium screens
+            },
+          }}>
             {icons.map((icon, index) => (
               <ButtonBase
                 key={index}
@@ -162,6 +173,11 @@ const FMainNav = () => {
           alignItems={"center"}
           justifyContent={"center"}
           spacing={1}
+          sx={{
+            "@media (max-width: 958px)": {
+              display: "none", // Hide the icon buttons on medium screens
+            },
+          }}
         >
           {/* <div>
             <IconButton onClick={handleNotifClick}>
@@ -191,7 +207,7 @@ const FMainNav = () => {
           </div> */}
           
           {userData && (
-            <div className="flex items-center justify-center">
+            <div className="lg:flex items-center justify-center hidden ">
             <p className="text-[#1d5b79] font-bold px-2 my-2 text-nowrap">{userData.firstName}</p>
             <Divider orientation="vertical" sx={{ height: 40 }} />
             <IconButton onClick={handleAvatarClick}>
@@ -251,6 +267,76 @@ const FMainNav = () => {
               </Stack>
             </MenuItem>
           </Menu>
+          <div onClick={() => setNav(!nav)} className="block lg:hidden">
+            {!nav ? (
+              <TiThMenu size={22} color="#133C55" />
+            ) : (
+              <AiOutlineClose size={22} />
+            )}
+          </div>
+          <div
+            className={
+              nav
+                ? "fixed lg:hidden left-[-20px] top-0 w-[300px] z-[5] h-full border-l-solid border-l-[15px] border-l-[#1D5B79] bg-white ease-in-out duration-500"
+                : "fixed left-[-100%]"
+            }
+          >
+            <img className="h-[70px] m-[10px] pt-[9px]" src={Logo} />
+            <ul>
+            
+              <li
+                onClick={() => setNav(false)}
+                className="flex items-center justify-items-start py-4 border-b-2 ml-6 mr-6 border-orange-600"
+              >
+
+                <IconButton>
+                <Link to={`/client/profile/${userId}`}>
+                {userData?.profilePic && userData?.profilePic.link !== "" ? (
+                  <Avatar
+                    sx={{ boxShadow: 3}}
+                    src={userData?.profilePic?.link}
+                    alt="User"
+                  />
+                ) : (
+                  <Avatar sx={{ boxShadow: 3 }} src={User} alt="User" />
+                )} </Link>
+              </IconButton>
+              <p className="font-medium cursor-pointer"><Link to={`/client/profile/${userId}`}>{userData?.firstName + " " + userData?.surName || ""}</Link></p>
+              </li>
+              <li
+                onClick={() => setNav(false)}
+                className="p-4 border-b-2 ml-6 mr-6 border-orange-600 hover:bg-orange-300"
+              >
+                <Link to={"/client/dashboard/" + userId || ""}>Dashboard</Link>
+              </li>
+              <li
+                onClick={() => setNav(false)}
+                className="p-4 border-b-2 ml-6 mr-6 border-orange-600 hover:bg-orange-300"
+              >
+                <a href="#">Subscription</a>
+              </li>
+              <li
+                onClick={() => setNav(false)}
+                className="p-4 border-b-2 ml-6 mr-6 border-orange-600 hover:bg-orange-300"
+              >
+                <a href="#">Settings</a>
+              </li>
+            </ul>
+            <div className="flex-inline justify-center items-center mt-[50px]">
+              {" "}
+              <button
+                onClick={() => setNav(false)}
+                className="flex mx-auto pt-2 pb-2 pl-3 pr-3 text-center font-bold"
+              >
+                <Link
+                  to={"/"}
+                  className="text-white bg-red-600 rounded-[15px] cursor-pointer pl-[10px] pr-[10px] pt-[3px] pb-[5px]"
+                >
+                  Log out
+                </Link>
+              </button>
+            </div>
+          </div>
         </Stack>
       </Stack>
     </Box>

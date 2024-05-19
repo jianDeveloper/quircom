@@ -45,7 +45,7 @@ const navBar = () => {
           <li onClick={() => setNav(false)} className='p-4 border-b-2 ml-6 mr-6 border-orange-600'><a href='#'>Plans</a></li>
         </ul>
         <div className='flex-inline justify-center items-center mt-[50px]'> {/* Log-Reg */}
-          <button onClick={() => setLogin(true)} className='flex mx-auto pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#1D5B79]'><Link to="/client/dashboard">Log In</Link></button>
+          <button onClick={() => setLogin(true)} className='flex mx-auto pt-2 pb-2 pl-3 pr-3 text-center font-bold text-[#1D5B79]'>Log In</button>
           <Modal open={openLogin} onClose={() => setLogin(false)}/>
           <button onClick={() => setNav(false)} className='flex mx-auto pt-2 pb-2 pl-3 pr-3 text-center font-bold'>
             <Link to={'/registration'} className='text-white bg-orange-600 rounded-[15px] cursor-pointer pl-[10px] pr-[10px] pt-[3px] pb-[5px]'>Sign Up</Link>

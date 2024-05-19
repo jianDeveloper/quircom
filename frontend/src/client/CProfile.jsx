@@ -58,13 +58,13 @@ function CProfile() {
       <NavHeader />
       {loading ? (
         <div className="flex justify-center items-center h-screen">
-          <img src={Loader} alt="Loading..." />
+          <img src={Loader} alt="Loading..." style={{ height: "100px" }}/>
         </div>
       ) : (
         <>
           <div className="flex">
-            <main className="flex-inline mx-10 my-10 w-[100%] md:mx-[300px]">
-              <div className="userInfo">
+            <main className="flex-inline my-10 w-[100%] md:mx-[100px] lg:mx-[300px]">
+              <div className="userInfo flex-auto justify-center">
                 <div className="pictureBorder p-5">
                   {userData && userData.hasOwnProperty("profilePic") ? (
                     <img
@@ -81,10 +81,10 @@ function CProfile() {
                   )}
                 </div>
                 <div className="profileDetail w-[500px] ">
-                  <div className="">
+                  <div className="flex flex-col justify-center text-center lg:text-left ">
                     {userData && (
                       <>
-                        <h4 className="font-extrabold text-[30px] text-[#1D5B79] my-1">
+                        <h4 className="font-extrabold text-[30px] text-[#1D5B79] my-1 md:mx-0">
                           {userData.firstName} {userData.surName}
                         </h4>
                         <strong className="text-[15px] text-[#1D5B79] my-1">
@@ -119,7 +119,7 @@ function CProfile() {
                   </button>
                 </div>
               </div>
-              <div className="grid grid-cols-2 p-10 bg-[#F5F5DC] rounded-md border-2 border-orange-600">
+              <div className="grid lg:grid-cols-2 p-10 bg-[#F5F5DC] rounded-md border-2 border-orange-600">
                 {userData && (
                   <>
                     <div className="text-inline border-r-2 border-gray-300 p-10">

@@ -203,8 +203,8 @@ const ProjectChat = ({ requestInfos }) => {
         <button
           className={
             activeTab === "chat"
-              ? "font-extrabold text-sm uppercase border-b-2 border-[#1D5B79] mb-3 text-[#1D5B79]"
-              : "font-extrabold rounded-md text-xs uppercase text-[#1D5B79] px-1 cursor-pointer hover:bg-blue-100"
+              ? "font-extrabold text-sm uppercase border-b-2 border-white sm:border-[#1D5B79] mb-3 text-white sm:text-[#1D5B79]"
+              : "font-extrabold rounded-md text-xs uppercase text-white sm:text-[#1D5B79] px-1 cursor-pointer hover:bg-blue-100 hover:text-[#1D5B79]"
           }
           onClick={() => handleTab("chat")}
         >
@@ -213,8 +213,8 @@ const ProjectChat = ({ requestInfos }) => {
         <button
           className={
             activeTab === "files"
-              ? "font-extrabold text-sm uppercase border-b-2 border-[#1D5B79] mb-3 text-[#1D5B79]"
-              : "font-extrabold rounded-md text-xs uppercase text-[#1D5B79] px-1 cursor-pointer hover:bg-blue-100"
+              ? "font-extrabold text-sm uppercase border-b-2 border-white sm:border-[#1D5B79] mb-3 text-white sm:text-[#1D5B79]"
+              : "font-extrabold rounded-md text-xs uppercase text-white sm:text-[#1D5B79] px-1 cursor-pointer hover:bg-blue-100 hover:text-[#1D5B79]"
           }
           onClick={() => handleTab("files")}
         >
