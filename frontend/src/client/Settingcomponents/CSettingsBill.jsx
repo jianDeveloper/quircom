@@ -160,7 +160,7 @@ function CSettingsBill() {
                       <p className="ml-4 w-56">
                         {userData && (
                           <>
-                            <strong className="block text-lg font-medium">
+                            <strong className="block text-lg font-medium uppercase">
                               {userData.billing.paymentMethod}
                             </strong>
                             <span className="text-xs text-gray-400">

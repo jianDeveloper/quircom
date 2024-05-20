@@ -438,7 +438,7 @@ function CSettings() {
                 onSubmit={handleSubmitEmail}
               >
                 <p className="py-2 text-xl font-semibold">Email Address</p>
-                <div className="w-full md:w-1/2 px-3 mb-4">
+                <div className="w-full md:w-1/2  mb-4">
                   <label
                     htmlFor="email"
                     className="block text-[#1D5B79] text-sm font-bold mb-2"
@@ -464,7 +464,7 @@ function CSettings() {
                       <button
                         type="submit"
                         disabled={disabled2}
-                        className={`m-2 rounded font-bold py-2 px-4 ${
+                        className={` rounded font-bold py-2 px-4 ${
                           disabled2
                             ? "bg-gray-400 cursor-not-allowed"
                             : "bg-blue-500 hover:bg-blue-700 text-white"
@@ -483,7 +483,7 @@ function CSettings() {
                   ) : (
                     <button
                       onClick={toggleEmailEdit}
-                      className="ml-2 mt-2 rounded font-bold py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white"
+                      className=" mt-2 rounded font-bold py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white"
                     >
                       Change Email
                     </button>
