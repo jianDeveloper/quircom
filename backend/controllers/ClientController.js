@@ -171,7 +171,7 @@ const SubscriptionStatus = async (req, res) => {
 const EditBilling = async (req, res) => {
   try {
     const { id } = req.params;
-    const billing = req.body;
+    const client = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: "Invalid ID" });
@@ -179,10 +179,10 @@ const EditBilling = async (req, res) => {
 
     let update = {
       $set: {
-        'billing.amount': billing.amount,
-        'billing.name': billing.name,
-        'billing.refNum': billing.refNum,
-        'billing.gCashNum': billing.gCashNum,
+        'billing.amount': client.billing.amount,
+        'billing.name': client.billing.name,
+        'billing.refNum': client.billing.refNum,
+        'billing.gCashNum': client.billing.gCashNum,
       },
     };
 
