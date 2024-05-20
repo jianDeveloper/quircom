@@ -161,6 +161,17 @@ const SubscriptionStatus = async (req, res) => {
   }
 
   try {
+    const user = await UserModel.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if the current date is equal to the dateExpire and set subs.status to false if it is
+    const currentDate = new Date();
+    if (user.subs.dateExpire && currentDate >= new Date(user.subs.dateExpire)) {
+      update.$set["subs.status"] = false;
+    }
+
     const result = await UserModel.findByIdAndUpdate(id, update, { new: true });
     res.status(200).json(result);
   } catch (err) {

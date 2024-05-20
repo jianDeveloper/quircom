@@ -42,6 +42,8 @@ function CSettingsBill() {
     
   }, []);
 
+  console.log(userData)
+
   return (
     <div className="">
       <CMainNav />
@@ -143,7 +145,7 @@ function CSettingsBill() {
                                 : "Not Subscribed"}
                             </strong>
                             <span className="text-xs text-gray-400">
-                              Expires on: {new Date(userData.subs.dateSubscribed).toLocaleString()}
+                              Expires on: {new Date(userData.subs.dateExpire).toLocaleString()}
                             </span>
                           </>
                         )}

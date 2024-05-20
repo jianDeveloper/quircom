@@ -84,6 +84,7 @@ const CSubscribe = () => {
         clearInterval(intervalId); // Stop if there's no reference number
         return;
       }
+
       try {
         const response = await axios.get(
           `https://api.paymongo.com/v1/links?reference_number=${referenceNumber}`,
@@ -98,92 +99,113 @@ const CSubscribe = () => {
         const status = response.data.data[0].attributes.status;
         if (status === "paid") {
           setPaymentStatus("Payment was successful");
-          console.log(response.data.data[0].attributes.amount);
           clearInterval(intervalId); // Stop checking once payment is successful
 
-          try {
-            const token = localStorage.getItem("authToken");
-            const headers = {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            };
+          console.log(response.data.data[0].attributes.amount);
+          console.log(
+            response.data.data[0].attributes.payments[0].data.attributes.billing
+              .name
+          );
+          console.log(
+            response.data.data[0].attributes.payments[0].data.attributes.billing
+              .phone
+          );
+          console.log(response.data.data[0].attributes.reference_number);
 
-            const requestBody = {
-              subs: {
-                status: true,
-              },
-            };
+          const updateStatus = async () => {
+            try {
+              const token = localStorage.getItem("authToken");
+              const headers = {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              };
 
-            const patchResponse = await axios.patch(
-              `https://quircom.onrender.com/api/client/status/${userId}`,
-              requestBody,
-              {
-                headers,
-              }
-            );
-
-            if (patchResponse && patchResponse.data) {
-              toast.success("Payment is successful");
-            } else {
-              console.log("Response data not available");
-              toast.error("Payment is not successful");
-            }
-          } catch (error) {
-            console.error("Error during patch ", error.response);
-            console.log(error.message);
-            toast.error("Unexpected problem occurred");
-          }
-
-          try {
-            const token = localStorage.getItem("authToken");
-            const headers = {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            };
-
-            const requestBody = {
-              billing: {
-                amount: response.data.data[0].attributes.amount,
-                name: response.data.data[0].attributes.payments[0].data
-                  .attributes.billing.name,
-                refnum: response.data.data[0].attributes.reference_number,
-                gCashNum:
-                  response.data.data[0].attributes.payments[0].data.attributes
-                    .billing.phone,
-              },
-            };
-
-            const patchResponse = await axios.patch(
-              `https://quircom.onrender.com/api/client/billing/${userId}`,
-              requestBody,
-              {
-                headers,
-              }
-            );
-
-            if (patchResponse && patchResponse.data) {
-              toast.success("Uploaded successfully", {
-                autoClose: 2000,
-                onClose: () => {
-                  setTimeout(() => {
-                    window.location.reload();
-                  }, 2000);
+              const requestBody = {
+                subs: {
+                  status: true,
                 },
-              });
-            } else {
-              console.log("Response data not available");
-              toast.error("Payment is not successful");
+              };
+
+              const patchResponse = await axios.patch(
+                `https://quircom.onrender.com/api/client/status/${userId}`,
+                requestBody,
+                { headers }
+              );
+
+              if (patchResponse && patchResponse.data) {
+                toast.success("Payment is successful");
+              } else {
+                console.log("Response data not available");
+                toast.error("Payment is not successful");
+              }
+            } catch (error) {
+              console.error(
+                "Error during status update: ",
+                error.response || error.message
+              );
+              toast.error("Unexpected problem occurred during status update");
             }
-          } catch (error) {
-            console.error("Error during patch ", error.response);
-            console.log(error.message);
-            toast.error("Unexpected problem occurred");
-          }
+          };
+
+          const updateBilling = async () => {
+            try {
+              const token = localStorage.getItem("authToken");
+              const headers = {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              };
+
+              const requestBody = {
+                billing: {
+                  amount: response.data.data[0].attributes.amount,
+                  name: response.data.data[0].attributes.payments[0].data
+                    .attributes.billing.name,
+                  refNum: response.data.data[0].attributes.reference_number,
+                  gCashNum:
+                    response.data.data[0].attributes.payments[0].data.attributes
+                      .billing.phone,
+                },
+              };
+
+              console.log(requestBody);
+
+              const patchResponse = await axios.patch(
+                `https://quircom.onrender.com/api/client/billing/${userId}`,
+                requestBody,
+                { headers }
+              );
+
+              if (patchResponse && patchResponse.data) {
+                toast.success("Uploaded successfully", {
+                  autoClose: 2000,
+                  // onClose: () => {
+                  //   setTimeout(() => {
+                  //     window.location.reload();
+                  //   }, 2000);
+                  // },
+                });
+                console.log(patchResponse);
+              } else {
+                console.log("Response data not available");
+                toast.error("Payment is not successful");
+              }
+            } catch (error) {
+              console.error(
+                "Error during billing update: ",
+                error.response || error.message
+              );
+              toast.error("Unexpected problem occurred during billing update");
+            }
+          };
+
+          await updateStatus();
+          await updateBilling();
         } else {
           setPaymentStatus("Payment not completed yet");
         }
       } catch (error) {
-        console.error(error);
+        console.error("Error checking payment status: ", error);
+        setPaymentStatus("Error checking payment status");
       }
     };
 
