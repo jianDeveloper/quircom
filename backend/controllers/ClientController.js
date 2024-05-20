@@ -71,7 +71,8 @@ const CreateUser = async (req, res) => {
         amount: "",
         name: "",
         refNum: "",
-        gCashNum: "",
+        paymentNum: "",
+        paymentMethod: "",
       },
     });
     res.status(201).json(result);
@@ -193,7 +194,8 @@ const EditBilling = async (req, res) => {
         'billing.amount': client.billing.amount,
         'billing.name': client.billing.name,
         'billing.refNum': client.billing.refNum,
-        'billing.gCashNum': client.billing.gCashNum,
+        'billing.paymentNum': client.billing.paymentNum,
+        'billing.paymentMethod': client.billing.paymentMethod
       },
     };
 

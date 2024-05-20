@@ -100,10 +100,14 @@ const ClientSchema = new Schema({
       type: String,
       default: "",
     },
-    gCashNum: {
+    paymentNum: {
       type: Number,
       default: "", 
     },
+    paymentMethod: {
+      type: String,
+      default: "",
+    }
   }
 });
 

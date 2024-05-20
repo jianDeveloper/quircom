@@ -161,7 +161,7 @@ function CSettingsBill() {
                         {userData && (
                           <>
                             <strong className="block text-lg font-medium">
-                              {userData.billing.name}
+                              {userData.billing.paymentMethod}
                             </strong>
                             <span className="text-xs text-gray-400">
                               Expires on:{" "}
@@ -182,7 +182,7 @@ function CSettingsBill() {
                         <input
                           className="w-full rounded-md border bg-white py-2 px-2 outline-none ring-blue-600 focus:ring-1"
                           type="text"
-                          value={userData.subs.status}
+                          value={userData.billing.name}
                           readOnly
                         />
                       </>
@@ -195,7 +195,7 @@ function CSettingsBill() {
                         <input
                           className="w-full rounded-md border bg-white py-2 px-2 outline-none ring-blue-600 focus:ring-1"
                           type="text"
-                          value={userData.billing.gCashNum}
+                          value={userData.billing.paymentNum}
                         />
                       </>
                     )}

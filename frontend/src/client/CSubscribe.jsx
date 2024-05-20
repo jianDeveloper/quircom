@@ -150,9 +150,10 @@ const CSubscribe = () => {
                   name: response.data.data[0].attributes.payments[0].data
                     .attributes.billing.name,
                   refNum: response.data.data[0].attributes.reference_number,
-                  gCashNum:
+                  paymentNum:
                     response.data.data[0].attributes.payments[0].data.attributes
                       .billing.phone,
+                  paymentMethod: response.data.data[0].attributes.payments[0].data.attributes.source.type
                 },
               };
 
@@ -165,11 +166,11 @@ const CSubscribe = () => {
               if (patchResponse && patchResponse.data) {
                 toast.success("Uploaded successfully", {
                   autoClose: 2000,
-                  // onClose: () => {
-                  //   setTimeout(() => {
-                  //     window.location.reload();
-                  //   }, 2000);
-                  // },
+                  onClose: () => {
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 2000);
+                  },
                 });
               } else {
                 console.log("Response data not available");
