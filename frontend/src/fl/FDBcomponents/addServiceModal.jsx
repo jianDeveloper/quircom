@@ -30,7 +30,7 @@ const AddServiceModal = ({ setaddModal }) => {
         };
 
         const response = await axios.get(
-          `https://quircom.onrender.com/freelancer/${userId}`,
+          `https://quircom.onrender.com/api/freelancer/${userId}`,
           { headers }
         );
         if (response.status === 200) {
