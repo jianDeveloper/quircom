@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import CMainNav from "./CMainNav";
 import CFooter from "./CFooter";
 import WithAuth from "../auth/WithAuth";
 import axios from "axios";
 import Loader from "../assets/quircomloading.gif";
 import { ToastContainer, toast } from "react-toastify";
+import BGSubs from "../assets/icon00.png";
 
 const CSubscribe = () => {
   const { userId } = useParams();
@@ -205,13 +206,23 @@ const CSubscribe = () => {
           <div className="mb-20 text-center">
             <div className="mb-4 text-gray-800">
               <h2 className="text-4xl font-bold md:text-5xl md:leading-none">
-                Welcome Back!
+                Welcome to Quircom!
               </h2>
             </div>
             <p className="mx-auto mb-8 max-w-3xl text-gray-800">
-              Continue exploring our extensive features and make your projects
-              succeed.
+              Discovering the perfect talent to bring your unique projects to
+              life should be a breeze. Let's make it easy and exhilarating
+              together.
             </p>
+            <div className="mx-auto w-1/6 relative">
+              <Link to={`/client/browse-service/${userId}`}>
+                <img
+                  className="max-w-full h-auto rounded-lg transition-transform duration-300 shadow-lg hover:shadow-xl hover:rotate-12"
+                  src={BGSubs}
+                  alt="Quircom Motion"
+                />
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="pt-16 pb-8 text-center leading-8 text-gray-800 md:pb-16 lg:pt-20">

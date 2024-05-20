@@ -10,17 +10,19 @@ import WithAuth from "../../auth/WithAuth";
 
 function CSettingsBill() {
   const { userId } = useParams();
-  const [userData, setUsers] = useState();
+  const [userData, setUsers] = useState(null);
+  const [nav, setNav] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    };
-
     const fetchUsers = async () => {
       try {
+        const token = localStorage.getItem("authToken");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
+
         const response = await axios.get(
           `https://quircom.onrender.com/api/client/${userId}`,
           { headers }
@@ -28,12 +30,16 @@ function CSettingsBill() {
         if (response.status === 200) {
           setUsers(response.data);
         }
+        console.log("Try:", userData.billing.name);
       } catch (error) {
         console.error("Error fetching users:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchUsers();
+    
   }, []);
 
   return (
@@ -120,74 +126,78 @@ function CSettingsBill() {
                   Here is your detail for your billing.
                 </p>
               </div>
-
               <hr className="mt-4 mb-8" />
-
               <div className="mb-10 grid gap-y-8 lg:grid-cols-2 lg:gap-y-0">
                 <div className="space-y-8">
                   <div className="">
                     <div className="flex">
                       <p className="font-medium mb-1">Billing Status</p>
-                      <button className="ml-auto inline-flex text-sm font-semibold text-blue-600 underline decoration-2">
-                        Change
-                      </button>
                     </div>
                     <div className="flex items-center rounded-md border border-gray-100 bg-white py-3 shadow">
                       <p className="ml-4 w-56">
-                        <strong className="block text-lg font-medium text-[#0BDA51]">
-                          SUBSCRIBED
-                        </strong>
-                        <span className="text-xs text-gray-400">
-                          {" "}
-                          Next Renewal: 4 Jan 2022{" "}
-                        </span>
+                        {userData && (
+                          <>
+                            <strong className="block text-lg font-medium">
+                              {userData.subs.status
+                                ? "Subscribed"
+                                : "Not Subscribed"}
+                            </strong>
+                            <span className="text-xs text-gray-400">
+                              Expires on: {new Date(userData.subs.dateSubscribed).toLocaleString()}
+                            </span>
+                          </>
+                        )}
                       </p>
                     </div>
                   </div>
                   <div className="">
                     <div className="flex">
                       <p className="font-medium mb-1">Payment Method</p>
-                      <button className="ml-auto inline-flex text-sm font-semibold text-blue-600 underline decoration-2">
-                        Change
-                      </button>
                     </div>
                     <div className="flex items-center rounded-md border border-gray-100 bg-white py-3 shadow">
-                      <img
-                        className="h-10 object-contain pl-4"
-                        src="/images/kt10d0A1TgzZpAoNM_YPX.png"
-                        alt=""
-                      />
                       <p className="ml-4 w-56">
-                        <strong className="block text-lg font-medium">
-                          Gcash{" "}
-                        </strong>
-                        <span className="text-xs text-gray-400">
-                          {" "}
-                          Expires on: Dec 2024{" "}
-                        </span>
+                        {userData && (
+                          <>
+                            <strong className="block text-lg font-medium">
+                              {userData.billing.name}
+                            </strong>
+                            <span className="text-xs text-gray-400">
+                              Expires on:{" "}
+                              {new Date(userData.subs.dateExpire).toLocaleDateString()}
+                            </span>
+                          </>
+                        )}
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="grid gap-y-6 gap-x-3 sm:grid-cols-2 lg:px-8">
+                <div className="grid gap-y-6 gap-x-3 mt-2 sm:grid-cols-2 lg:px-8">
                   <label className="block" for="name">
                     <p className="text-sm">Name</p>
-                    <input
-                      className="w-full rounded-md border bg-white py-2 px-2 outline-none ring-blue-600 focus:ring-1"
-                      type="text"
-                      value="Vence Puno"
-                    />
+                    {userData && (
+                      <>
+                        <input
+                          className="w-full rounded-md border bg-white py-2 px-2 outline-none ring-blue-600 focus:ring-1"
+                          type="text"
+                          value={userData.subs.status}
+                          readOnly
+                        />
+                      </>
+                    )}
                   </label>
                   <label className="block" for="name">
                     <p className="text-sm">Contacts</p>
-                    <input
-                      className="w-full rounded-md border bg-white py-2 px-2 outline-none ring-blue-600 focus:ring-1"
-                      type="text"
-                      value="09772864983"
-                    />
+                    {userData && (
+                      <>
+                        <input
+                          className="w-full rounded-md border bg-white py-2 px-2 outline-none ring-blue-600 focus:ring-1"
+                          type="text"
+                          value={userData.billing.gCashNum}
+                        />
+                      </>
+                    )}
                   </label>
-                  
                 </div>
               </div>
 
@@ -203,15 +213,17 @@ function CSettingsBill() {
                     <td className="text-center font-semibold"></td>
                   </thead>
                   <tbody>
+                  {userData && (
+                    <>
                     <tr>
                       <td className="border-b py-2 text-center text-sm">
-                        23 Nov 2021
+                      {new Date(userData.subs.dateExpire).toLocaleDateString()}
                       </td>
                       <td className="border-b py-2 text-center text-sm">
-                        X-543242
+                      {userData.billing.refNum}
                       </td>
                       <td className="border-b py-2 text-center text-sm">
-                        $99.00
+                      {userData.billing.amount}
                       </td>
                       <td className="border-b py-2 text-center text-sm">
                         <button className="text-sm text-blue-600 underline">
@@ -219,54 +231,8 @@ function CSettingsBill() {
                         </button>
                       </td>
                     </tr>
-                    <tr>
-                      <td className="border-b py-2 text-center text-sm">
-                        23 Nov 2021
-                      </td>
-                      <td className="border-b py-2 text-center text-sm">
-                        X-543242
-                      </td>
-                      <td className="border-b py-2 text-center text-sm">
-                        $99.00
-                      </td>
-                      <td className="border-b py-2 text-center text-sm">
-                        <button className="text-sm text-blue-600 underline">
-                          PDF
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="border-b py-2 text-center text-sm">
-                        23 Nov 2021
-                      </td>
-                      <td className="border-b py-2 text-center text-sm">
-                        X-543242
-                      </td>
-                      <td className="border-b py-2 text-center text-sm">
-                        $99.00
-                      </td>
-                      <td className="border-b py-2 text-center text-sm">
-                        <button className="text-sm text-blue-600 underline">
-                          PDF
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="border-b py-2 text-center text-sm">
-                        23 Nov 2021
-                      </td>
-                      <td className="border-b py-2 text-center text-sm">
-                        X-543242
-                      </td>
-                      <td className="border-b py-2 text-center text-sm">
-                        ₱199.00
-                      </td>
-                      <td className="border-b py-2 text-center text-sm">
-                        <button className="text-sm text-blue-600 underline">
-                          PDF
-                        </button>
-                      </td>
-                    </tr>
+                    </>
+                    )}
                   </tbody>
                 </table>
               </div>
