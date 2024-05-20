@@ -72,8 +72,6 @@ const CreateUser = async (req, res) => {
         name: "",
         refNum: "",
         gCashNum: "",
-        date: "",
-        expire: "",
       },
     });
     res.status(201).json(result);
