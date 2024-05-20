@@ -101,17 +101,6 @@ const CSubscribe = () => {
           setPaymentStatus("Payment was successful");
           clearInterval(intervalId); // Stop checking once payment is successful
 
-          console.log(response.data.data[0].attributes.amount);
-          console.log(
-            response.data.data[0].attributes.payments[0].data.attributes.billing
-              .name
-          );
-          console.log(
-            response.data.data[0].attributes.payments[0].data.attributes.billing
-              .phone
-          );
-          console.log(response.data.data[0].attributes.reference_number);
-
           const updateStatus = async () => {
             try {
               const token = localStorage.getItem("authToken");
@@ -167,8 +156,6 @@ const CSubscribe = () => {
                 },
               };
 
-              console.log(requestBody);
-
               const patchResponse = await axios.patch(
                 `https://quircom.onrender.com/api/client/billing/${userId}`,
                 requestBody,
@@ -184,7 +171,6 @@ const CSubscribe = () => {
                   //   }, 2000);
                   // },
                 });
-                console.log(patchResponse);
               } else {
                 console.log("Response data not available");
                 toast.error("Payment is not successful");
