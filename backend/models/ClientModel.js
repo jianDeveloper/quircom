@@ -104,14 +104,6 @@ const ClientSchema = new Schema({
       type: Number,
       default: "", 
     },
-    date: {
-      type: Date,
-      default: "",
-    },
-    expire: {
-      type: Date,
-      default: "",
-    },
   }
 });
 

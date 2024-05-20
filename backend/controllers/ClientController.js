@@ -140,7 +140,7 @@ const EditUser = async (req, res) => {
 
 const SubscriptionStatus = async (req, res) => {
   const { id } = req.params;
-  const client = req.body
+  const client = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ message: "Invalid ID" });
@@ -152,9 +152,14 @@ const SubscriptionStatus = async (req, res) => {
     },
   };
 
-  // Update the dateSubscribed if status is true
+  // Update the dateSubscribed and dateExpire if status is true
   if (client.subs && client.subs.status === true) {
-    update.$set["subs.dateSubscribed"] = new Date();
+    const currentDate = new Date();
+    const expirationDate = new Date();
+    expirationDate.setMonth(currentDate.getMonth() + 1); // Set dateExpire to one month later
+
+    update.$set["subs.dateSubscribed"] = currentDate;
+    update.$set["subs.dateExpire"] = expirationDate;
   }
 
   try {
@@ -180,8 +185,6 @@ const EditBilling = async (req, res) => {
         'billing.name': billing.name,
         'billing.refNum': billing.refNum,
         'billing.gCashNum': billing.gCashNum,
-        'billing.date': new Date(),
-        'billing.expire': billing.expire,
       },
     };
 
