@@ -145,7 +145,7 @@ function CSettingsBill() {
                                 : "Not Subscribed"}
                             </strong>
                             <span className="text-xs text-gray-400">
-                              Expires on: {new Date(userData.subs.dateExpire).toLocaleString()}
+                              Expires on: {new Date(userData.subs.dateSubscribed).toLocaleDateString()}
                             </span>
                           </>
                         )}

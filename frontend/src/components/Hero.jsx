@@ -71,7 +71,7 @@ const Hero = () => {
             </div>
           </div>
           <div className="relative hidden lg:ml-32 lg:block lg:w-1/2">
-            <div className="abg-orange-400 w-fit rounded-[6rem] mx-auto overflow-hidden rounded-tl-none rounded-br-none shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] bg-gradient-to-tr from-sky-600 to-sky-800 p-6">
+            <div className="bg-orange-400 w-fit rounded-[6rem] mx-auto overflow-hidden rounded-tl-none rounded-br-none shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] bg-gradient-to-tr from-sky-600 to-sky-800 p-6">
               <div className="flex w-96 flex-wrap">
                 <img src={Mascot} alt="" />
               </div>
