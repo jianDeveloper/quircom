@@ -4,11 +4,12 @@ import CMainNav from "./CMainNav";
 import CFooter from "./CFooter";
 import WithAuth from "../auth/WithAuth";
 import axios from "axios";
+import Loader from "../assets/quircomloading.gif";
 import { ToastContainer, toast } from "react-toastify";
 
 const CSubscribe = () => {
   const { userId } = useParams();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [userData, setUsers] = useState();
   const [referenceNumber, setReferenceNumber] = useState(null);
   const [paymentStatus, setPaymentStatus] = useState(null);
@@ -28,10 +29,11 @@ const CSubscribe = () => {
         );
         if (response.status === 200) {
           setUsers(response.data);
+          setLoading(false);
         }
       } catch (error) {
         console.error("Error fetching users:", error);
-        // setLoading(false);
+        setLoading(false);
       }
     };
 
@@ -39,8 +41,6 @@ const CSubscribe = () => {
   }, [userId]);
 
   const createLink = async () => {
-    // setLoading(true);
-
     try {
       const requestBody = {
         data: {
@@ -66,15 +66,12 @@ const CSubscribe = () => {
       const referenceNumber =
         createLinkResponse.data.data.attributes.reference_number;
       setReferenceNumber(referenceNumber);
-      console.log("Reference:", referenceNumber);
       window.open(
         createLinkResponse.data.data.attributes.checkout_url,
         "_blank"
       );
     } catch (error) {
       console.log(error);
-    } finally {
-      // setLoading(false);
     }
   };
 
@@ -164,7 +161,14 @@ const CSubscribe = () => {
             );
 
             if (patchResponse && patchResponse.data) {
-              toast.success("Payment is successful");
+              toast.success("Uploaded successfully", {
+                autoClose: 2000,
+                onClose: () => {
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 2000);
+                },
+              });
             } else {
               console.log("Response data not available");
               toast.error("Payment is not successful");
@@ -193,7 +197,11 @@ const CSubscribe = () => {
         <CMainNav />
       </div>
       <div className="pt-16 pb-8 text-center leading-8 text-gray-800 md:pb-16 lg:pt-20">
-        {userData && userData.subs && userData.subs.status === true ? (
+        {loading ? (
+          <div className="flex justify-center items-center h-screen">
+            <img src={Loader} alt="Loading..." style={{ height: "100px" }} />
+          </div>
+        ) : userData && userData.subs && userData.subs.status === true ? (
           <div className="mb-20 text-center">
             <div className="mb-4 text-gray-800">
               <h2 className="text-4xl font-bold md:text-5xl md:leading-none">
@@ -207,6 +215,7 @@ const CSubscribe = () => {
           </div>
         ) : (
           <div className="pt-16 pb-8 text-center leading-8 text-gray-800 md:pb-16 lg:pt-20">
+            <ToastContainer />
             <div className="mb-20 text-center">
               <div className="mb-4 text-gray-800">
                 <h2 className="text-4xl font-bold md:text-5xl md:leading-none">
