@@ -1,13 +1,45 @@
 import React, { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import NavHeader from "./CMainNav";
 import Profile from "../assets/profile.jpg";
 import WithAuth from "../auth/WithAuth";
 import { FaStar } from "react-icons/fa6";
+import Loader from "../assets/quircomloading.gif";
+import BGSubs from "../assets/icon00.png";
 
 function CRank() {
   const [freelancers, setFreelancers] = useState([]); // State to hold the freelancer data
   const [serviceDetails, setService] = useState([]);
+  const { userId } = useParams();
+  const [loading, setLoading] = useState(true);
+  const [userData, setUsers] = useState();
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const token = localStorage.getItem("authToken");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
+
+        const response = await axios.get(
+          `https://quircom.onrender.com/api/client/${userId}`,
+          { headers }
+        );
+        if (response.status === 200) {
+          setUsers(response.data);
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error("Error fetching users:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, [userId]);
 
   useEffect(() => {
     const fetchFreelancers = async () => {
@@ -58,9 +90,38 @@ function CRank() {
       <div>
         <NavHeader />
       </div>
-      <div className="flex justify-center mt-[60px] font-extrabold text-[30px] text-[#1D5B79]">
-        <h6>LEADERBOARD</h6>
-      </div>
+      {loading ? (
+          <div className="flex justify-center items-center h-screen">
+            <img src={Loader} alt="Loading..." style={{ height: "100px" }} />
+          </div>
+        ) : userData && userData.subs && userData.subs.status === false ? (
+          <div className="m-auto mt-20">
+            <div className="mb-20 text-center">
+              <div className="mb-4 text-gray-800">
+                <h2 className="text-4xl font-bold md:text-5xl md:leading-none">
+                  Unlock Our Top Freelancers!
+                </h2>
+              </div>
+              <p className="mx-auto mb-8 max-w-3xl text-gray-800">
+                To connect our exclusive services and discover top talent for
+                your unique projects, subsribe now. Join us and gain access to a
+                world of opportunities tailored just for you!
+              </p>
+              <div className="mx-auto w-1/2 relative rounded-tl-none rounded-lg shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] bg-gradient-to-tr from-sky-600 to-sky-800 p-6 ">
+                <Link to={`/client/subscribe/${userId}`}>
+                  <img
+                    className="max-w-full h-auto rounded-lg transition-transform duration-300 shadow-lg hover:rotate-12"
+                    src={BGSubs}
+                    alt="Quircom Motion"
+                  />
+                </Link>
+              </div>
+            </div>
+          </div>
+        ) : (
+      <div className="mx-auto justify-center ">
+        <h6 className="mt-[60px] font-extrabold text-center text-[30px] text-[#1D5B79]">LEADERBOARD</h6>
+      
       <div className="flex justify-center pb-2 w-full">
         <div className="overflow-x-auto">
           <table className="items-center w-full align-top border-gray-200 text-[#1D5B79]">
@@ -201,6 +262,8 @@ function CRank() {
           </table>
         </div>
       </div>
+      </div>
+        )}
     </div>
   );
 }

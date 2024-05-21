@@ -43,6 +43,10 @@ function CSettingsBill() {
   }, []);
 
   console.log(userData)
+  
+  function formatAmount(amount) {
+    return (amount / 100).toFixed(2); // Divide by 100 and format to 2 decimal places
+  }
 
   return (
     <div className="">
@@ -225,7 +229,7 @@ function CSettingsBill() {
                       {userData.billing.refNum}
                       </td>
                       <td className="border-b py-2 text-center text-sm">
-                      {userData.billing.amount}
+                      ₱ {formatAmount(userData.billing.amount)}
                       </td>
                       <td className="border-b py-2 text-center text-sm">
                         <button className="text-sm text-blue-600 underline">

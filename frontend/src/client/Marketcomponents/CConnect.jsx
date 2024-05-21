@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 import NavHeader from "../CMainNav";
 
@@ -9,6 +9,9 @@ import AddReqModal from "./addReqModal";
 
 import WithAuth from "../../auth/WithAuth";
 
+import Loader from "../../assets/quircomloading.gif";
+import BGSubs from "../../assets/icon00.png";
+
 function CConnect() {
   const [userData, setUsers] = useState();
   const [userServices, setServices] = useState();
@@ -16,7 +19,7 @@ function CConnect() {
   const { serviceId } = useParams();
   const [activeTab, setActiveTab] = useState("view");
   const [reqModal, setReqModal] = useState(false);
-
+  const [loading, setLoading] = useState(true);
 
   const handleTab = (view) => {
     setActiveTab(view);
@@ -32,13 +35,16 @@ function CConnect() {
         };
 
         const response = await axios.get(
-          `https://quircom.onrender.com/api/client/${userId}`, {headers}
+          `https://quircom.onrender.com/api/client/${userId}`,
+          { headers }
         );
         if (response.status === 200) {
           setUsers(response.data);
+          setLoading(false);
         }
       } catch (error) {
         console.error("Error fetching users:", error);
+        setLoading(false);
       }
     };
 
@@ -76,6 +82,35 @@ function CConnect() {
         <NavHeader />
       </div>
       <div className="container mx-auto px-4">
+      {loading ? (
+          <div className="flex justify-center items-center h-screen">
+            <img src={Loader} alt="Loading..." style={{ height: "100px" }} />
+          </div>
+        ) : userData && userData.subs && userData.subs.status === false ? (
+          <div className="m-auto mt-20">
+            <div className="mb-20 text-center">
+              <div className="mb-4 text-gray-800">
+                <h2 className="text-4xl font-bold md:text-5xl md:leading-none">
+                  Unlock Our Services!
+                </h2>
+              </div>
+              <p className="mx-auto mb-8 max-w-3xl text-gray-800">
+                To connect our exclusive services and discover top talent for
+                your unique projects, subsribe now. Join us and gain access to a
+                world of opportunities tailored just for you!
+              </p>
+              <div className="mx-auto w-1/3 relative rounded-tl-none rounded-lg shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] bg-gradient-to-tr from-sky-600 to-sky-800 p-6 ">
+                <Link to={`/client/subscribe/${userId}`}>
+                  <img
+                    className="max-w-full h-auto rounded-lg transition-transform duration-300 shadow-lg hover:rotate-12"
+                    src={BGSubs}
+                    alt="Quircom Motion"
+                  />
+                </Link>
+              </div>
+            </div>
+          </div>
+        ) : (
         <div className="lg:col-gap-12 xl:col-gap-16 mt-8 grid grid-cols-1 gap-12 lg:mt-12 lg:grid-cols-5 lg:gap-16">
           <div className="lg:col-span-3 lg:row-end-1">
             <div className="lg:flex lg:items-start">
@@ -511,6 +546,7 @@ function CConnect() {
           </div>
           {/* Menu Tabs */}
         </div>
+        )}
       </div>
     </section>
   );

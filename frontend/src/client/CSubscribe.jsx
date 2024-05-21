@@ -223,7 +223,7 @@ const CSubscribe = () => {
               life should be a breeze. Let's make it easy and exhilarating
               together.
             </p>
-            <div className="mx-auto w-1/6 relative rounded-tl-none rounded-br-none shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] bg-gradient-to-tr from-sky-600 to-sky-800 p-6 ">
+            <div className="mx-auto w-1/4 relative rounded-tl-none rounded-br-none shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] bg-gradient-to-tr from-sky-600 to-sky-800 p-6 ">
               <Link to={`/client/browse-service/${userId}`}>
                 <img
                   className="max-w-full h-auto rounded-lg transition-transform duration-300 shadow-lg hover:rotate-12"
