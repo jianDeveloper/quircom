@@ -18,6 +18,7 @@ import Logo from "../assets/icon00.png";
 import Logo2 from "../assets/clientNav.png";
 import Dboard from "../assets/dboard.png";
 import LBoard from "../assets/tracker.png";
+import User from "../assets/user.png";
 
 import WithAuthAdmin from "../auth/WithAuthAdmin";
 
@@ -39,8 +40,7 @@ const AMainNav = () => {
     axios
       .get(`https://quircom.onrender.com/api/admin/${userId}`, { headers })
       .then((response) => {
-        console.log("User ID in Dashboard:", userId);
-        console.log("User data:", response.data);
+        // console.log("User data:", response.data);
         setUser(response.data);
       })
       .catch((error) => {

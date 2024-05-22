@@ -14,6 +14,7 @@ import Banner from "../assets/banner.jpg";
 
 const ADasboard = () => {
   const [activeTab, setActiveTab] = useState("freelancers");
+  const [userData, setUserData] = useState();
 
   const handleTab = (freelancers) => {
     setActiveTab(freelancers);
