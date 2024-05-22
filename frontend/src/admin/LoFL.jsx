@@ -3,6 +3,7 @@ import axios from 'axios';
 import { FaTrash } from 'react-icons/fa';
 import { FaPersonDotsFromLine } from 'react-icons/fa6';
 import WithAuthAdmin from '../auth/WithAuthAdmin';
+import Loader from '../assets/quircomloading.gif'; // Assuming you have a loading gif
 
 const LoFL = () => {
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -15,24 +16,43 @@ const LoFL = () => {
     };
 
     useEffect(() => {
-        const token = localStorage.getItem("adminToken");
-        const headers = {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+        const fetchFreelancers = async () => {
+            try {
+                const token = localStorage.getItem("adminToken");
+                const headers = {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                };
+                
+                const response = await axios.get(`https://quircom.onrender.com/api/freelancer`, { headers });
+                setFreelancers(response.data);
+            } catch (error) {
+                setError("Error fetching user data");
+                console.error("Error fetching user data:", error);
+            } finally {
+                setLoading(false);
+            }
         };
-    
-        axios
-          .get(`https://quircom.onrender.com/api/client`, { headers })
-          .then((response) => {
-            // console.log("User ID in Dashboard:", userId);
-            console.log("User data:", response.data);
-            setFreelancers(response.data);
-          })
-          .catch((error) => {
-            console.error("Error fetching user data:", error);
-          });
-      }, []);
-    
+
+        fetchFreelancers();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className='flex justify-center items-center h-screen'>
+                <img src={Loader} className="w-[80px]" alt="Loading..." />
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <p className="text-red-500">{error}</p>
+            </div>
+        );
+    }
+
     return (
         <div className="flex flex-col bg-blue-200 items-center h-full w-[90%]">
             <div className="flex w-[100%] items-center py-2 px-5 bg-[#F5F5DC] text-[#13334C] font-medium">
@@ -62,13 +82,17 @@ const LoFL = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {freelancers.map((freelancer, index) => (
-                            <tr key={index} className="border-b bg-blue-200 text-[#13334C]">
+                        {freelancers.slice(0, rowsPerPage).map((freelancer) => (
+                            <tr key={freelancer._id} className="border-b bg-blue-200 text-[#13334C]">
                                 <td className="px-6 py-4 text-left">{freelancer.firstName + " " + freelancer.surName}</td>
                                 <td className="px-6 py-4 text-left">{freelancer.userName}</td>
                                 <td className="px-6 py-4 text-left">{freelancer.eMail}</td>
                                 <td className="px-6 py-4 text-left">{freelancer.contactNum}</td>
-                                <td className="px-6 py-4 text-left">{freelancer.portFolio}</td>
+                                <td className="px-6 py-4 text-left">
+                                    <a href={freelancer.portFolio} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                                        View Portfolio
+                                    </a>
+                                </td>
                                 <td className="px-6 py-4 text-left">
                                     <button
                                         type="button"
