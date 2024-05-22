@@ -19,6 +19,7 @@ import Logo2 from "../assets/clientNav.png";
 import Dboard from "../assets/dboard.png";
 import LBoard from "../assets/tracker.png";
 import User from "../assets/user.png";
+import Settings from "../assets/settings.png";
 
 import WithAuthAdmin from "../auth/WithAuthAdmin";
 
@@ -172,7 +173,7 @@ const AMainNav = () => {
               to={`#`}
             >
               <Stack direction={"row"} spacing={1}>
-                <img className="w-6 h-6 " src={""} alt="Profile" />
+                <img className="w-6 h-6 " src={User} alt="Profile" />
                 <Typography variant="body1">Profile</Typography>
               </Stack>
             </MenuItem>
@@ -182,7 +183,7 @@ const AMainNav = () => {
               to={`#`}
             >
               <Stack direction={"row"} spacing={1}>
-                <img className="w-6 h-6" src={""} alt="Settings" />
+                <img className="w-6 h-6" src={Settings} alt="Settings" />
                 <Typography variant="body1">Settings</Typography>
               </Stack>
             </MenuItem>

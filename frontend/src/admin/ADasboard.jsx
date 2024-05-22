@@ -9,18 +9,24 @@ import LoFL from "./LoFL";
 import LoC from "./LoC";
 import LoS from "./LoS";
 import LoRepAcc from "./LoRepAcc";
+import LoA from "./LoA";
 
 import Banner from "../assets/banner.jpg";
 
 const ADasboard = () => {
-  const [activeTab, setActiveTab] = useState("freelancers");
-  const [userData, setUserData] = useState();
-
-  const handleTab = (freelancers) => {
-    setActiveTab(freelancers);
-  };
-
+  const [activeTab, setActiveTab] = useState("Tabs");
   const { userId } = useParams();
+  const [userData, setUserData] = useState();
+  const [freelancers, setFreelancers] = useState([]);
+  const [clients, setClients] = useState([]);
+  const [services, setServices] = useState([]);
+  const freelancerCount = freelancers.length; // Count the freelancers
+  const clientCount = clients.length; // Count the clients
+  const serviceCount = services.length; // Count the services
+
+  const handleTab = (Tabs) => {
+    setActiveTab(Tabs);
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("adminToken");
@@ -38,6 +44,83 @@ const ADasboard = () => {
         console.error("Error fetching user data:", error);
       });
   }, [userId]);
+
+  useEffect(() => {
+    const fetchFreelancers = async () => {
+      try {
+        const token = localStorage.getItem("adminToken");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
+
+        const response = await axios.get(
+          `https://quircom.onrender.com/api/freelancer`,
+          { headers }
+        );
+        setFreelancers(response.data);
+        console.log(response.data);
+      } catch (error) {
+        setError("Error fetching user data");
+        console.error("Error fetching user data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFreelancers();
+  }, []);
+
+  useEffect(() => {
+    const fetchClients = async () => {
+      try {
+        const token = localStorage.getItem("adminToken");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
+
+        const response = await axios.get(
+          `https://quircom.onrender.com/api/client`,
+          { headers }
+        );
+        setClients(response.data);
+      } catch (error) {
+        setError("Error fetching user data");
+        console.error("Error fetching user data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchClients();
+  }, []);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const token = localStorage.getItem("adminToken");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
+
+        const response = await axios.get(
+          `https://quircom.onrender.com/api/service`,
+          { headers }
+        );
+        setServices(response.data);
+        console.log(response.data[0])
+      } catch (error) {
+        setError("Error fetching user data");
+        console.error("Error fetching user data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchServices();
+  }, []);
 
   return (
     <div className="flex flex-col h-full text-white bg-gradient-to-b to-[#13334C] from-[#1D5B79]">
@@ -65,7 +148,7 @@ const ADasboard = () => {
                 </h1>
                 <MdDesignServices size={30} color="#13334C" />
               </div>
-              <h1 className="font-medium text-black">11</h1>
+              <span className="font-medium text-black">{freelancerCount}</span>
             </div>
             <div className="flex flex-col justify-around px-4 py-4 bg-gradient-to-bl from-orange-400 to-orange-600 hover:shadow-lg rounded-md">
               <div className="flex items-center justify-between">
@@ -74,7 +157,7 @@ const ADasboard = () => {
                 </h1>
                 <MdDesignServices size={30} color="#13334C" />
               </div>
-              <h1 className="font-medium text-black">11</h1>
+              <span className="font-medium text-black">{clientCount}</span>
             </div>
             <div className="flex flex-col justify-around px-4 py-4 bg-gradient-to-bl from-orange-400 to-orange-600 hover:shadow-lg rounded-md">
               <div className="flex items-center justify-between">
@@ -83,7 +166,7 @@ const ADasboard = () => {
                 </h1>
                 <MdDesignServices size={30} color="#13334C" />
               </div>
-              <h1 className="font-medium text-black">11</h1>
+              <h1 className="font-medium text-black">{serviceCount}</h1>
             </div>
             <div className="flex flex-col justify-around px-4 py-4 bg-gradient-to-bl from-orange-400 to-orange-600 hover:shadow-lg rounded-md">
               <div className="flex items-center justify-between">
@@ -137,11 +220,22 @@ const ADasboard = () => {
               >
                 Reported Accounts
               </button>
+              <button
+                className={
+                  activeTab === "analytics"
+                    ? "active-tab py-3 px-4 w-full text-orange-500 font-bold rounded-t-lg bg-[#F5F5DC] border-[1px] border-[#f5f5dc] shadow-md"
+                    : "py-3 px-4 w-full rounded-t-lg bg-[#13334C] border-[1px] border-[#13334C] hover:border-[1px] hover:bg-[#13334C] hover:border-orange-500 hover:text-white"
+                }
+                onClick={() => handleTab("analytics")}
+              >
+                Analytics
+              </button>
             </div>
             {activeTab === "freelancers" && <LoFL />}
             {activeTab === "clients" && <LoC />}
             {activeTab === "services" && <LoS />}
             {activeTab === "reported" && <LoRepAcc />}
+            {activeTab === "analytics" && <LoA />}
           </div>
         </div>
       </div>
