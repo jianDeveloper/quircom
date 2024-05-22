@@ -16,29 +16,33 @@ const LoFL = () => {
 
     useEffect(() => {
         const fetchFreelancers = async () => {
-          try {
-            const token = localStorage.getItem("authToken");
-            const headers = {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            };
-    
-            // Using the provided API endpoint to fetch all freelancers
-            const response = await axios.get(
-              "https://quircom.onrender.com/api/freelancer",
-              { headers }
-            );
-            if (response.status === 200) {
-              setFreelancers(response.data); // Assuming the response data is an array of freelancers
+            setLoading(true); // Start loading
+            try {
+                const token = localStorage.getItem("authToken");
+                const headers = {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                };
+
+                const response = await axios.get(
+                    "https://quircom.onrender.com/api/freelancer",
+                    { headers }
+                );
+                if (response.status === 200) {
+                    setFreelancers(response.data);
+                } else {
+                    setError("Failed to fetch freelancers");
+                }
+            } catch (error) {
+                console.error("Error fetching freelancers:", error);
+                setError("Error fetching freelancers");
+            } finally {
+                setLoading(false); // Stop loading
             }
-          } catch (error) {
-            console.error("Error fetching freelancers:", error);
-            // Optionally, you can handle errors more gracefully in your UI here
-          }
         };
-    
+
         fetchFreelancers();
-      }, []);
+    }, []);
     
     return (
         <div className="flex flex-col bg-blue-200 items-center h-full w-[90%]">
