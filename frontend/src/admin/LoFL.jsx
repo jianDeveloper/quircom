@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaTrash } from 'react-icons/fa';
 import { FaPersonDotsFromLine } from 'react-icons/fa6';
-import WithAuth from '../auth/WithAuth';
+import WithAuthAdmin from '../auth/WithAuthAdmin';
 
 const LoFL = () => {
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -15,34 +15,23 @@ const LoFL = () => {
     };
 
     useEffect(() => {
-        const fetchFreelancers = async () => {
-            setLoading(true); // Start loading
-            try {
-                const token = localStorage.getItem("authToken");
-                const headers = {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                };
-
-                const response = await axios.get(
-                    "https://quircom.onrender.com/api/freelancer",
-                    { headers }
-                );
-                if (response.status === 200) {
-                    setFreelancers(response.data);
-                } else {
-                    setError("Failed to fetch freelancers");
-                }
-            } catch (error) {
-                console.error("Error fetching freelancers:", error);
-                setError("Error fetching freelancers");
-            } finally {
-                setLoading(false); // Stop loading
-            }
+        const token = localStorage.getItem("adminToken");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         };
-
-        fetchFreelancers();
-    }, []);
+    
+        axios
+          .get(`https://quircom.onrender.com/api/client`, { headers })
+          .then((response) => {
+            // console.log("User ID in Dashboard:", userId);
+            console.log("User data:", response.data);
+            setFreelancers(response.data);
+          })
+          .catch((error) => {
+            console.error("Error fetching user data:", error);
+          });
+      }, []);
     
     return (
         <div className="flex flex-col bg-blue-200 items-center h-full w-[90%]">
@@ -103,4 +92,4 @@ const LoFL = () => {
     );
 };
 
-export default WithAuth(LoFL);
+export default WithAuthAdmin(LoFL);

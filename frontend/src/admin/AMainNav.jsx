@@ -19,7 +19,7 @@ import Logo2 from "../assets/clientNav.png";
 import Dboard from "../assets/dboard.png";
 import LBoard from "../assets/tracker.png";
 
-import WithAuth from "../auth/WithAuth";
+import WithAuthAdmin from "../auth/WithAuthAdmin";
 
 const AMainNav = () => {
   const [selectedIcon, setSelectedIcon] = useState(null);
@@ -30,7 +30,7 @@ const AMainNav = () => {
   const { userId } = useParams();
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("adminToken");
     const headers = {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
@@ -81,7 +81,7 @@ const AMainNav = () => {
 
   const handleLogout = () => {
     console.clear();
-    localStorage.removeItem("authToken");
+    localStorage.removeItem("adminToken");
   };
   return (
     <Box
@@ -214,4 +214,4 @@ const AMainNav = () => {
   );
 };
 
-export default WithAuth(AMainNav);
+export default WithAuthAdmin(AMainNav);

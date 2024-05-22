@@ -20,7 +20,7 @@ const LoS = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const token = localStorage.getItem("authToken");
+        const token = localStorage.getItem("adminToken");
         const headers = {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",

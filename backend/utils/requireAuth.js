@@ -20,7 +20,7 @@ const requireAuth = async (req, res, next) => {
     // Check if the user exists in either FreelancerModel or ClientModel
     const freelancer = await FreelancerModel.findById(decoded._id);
     const client = await ClientModel.findById(decoded._id);
-    const admin = await AdminModel.findById(decoded.id);
+    const admin = await AdminModel.findById(decoded._id);
 
     // If user exists in either model, attach user object to request and proceed to next middleware
     if (freelancer || client || admin) {

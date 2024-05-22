@@ -1,12 +1,12 @@
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import WithoutAuth from "../auth/WithoutAuth";
 import { Spinner } from "@material-tailwind/react";
 
 import BGreg from "../assets/bgreg.png";
 import { Avatar } from "@mui/material";
 import Icon1 from "../assets/icon00.png";
+import WithoutAuthAdmin from "../auth/WithoutAuthAdmin";
 
 const ALogPage = () => {
   const [userName, setUserName] = useState("");
@@ -37,7 +37,7 @@ const ALogPage = () => {
         const { _id } = user;
   
         setLoading(false);
-        localStorage.setItem("authToken", authToken);
+        localStorage.setItem("adminToken", authToken);
         navigate(`/admin/dashboard/${_id}`);
       } else {
         // Handle other status codes (e.g., 404 for user not found, 401 for invalid password)
@@ -72,10 +72,10 @@ const ALogPage = () => {
           <div className="w-[100%] h-[100%] bg-orange-500 border-[1px] border-[#1D5B79] rounded-3xl absolute transform shadow-lg rotate-6" />
           <div className="relative w-full rounded-3xl  px-6 py-6 bg-[#1D5B79] text-white shadow-lg">
             <label
-              for=""
+              htmlFor=""
               className="flex justify-center items-center gap-1 mt-4 text-2xl text-center uppercase font-bold "
             >
-              <Avatar src={Icon1} alt={Avatar} sx={{ width: 100, height: 100 }} /> Quircom<br/>Management
+              <Avatar src={Icon1} alt={'Avatar'} sx={{ width: 100, height: 100 }} /> Quircom<br/>Management
             </label>
             <h1 className="text-md font-bold mt-4 text-center ">Admin Login</h1>
             <form method="#" action="#" className="mt-4">
@@ -104,7 +104,7 @@ const ALogPage = () => {
               {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
               <div className="mt-7 flex text-white">
                 <label
-                  for="remember_me"
+                  htmlFor="remember_me"
                   className="inline-flex items-center w-full cursor-pointer"
                 >
                   <input
@@ -113,19 +113,19 @@ const ALogPage = () => {
                     className="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     name="remember"
                   />
-                  <span class="ml-2 text-sm text-white">Remember me</span>
+                  <span className="ml-2 text-sm text-white">Remember me</span>
                 </label>
 
-                <div class="w-full text-right">
+                <div className="w-full text-right">
                   <a
-                    class="underline text-sm text-gray-100 hover:text-gray-900"
+                    className="underline text-sm text-gray-100 hover:text-gray-900"
                     href="#"
                   >
                     Forgot Password
                   </a>
                 </div>
               </div>
-              <div class="mt-7">
+              <div className="mt-7">
               {loading ? (
                 <button
                   onClick={handleLogin}
@@ -150,4 +150,4 @@ const ALogPage = () => {
   );
 };
 
-export default WithoutAuth(ALogPage);
+export default WithoutAuthAdmin(ALogPage);
