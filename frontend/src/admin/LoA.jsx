@@ -137,7 +137,7 @@ const LoA = () => {
       </div>
       <div className="w-full bg-blue-200 shadow-md p-5" ref={componentRef}>
         <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
-          <div className="flex items-center">
+          <div className="w-full flex items-center">
             <div className="mb-4">
               <h1 className="text-[#13334C] font-medium">
                 Total Number of Users:
