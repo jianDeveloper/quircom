@@ -64,6 +64,7 @@ const CreateUser = async (req, res) => {
       city: freelancer.city,
       accType: freelancer.accType,
       aggRee: freelancer.aggRee,
+      verify: false,
       profilePic: freelancerProfile,
       userInfo: null,
       portFolio: {

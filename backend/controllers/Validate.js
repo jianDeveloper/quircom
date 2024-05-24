@@ -19,9 +19,15 @@ const ValidateUserData = async (req, res) => {
     const { userName, eMail, contactNum } = req.body;
 
     // Perform individual checks for each field
-    const userNameUser = await FreelancerModel.findOne({ userName }) || await ClientModel.findOne({ userName });
-    const eMailUser = await FreelancerModel.findOne({ eMail }) || await ClientModel.findOne({ eMail });
-    const contactNumUser = await FreelancerModel.findOne({ contactNum }) || await ClientModel.findOne({ contactNum });
+    const userNameUser =
+      (await FreelancerModel.findOne({ userName })) ||
+      (await ClientModel.findOne({ userName }));
+    const eMailUser =
+      (await FreelancerModel.findOne({ eMail })) ||
+      (await ClientModel.findOne({ eMail }));
+    const contactNumUser =
+      (await FreelancerModel.findOne({ contactNum })) ||
+      (await ClientModel.findOne({ contactNum }));
 
     res.status(200).json({
       userName: {
@@ -35,13 +41,12 @@ const ValidateUserData = async (req, res) => {
       contactNum: {
         exists: !!contactNumUser,
         userId: contactNumUser ? contactNumUser._id : null,
-      }
+      },
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
 
 const LoginUser = async (req, res) => {
   try {
@@ -116,16 +121,20 @@ const LoginAdmin = async (req, res) => {
     }
 
     // Generate JWT token
-    const authToken = jwt.sign({ _id: foundAdmin._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const authToken = jwt.sign(
+      { _id: foundAdmin._id },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
 
     res.status(200).json({
       message: "Login successful",
       user: {
         _id: foundAdmin._id,
       },
-      authToken
+      authToken,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -197,12 +206,10 @@ const ForgotPassword = async (req, res) => {
         replyTo: "", // Set an empty reply-to address to disable reply functionality
         disableReplyTo: true,
       });
-      res
-        .status(201)
-        .json({
-          message: "An email has been sent into your account",
-          emailToken,
-        });
+      res.status(201).json({
+        message: "An email has been sent into your account",
+        emailToken,
+      });
     }
 
     // If user is found in client collection
@@ -256,16 +263,145 @@ const ForgotPassword = async (req, res) => {
         replyTo: "", // Set an empty reply-to address to disable reply functionality
         disableReplyTo: true,
       });
-      res
-        .status(201)
-        .json({
-          message: "An email has been sent into your account",
-          emailToken,
-        });
+      res.status(201).json({
+        message: "An email has been sent into your account",
+        emailToken,
+      });
     }
 
     if (!freelancerUser && !clientUser) {
       // Send error response indicating user not found
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+const EmailVerification = async (req, res) => {
+  try {
+    const { eMail } = req.body;
+
+    const userChecks = await Promise.all([
+      FreelancerModel.findOne({ eMail }),
+      ClientModel.findOne({ eMail }),
+    ]);
+
+    const freelancerUser = userChecks[0];
+    const clientUser = userChecks[1];
+
+    if (freelancerUser) {
+      const emailToken = jwt.sign(
+        { _id: freelancerUser._id },
+        process.env.JWT_SECRET,
+        { expiresIn: "5m" }
+      );
+      const username = freelancerUser.firstName + " " + freelancerUser.surName;
+      const id = freelancerUser._id;
+      freelancerUser.verify = true;
+      await freelancerUser.save();
+
+      const companyLogoUrl =
+        "https://drive.google.com/uc?id=1wc0kK6tHtpDCuPszIRimda3xX_Ctd9bG";
+
+      const htmlContent = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Email Verification</title>
+      </head>
+      <body style="font-family: Arial, sans-serif;">
+      
+          <div style="max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f4; color: #000; font-size: 16px;">
+              <img src="${companyLogoUrl}" alt="Company Logo" style="max-width: 200px; margin: 0 auto 20px; display: block;">
+              <h2 style="margin-bottom: 20px; text-align: center; color: #000;">Email Verification</h2>
+              <p>${username}, thank you for registering with our service. Please verify your email address to complete your registration.</p>
+              <p style="text-align: center;">To verify your email, click the button below:</p>
+              <p style="text-align: center;">
+                  <a href="https://quircom.netlify.app/verifyemail/${id}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Verify Email</a>
+              </p>
+              <p>If you did not create an account, no further action is required.</p>
+              <p>Thank you,</p>
+              <p>QUIRCOM</p>
+          </div>
+      
+      </body>
+      </html>`;
+
+      // Sending email without attachment and disable reply to this email
+      await transporter.sendMail({
+        from: process.env.GMAIL_SENDER,
+        to: freelancerUser.eMail,
+        subject: "Reset Password",
+        html: htmlContent,
+        replyTo: "", // Set an empty reply-to address to disable reply functionality
+        disableReplyTo: true,
+      });
+      res.status(201).json({
+        message: "An email has been sent into your account",
+        emailToken,
+      });
+    }
+
+    if (clientUser) {
+      const emailToken = jwt.sign(
+        { _id: clientUser._id },
+        process.env.JWT_SECRET,
+        { expiresIn: "5m" }
+      );
+      const username = clientUser.userName + " " + clientUser.surName;
+      const id = clientUser._id;
+      clientUser.verify = true;
+      await clientUser.save();
+
+      const companyLogoUrl =
+        "https://drive.google.com/uc?id=1wc0kK6tHtpDCuPszIRimda3xX_Ctd9bG";
+
+      const htmlContent = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Email Verification</title>
+      </head>
+      <body style="font-family: Arial, sans-serif;">
+      
+          <div style="max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f4; color: #000; font-size: 16px;">
+              <img src="${companyLogoUrl}" alt="Company Logo" style="max-width: 200px; margin: 0 auto 20px; display: block;">
+              <h2 style="margin-bottom: 20px; text-align: center; color: #000;">Email Verification</h2>
+              <p>${username}, thank you for registering with our service. Please verify your email address to complete your registration.</p>
+              <p style="text-align: center;">To verify your email, click the button below:</p>
+              <p style="text-align: center;">
+                  <a href="https://quircom.netlify.app/verifyemail/${id}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Verify Email</a>
+              </p>
+              <p>If you did not create an account, no further action is required.</p>
+              <p>Thank you,</p>
+              <p>QUIRCOM</p>
+          </div>
+      
+      </body>
+      </html>`;
+
+      await transporter.sendMail({
+        from: process.env.GMAIL_SENDER,
+        to: clientUser.eMail,
+        subject: "Reset Password",
+        html: htmlContent,
+        replyTo: "",
+        disableReplyTo: true,
+      });
+      res.status(201).json({
+        message: "An email has been sent into your account",
+        emailToken,
+      });
+    }
+
+    if (!freelancerUser && !clientUser) {
       res.status(404).json({ message: "User not found" });
     }
   } catch (error) {
@@ -322,4 +458,5 @@ module.exports = {
   LoginAdmin,
   ForgotPassword,
   ResetPassword,
+  EmailVerification,
 };

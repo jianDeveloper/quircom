@@ -60,6 +60,7 @@ const CreateUser = async (req, res) => {
       city: client.city,
       accType: client.accType,
       aggRee: client.aggRee,
+      verify: false,
       profilePic: clientProfile,
       userInfo: null,
       subs: {
