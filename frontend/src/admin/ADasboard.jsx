@@ -120,7 +120,7 @@ const ADasboard = () => {
     <div className="flex flex-col h-full text-white bg-gradient-to-b to-[#13334C] from-[#1D5B79]">
       <AMainNav />
 
-      <div className="flex align-center justify-center mx-[100px] h-[100vh]">
+      <div className="flex align-center justify-center mx-[100px] h-auto">
         <div className="flex flex-col container my-10">
           <div className="w-full h-[250px] relative rounded-lg overflow-hidden">
             <img
@@ -217,8 +217,8 @@ const ADasboard = () => {
               <button
                 className={
                   activeTab === "analytics"
-                    ? "active-tab py-3 px-4 w-full text-orange-500 font-bold rounded-t-lg bg-[#F5F5DC] border-[1px] border-[#f5f5dc] shadow-md"
-                    : "py-3 px-4 w-full rounded-t-lg bg-[#13334C] border-[1px] border-[#13334C] hover:border-[1px] hover:bg-[#13334C] hover:border-orange-500 hover:text-white"
+                  ? "active-tab py-3 px-4 w-full text-orange-500 font-bold rounded-t-lg bg-[#F5F5DC] border-[1px] border-[#f5f5dc] shadow-md"
+                  : "py-3 px-4 w-full rounded-t-lg bg-[#13334C] border-[1px] border-[#13334C] hover:border-[1px] hover:bg-[#13334C] hover:border-orange-500 hover:text-white"
                 }
                 onClick={() => handleTab("analytics")}
               >
