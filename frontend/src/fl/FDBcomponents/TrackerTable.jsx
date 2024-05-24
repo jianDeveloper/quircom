@@ -7,6 +7,7 @@ import Convo from "./convoModal";
 import { MdDesignServices } from "react-icons/md";
 import { FaFileCircleCheck } from "react-icons/fa6";
 import WithAuth from "../../auth/WithAuth";
+import Loader from "../../assets/quircomloading.gif";
 
 const FTable = () => {
   const { userId } = useParams();
@@ -16,6 +17,7 @@ const FTable = () => {
   const [convoModal, setConvoModal] = useState(false);
   const [requestDetails, setRequest] = useState([]);
   const [requestInfos, setRequestInfos] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchRequests = async () => {
@@ -37,6 +39,7 @@ const FTable = () => {
               request.status === "Ongoing"
           );
           setRequest(filteredRequests);
+          setLoading(false);
           console.log(filteredRequests)
         } else {
           console.error(
@@ -62,7 +65,7 @@ const FTable = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-full">
+    <div className="flex flex-col justify-center items-center w-[100%]">
       <div className="flex w-full justify-end items-center p-2 bg-[#13334C] text-white">
         <span>Rows per page:</span>
         <select
@@ -77,8 +80,8 @@ const FTable = () => {
           ))}
         </select>
       </div>
-      <div className=" w-full bg-white shadow-md overflow-x-auto">
-        <table className="">
+      <div className="w-full bg-white shadow-md overflow-x-auto">
+        <table className=" w-full">
           <thead className="bg-[#1d5b79] text-white">
             <tr>
               <th className="px-6 py-3 text-left text-sm font-bold">
@@ -101,7 +104,16 @@ const FTable = () => {
             </tr>
           </thead>
           <tbody>
-            {requestDetails.length === 0 ? (
+            {loading ? (
+                <tr className="w-full">
+                  <td colSpan="7" className="py-11">
+                    <img className="mx-auto w-16 h-16"
+                    src={Loader}
+                    alt="Loading..."
+                  />
+                  </td>
+                </tr>
+              ) :requestDetails.length === 0 ? (
               <tr>
                 <td colSpan="7" className="px-6 py-11 text-center">
                   No client request at the moment...

@@ -95,18 +95,13 @@ const LoA = () => {
     {
       id: 1,
       value: parseFloat(clientPercentage),
-      label: `Clients (${clientPercentage}%)`,
-    },
-    {
-      id: 2,
-      value: parseFloat(servicePercentage),
-      label: `Services (${servicePercentage}%)`,
+      label: `Clients  (${clientPercentage}%)`,
     },
   ];
   const data1 = [
-    { id: 0, value: 10, label: "series A" },
+    { id: 0, value: 10, label: "Service" },
     { id: 1, value: 15, label: "series B" },
-    { id: 2, value: 20, label: "series C" },
+    { id: 2, value: 20, label: "Reported" },
   ];
 
   const componentRef = React.useRef();
@@ -131,60 +126,57 @@ const LoA = () => {
   }
 
   return (
-    <div className="flex flex-col bg-blue-200 items-center h-full w-[90%]">
-      <div className="flex w-[100%] items-center py-2 px-5 bg-[#F5F5DC] text-[#13334C] font-medium">
-        <span>Analytical Data:</span>
+    <div className="flex flex-col bg-blue-200 items-center h-auto w-[90%]">
+      <div className="flex w-[100%] h-14 items-center py-3 px-5 bg-[#F5F5DC] text-[#13334C] font-medium border-b-[1px] border-gray-500">
+      <button
+        onClick={handlePrint}
+        className="px-4 py-1 bg-[#1D5B79] hover:bg-blue-200 hover:text-[#13334C] hover:border-2 border-[#13334C] text-white font-bold rounded"
+      >
+        Print Analytics
+      </button>
       </div>
-      <div className="w-full bg-blue-200 shadow-md p-5" ref={componentRef}>
-        <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
-          <div className="w-full flex items-center">
-            <div className="mb-4">
-              <h1 className="text-[#13334C] font-medium">
-                Total Number of Users:
-              </h1>
+      <div className="flex flex-col md:flex-row w-full bg-blue-200 shadow-md p-5" ref={componentRef}>
+        <div className="w-full">
+        <h1 className="text-[#13334C] font-medium">
+                Accounts Analytics:
+          </h1>
               <PieChart
                 series={[
                   {
                     data: data,
-                    highlightScope: { faded: "global", highlighted: "item" },
-                    faded: {
-                      innerRadius: 30,
-                      additionalRadius: -30,
-                      color: "gray",
-                    },
+      innerRadius: 30,
+      outerRadius: 90,
+      paddingAngle: 2,
+      cornerRadius: 5,
+      startAngle: -360,
+      endAngle: 0,
+      cx: 180,
                   },
                 ]}
-                height={300}
+                height={200}
               />
-            </div>
-            <div className="mb-4">
-              <h1 className="text-[#13334C] font-medium">
-                Total Number of Reported Accounts:
+        </div>
+      <div className="w-full gap-2">
+        <h1 className="text-[#13334C] font-medium">
+                Service Analytics:
               </h1>
               <PieChart
                 series={[
                   {
                     data: data1,
-                    highlightScope: { faded: "global", highlighted: "item" },
-                    faded: {
-                      innerRadius: 30,
-                      additionalRadius: -30,
-                      color: "gray",
+      innerRadius: 30,
+      outerRadius: 90,
+      paddingAngle: 2,
+      cornerRadius: 5,
+      startAngle: -180,
+      endAngle: 180,
+      cx: 180,
                     },
-                  },
                 ]}
-                height={300}
+                height={200}
               />
-            </div>
-          </div>
-        </Box>
+        </div>
       </div>
-      <button
-        onClick={handlePrint}
-        className="w-1/4 h-1/6 mt-4 mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Print
-      </button>
     </div>
   );
 };

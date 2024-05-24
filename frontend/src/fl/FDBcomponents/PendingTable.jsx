@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import WithAuth from "../../auth/WithAuth";
+import Loader from "../../assets/quircomloading.gif";
 
 import { FaCheck, FaXmark } from "react-icons/fa6";
 
@@ -11,6 +12,7 @@ const PendingTable = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [requestDetails, setRequest] = useState([]);
   const [token, setToken] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setToken(localStorage.getItem("authToken"));
@@ -34,6 +36,7 @@ const PendingTable = () => {
               request.status === "Pending"
           );
           setRequest(filteredRequests);
+          setLoading(false);
         } else {
           console.error(
             "Error fetching requests: Unexpected status code",
@@ -147,7 +150,16 @@ const PendingTable = () => {
             </tr>
           </thead>
           <tbody>
-            {requestDetails.length === 0 ? (
+            {loading ? (
+                <tr className="w-full">
+                  <td colSpan="7" className="py-11">
+                    <img className="mx-auto w-16 h-16"
+                    src={Loader}
+                    alt="Loading..."
+                  />
+                  </td>
+                </tr>
+              ) :requestDetails.length === 0 ? (
               <tr>
                 <td colSpan="7" className="px-6 py-11 text-center">
                   No client request at the moment...

@@ -70,7 +70,7 @@ const ServiceTable = () => {
               service.freelancerId && service.freelancerId._id === userId
           );
           setService(filteredServices);
-          setLoading(false)
+          setLoading(false);
         } else {
           console.error(
             "Error fetching services: Unexpected status code",
@@ -136,13 +136,16 @@ const ServiceTable = () => {
               </tr>
             </thead>
             <tbody>
-            {loading ? (
-          <tr>
-            <td colSpan="5" className="p-3 mx-auto flex justify-center w-full">
-              <img src={Loader} alt="Loading..." style={{ height: "100px" }} />
-            </td>
-        </tr>
-        ) : serviceDetails.length === 0 ? (
+              {loading ? (
+                <tr className="w-full">
+                  <td colSpan="5" className="py-11">
+                    <img className="mx-auto w-16 h-16"
+                    src={Loader}
+                    alt="Loading..."
+                  />
+                  </td>
+                </tr>
+              ) : serviceDetails.length === 0 ? (
                 <tr>
                   <td colSpan="5" className="px-6 py-11 text-center">
                     No service at the moment, try adding one
