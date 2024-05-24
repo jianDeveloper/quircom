@@ -142,8 +142,8 @@ const LoFL = () => {
               <tr
                 key={freelancer._id}
                 className={`${
-                  index % 2 === 0 ? "bg-blue-100" : "bg-white"
-                } border-b bg-blue-200 text-[#13334C]`}
+                  index % 2 === 0 ? "bg-blue-200" : "bg-blue-100"
+                } border-b text-[#13334C]`}
               >
                 <td className="px-6 py-2 text-left">
                   {freelancer.firstName + " " + freelancer.surName}

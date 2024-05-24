@@ -130,8 +130,8 @@ const LoC = () => {
               <tr
                 key={client._id}
                 className={`${
-                  index % 2 === 0 ? "bg-blue-100" : "bg-white"
-                } border-b bg-blue-200 text-[#13334C]`}
+                  index % 2 === 0 ? "bg-blue-200" : "bg-blue-100"
+                } border-b text-[#13334C]`}
               >
                 <td className="px-6 py-4 text-left">
                   {client.firstName + " " + client.surName}
