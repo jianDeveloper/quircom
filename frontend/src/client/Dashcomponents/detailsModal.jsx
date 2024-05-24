@@ -30,7 +30,7 @@ const detailsModal = ({ setdetailsModal, requestInfos }) => {
         };
 
         const response = await axios.get(
-          `http://localhost:8800/api/service/${requestInfos.serviceId._id}`,
+          `http://quircom.onrender.com/api/service/${requestInfos.serviceId._id}`,
           { headers }
         );
         if (response.status === 200) {
@@ -94,7 +94,7 @@ const detailsModal = ({ setdetailsModal, requestInfos }) => {
       );
 
       if (response && response.data) {
-        console.log(response.data);
+        //console.log(response.data);
         toast.success("Service uploaded successfully");
         setaddModal(false);
       } else {

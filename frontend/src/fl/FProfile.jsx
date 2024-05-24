@@ -19,8 +19,8 @@ function FProfile() {
   const { userId } = useParams();
   const [ userData, setUsers] = useState(null);
 
-  console.log(userId)
-  console.log('Display User:', userData)
+  //console.log(userId)
+  //console.log('Display User:', userData)
 
   useEffect(() => {
     const fetchUsers = async () => {

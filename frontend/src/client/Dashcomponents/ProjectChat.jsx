@@ -168,7 +168,7 @@ const ProjectChat = ({ requestInfos }) => {
       };
 
       const response = await axios.get(
-        `http://localhost:8800/api/chat/download/${fileId}`,
+        `http://quircom.onrender.com/api/chat/download/${fileId}`,
         {
           headers,
           responseType: "blob",

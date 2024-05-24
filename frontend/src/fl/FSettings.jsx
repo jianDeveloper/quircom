@@ -102,7 +102,7 @@ function FSettings() {
       );
 
       if (response && response.data) {
-        console.log(response.data);
+        //console.log(response.data);
         toast.success("Profile picture uploaded successfully");
         setDisabled(false);
       } else {
@@ -148,7 +148,7 @@ function FSettings() {
       formObj.append("file", portFolio);
 
       const response = await axios.patch(
-        `http://localhost:8800/api/freelancer/update/portfolio/${userId}`,
+        `https://quircom.onrender.com/api/freelancer/update/portfolio/${userId}`,
         formObj,
         {
           headers,
@@ -156,7 +156,7 @@ function FSettings() {
       );
 
       if (response && response.data) {
-        console.log(response.data);
+        //console.log(response.data);
         toast.success("Portfolio uploaded successfully");
         setDisabled3(false);
       } else {
@@ -237,7 +237,7 @@ function FSettings() {
       );
 
       if (updateResponse.status === 201) {
-        console.log(updateResponse.data);
+        //console.log(updateResponse.data);
         toast.success("Email has been updated");
         setEmailEditable(false);
         setUsers(updateResponse.data); // Update userData with the latest user data
@@ -325,7 +325,7 @@ function FSettings() {
       );
 
       if (updateResponse.status === 201) {
-        console.log(updateResponse.data);
+        //console.log(updateResponse.data);
         toast.success("Password has been updated");
         setUsers(updateResponse.data); // Update userData with the latest user data
       } else {

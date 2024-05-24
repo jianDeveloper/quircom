@@ -30,7 +30,7 @@ function CSettingsBill() {
         if (response.status === 200) {
           setUsers(response.data);
         }
-        console.log("Try:", userData.billing.name);
+        //console.log("Try:", userData.billing.name);
       } catch (error) {
         console.error("Error fetching users:", error);
       } finally {
@@ -42,7 +42,7 @@ function CSettingsBill() {
     
   }, []);
 
-  console.log(userData)
+  //console.log(userData)
   
   function formatAmount(amount) {
     return (amount / 100).toFixed(2); // Divide by 100 and format to 2 decimal places

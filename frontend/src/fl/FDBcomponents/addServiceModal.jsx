@@ -35,8 +35,11 @@ const AddServiceModal = ({ setaddModal }) => {
         );
         if (response.status === 200) {
           setUsers(response.data);
-          // setFormData({ requestId: response.data.requestId });
-          // setFormData({ freelancerId: response.data._id });
+          setFormData((prevData) => ({
+            ...prevData,
+            requestId: response.data.requestId,
+            freelancerId: response.data._id,
+          }));
         }
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -89,11 +92,7 @@ const AddServiceModal = ({ setaddModal }) => {
       const response = await axios.post(
         `https://quircom.onrender.com/api/service/create/`,
         formObj,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        {headers}
       );
 
       if (response && response.data) {

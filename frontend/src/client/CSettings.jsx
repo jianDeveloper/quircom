@@ -185,7 +185,7 @@ function CSettings() {
       );
 
       if (updateResponse.status === 201) {
-        console.log(updateResponse.data);
+        //console.log(updateResponse.data);
         toast.success("Email has been updated");
         setEmailEditable(false);
         setUsers(updateResponse.data); // Update userData with the latest user data
@@ -274,7 +274,7 @@ function CSettings() {
       );
 
       if (updateResponse.status === 201) {
-        console.log(updateResponse.data);
+        //console.log(updateResponse.data);
         toast.success("Password has been updated");
         setUsers(updateResponse.data); // Update userData with the latest user data
       } else {

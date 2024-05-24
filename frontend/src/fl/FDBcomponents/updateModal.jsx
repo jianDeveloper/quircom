@@ -126,7 +126,7 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
       );
 
       if (response && response.data) {
-        console.log(response.data);
+        //console.log(response.data);
         toast.success("Service updated successfully");
         setUpdateModal(false);
       } else {

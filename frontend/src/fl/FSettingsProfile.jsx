@@ -271,7 +271,7 @@ function FSettingsProfile() {
         };
 
       const updateResponse = await axios.patch(
-        `http://localhost:8800/api/freelancer/update/${userId}`,
+        `http://quircom.onrender.com/api/freelancer/update/${userId}`,
         formObj,
         {
           headers: {
@@ -281,7 +281,7 @@ function FSettingsProfile() {
       );
 
       if (updateResponse.status === 201) {
-        console.log(updateResponse.data);
+        //console.log(updateResponse.data);
         toast.success("Information has been updated");
         setEditable(false);
         setUsers(updateResponse.data); // Update userData with the latest user data
@@ -355,7 +355,7 @@ function FSettingsProfile() {
       };
 
       const updateResponse = await axios.patch(
-        `http://localhost:8800/api/freelancer/update/${userId}`,
+        `http://quircom.onrender.com/api/freelancer/update/${userId}`,
         formObj,
         {
           headers,
@@ -363,7 +363,7 @@ function FSettingsProfile() {
       );
 
       if (updateResponse.status === 201) {
-        console.log(updateResponse.data);
+        //console.log(updateResponse.data);
         toast.success("Username has been updated");
         setEditable2(false);
         setUsers(updateResponse.data); // Update userData with the latest user data
@@ -423,7 +423,7 @@ function FSettingsProfile() {
       );
 
       if (updateResponse.status === 201) {
-        console.log(updateResponse.data);
+        //console.log(updateResponse.data);
         toast.success("Description has been updated");
         setEditable3(false);
         setUsers(updateResponse.data); // Update userData with the latest user data

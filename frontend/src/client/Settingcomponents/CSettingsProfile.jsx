@@ -276,7 +276,7 @@ function CSettingsProfile(props) {
       });
 
       if (updateResponse.status === 201) {
-        console.log(updateResponse.data);
+        //console.log(updateResponse.data);
         toast.success('Information has been updated');
         setEditable(false);
         setUsers(updateResponse.data); // Update userData with the latest user data
@@ -350,7 +350,7 @@ function CSettingsProfile(props) {
       });
 
       if (updateResponse.status === 201) {
-        console.log(updateResponse.data);
+        //console.log(updateResponse.data);
         toast.success('Username has been updated');
         setEditable2(false);
         setUsers(updateResponse.data); // Update userData with the latest user data
@@ -404,7 +404,7 @@ function CSettingsProfile(props) {
       });
 
       if (updateResponse.status === 201) {
-        console.log(updateResponse.data);
+        //console.log(updateResponse.data);
         toast.success('Description has been updated');
         setEditable3(false);
         setUsers(updateResponse.data); // Update userData with the latest user data

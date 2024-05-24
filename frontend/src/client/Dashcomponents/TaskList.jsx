@@ -25,9 +25,9 @@ const TaskList = () => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  console.log(userId);
-  console.log(requestDetails);
-  console.log(requestInfos);
+  //console.log(userId);
+  //console.log(requestDetails);
+  //console.log(requestInfos);
   useEffect(() => {
     const fetchRequests = async () => {
       try {

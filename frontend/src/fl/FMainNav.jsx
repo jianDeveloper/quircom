@@ -44,8 +44,8 @@ const FMainNav = () => {
     axios
       .get(`https://quircom.onrender.com/api/freelancer/${userId}`, { headers })
       .then((response) => {
-        console.log("User ID in Dashboard:", userId);
-        console.log("User data:", response.data);
+        //console.log("User ID in Dashboard:", userId);
+        //console.log("User data:", response.data);
         setUser(response.data);
       })
       .catch((error) => {

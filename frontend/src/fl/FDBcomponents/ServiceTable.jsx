@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import AddModal from "./addServiceModal";
 import Deletion from "./deleteModal";
 import UpdateModal from "./updateModal";
+import Loader from "../../assets/quircomloading.gif";
 
 import { MdDesignServices } from "react-icons/md";
 import { FaTrashCan } from "react-icons/fa6";
@@ -43,6 +44,7 @@ const ServiceTable = () => {
   const { userId } = useParams();
   const [serviceDetails, setService] = useState([]);
   const [serviceInfos, setServiceInfos] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
@@ -68,6 +70,7 @@ const ServiceTable = () => {
               service.freelancerId && service.freelancerId._id === userId
           );
           setService(filteredServices);
+          setLoading(false)
         } else {
           console.error(
             "Error fetching services: Unexpected status code",
@@ -133,7 +136,13 @@ const ServiceTable = () => {
               </tr>
             </thead>
             <tbody>
-              {serviceDetails.length === 0 ? (
+            {loading ? (
+          <tr>
+            <td colSpan="5" className="p-3 mx-auto flex justify-center w-full">
+              <img src={Loader} alt="Loading..." style={{ height: "100px" }} />
+            </td>
+        </tr>
+        ) : serviceDetails.length === 0 ? (
                 <tr>
                   <td colSpan="5" className="px-6 py-11 text-center">
                     No service at the moment, try adding one

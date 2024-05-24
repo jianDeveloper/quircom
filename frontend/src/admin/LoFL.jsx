@@ -45,7 +45,7 @@ const LoFL = () => {
           { headers }
         );
         setFreelancers(response.data);
-        console.log(response.data);
+        //console.log(response.data);
       } catch (error) {
         setError("Error fetching user data");
         console.error("Error fetching user data:", error);
