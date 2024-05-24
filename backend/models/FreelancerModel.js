@@ -64,6 +64,10 @@ const FreelancerSchema = new Schema({
     default: false,
     required: true,
   },
+  verify:{
+    type: Boolean,
+    default: false
+  },
   profilePic: {
     id: {type: String, required: true},
     name: {type: String, required: true},

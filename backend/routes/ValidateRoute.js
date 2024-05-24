@@ -9,6 +9,7 @@ const {
   LoginAdmin,
   ForgotPassword,
   ResetPassword,
+  EmailVerification
 } = require("../controllers/Validate");
 
 // Define routes for user authentication
@@ -18,5 +19,6 @@ router.post("/login", LoginUser);
 router.post("/login-admin", LoginAdmin);
 router.use(requireAuth);
 router.patch("/resetpass/:id", ResetPassword);
+router.patch("/verify/:id", EmailVerification)
 
 module.exports = router;

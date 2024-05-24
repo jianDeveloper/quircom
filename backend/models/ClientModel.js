@@ -59,6 +59,10 @@ const ClientSchema = new Schema({
     index: true,
     required: true
   },
+  verify:{
+    type: Boolean,
+    default: false
+  },
   aggRee:{
     type: Boolean,
     default: false,
