@@ -9,12 +9,26 @@ import "react-toastify/dist/ReactToastify.css";
 
 const LoFL = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [page, setPage] = useState(0);
   const [freelancers, setFreelancers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const handleNextPage = () => {
+    if ((page + 1) * rowsPerPage < freelancers.length) {
+      setPage(page + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (page > 0) {
+      setPage(page - 1);
+    }
   };
 
   useEffect(() => {
@@ -68,9 +82,10 @@ const LoFL = () => {
   };
 
   return (
-    <div className="flex flex-col bg-blue-200 items-center h-full w-[90%]">
+    <div className="flex flex-col items-center h-auto w-[90%]">
       <ToastContainer />
-      <div className="flex w-[100%] items-center py-2 px-5 bg-[#F5F5DC] text-[#13334C] font-medium">
+      <div className="flex flex-row w-[100%] bg-[#F5F5DC] justify-between  ">
+      <div className="flex items-center py-2 px-5  text-[#13334C] font-medium">
         <span>Rows per page:</span>
         <select
           value={rowsPerPage}
@@ -84,7 +99,27 @@ const LoFL = () => {
           ))}
         </select>
       </div>
-      <div className="w-full bg-white shadow-md overflow-y-auto h-[400px]">
+      <div className="flex justify-between items-center py-2 px-5 bg-[#F5F5DC] text-[#13334C] font-medium gap-3">
+          <button
+            onClick={handlePreviousPage}
+            disabled={page === 0}
+            className="px-2 bg-blue-100 rounded text-[#13334C] border-[2px] border-[#13334C] disabled:opacity-50"
+          >
+            <p>{`<`}</p>
+          </button>
+          <span>
+            Page {page + 1} of {Math.ceil(freelancers.length / rowsPerPage)}
+          </span>
+          <button
+            onClick={handleNextPage}
+            disabled={(page + 1) * rowsPerPage >= freelancers.length}
+            className="px-2 bg-blue-100 rounded text-[#13334C] border-[2px] border-[#13334C] disabled:opacity-50"
+          >
+            {`>`}
+          </button>
+        </div>
+      </div>
+      <div className="w-full bg-blue-200 shadow-md overflow-y-auto h-auto">
         <table className="min-w-full">
           <thead className="bg-[#1d5b79] text-white">
             <tr>
@@ -103,18 +138,20 @@ const LoFL = () => {
             </tr>
           </thead>
           <tbody className="">
-            {freelancers.slice(0, rowsPerPage).map((freelancer) => (
+            {freelancers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((freelancer, index) => (
               <tr
                 key={freelancer._id}
-                className="border-b bg-blue-200 text-[#13334C]"
+                className={`${
+                  index % 2 === 0 ? "bg-blue-100" : "bg-white"
+                } border-b bg-blue-200 text-[#13334C]`}
               >
-                <td className="px-6 py-4 text-left">
+                <td className="px-6 py-2 text-left">
                   {freelancer.firstName + " " + freelancer.surName}
                 </td>
-                <td className="px-6 py-4 text-left">{freelancer.userName}</td>
-                <td className="px-6 py-4 text-left">{freelancer.eMail}</td>
-                <td className="px-6 py-4 text-left">{freelancer.contactNum}</td>
-                <td className="px-6 py-4 text-left">
+                <td className="px-6 py-2 text-left">{freelancer.userName}</td>
+                <td className="px-6 py-2 text-left">{freelancer.eMail}</td>
+                <td className="px-6 py-2 text-left">{freelancer.contactNum}</td>
+                <td className="px-6 py-2 text-left">
                   <button
                     onClick={() =>
                       handlePortfolioClick(
@@ -126,7 +163,7 @@ const LoFL = () => {
                     View Portfolio
                   </button>
                 </td>
-                <td className="px-6 py-4 text-left">
+                <td className="px-6 py-2 text-left">
                   <button
                     type="button"
                     className="px-2 py-1 bg-red-500 rounded text-white"

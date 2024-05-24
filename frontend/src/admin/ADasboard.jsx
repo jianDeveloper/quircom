@@ -14,7 +14,7 @@ import LoA from "./LoA";
 import Banner from "../assets/banner.jpg";
 
 const ADasboard = () => {
-  const [activeTab, setActiveTab] = useState("Tabs");
+  const [activeTab, setActiveTab] = useState("freelancers");
   const { userId } = useParams();
   const [userData, setUserData] = useState();
   const [freelancers, setFreelancers] = useState([]);
@@ -63,8 +63,6 @@ const ADasboard = () => {
       } catch (error) {
         setError("Error fetching user data");
         console.error("Error fetching user data:", error);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -88,8 +86,6 @@ const ADasboard = () => {
       } catch (error) {
         setError("Error fetching user data");
         console.error("Error fetching user data:", error);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -114,8 +110,6 @@ const ADasboard = () => {
       } catch (error) {
         setError("Error fetching user data");
         console.error("Error fetching user data:", error);
-      } finally {
-        setLoading(false);
       }
     };
     
