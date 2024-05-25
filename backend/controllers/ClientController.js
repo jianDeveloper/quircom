@@ -84,7 +84,7 @@ const CreateUser = async (req, res) => {
       { expiresIn: "5m" }
     );
 
-    res.status(201).json(result, emailToken);
+    res.status(201).json({ result, emailToken });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
