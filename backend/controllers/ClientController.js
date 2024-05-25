@@ -33,6 +33,11 @@ const CreateUser = async (req, res) => {
   try {
     const { body, file } = req;
     const client = JSON.parse(body.client);
+    const emailToken = jwt.sign(
+      { _id: clientUser._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "5m" }
+    );
 
     let clientProfile = {};
 
@@ -76,7 +81,7 @@ const CreateUser = async (req, res) => {
         paymentMethod: "",
       },
     });
-    res.status(201).json(result);
+    res.status(201).json(result, emailToken);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

@@ -15,10 +15,11 @@ const {
 // Define routes for user authentication
 router.post("/validate", ValidateUserData);
 router.post("/forgotpass", ForgotPassword);
+router.post("/verify", EmailVerification)
 router.post("/login", LoginUser);
 router.post("/login-admin", LoginAdmin);
 router.use(requireAuth);
 router.patch("/resetpass/:id", ResetPassword);
-router.patch("/verify/:id", EmailVerification)
+// router.patch("/verify/", EmailVerification)
 
 module.exports = router;
