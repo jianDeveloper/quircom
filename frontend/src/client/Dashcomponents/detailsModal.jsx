@@ -30,7 +30,7 @@ const detailsModal = ({ setdetailsModal, requestInfos }) => {
         };
 
         const response = await axios.get(
-          `http://quircom.onrender.com/api/service/${requestInfos.serviceId._id}`,
+          `https://quircom.onrender.com/api/service/${requestInfos.serviceId._id}`,
           { headers }
         );
         if (response.status === 200) {

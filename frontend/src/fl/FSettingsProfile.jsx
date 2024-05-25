@@ -271,7 +271,7 @@ function FSettingsProfile() {
         };
 
       const updateResponse = await axios.patch(
-        `http://quircom.onrender.com/api/freelancer/update/${userId}`,
+        `https://quircom.onrender.com/api/freelancer/update/${userId}`,
         formObj,
         {
           headers: {
@@ -355,7 +355,7 @@ function FSettingsProfile() {
       };
 
       const updateResponse = await axios.patch(
-        `http://quircom.onrender.com/api/freelancer/update/${userId}`,
+        `https://quircom.onrender.com/api/freelancer/update/${userId}`,
         formObj,
         {
           headers,
