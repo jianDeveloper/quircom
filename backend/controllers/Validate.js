@@ -308,7 +308,7 @@ const EmailVerification = async (req, res) => {
       const emailToken = jwt.sign(
         { _id: freelancerUser._id },
         process.env.JWT_SECRET,
-        { expiresIn: "5m" }
+        { expiresIn: "3m" }
       );
       const username = freelancerUser.firstName + " " + freelancerUser.surName;
       const id = freelancerUser._id;
@@ -364,7 +364,7 @@ const EmailVerification = async (req, res) => {
       const emailToken = jwt.sign(
         { _id: clientUser._id },
         process.env.JWT_SECRET,
-        { expiresIn: "5m" }
+        { expiresIn: "3m" }
       );
       const username = clientUser.firstName + " " + clientUser.surName;
       const id = clientUser._id;
