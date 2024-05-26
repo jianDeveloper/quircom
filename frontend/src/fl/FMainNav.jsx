@@ -88,7 +88,7 @@ const FMainNav = () => {
 
   const handleLogout = () => {
     console.clear();
-    localStorage.removeItem("authToken");
+    localStorage.clear();
   };
 
 
