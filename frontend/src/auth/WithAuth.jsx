@@ -45,10 +45,6 @@ const WithAuth = (WrappedComponent) => {
     }, [userId]);
 
     useEffect(() => {
-      if (!userData) {
-        return;
-      }
-
       if (userData.verify === false) {
         navigate(`/verify/${userData._id}`);
       } else {

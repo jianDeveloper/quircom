@@ -4,15 +4,20 @@ import axios from 'axios';
 import NotFoundAuth from '../auth/NotFoundAuthVerify';
 
 const VerifySuccess = () => {
-  const { userId } = useParams();
+  const { userId, token } = useParams();
+
+  useEffect(() => {
+    localStorage.setItem("verifyToken", token);
+  }, [token]);
+
   const [userData, setUserData] = useState();
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const token = localStorage.getItem("verifyToken");
+        const storedToken = localStorage.getItem("verifyToken");
         const headers = {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${storedToken}`, // Use the token from localStorage
           "Content-Type": "application/json",
         };
 
@@ -40,9 +45,9 @@ const VerifySuccess = () => {
     const updateVerification = async () => {
       if (userData) {
         try {
-          const token = localStorage.getItem("verifyToken");
+          const storedToken = localStorage.getItem("verifyToken");
           const headers = {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${storedToken}`,
             "Content-Type": "multipart/form-data",
           };
 
