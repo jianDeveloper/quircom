@@ -45,7 +45,7 @@ const Verify = () => {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem("authToken");
+      const token = localStorage.getItem("verifyToken");
       const headers = {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -58,7 +58,6 @@ const Verify = () => {
       );
 
       const { message, emailToken } = response.data;
-      localStorage.setItem("verifyToken", emailToken);
       toast.success(message);
       setIsButtonDisabled(true);
       startTimer();
