@@ -8,9 +8,6 @@ const VerifySuccess = () => {
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
   const token = queryParams.get('token');
-  
-  console.log(userId);
-  console.log(token);
 
   useEffect(() => {
     localStorage.setItem("verifyToken", token);

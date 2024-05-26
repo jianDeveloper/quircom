@@ -5,23 +5,20 @@ import Loader from '../assets/quircomloading.gif';
 const NotFoundAuth = (WrappedComponent) => {
   const NotFoundAuthWrapper = (props) => {
     const navigate = useNavigate();
-
     const { search } = useLocation();
     const queryParams = new URLSearchParams(search);
     const token = queryParams.get('token');
-    console.log(token);
 
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-      console.log("Token from URL:", token);
-
       const tokenFromLocalStorage = localStorage.getItem('verifyToken');
-      console.log("Token from localStorage:", tokenFromLocalStorage);
-
+      const isVerified = localStorage.getItem('isVerified');
       const finalToken = token || tokenFromLocalStorage;
 
-      if (!finalToken) {
+      if (isVerified) {
+        navigate('/verification-success'); // Redirect if already verified
+      } else if (!finalToken) {
         navigate('/page-not-found');
       } else {
         const decodedToken = decodeToken(finalToken);
