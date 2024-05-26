@@ -1,33 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import axios from 'axios'; // Ensure axios is imported if you are using it
 
 const WithAuth = (WrappedComponent) => {
   const WithAuthWrapper = (props) => {
-    const [userId] = useParams();
-    const [userData, setUserData] = useState();
     const navigate = useNavigate();
+
+    // useParams must be used directly inside the component body.
+    const { userId } = useParams(); // Corrected from [userId] to { userId } if userId is the parameter name.
+    const [userData, setUserData] = useState();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
       const fetchUser = async () => {
         try {
-          const token = localStorage.getItem("verifyToken");
+          const verifyT = localStorage.getItem("verifyToken");
           const headers = {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${verifyT}`,
             "Content-Type": "application/json",
           };
 
           const [responseClient, responseFreelancer] = await Promise.all([
             axios.get(`https://quircom.onrender.com/api/client`, { headers }),
-            axios.get(`https://quircom.onrender.com/api/freelancer`, {
-              headers,
-            }),
+            axios.get(`https://quircom.onrender.com/api/freelancer`, { headers }),
           ]);
 
-          if (
-            responseClient.status === 200 &&
-            responseFreelancer.status === 200
-          ) {
+          if (responseClient.status === 200 && responseFreelancer.status === 200) {
             const combinedUsers = [
               ...responseClient.data,
               ...responseFreelancer.data,
@@ -46,6 +44,10 @@ const WithAuth = (WrappedComponent) => {
     }, [userId]);
 
     useEffect(() => {
+      if (!userData) {
+        return;
+      }
+
       if (userData.verify === false) {
         navigate(`/verify/${userData._id}`);
       } else {
@@ -64,12 +66,13 @@ const WithAuth = (WrappedComponent) => {
           }
         }
       }
-    }, []);
+    }, [userData, navigate]);
 
     const decodeToken = (token) => {
       try {
         return JSON.parse(atob(token.split(".")[1]));
       } catch (error) {
+        console.error("Error decoding token:", error);
         return null;
       }
     };
@@ -79,7 +82,7 @@ const WithAuth = (WrappedComponent) => {
       return currentTime > exp;
     };
 
-    return <>{isLoading ? console.clear() : <WrappedComponent {...props} />}</>;
+    return isLoading ? <div>Loading...</div> : <WrappedComponent {...props} />;
   };
 
   return WithAuthWrapper;

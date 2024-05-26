@@ -79,6 +79,7 @@ const LoginUser = async (req, res) => {
         user: {
           _id: freelancerUser._id,
           accType: "freelancer",
+          verify: freelancerUser.verify
         },
         authToken,
         emailToken,
@@ -104,6 +105,7 @@ const LoginUser = async (req, res) => {
         user: {
           _id: clientUser._id,
           accType: "client",
+          verify: clientUser.verify,
         },
         authToken,
         emailToken,
