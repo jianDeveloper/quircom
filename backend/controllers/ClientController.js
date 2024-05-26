@@ -78,13 +78,7 @@ const CreateUser = async (req, res) => {
       },
     });
 
-    const emailToken = jwt.sign(
-      { _id: result._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "5m" }
-    );
-
-    res.status(201).json({ result, emailToken });
+    res.status(201).json( result );
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
