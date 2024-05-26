@@ -37,7 +37,7 @@ const WithAuth = (WrappedComponent) => {
             console.error("Failed to fetch users from one or both endpoints");
           }
         } catch (error) {
-          console.error("Error fetching users:", error);
+          console.error("Error fetching users");
         }
       };
 
@@ -74,7 +74,7 @@ const WithAuth = (WrappedComponent) => {
       try {
         return JSON.parse(atob(token.split(".")[1]));
       } catch (error) {
-        console.error("Error decoding token:", error);
+        console.error("Error decoding token:");
         return null;
       }
     };
@@ -85,7 +85,7 @@ const WithAuth = (WrappedComponent) => {
     };
 
     // Render the wrapped component if not loading
-    return <WrappedComponent {...props} />;
+    return <>{console.clear()} <WrappedComponent {...props} /></>;
   };
 
   return WithAuthWrapper;
