@@ -46,27 +46,30 @@ const WithAuth = (WrappedComponent) => {
 
     useEffect(() => {
       const token = localStorage.getItem("authToken");
-      if (!userData) {
-        return;
-      }
-    
-      if (userData.verify === false) {
-        navigate(`/verify/${userData._id}`);
-      } else {      
-        if (!token) {
+      if (!token) {
+        navigate("/");
+      } else {
+        const decodedToken = decodeToken(token);
+        const isExpired = isTokenExpired(decodedToken.exp);
+  
+        if (isExpired) {
+          localStorage.removeItem("authToken");
           navigate("/");
         } else {
-          const decodedToken = decodeToken(token);
-          const isExpired = isTokenExpired(decodedToken.exp);
-    
-          if (isExpired) {
-            localStorage.removeItem("authToken");
-            navigate("/");
-          } else {
-            setIsLoading(false);
+          setIsLoading(false);
+          
+          if (!userData) {
+            return;
+          }
+        
+          if (userData.verify === false) {
+            navigate(`/verify/${userData._id}`);
+          } else {      
+            navigate("/")
           }
         }
       }
+      
     }, [userData, navigate]);
     
 
