@@ -33,17 +33,19 @@ const Login = ({ open, onClose }) => {
       );
 
       if (response.status === 200) {
-        const { authToken } = response.data;
+        const { authToken, emailToken } = response.data;
         const { _id, accType } = response.data.user;
         if (accType === "client") {
           // login(_id);
           setLoading(false);
           localStorage.setItem("authToken", authToken);
+          localStorage.setItem("verifyToken", emailToken);
           navigate(`/client/dashboard/${_id}`);
         } else if (accType === "freelancer") {
           // login(_id);
           setLoading(false);
           localStorage.setItem("authToken", authToken);
+          localStorage.setItem("verifyToken", emailToken);
           navigate(`/freelancer/dashboard/${_id}`);
         }
       }

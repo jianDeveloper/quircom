@@ -14,6 +14,7 @@ const Verify = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
+      setIsButtonDisabled(true)
       try {
         const token = localStorage.getItem("verifyToken");
         const headers = {
@@ -30,6 +31,7 @@ const Verify = () => {
           const combinedUsers = [...responseClient.data, ...responseFreelancer.data];
           const user = combinedUsers.find((user) => user._id === userId);
           setUserData(user);
+          setIsButtonDisabled(false)
         } else {
           console.error("Failed to fetch users from one or both endpoints");
         }
