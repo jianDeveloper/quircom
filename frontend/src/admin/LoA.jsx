@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import Box from "@mui/material/Box";
 import { PieChart } from "@mui/x-charts/PieChart";
 import axios from "axios";
 import { useReactToPrint } from "react-to-print";

@@ -5,17 +5,11 @@ import { ToastContainer, toast } from "react-toastify";
 import {
   Avatar,
   IconButton,
-  Menu,
-  MenuItem,
   Popover,
-  Stack,
-  Typography,
 } from "@mui/material";
 import {
-  FaExclamationTriangle,
   FaFileImport,
   FaFileSignature,
-  FaHandPaper,
   FaInfoCircle,
 } from "react-icons/fa";
 import ProjectFiles from "./ProjectFiles";

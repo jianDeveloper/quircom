@@ -2,13 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-import { IoEyeSharp } from "react-icons/io5";
-import { IoChatboxEllipses } from "react-icons/io5";
-import { FaFolder } from "react-icons/fa";
-
-import CchatModal from "./chatModal";
-import CdetailsModal from "./detailsModal";
-import CfilesModal from "./filesModal";
 import WithAuth from "../../auth/WithAuth";
 import Loader from "../../assets/quircomloading.gif";
 
