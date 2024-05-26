@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Loader from '../assets/quircomloading.gif';
 
 const NotFoundAuth = (WrappedComponent) => {
   const NotFoundAuthWrapper = (props) => {
     const navigate = useNavigate();
-    const { token } = useParams();
+
+    const { search } = useLocation();
+    const queryParams = new URLSearchParams(search);
+    const token = queryParams.get('token');
+    console.log(token);
+
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
