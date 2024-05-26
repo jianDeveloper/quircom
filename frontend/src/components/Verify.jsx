@@ -60,6 +60,7 @@ const Verify = () => {
       );
 
       const { message, emailToken } = response.data;
+      localStorage.setItem("verifyToken", emailToken)
       toast.success(message);
       setIsButtonDisabled(true);
       startTimer();
@@ -88,6 +89,11 @@ const Verify = () => {
       return () => clearInterval(intervalId);
     }
   }, [remainingTime]);
+
+  const handleBackToLogin = () => {
+    localStorage.clear();
+    navigate("/");
+  };
 
   return (
     <>
@@ -119,7 +125,7 @@ const Verify = () => {
             </button>
           </form>
           <div className="mt-4 text-center">
-            <a href="/" className="text-blue-700 hover:underline">
+            <a href="/" className="text-blue-700 hover:underline" onClick={handleBackToLogin}>
               Back to Login
             </a>
           </div>

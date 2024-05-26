@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from 'axios'; // Ensure axios is imported if you are using it
+import axios from 'axios'; 
+import Loader from '../assets/quircomloading.gif';
 
 const WithAuth = (WrappedComponent) => {
   const WithAuthWrapper = (props) => {
@@ -14,9 +15,9 @@ const WithAuth = (WrappedComponent) => {
     useEffect(() => {
       const fetchUser = async () => {
         try {
-          const verifyT = localStorage.getItem("verifyToken");
+          const token = localStorage.getItem("authToken");
           const headers = {
-            Authorization: `Bearer ${verifyT}`,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           };
 
@@ -82,7 +83,8 @@ const WithAuth = (WrappedComponent) => {
       return currentTime > exp;
     };
 
-    return isLoading ? <div>Loading...</div> : <WrappedComponent {...props} />;
+    // Render the wrapped component if not loading
+    return <WrappedComponent {...props} />;
   };
 
   return WithAuthWrapper;
