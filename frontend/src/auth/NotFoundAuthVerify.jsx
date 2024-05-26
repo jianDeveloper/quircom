@@ -1,37 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Loader from '../assets/quircomloading.gif';
 
 const NotFoundAuth = (WrappedComponent) => {
   const NotFoundAuthWrapper = (props) => {
     const navigate = useNavigate();
-    const { search } = useLocation();
-    const queryParams = new URLSearchParams(search);
-    const token = queryParams.get('token');
-
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-      const tokenFromLocalStorage = localStorage.getItem('verifyToken');
-      const isVerified = localStorage.getItem('isVerified');
-      const finalToken = token || tokenFromLocalStorage;
-
-      if (isVerified) {
-        navigate('/verification-success'); // Redirect if already verified
-      } else if (!finalToken) {
+      const token = localStorage.getItem('verifyToken');
+      if (!token) {
         navigate('/page-not-found');
+
       } else {
-        const decodedToken = decodeToken(finalToken);
+        const decodedToken = decodeToken(token);
         const isExpired = isTokenExpired(decodedToken.exp);
 
         if (isExpired) {
           localStorage.removeItem('verifyToken');
           navigate('/page-not-found');
+
         } else {
           setIsLoading(false);
+
         }
       }
-    }, [navigate, token]);
+    }, []);
 
     const decodeToken = (token) => {
       try {
