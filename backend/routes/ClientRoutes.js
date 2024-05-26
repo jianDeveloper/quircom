@@ -11,6 +11,7 @@ const {
   DeleteUserWithAuth,
   SubscriptionStatusWithAuth,
   EditBillingWithAuth,
+  VerifyUserWithAuth,
   ValidateUserData,
 } = require("../controllers/ClientController.js");
 
@@ -21,6 +22,7 @@ router.get("/:id", GetSpecificUserWithAuth);
 router.patch("/update/:id", upload.single("file"), EditUserWithAuth);
 router.patch("/status/:id", SubscriptionStatusWithAuth);
 router.patch("/billing/:id", EditBillingWithAuth)
+router.patch("/verify/:id", VerifyUserWithAuth);
 router.delete("/delete/:id", DeleteUserWithAuth);
 router.post("/validate", ValidateUserData);
 

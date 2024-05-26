@@ -20,6 +20,6 @@ router.post("/login", LoginUser);
 router.post("/login-admin", LoginAdmin);
 router.use(requireAuth);
 router.patch("/resetpass/:id", ResetPassword);
-// router.patch("/verify/", EmailVerification)
+
 
 module.exports = router;

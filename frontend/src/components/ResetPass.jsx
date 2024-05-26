@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import NotFoundAuth from "../auth/NotFoundAuth";
+import NotFoundAuth from "../auth/NotFoundAuthReset";
 
 const ResetPassword = () => {
   const [passWord, setPassword] = useState("");
@@ -23,7 +23,7 @@ const ResetPassword = () => {
         toast.error("Please enter your new password.");
       } else {
         // Retrieve the JWT token from local storage
-        const token = localStorage.getItem("emailToken");
+        const token = localStorage.getItem("resetToken");
 
         // Include the token in the request headers
         const headers = {
@@ -37,7 +37,7 @@ const ResetPassword = () => {
           { passWord },
           { headers }
         );
-        localStorage.removeItem("emailToken");
+        localStorage.removeItem("resetToken");
         toast.success(response.data.message);
         setIsButtonDisabled(true);
       }

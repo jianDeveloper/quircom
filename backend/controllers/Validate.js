@@ -66,6 +66,11 @@ const LoginUser = async (req, res) => {
         process.env.JWT_SECRET,
         { expiresIn: "5d" }
       );
+      const emailToken = jwt.sign(
+        { _id: freelancerUser._id },
+        process.env.JWT_SECRET,
+        { expiresIn: "5m" }
+      );
       if (freelancerUser.passWord !== passWord) {
         return res.status(401).json({ message: "Invalid password" });
       }
@@ -76,6 +81,7 @@ const LoginUser = async (req, res) => {
           accType: "freelancer",
         },
         authToken,
+        emailToken,
       });
     }
 
@@ -84,6 +90,11 @@ const LoginUser = async (req, res) => {
         { _id: clientUser._id },
         process.env.JWT_SECRET,
         { expiresIn: "5d" }
+      );
+      const emailToken = jwt.sign(
+        { _id: clientUser._id },
+        process.env.JWT_SECRET,
+        { expiresIn: "5m" }
       );
       if (clientUser.passWord !== passWord) {
         return res.status(401).json({ message: "Invalid password" });
@@ -95,6 +106,7 @@ const LoginUser = async (req, res) => {
           accType: "client",
         },
         authToken,
+        emailToken,
       });
     }
 
@@ -187,7 +199,7 @@ const ForgotPassword = async (req, res) => {
                   <p>${username}, We have received a request to reset your password. If you did not make this request, please ignore this email.</p>
                   <p style="text-align: center;">To reset your password, click the button below:</p>
                   <p style="text-align: center;">
-                      <a href="https://quircom.netlify.app/resetpass/${id}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Reset Password</a>
+                      <a href="https://quircom.netlify.app/reset-pass/${id}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Reset Password</a>
                   </p>
                   <p>If you did not request a password reset, no further action is required.</p>
                   <p>Thank you,</p>
@@ -244,7 +256,7 @@ const ForgotPassword = async (req, res) => {
                   <p>${username}, We have received a request to reset your password. If you did not make this request, please ignore this email.</p>
                   <p style="text-align: center;">To reset your password, click the button below:</p>
                   <p style="text-align: center;">
-                      <a href="https://quircom.netlify.app/resetpass/${id}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Reset Password</a>
+                      <a href="https://quircom.netlify.app/reset-pass/${id}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Reset Password</a>
                   </p>
                   <p>If you did not request a password reset, no further action is required.</p>
                   <p>Thank you,</p>
@@ -298,8 +310,6 @@ const EmailVerification = async (req, res) => {
       );
       const username = freelancerUser.firstName + " " + freelancerUser.surName;
       const id = freelancerUser._id;
-      freelancerUser.verify = true;
-      await freelancerUser.save();
 
       const companyLogoUrl =
         "https://drive.google.com/uc?id=1wc0kK6tHtpDCuPszIRimda3xX_Ctd9bG";
@@ -321,7 +331,7 @@ const EmailVerification = async (req, res) => {
               <p>${username}, thank you for registering with our service. Please verify your email address to complete your registration.</p>
               <p style="text-align: center;">To verify your email, click the button below:</p>
               <p style="text-align: center;">
-                  <a href="https://quircom.netlify.app/verifyemail/${id}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Verify Email</a>
+                  <a href="https://quircom.netlify.app/verify-success/${id}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Verify Email</a>
               </p>
               <p>If you did not create an account, no further action is required.</p>
               <p>Thank you,</p>
@@ -335,7 +345,7 @@ const EmailVerification = async (req, res) => {
       await transporter.sendMail({
         from: process.env.GMAIL_SENDER,
         to: freelancerUser.eMail,
-        subject: "Reset Password",
+        subject: "Email Verification",
         html: htmlContent,
         replyTo: "", // Set an empty reply-to address to disable reply functionality
         disableReplyTo: true,
@@ -352,10 +362,8 @@ const EmailVerification = async (req, res) => {
         process.env.JWT_SECRET,
         { expiresIn: "5m" }
       );
-      const username = clientUser.userName + " " + clientUser.surName;
+      const username = clientUser.firstName + " " + clientUser.surName;
       const id = clientUser._id;
-      clientUser.verify = true;
-      await clientUser.save();
 
       const companyLogoUrl =
         "https://drive.google.com/uc?id=1wc0kK6tHtpDCuPszIRimda3xX_Ctd9bG";
@@ -377,7 +385,7 @@ const EmailVerification = async (req, res) => {
               <p>${username}, thank you for registering with our service. Please verify your email address to complete your registration.</p>
               <p style="text-align: center;">To verify your email, click the button below:</p>
               <p style="text-align: center;">
-                  <a href="https://quircom.netlify.app/verifyemail/${id}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Verify Email</a>
+                  <a href="https://quircom.netlify.app/verify-success/${id}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Verify Email</a>
               </p>
               <p>If you did not create an account, no further action is required.</p>
               <p>Thank you,</p>
@@ -390,7 +398,7 @@ const EmailVerification = async (req, res) => {
       await transporter.sendMail({
         from: process.env.GMAIL_SENDER,
         to: clientUser.eMail,
-        subject: "Reset Password",
+        subject: "Email Verification",
         html: htmlContent,
         replyTo: "",
         disableReplyTo: true,

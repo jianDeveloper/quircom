@@ -9,6 +9,7 @@ const {
   CreateUser,
   EditUserWithAuth,
   EditPortfolioWithAuth,
+  VerifyUserWithAuth,
   DeleteUserWithAuth,
   ValidateUserData
 } = require("../controllers/FreelancerController.js");
@@ -19,6 +20,7 @@ router.get("/", GetAllUsersWithAuth);
 router.get("/:id", GetSpecificUserWithAuth);
 router.patch("/update/:id", upload.single("file"), EditUserWithAuth);
 router.patch("/update/portfolio/:id", upload.single("file"), EditPortfolioWithAuth);
+router.patch("/verify/:id", VerifyUserWithAuth);
 router.delete("/delete/:id", DeleteUserWithAuth);
 router.post("/validate", ValidateUserData);
 

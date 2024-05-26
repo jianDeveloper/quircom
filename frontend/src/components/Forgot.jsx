@@ -18,7 +18,7 @@ const ForgotPassword = () => {
       } else {
         const response = await axios.post('https://quircom.onrender.com/api/auth/forgotpass', { eMail });
         const { message, emailToken } = response.data;
-        localStorage.setItem('emailToken', emailToken);
+        localStorage.setItem('resetToken', emailToken);
         toast.success(message);
         setIsButtonDisabled(true);
         startTimer();
