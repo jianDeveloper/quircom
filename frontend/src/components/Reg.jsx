@@ -219,14 +219,14 @@ const Reg = () => {
       const { result, emailToken } = response.data;
       localStorage.setItem('verifyToken', emailToken)
       toast.success("Registration successful!", {
-        autoClose: 2000,
+        autoClose: 1000,
         onClose: () => {
           setTimeout(() => {
             navigate(`/verify/${result._id}`)
-          }, 2000);
+          }, 1000);
         },
       });
-      
+
     } catch (error) {
       toast.error("Error during registration");
       console.error("Error during registration ", error.message);
