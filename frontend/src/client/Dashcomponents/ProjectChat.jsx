@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useMemo } from "react";
 import WithAuth from "../../auth/WithAuth";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import { Avatar, IconButton } from "@mui/material";
+import { Avatar, IconButton, Menu, MenuItem, Stack, Typography } from "@mui/material";
 import {
   FaExclamationTriangle,
   FaFileImport,
@@ -264,6 +264,32 @@ const ProjectChat = ({ requestInfos }) => {
                     <IconButton>
                       <FaInfoCircle size={20} color="#1D5B79" />
                     </IconButton>
+                    <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleCloseMenu}
+          >
+            <MenuItem
+              onClick={handleCloseMenu}
+              component={Link}
+              to={`/client/profile/${userId}`}
+            >
+              <Stack direction={"row"} spacing={1}>
+                <img className="w-6 h-6 " src={User} alt="Profile" />
+                <Typography variant="body1">Profile</Typography>
+              </Stack>
+            </MenuItem>
+            <MenuItem
+              onClick={handleCloseMenu}
+              component={Link}
+              to={`/client/settings/${userId}`}
+            >
+              <Stack direction={"row"} spacing={1}>
+                <img className="w-6 h-6" src={Settings} alt="Settings" />
+                <Typography variant="body1">Settings</Typography>
+              </Stack>
+            </MenuItem>
+          </Menu>
                     </div>
                   </div>
                   <div className="bg-white h-full overflow-auto">
