@@ -75,6 +75,12 @@ const CreateRequest = async (req, res) => {
       // feedbackInfo: request.feedbackInfo,
       feedbackNum: null,
       feedbackInfo: null,
+      report: {
+        status: false,
+        reportType: "",
+        details: ""
+      },
+      contract: "",
       deadLine: request.deadLine,
       dateUploaded: new Date()
     });
@@ -205,8 +211,54 @@ const VerifyRequest = async (req, res) => {
 
     let update = {
       $set: {
-        verify: request.verify,
         status: request.status
+      },
+    };
+
+    const result = await RequestModel.findByIdAndUpdate(id, update, { new: true });
+    res.status(201).json(result);
+  } catch (err) {
+      res.status(400).json({ message: err.message });
+  }
+}
+
+const ReportRequest = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const request = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid ID" });
+    }
+
+    let update = {
+      $set: {
+        'report.status': request.report.status,
+        'report.reportType': request.report.reportType,
+        'report.details': request.report.details,
+      },
+    };
+
+    const result = await RequestModel.findByIdAndUpdate(id, update, { new: true });
+    res.status(201).json(result);
+  } catch (err) {
+      res.status(400).json({ message: err.message });
+  }
+};
+
+
+const ContractRequest = async (req, res) => {
+  try{
+    const { id } = req.params;
+    const request = req.body;
+    
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid ID" });
+    }
+
+    let update = {
+      $set: {
+        contract: request.contract
       },
     };
 
@@ -275,6 +327,16 @@ const VerifyRequestWithAuth = (req, res) => {
     await VerifyRequest(req, res);
   });
 };
+const ReportRequestWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await ReportRequest(req, res);
+  });
+};
+const ContractRequestWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await ContractRequest(req, res);
+  });
+};
 const DeleteRequestWithAuth = (req, res) => {
   requireAuth(req, res, async () => {
     await DeleteRequest(req, res);
@@ -288,5 +350,7 @@ module.exports = {
     EditRequestWithAuth,
     SubmitFeedbackWithAuth,
     VerifyRequestWithAuth,
+    ReportRequestWithAuth,
+    ContractRequestWithAuth,
     DeleteRequestWithAuth
 };
