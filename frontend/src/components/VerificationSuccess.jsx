@@ -9,10 +9,6 @@ const VerifySuccess = () => {
   const queryParams = new URLSearchParams(search);
   const token = queryParams.get('token');
 
-  useEffect(() => {
-    localStorage.setItem("verifyToken", token);
-  }, [token]);
-
   const [userData, setUserData] = useState();
 
   useEffect(() => {
