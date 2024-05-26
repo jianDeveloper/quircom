@@ -372,32 +372,34 @@ const EmailVerification = async (req, res) => {
       const companyLogoUrl =
         "https://drive.google.com/uc?id=1wc0kK6tHtpDCuPszIRimda3xX_Ctd9bG";
 
-      const htmlContent = `
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-          <meta charset="UTF-8">
-          <meta http-equiv="X-UA-Compatible" content="IE=edge">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Email Verification</title>
-      </head>
-      <body style="font-family: Arial, sans-serif;">
-      
-          <div style="max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f4; color: #000; font-size: 16px;">
-              <img src="${companyLogoUrl}" alt="Company Logo" style="max-width: 200px; margin: 0 auto 20px; display: block;">
-              <h2 style="margin-bottom: 20px; text-align: center; color: #000;">Email Verification</h2>
-              <p>${username}, thank you for registering with our service. Please verify your email address to complete your registration.</p>
-              <p style="text-align: center;">To verify your email, click the button below:</p>
-              <p style="text-align: center;">
-                  <a href="${`http://localhost:5173/verify-success/${id}?token=${emailToken}`}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Verify Email</a>
-              </p>
-              <p>If you did not create an account, no further action is required.</p>
-              <p>Thank you,</p>
-              <p>QUIRCOM</p>
-          </div>
-      
-      </body>
-      </html>`;
+        const verificationLink = `https://quircom.netlify.app/verify-success/${id}?token=${emailToken}`;
+
+        const htmlContent = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Email Verification</title>
+        </head>
+        <body style="font-family: Arial, sans-serif;">
+        
+            <div style="max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f4; color: #000; font-size: 16px;">
+                <img src="${companyLogoUrl}" alt="Company Logo" style="max-width: 200px; margin: 0 auto 20px; display: block;">
+                <h2 style="margin-bottom: 20px; text-align: center; color: #000;">Email Verification</h2>
+                <p>${username}, thank you for registering with our service. Please verify your email address to complete your registration.</p>
+                <p style="text-align: center;">To verify your email, click the button below:</p>
+                <p style="text-align: center;">
+                    <a href="${verificationLink}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Verify Email</a>
+                </p>
+                <p>If you did not create an account, no further action is required.</p>
+                <p>Thank you,</p>
+                <p>QUIRCOM</p>
+            </div>
+        
+        </body>
+        </html>`;
 
       await transporter.sendMail({
         from: process.env.GMAIL_SENDER,

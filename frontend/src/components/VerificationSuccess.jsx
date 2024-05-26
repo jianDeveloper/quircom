@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 import NotFoundAuth from "../auth/NotFoundAuthVerify";
 
 const VerifySuccess = () => {
@@ -16,10 +17,10 @@ const VerifySuccess = () => {
       try {
         let storedToken = localStorage.getItem("verifyToken");
         if (!storedToken && token) {
-          storedToken = token; // Use token from query parameter if localStorage token is not available
-        }
+          storedToken = token;
+        }     
         const headers = {
-          Authorization: `Bearer ${storedToken}`, // Use the token from localStorage or query parameter
+          Authorization: `Bearer ${storedToken}`,
           "Content-Type": "application/json",
         };
 
@@ -55,16 +56,18 @@ const VerifySuccess = () => {
           if (!storedToken && token) {
             storedToken = token; // Use token from query parameter if localStorage token is not available
           }
+          
           const headers = {
             Authorization: `Bearer ${storedToken}`, // Use the token from localStorage or query parameter
             "Content-Type": "application/json",
           };
-
+  
           const updateResponse = await axios.patch(
             `https://quircom.onrender.com/api/${userData.accType}/verify/${userId}`,
+            {}, // Assuming you need to send some data here
             { headers }
           );
-
+  
           if (updateResponse.status === 200) {
             localStorage.removeItem("verifyToken");
           }
@@ -74,11 +77,11 @@ const VerifySuccess = () => {
       }
     };
     updateVerification();
-  }, [userData]);
+  }, [userData, token]); // Added `token` to the dependency array  
 
   useEffect(() => {
     const handleBeforeUnload = () => {
-      localStorage.clear();
+      localStorage.removeItem("verifyToken");
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
