@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import NotFoundAuth from "../auth/NotFoundAuth";
+import NotFoundAuth from "../auth/NotFoundAuthReset";
 
 const ResetPassword = () => {
   const [passWord, setPassword] = useState("");

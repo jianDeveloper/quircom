@@ -11,6 +11,8 @@ import Terms from "./components/Terms.jsx";
 import Forgot from "./components/Forgot.jsx";
 import ResetPass from "./components/ResetPass.jsx";
 import NotFoundPage from "./components/NotFoundPage.jsx";
+import Verify from "./components/Verify.jsx";
+import VerifySuccess from './components/VerificationSuccess.jsx';
 
 // Admin Imports =============================================================
 import ALogPage from "./admin/ALogPage.jsx";
@@ -81,10 +83,19 @@ function App() {
         />
         <Route 
         exact 
-        path="/resetpass/:userId" 
+        path="/reset-pass/:userId" 
         element={<ResetPass />} 
         />
-        
+        <Route 
+        exact 
+        path="/verify/:userId" 
+        element={<Verify />} 
+        />
+        <Route 
+        exact 
+        path="/verify-success" 
+        element={<VerifySuccess />} 
+        />
         {/* Admin Routes
         <Route
           exact

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import phil from "philippine-location-json-for-geer";
 import { ToastContainer, toast } from "react-toastify";
@@ -17,6 +17,7 @@ const Reg = () => {
     a.name.localeCompare(b.name)
   );
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -142,7 +143,7 @@ const Reg = () => {
 
     try {
       const response = await axios.post(
-        `http://quircom.onrender.com/api/auth/validate`,
+        `https://quircom.onrender.com/api/auth/validate`,
         {
           userName: formData.userName,
           eMail: formData.eMail,
@@ -185,7 +186,7 @@ const Reg = () => {
 
       // Send POST request to the appropriate endpoint
       const response = await axios.post(
-        `http://quircom.onrender.com/api/${endpoint}/upload`,
+        `https://quircom.onrender.com/api/${endpoint}/upload`,
         formObject,
         {
           headers: {
@@ -213,8 +214,19 @@ const Reg = () => {
         accType: "",
         aggRee: false,
       });
-      formRef.current.reset();
-      toast.success("Registration successful!");
+      formRef.current.reset();   
+
+      const { result, emailToken } = response.data;
+      localStorage.setItem('verifyToken', emailToken)
+      toast.success("Registration successful!", {
+        autoClose: 2000,
+        onClose: () => {
+          setTimeout(() => {
+            navigate(`/verify/${result._id}`)
+          }, 2000);
+        },
+      });
+      
     } catch (error) {
       toast.error("Error during registration");
       console.error("Error during registration ", error.message);
