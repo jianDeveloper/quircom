@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const UserModel = require("../models/FreelancerModel");
 const DriveService = require("../utils/DriveService");
+const jwt = require("jsonwebtoken");
 const requireAuth = require("../utils/requireAuth")
 
 const GetAllUsers = async (req, res) => {
@@ -74,8 +75,14 @@ const CreateUser = async (req, res) => {
       },
       ratings: freelancer.ratings,
     });
-    
-    res.status(201).json(result);
+
+    const emailToken = jwt.sign(
+      { _id: result._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "3m" }
+    );
+
+    res.status(201).json({ result, emailToken });
   } catch(err) {
     res.status(500).json({ message: err.message });
   }

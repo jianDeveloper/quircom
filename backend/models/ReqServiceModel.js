@@ -47,6 +47,24 @@ const ReqServiceSchema = new Schema({
     type: String,
     default: ""
   },
+  report:{
+    status:{
+      type: Boolean,
+      default: false,
+    },
+    reportType:{
+      type: String,
+      default: "",
+    },
+    details:{
+      type: String,
+      default: "",
+    },
+  },
+  contract:{
+    type: Boolean,
+    default: false
+  },
   dateUploaded:{
     type: Date,
     default: Date.now

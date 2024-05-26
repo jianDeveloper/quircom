@@ -37,7 +37,7 @@ const WithAuth = (WrappedComponent) => {
             console.error("Failed to fetch users from one or both endpoints");
           }
         } catch (error) {
-          console.error("Error fetching users:", error);
+          console.error("Error fetching users");
         }
       };
 
@@ -45,20 +45,20 @@ const WithAuth = (WrappedComponent) => {
     }, [userId]);
 
     useEffect(() => {
+      const token = localStorage.getItem("authToken");
       if (!userData) {
         return;
       }
-
+    
       if (userData.verify === false) {
         navigate(`/verify/${userData._id}`);
-      } else {
-        const token = localStorage.getItem("authToken");
+      } else {      
         if (!token) {
           navigate("/");
         } else {
           const decodedToken = decodeToken(token);
           const isExpired = isTokenExpired(decodedToken.exp);
-
+    
           if (isExpired) {
             localStorage.removeItem("authToken");
             navigate("/");
@@ -68,12 +68,13 @@ const WithAuth = (WrappedComponent) => {
         }
       }
     }, [userData, navigate]);
+    
 
     const decodeToken = (token) => {
       try {
         return JSON.parse(atob(token.split(".")[1]));
       } catch (error) {
-        console.error("Error decoding token:", error);
+        console.error("Error decoding token:");
         return null;
       }
     };
@@ -84,7 +85,7 @@ const WithAuth = (WrappedComponent) => {
     };
 
     // Render the wrapped component if not loading
-    return <WrappedComponent {...props} />;
+    return <> <WrappedComponent {...props} /></>;
   };
 
   return WithAuthWrapper;

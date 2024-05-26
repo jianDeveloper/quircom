@@ -54,7 +54,6 @@ function CDashboard() {
         `https://quircom.onrender.com/api/request/`,
         { headers }
       );
-      console.log("REQUESTT RESPONSE", response2.data);
       try {
         if (response2.status === 200) {
           // Ensure response.data is not null or undefined
@@ -78,7 +77,7 @@ function CDashboard() {
         } else {
           console.error(
             "Error fetching services: Unexpected status code",
-            response.status
+            response2.status
           );
         }
       } catch (error) {
