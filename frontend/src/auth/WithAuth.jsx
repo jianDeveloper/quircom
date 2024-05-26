@@ -47,7 +47,6 @@ const WithAuth = (WrappedComponent) => {
     useEffect(() => {
       const token = localStorage.getItem("authToken");
       if (!userData) {
-        navigate("/");
         return;
       }
     
