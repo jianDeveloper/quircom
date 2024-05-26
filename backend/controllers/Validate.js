@@ -298,8 +298,6 @@ const EmailVerification = async (req, res) => {
       );
       const username = freelancerUser.firstName + " " + freelancerUser.surName;
       const id = freelancerUser._id;
-      freelancerUser.verify = true;
-      await freelancerUser.save();
 
       const companyLogoUrl =
         "https://drive.google.com/uc?id=1wc0kK6tHtpDCuPszIRimda3xX_Ctd9bG";
@@ -321,7 +319,7 @@ const EmailVerification = async (req, res) => {
               <p>${username}, thank you for registering with our service. Please verify your email address to complete your registration.</p>
               <p style="text-align: center;">To verify your email, click the button below:</p>
               <p style="text-align: center;">
-                  <a href="https://quircom.netlify.app/verify-success" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Verify Email</a>
+                  <a href="https://quircom.netlify.app/verify-success/${id}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Verify Email</a>
               </p>
               <p>If you did not create an account, no further action is required.</p>
               <p>Thank you,</p>
@@ -354,8 +352,6 @@ const EmailVerification = async (req, res) => {
       );
       const username = clientUser.firstName + " " + clientUser.surName;
       const id = clientUser._id;
-      clientUser.verify = true;
-      await clientUser.save();
 
       const companyLogoUrl =
         "https://drive.google.com/uc?id=1wc0kK6tHtpDCuPszIRimda3xX_Ctd9bG";
@@ -377,7 +373,7 @@ const EmailVerification = async (req, res) => {
               <p>${username}, thank you for registering with our service. Please verify your email address to complete your registration.</p>
               <p style="text-align: center;">To verify your email, click the button below:</p>
               <p style="text-align: center;">
-                  <a href="https://quircom.netlify.app/verify-success" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Verify Email</a>
+                  <a href="https://quircom.netlify.app/verify-success/${id}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Verify Email</a>
               </p>
               <p>If you did not create an account, no further action is required.</p>
               <p>Thank you,</p>

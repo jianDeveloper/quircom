@@ -93,7 +93,7 @@ function App() {
         />
         <Route 
         exact 
-        path="/verify-success" 
+        path="/verify-success/:userId" 
         element={<VerifySuccess />} 
         />
         {/* Admin Routes

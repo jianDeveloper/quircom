@@ -215,6 +215,30 @@ const EditBilling = async (req, res) => {
   }
 };
 
+const VerifyUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid ID" });
+    }
+
+    const update = {
+      $set: {
+        verify: true
+      },
+    };
+
+    const result = await UserModel.findByIdAndUpdate(id, update, { new: true });
+    if (result) {
+      res.status(200).json(result);
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (err) {
+      res.status(500).json({ message: err.message });
+  }
+};
 
 const DeleteUser = async (req, res) => {
   try {
@@ -306,6 +330,11 @@ const EditBillingWithAuth = (req, res) => {
     await EditBilling(req, res);
   });
 };
+const VerifyUserWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await VerifyUser(req, res);
+  });
+};
 
 module.exports = {
   CreateUser,
@@ -315,5 +344,6 @@ module.exports = {
   DeleteUserWithAuth,
   SubscriptionStatusWithAuth,
   EditBillingWithAuth,
+  VerifyUserWithAuth,
   ValidateUserData,
 };

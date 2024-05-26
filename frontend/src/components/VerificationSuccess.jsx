@@ -1,17 +1,68 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import NotFoundAuth from '../auth/NotFoundAuthVerify';
 
 const VerifySuccess = () => {
+  const { userId } = useParams();
+  const [userData, setUserData] = useState();
 
   useEffect(() => {
-    // Function to delete the verifyToken from localStorage
-    const removeVerifyToken = () => {
-      localStorage.removeItem('verifyToken');
+    const fetchUser = async () => {
+      try {
+        const token = localStorage.getItem("verifyToken");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
+
+        const [responseClient, responseFreelancer] = await Promise.all([
+          axios.get(`https://quircom.onrender.com/api/client`, { headers }),
+          axios.get(`https://quircom.onrender.com/api/freelancer`, { headers }),
+        ]);
+
+        if (responseClient.status === 200 && responseFreelancer.status === 200) {
+          const combinedUsers = [...responseClient.data, ...responseFreelancer.data];
+          const user = combinedUsers.find(user => user._id === userId);
+          setUserData(user);
+        } else {
+          console.error("Failed to fetch users from one or both endpoints");
+        }
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
     };
 
-    // Call the function when the component mounts
-    removeVerifyToken();
-  }, []);
+    fetchUser();
+  }, [userId]);
+
+  useEffect(() => {
+    const updateVerification = async () => {
+      if (userData) {
+        try {
+          const token = localStorage.getItem("verifyToken");
+          const headers = {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          };
+
+          const updateResponse = await axios.patch(
+            `https://quircom.onrender.com/api/${userData.accType}/verify/${userId}`,
+            {}, // Assuming you need to send some data here
+            { headers }
+          );
+          
+          if (updateResponse.status === 200) {
+            localStorage.removeItem('verifyToken'); // Remove the token on successful update
+          }
+        } catch (error) {
+          console.error("Error during patch:", error);
+        }
+      }
+    };
+
+    updateVerification();
+  }, [userData]);
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-20 z-50 overflow-auto ease-in-out duration-1000 flex justify-center items-center">

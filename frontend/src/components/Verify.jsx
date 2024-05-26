@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 
 const Verify = () => {
   const { userId } = useParams();
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState();
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [remainingTime, setRemainingTime] = useState(0);
   const [timer, setTimer] = useState(null);
