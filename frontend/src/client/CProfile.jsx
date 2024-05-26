@@ -111,7 +111,7 @@ function CProfile() {
                     className="py-2 px-3 m-auto text-center font-bold"
                   >
                     <Link
-                      to={`/client/billing/${userId}`}
+                      to={`/client/subscription/${userId}`}
                       className="buttonSettings text-[#1D5B79] bg-[#F5F5DC]"
                     >
                       Subscription
