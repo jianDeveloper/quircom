@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from 'axios';
+import axios from 'axios'; 
 import Loader from '../assets/quircomloading.gif';
 
 const WithAuth = (WrappedComponent) => {
@@ -82,14 +82,6 @@ const WithAuth = (WrappedComponent) => {
       const currentTime = Date.now() / 1000;
       return currentTime > exp;
     };
-
-    if (isLoading) {
-      return (
-        <div className='flex justify-center items-center h-screen'>
-          <img src={Loader} className="w-[80px]" alt="Loading..." />
-        </div>
-      );
-    }
 
     // Render the wrapped component if not loading
     return <WrappedComponent {...props} />;
