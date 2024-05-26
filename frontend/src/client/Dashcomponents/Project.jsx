@@ -196,7 +196,7 @@ const Project = () => {
             {activeTab === "completed" && <ProjectCompleteList />}
           </div>
           {/* 2nd column Grid - Chat */}
-          <div className="col-span-3 flex flex-col h-full">
+          <div className="col-span-3 flex flex-col mb-5">
             <ProjectChat requestInfos={requestInfos} />
           </div>
           {/* End of 2nd column */}

@@ -10,6 +10,7 @@ import CchatModal from "./chatModal";
 import CdetailsModal from "./detailsModal";
 import CfilesModal from "./filesModal";
 import WithAuth from "../../auth/WithAuth";
+import Loader from "../../assets/quircomloading.gif";
 
 const TaskList = () => {
   const { userId } = useParams();
@@ -20,6 +21,7 @@ const TaskList = () => {
   const [detailsModal, setdetailsModal] = React.useState(false);
   const [filesModal, setfilesModal] = React.useState(false);
   const [requestInfos, setRequestInfos] = useState([]);
+    const [loading, setLoading] = useState(true);
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
@@ -101,7 +103,16 @@ const TaskList = () => {
             </tr>
           </thead>
           <tbody>
-            {requestDetails.length === 0 ? (
+            {loading ? (
+                <tr className="w-full">
+                  <td colSpan="7" className="py-11">
+                    <img className="mx-auto w-16 h-16"
+                    src={Loader}
+                    alt="Loading..."
+                  />
+                  </td>
+                </tr>
+              ) :requestDetails.length === 0 ? (
               <tr>
                 <td colSpan="7" className="px-6 py-11 text-center">
                   No client request at the moment...
