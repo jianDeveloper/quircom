@@ -60,8 +60,6 @@ const WithAuth = (WrappedComponent) => {
           
           if (userData.verify === false) {
             navigate(`/verify/${userData._id}`);
-          } else {      
-            navigate("/")
           }
         }
       }
