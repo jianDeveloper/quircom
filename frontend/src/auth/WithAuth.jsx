@@ -58,10 +58,6 @@ const WithAuth = (WrappedComponent) => {
         } else {
           setIsLoading(false);
           
-          if (!userData) {
-            return;
-          }
-        
           if (userData.verify === false) {
             navigate(`/verify/${userData._id}`);
           } else {      
@@ -88,7 +84,7 @@ const WithAuth = (WrappedComponent) => {
     };
 
     // Render the wrapped component if not loading
-    return <>{console.clear()} <WrappedComponent {...props} /></>;
+    return <> <WrappedComponent {...props} /></>;
   };
 
   return WithAuthWrapper;
