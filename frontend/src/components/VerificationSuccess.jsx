@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
-import NotFoundAuth from '../auth/NotFoundAuthReset';
+import NotFoundAuth from '../auth/NotFoundAuthVerify';
 
 const VerifySuccess = () => {
 
-  useEffect(() => {
-    // Function to delete the verifyToken from localStorage
-    const removeVerifyToken = () => {
-      localStorage.removeItem('verifyToken');
-    };
+  // useEffect(() => {
+  //   // Function to delete the verifyToken from localStorage
+  //   const removeVerifyToken = () => {
+  //     localStorage.removeItem('verifyToken');
+  //   };
 
-    // Call the function when the component mounts
-    removeVerifyToken();
-  }, []);
+  //   // Call the function when the component mounts
+  //   removeVerifyToken();
+  // }, []);
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-20 z-50 overflow-auto ease-in-out duration-1000 flex justify-center items-center">

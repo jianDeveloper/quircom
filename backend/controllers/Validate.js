@@ -352,7 +352,7 @@ const EmailVerification = async (req, res) => {
         process.env.JWT_SECRET,
         { expiresIn: "5m" }
       );
-      const username = clientUser.userName + " " + clientUser.surName;
+      const username = clientUser.firstName + " " + clientUser.surName;
       const id = clientUser._id;
       clientUser.verify = true;
       await clientUser.save();
