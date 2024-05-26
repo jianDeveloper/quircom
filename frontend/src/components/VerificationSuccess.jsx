@@ -5,6 +5,7 @@ import NotFoundAuth from '../auth/NotFoundAuthVerify';
 
 const VerifySuccess = () => {
   const { userId, token } = useParams();
+  console.log(token)
 
   useEffect(() => {
     localStorage.setItem("verifyToken", token);
