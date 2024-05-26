@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import NotFoundAuth from "../auth/NotFoundAuthReset";
+import NotFoundAuth from "../auth/NotFoundAuthVerify";
 import { useParams } from "react-router-dom";
 
 const Verify = () => {
@@ -102,7 +102,6 @@ const Verify = () => {
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <p>A verification link has been sent to {userData?.eMail}.</p>
-              <p>Your email has been successfully verified!</p>
             </div>
             <button
               type="submit"

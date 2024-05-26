@@ -321,7 +321,7 @@ const EmailVerification = async (req, res) => {
               <p>${username}, thank you for registering with our service. Please verify your email address to complete your registration.</p>
               <p style="text-align: center;">To verify your email, click the button below:</p>
               <p style="text-align: center;">
-                  <a href="https://quircom.netlify.app/verify-success/${id}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Verify Email</a>
+                  <a href="https://quircom.netlify.app/verify-success" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Verify Email</a>
               </p>
               <p>If you did not create an account, no further action is required.</p>
               <p>Thank you,</p>
@@ -377,7 +377,7 @@ const EmailVerification = async (req, res) => {
               <p>${username}, thank you for registering with our service. Please verify your email address to complete your registration.</p>
               <p style="text-align: center;">To verify your email, click the button below:</p>
               <p style="text-align: center;">
-                  <a href="https://quircom.netlify.app/verify-success/${id}" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Verify Email</a>
+                  <a href="https://quircom.netlify.app/verify-success" style="display: inline-block; padding: 10px 20px; background-color: rgb(234, 88, 12); color: #fff; text-decoration: none; border-radius: 5px;">Verify Email</a>
               </p>
               <p>If you did not create an account, no further action is required.</p>
               <p>Thank you,</p>
