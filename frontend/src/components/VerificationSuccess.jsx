@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import NotFoundAuth from '../auth/NotFoundAuthVerify';
 
@@ -8,6 +8,8 @@ const VerifySuccess = () => {
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
   const token = queryParams.get('token');
+
+  const navigate = useNavigate();
 
   const [userData, setUserData] = useState();
 
