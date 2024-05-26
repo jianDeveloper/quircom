@@ -70,7 +70,7 @@ const VerifySuccess = () => {
         <h2 className="text-center text-2xl font-bold text-[#1D5B79] mb-4">Email Verified</h2>
         <p className="text-center text-lg text-green-700 mb-4">Your email has been successfully verified.</p>
         <div className="mt-4 text-center">
-          <a href="/" className="text-blue-700 hover:underline">Back to Login</a>
+          <a href="/" className="text-blue-700 hover:underline">Go back</a>
         </div>
       </div>
     </div>
