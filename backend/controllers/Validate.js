@@ -66,6 +66,11 @@ const LoginUser = async (req, res) => {
         process.env.JWT_SECRET,
         { expiresIn: "5d" }
       );
+      const emailToken = jwt.sign(
+        { _id: freelancerUser._id },
+        process.env.JWT_SECRET,
+        { expiresIn: "5m" }
+      );
       if (freelancerUser.passWord !== passWord) {
         return res.status(401).json({ message: "Invalid password" });
       }
@@ -76,6 +81,7 @@ const LoginUser = async (req, res) => {
           accType: "freelancer",
         },
         authToken,
+        emailToken,
       });
     }
 
@@ -84,6 +90,11 @@ const LoginUser = async (req, res) => {
         { _id: clientUser._id },
         process.env.JWT_SECRET,
         { expiresIn: "5d" }
+      );
+      const emailToken = jwt.sign(
+        { _id: clientUser._id },
+        process.env.JWT_SECRET,
+        { expiresIn: "5m" }
       );
       if (clientUser.passWord !== passWord) {
         return res.status(401).json({ message: "Invalid password" });
@@ -95,6 +106,7 @@ const LoginUser = async (req, res) => {
           accType: "client",
         },
         authToken,
+        emailToken,
       });
     }
 

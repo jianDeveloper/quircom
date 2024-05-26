@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Box from "@mui/material/Box";
 import { PieChart } from "@mui/x-charts/PieChart";
 import axios from "axios";
@@ -86,6 +86,12 @@ const LoA = () => {
   const clientPercentage = ((clients.length / total) * 100).toFixed(2);
   const servicePercentage = ((services.length / total) * 100).toFixed(2);
 
+  const printRef = useRef();
+
+  const handlePrint = useReactToPrint({
+    content: () => printRef.current,
+  });
+
   const data = [
     {
       id: 0,
@@ -95,19 +101,53 @@ const LoA = () => {
     {
       id: 1,
       value: parseFloat(clientPercentage),
-      label: `Clients  (${clientPercentage}%)`,
+      label: `Clients (${clientPercentage}%)`,
     },
   ];
   const data1 = [
     { id: 0, value: 10, label: "Service" },
     { id: 1, value: 15, label: "series B" },
-    { id: 2, value: 20, label: "Reported" },
+    { id: 2, value: 0, label: "Reported" },
+    
   ];
 
-  const componentRef = React.useRef();
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
+  const datatable = [
+    {
+      id: 0,
+      name: "Freelancers",
+      count: freelancers.length,
+    },
+    {
+      id: 1,
+      name: "Clients",
+      count: clients.length,
+    },
+    {
+      id: 2,
+      name: "Services",
+      count: services.length,
+    },
+    {
+      id: 3,
+      name: "Reported",
+      count: services.length,
+    },
+    {
+      id: 4,
+      name: "Completed",
+      count: services.length,
+    },
+    {
+      id: 5,
+      name: "Requested",
+      count: services.length,
+    },
+    {
+      id: 6,
+      name: "Ongoing",
+      count: services.length,
+    },
+  ];
 
   if (loading) {
     return (
@@ -127,55 +167,77 @@ const LoA = () => {
 
   return (
     <div className="flex flex-col bg-blue-200 items-center h-auto w-[90%]">
-      <div className="flex w-[100%] h-14 items-center py-3 px-5 bg-[#F5F5DC] text-[#13334C] font-medium border-b-[1px] border-gray-500">
-      <button
-        onClick={handlePrint}
-        className="px-4 py-1 bg-[#1D5B79] hover:bg-blue-200 hover:text-[#13334C] hover:border-2 border-[#13334C] text-white font-bold rounded"
-      >
-        Print Analytics
-      </button>
+      <div className="flex w-full h-14 items-center py-3 px-5 bg-[#F5F5DC] text-[#13334C] font-medium border-b-[1px] border-gray-500">
+        <button
+          onClick={handlePrint}
+          className="px-4 py-1 bg-[#1D5B79] hover:bg-blue-200 hover:text-[#13334C] hover:border-2 border-[#13334C] text-white font-bold rounded"
+        >
+          Print Analytics
+        </button>
       </div>
-      <div className="flex flex-col md:flex-row w-full bg-blue-200 shadow-md p-5" ref={componentRef}>
-        <div className="w-full">
-        <h1 className="text-[#13334C] font-medium">
-                Accounts Analytics:
-          </h1>
-              <PieChart
-                series={[
-                  {
-                    data: data,
-      innerRadius: 30,
-      outerRadius: 90,
-      paddingAngle: 2,
-      cornerRadius: 5,
-      startAngle: -360,
-      endAngle: 0,
-      cx: 180,
-                  },
-                ]}
-                height={200}
-              />
+      <div ref={printRef} className="w-[100%]">
+      <div
+        className="flex flex-col lg:flex-row w-full p-5"
+      >
+        <div className="w-full overflow-x-auto">
+          <h1 className="text-[#13334C] font-medium">Accounts Analytics:</h1>
+          <PieChart
+            series={[
+              {
+                data: data,
+                innerRadius: 30,
+                outerRadius: 90,
+                paddingAngle: 2,
+                cornerRadius: 5,
+                startAngle: -360,
+                endAngle: 0,
+                cx: 180,
+              },
+            ]}
+            height={200}
+          />
         </div>
-      <div className="w-full gap-2">
-        <h1 className="text-[#13334C] font-medium">
-                Service Analytics:
-              </h1>
-              <PieChart
-                series={[
-                  {
-                    data: data1,
-      innerRadius: 30,
-      outerRadius: 90,
-      paddingAngle: 2,
-      cornerRadius: 5,
-      startAngle: -180,
-      endAngle: 180,
-      cx: 180,
-                    },
-                ]}
-                height={200}
-              />
+        <div className="w-full gap-2">
+          <h1 className="text-[#13334C] font-medium">Service Analytics:</h1>
+          <PieChart
+            series={[
+              {
+                data: data1,
+                innerRadius: 30,
+                outerRadius: 90,
+                paddingAngle: 2,
+                cornerRadius: 5,
+                startAngle: -180,
+                endAngle: 180,
+                cx: 180,
+              },
+            ]}
+            height={200}
+          />
         </div>
+      </div>
+      <div className="flex justify-center items-center w-full my-5">
+        <table className="w-[60%] rounded-md shadow-md">
+          <thead className="bg-[#13334C] font-medium">
+            <tr className="w-full ">
+              <td colSpan={2} className="text-center text-white mx-auto py-2 uppercase font-bold rounded-t-lg">
+                Breakdown
+              </td>
+            </tr>
+          </thead>
+          <tbody className="text-[#13334C] font-medium">
+            {datatable.map((item, index) => (
+              <tr
+                key={index}
+                className={index % 2 === 0 ? "bg-orange-200" : "bg-blue-300"}
+              >
+                <td className="text-center">{item.name}</td>
+                <td className="text-center">{item.count}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       </div>
     </div>
   );
