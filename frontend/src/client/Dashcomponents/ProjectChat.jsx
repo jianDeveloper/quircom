@@ -3,7 +3,13 @@ import WithAuth from "../../auth/WithAuth";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { Avatar, IconButton } from "@mui/material";
-import { FaExclamationTriangle, FaFileImport, FaInfoCircle } from "react-icons/fa";
+import {
+  FaExclamationTriangle,
+  FaFileImport,
+  FaFileSignature,
+  FaHandPaper,
+  FaInfoCircle,
+} from "react-icons/fa";
 import ProjectFiles from "./ProjectFiles";
 
 const ProjectChat = ({ requestInfos }) => {
@@ -251,12 +257,14 @@ const ProjectChat = ({ requestInfos }) => {
                             "")}
                       </h1>
                     </div>
+                    <div>
                     <IconButton>
-                      <FaExclamationTriangle size={20} color="#1D5B79" />
+                      <FaFileSignature size={20} color="#1D5B79" />
                     </IconButton>
                     <IconButton>
                       <FaInfoCircle size={20} color="#1D5B79" />
                     </IconButton>
+                    </div>
                   </div>
                   <div className="bg-white h-full overflow-auto">
                     {loading ? (
