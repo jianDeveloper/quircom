@@ -81,7 +81,7 @@ const CreateUser = async (req, res) => {
     const emailToken = jwt.sign(
       { _id: result._id },
       process.env.JWT_SECRET,
-      { expiresIn: "5m" }
+      { expiresIn: "3m" }
     );
 
     res.status(201).json({ result, emailToken });
