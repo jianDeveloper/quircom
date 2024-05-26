@@ -64,12 +64,12 @@ const LoginUser = async (req, res) => {
       const authToken = jwt.sign(
         { _id: freelancerUser._id },
         process.env.JWT_SECRET,
-        { expiresIn: "5d" }
+        { expiresIn: "3m" }
       );
       const emailToken = jwt.sign(
         { _id: freelancerUser._id },
         process.env.JWT_SECRET,
-        { expiresIn: "5m" }
+        { expiresIn: "3m" }
       );
       if (freelancerUser.passWord !== passWord) {
         return res.status(401).json({ message: "Invalid password" });

@@ -45,20 +45,21 @@ const WithAuth = (WrappedComponent) => {
     }, [userId]);
 
     useEffect(() => {
+      const token = localStorage.getItem("authToken");
       if (!userData) {
+        navigate("/");
         return;
       }
-
+    
       if (userData.verify === false) {
         navigate(`/verify/${userData._id}`);
-      } else {
-        const token = localStorage.getItem("authToken");
+      } else {      
         if (!token) {
           navigate("/");
         } else {
           const decodedToken = decodeToken(token);
           const isExpired = isTokenExpired(decodedToken.exp);
-
+    
           if (isExpired) {
             localStorage.removeItem("authToken");
             navigate("/");
@@ -68,6 +69,7 @@ const WithAuth = (WrappedComponent) => {
         }
       }
     }, [userData, navigate]);
+    
 
     const decodeToken = (token) => {
       try {

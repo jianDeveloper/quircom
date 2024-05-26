@@ -8,19 +8,18 @@ const VerifySuccess = () => {
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
   const token = queryParams.get("token");
-  
-  useEffect(() => {
-    localStorage.setItem("verifyToken", token);
-  }, [token]);
 
   const [userData, setUserData] = useState();
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const storedToken = localStorage.getItem("verifyToken");
+        let storedToken = localStorage.getItem("verifyToken");
+        if (!storedToken && token) {
+          storedToken = token; // Use token from query parameter if localStorage token is not available
+        }
         const headers = {
-          Authorization: `Bearer ${storedToken}`, // Use the token from localStorage
+          Authorization: `Bearer ${storedToken}`, // Use the token from localStorage or query parameter
           "Content-Type": "application/json",
         };
 
@@ -47,14 +46,18 @@ const VerifySuccess = () => {
     };
     fetchUser();
   }, [userId]);
+
   useEffect(() => {
     const updateVerification = async () => {
       if (userData) {
         try {
-          const storedToken = localStorage.getItem("verifyToken");
+          let storedToken = localStorage.getItem("verifyToken");
+          if (!storedToken && token) {
+            storedToken = token; // Use token from query parameter if localStorage token is not available
+          }
           const headers = {
-            Authorization: `Bearer ${storedToken}`,
-            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${storedToken}`, // Use the token from localStorage or query parameter
+            "Content-Type": "application/json",
           };
 
           const updateResponse = await axios.patch(
@@ -72,6 +75,18 @@ const VerifySuccess = () => {
     };
     updateVerification();
   }, [userData]);
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      localStorage.clear();
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
 
   const handleBackToLogin = () => {
     localStorage.removeItem("verifyToken");
