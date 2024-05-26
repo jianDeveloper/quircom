@@ -168,26 +168,6 @@ const AMainNav = () => {
             onClose={handleCloseMenu}
           >
             <MenuItem
-              onClick={handleCloseMenu}
-              component={Link}
-              to={`#`}
-            >
-              <Stack direction={"row"} spacing={1}>
-                <img className="w-6 h-6 " src={User} alt="Profile" />
-                <Typography variant="body1">Profile</Typography>
-              </Stack>
-            </MenuItem>
-            <MenuItem
-              onClick={handleCloseMenu}
-              component={Link}
-              to={`#`}
-            >
-              <Stack direction={"row"} spacing={1}>
-                <img className="w-6 h-6" src={Settings} alt="Settings" />
-                <Typography variant="body1">Settings</Typography>
-              </Stack>
-            </MenuItem>
-            <MenuItem
               onClick={() => {
                 handleCloseMenu();
                 handleLogout();
