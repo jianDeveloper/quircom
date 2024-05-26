@@ -17,7 +17,7 @@ const ReqServiceSchema = new Schema({
   },
   status:{
     type: String,
-    default: "",
+    default: "Pending",
   },
   taskTitle:{
     type: String,

@@ -22,6 +22,9 @@ import WithAuth from "../auth/WithAuth";
 function CDashboard() {
   const { userId } = useParams();
   const [userData, setUserData] = useState(null); // State to store user data
+  const [pendingDetails, setPending] = useState([]);
+  const [requestDetails, setRequest] = useState([]);
+  const [finishDetails, setFinish] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -40,17 +43,63 @@ function CDashboard() {
       });
   }, [userId]); // Fetch user data whenever userId changes
 
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+    const fetchServices = async () => {
+      const response2 = await axios.get(
+        `https://quircom.onrender.com/api/request/`,
+        { headers }
+      );
+      console.log("REQUESTT RESPONSE", response2.data);
+      try {
+        if (response2.status === 200) {
+          // Ensure response.data is not null or undefined
+          if (response2.data) {
+            // Filter services only if response.data is not null or undefined
+            const filteredRequest = response2.data.filter(
+              (request) =>
+                request.clientId._id === userId && request.status === "Ongoing"
+            );
+            const filteredFinished = response2.data.filter(
+              (request) =>
+                request.clientId._id === userId && request.status === "Complete"
+            );
+            setRequest(filteredRequest);
+            setFinish(filteredFinished);
+          } else {
+            console.error(
+              "Error fetching services: response data is null or undefined"
+            );
+          }
+        } else {
+          console.error(
+            "Error fetching services: Unexpected status code",
+            response.status
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching services:", error);
+      }
+    };
+
+    fetchServices();
+  }, []);
+
   return (
-    <div
-      className="flex flex-col"
-      
-    >
+    <div className="flex flex-col">
       <CMainNav />
-      <div className="flex align-center justify-center" style={{
-        background: `url(${BG1})`,
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-      }}>
+      <div
+        className="flex align-center justify-center"
+        style={{
+          background: `url(${BG1})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+        }}
+      >
         <div className="flex flex-col container mx-10 sm:my-10 p-10 sm:p-4">
           {" "}
           {/*fixing headbox on dashboard -j*/}
@@ -60,7 +109,9 @@ function CDashboard() {
                 <h3 className="font-bold text-[#1D5B79]">On-Going Contracts</h3>
                 <BsFillArchiveFill className="card_icon" />
               </div>
-              <h1 className="font-medium text-[#1D5B79]">300</h1>
+              <h1 className="font-medium text-[#1D5B79]">
+                {requestDetails.length}
+              </h1>
             </div>
             <div className="card">
               <div className="card-inner">
@@ -69,14 +120,16 @@ function CDashboard() {
                 </h3>
                 <BsPeopleFill className="card_icon" />
               </div>
-              <h1 className="font-medium text-[#1D5B79]">33</h1>
+              <h1 className="font-medium text-[#1D5B79]">
+                {finishDetails.length}
+              </h1>
             </div>
             <div className="card">
               <div className="card-inner">
                 <h3 className="font-bold text-[#1D5B79]">Total Projects</h3>
                 <BsClipboard2DataFill className="card_icon" />
               </div>
-              <h1 className="font-medium text-[#1D5B79]">300</h1>
+              <h1 className="font-medium text-[#1D5B79]">{finishDetails.length + requestDetails.length}</h1>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-[20px] my-[15px] md:grid-cols-3">

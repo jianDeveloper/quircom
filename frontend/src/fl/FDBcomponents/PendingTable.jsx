@@ -62,7 +62,7 @@ const PendingTable = () => {
       await axios.patch(
         `https://quircom.onrender.com/api/request/verify/${id}`,
         {
-          status: "On progress",
+          status: "Ongoing",
         },
         { headers }
       );
