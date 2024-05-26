@@ -249,8 +249,8 @@ const ProjectChat = ({ requestInfos }) => {
       </div>
       {activeTab === "chat" && (
         <>
-          <div className="h-full">
-            <div className="flex flex-col shadow-md h-full">
+          <div className="min-h-[500px] overflow-y-auto">
+            <div className="flex flex-col shadow-md h-[500px]">
               {requestInfos && Object.keys(requestInfos).length !== 0 ? (
                 <>
                   <div className="items-center py-1 px-2 justify-center bg-[#1D5B79] rounded-t-md">
