@@ -62,6 +62,7 @@ const WithoutAuth = (WrappedComponent) => {
 
     // Render loading spinner while waiting for data
     if (isLoading) {
+      console.clear()
       return (
         <div className='flex justify-center items-center h-screen'>
           <img src={Loader} className="w-[80px]" alt="Loading..." />
