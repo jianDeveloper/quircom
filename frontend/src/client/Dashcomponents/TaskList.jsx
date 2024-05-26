@@ -48,6 +48,7 @@ const TaskList = () => {
             (request) => request.clientId._id === userId && request.status === "Pending"
           );
           setRequest(filteredRequests);
+          setLoading(false);
         } else {
           console.error(
             "Error fetching requests: Unexpected status code",

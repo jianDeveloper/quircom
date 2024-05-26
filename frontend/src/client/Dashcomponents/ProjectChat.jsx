@@ -2,7 +2,15 @@ import React, { useEffect, useState, useRef, useMemo } from "react";
 import WithAuth from "../../auth/WithAuth";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import { Avatar, IconButton, Menu, MenuItem, Stack, Typography } from "@mui/material";
+import {
+  Avatar,
+  IconButton,
+  Menu,
+  MenuItem,
+  Popover,
+  Stack,
+  Typography,
+} from "@mui/material";
 import {
   FaExclamationTriangle,
   FaFileImport,
@@ -11,6 +19,8 @@ import {
   FaInfoCircle,
 } from "react-icons/fa";
 import ProjectFiles from "./ProjectFiles";
+import { Link } from "react-router-dom";
+import Contract from "./contractmodal"
 
 const ProjectChat = ({ requestInfos }) => {
   const [message, setMessage] = useState([]);
@@ -25,6 +35,8 @@ const ProjectChat = ({ requestInfos }) => {
   });
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("chat");
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [contractModal, setContractModal] = useState(false);
 
   useEffect(() => {
     if (requestInfos) {
@@ -202,6 +214,14 @@ const ProjectChat = ({ requestInfos }) => {
     setActiveTab(chat);
   };
 
+  const handleAvatarClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <div className="flex flex-col h-full">
       <ToastContainer />
@@ -258,38 +278,45 @@ const ProjectChat = ({ requestInfos }) => {
                       </h1>
                     </div>
                     <div>
-                    <IconButton>
-                      <FaFileSignature size={20} color="#1D5B79" />
-                    </IconButton>
-                    <IconButton>
-                      <FaInfoCircle size={20} color="#1D5B79" />
-                    </IconButton>
-                    <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleCloseMenu}
-          >
-            <MenuItem
-              onClick={handleCloseMenu}
-              component={Link}
-              to={`/client/profile/${userId}`}
-            >
-              <Stack direction={"row"} spacing={1}>
-                <img className="w-6 h-6 " src={User} alt="Profile" />
-                <Typography variant="body1">Profile</Typography>
-              </Stack>
-            </MenuItem>
-            <MenuItem
-              onClick={handleCloseMenu}
-              component={Link}
-              to={`/client/settings/${userId}`}
-            >
-              <Stack direction={"row"} spacing={1}>
-                <img className="w-6 h-6" src={Settings} alt="Settings" />
-                <Typography variant="body1">Settings</Typography>
-              </Stack>
-            </MenuItem>
-          </Menu>
+                      <IconButton onClick={() => setContractModal(true)}>
+                        <FaFileSignature size={20} color="#1D5B79" />
+                      </IconButton>
+                      {contractModal && (
+                        <Contract setContractModal={setContractModal} />
+                      )}
+                      <IconButton onClick={handleAvatarClick}>
+                        <FaInfoCircle size={20} color="#1D5B79" />
+                      </IconButton>
+                      <Popover
+                        open={Boolean(anchorEl)}
+                        anchorEl={anchorEl}
+                        onClose={handleCloseMenu}
+                        anchorOrigin={{
+                          vertical: "bottom",
+                          horizontal: "right",
+                        }}
+                        transformOrigin={{
+                          vertical: "top",
+                          horizontal: "right",
+                        }}
+                        sx={{ p: 1 }}
+                      >
+                        <div className="flex flex-col">
+                          <Link
+                            to={`/client/profile/${requestInfos?.serviceId?.freelancerId?._id}`}
+                          >
+                            <p className="p-2 text-sm font-medium text-[#1D5B79] cursor-pointer">
+                              View Profile
+                            </p>
+                          </Link>
+                          <p
+                            className="p-2 text-sm font-medium text-red-500 cursor-pointer"
+                            onClick={"handleReport"}
+                          >
+                            Report
+                          </p>
+                        </div>
+                      </Popover>
                     </div>
                   </div>
                   <div className="bg-white h-full overflow-auto">
@@ -303,7 +330,7 @@ const ProjectChat = ({ requestInfos }) => {
                         <div className="h-8 bg-gray-200 rounded-full mb-2"></div>
                       </div>
                     ) : (
-                      <div className="flex flex-col max-h-[340px]">
+                      <div className="flex flex-col h-full">
                         {messagesWithDate.length === 0 ? (
                           <div className="flex items-center justify-center h-full">
                             <h1 className="font-bold text-md text-gray-400">
