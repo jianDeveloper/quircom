@@ -41,13 +41,13 @@ const Reg = () => {
     try {
       // Determine the collection based on the user's account type
       const collection = user.accType === 'client' ? 'client' : 'freelancer';
-      console.log(user)
+      // console.log(user)
   
       const response = await axios.delete(`https://quircom.onrender.com/api/${collection}/delete/${user._id}`);
       if (response.status === 200) {
         // Filter out the deleted user from the local state to update the UI immediately
         setUsers(users.filter(u => u._id !== user._id));
-        console.log("User deleted successfully");
+        // console.log("User deleted successfully");
       }
     } catch (error) {
       console.error("Error deleting user:", error);

@@ -124,7 +124,7 @@ const CSubscribe = () => {
               if (patchResponse && patchResponse.data) {
                 toast.success("Payment is successful");
               } else {
-                console.log("Response data not available");
+                // console.log("Response data not available");
                 toast.error("Payment is not successful");
               }
             } catch (error) {
@@ -173,7 +173,7 @@ const CSubscribe = () => {
                   },
                 });
               } else {
-                console.log("Response data not available");
+                // console.log("Response data not available");
                 toast.error("Payment is not successful");
               }
             } catch (error) {

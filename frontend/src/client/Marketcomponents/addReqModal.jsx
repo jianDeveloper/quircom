@@ -81,15 +81,22 @@ const addReqModal = ({ setReqModal }) => {
       );
 
       if (response && response.data) {
-        toast.success("Request uploaded successfully");
-        setReqModal(false);
+        toast.success("Request uploaded successfully", {
+          autoClose: 1000,
+          onClose: () => {
+            setTimeout(() => {
+              setReqModal(false);
+            }, 1000);
+          },
+        });
+        
       } else {
-        console.log("Response data not available");
+        // console.log("Response data not available");
         toast.error("Failed to upload request");
       }
     } catch (error) {
       console.error("Error during patch ", error.response);
-      console.log(error.message);
+      // console.log(error.message);
       toast.error("Failed to upload request");
     }
   };

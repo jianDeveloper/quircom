@@ -106,13 +106,13 @@ function FSettings() {
         toast.success("Profile picture uploaded successfully");
         setDisabled(false);
       } else {
-        console.log("Response data not available");
+        // console.log("Response data not available");
         toast.error("Failed to upload profile picture");
         setDisabled(false);
       }
     } catch (error) {
       console.error("Error during patch ", error.response);
-      console.log(error.message);
+      // console.log(error.message);
       toast.error("Failed to upload profile picture");
       setDisabled(false);
     }
@@ -160,13 +160,13 @@ function FSettings() {
         toast.success("Portfolio uploaded successfully");
         setDisabled3(false);
       } else {
-        console.log("Response data not available");
+        // console.log("Response data not available");
         toast.error("Failed to upload portfolio");
         setDisabled3(false);
       }
     } catch (error) {
       console.error("Error during patch ", error.response);
-      console.log(error.message);
+      // console.log(error.message);
       toast.error("Failed to upload portfolio");
       setDisabled3(false);
     }
@@ -242,7 +242,7 @@ function FSettings() {
         setEmailEditable(false);
         setUsers(updateResponse.data); // Update userData with the latest user data
       } else {
-        console.log("Response data not available");
+        // console.log("Response data not available");
         toast.error("Failed to update email");
       }
     } catch (error) {
@@ -329,7 +329,7 @@ function FSettings() {
         toast.success("Password has been updated");
         setUsers(updateResponse.data); // Update userData with the latest user data
       } else {
-        console.log("Response data not available");
+        // console.log("Response data not available");
         toast.error("Failed to update password");
       }
     } catch (error) {

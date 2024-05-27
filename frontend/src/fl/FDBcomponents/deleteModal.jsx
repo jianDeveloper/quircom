@@ -17,7 +17,7 @@ const deleteModal = ({ serviceInfos, setDeleteModal }) => {
       );
       if (response.status === 200) {
         setDeleteModal(false);
-        console.log("User deleted successfully");
+        // console.log("User deleted successfully");
       }
     } catch (error) {
       console.error("Error deleting user:", error);

@@ -130,12 +130,12 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
         toast.success("Service updated successfully");
         setUpdateModal(false);
       } else {
-        console.log("Response data not available");
+        // console.log("Response data not available");
         toast.error("Failed to update Service");
       }
     } catch (error) {
-      console.error("Error during patch ", error.response);
-      console.log(error.message);
+      // console.error("Error during patch ", error.response);
+      // console.log(error.message);
       toast.error("Failed to update Service");
     }
   };

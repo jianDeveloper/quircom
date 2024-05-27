@@ -41,7 +41,8 @@ function FSettingsProfile() {
         };
 
         const response = await axios.get(
-          `https://quircom.onrender.com/api/freelancer/${userId}`, {headers}
+          `https://quircom.onrender.com/api/freelancer/${userId}`,
+          { headers }
         );
         if (response.status === 200) {
           setUsers(response.data);
@@ -265,10 +266,10 @@ function FSettingsProfile() {
 
     try {
       const token = localStorage.getItem("authToken");
-        const headers = {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        };
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      };
 
       const updateResponse = await axios.patch(
         `https://quircom.onrender.com/api/freelancer/update/${userId}`,
@@ -576,6 +577,13 @@ function FSettingsProfile() {
                           value={formData.contactNum}
                           onChange={handleChange}
                           maxLength="10"
+                          pattern="\d*"
+                          onInput={(e) => {
+                            e.target.value = e.target.value.replace(
+                              /[^\d]/g,
+                              ""
+                            ); // Ensure only numbers are input
+                          }}
                         />
                       </div>
                     </div>

@@ -89,19 +89,17 @@ const Reg = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
-    // Reset invalid fields
+    e.preventDefault();
     setInvalidFields({});
-
-    // Validation checks
+  
     const errors = {};
-    if (formData.firstName.length === 0) {
+    if (formData.firstName.trim().length === 0) {
       errors.firstName = "Please input your first name";
     }
-    if (formData.surName.length === 0) {
+    if (formData.surName.trim().length === 0) {
       errors.surName = "Please input your last name";
     }
-    if (formData.userName.length === 0) {
+    if (formData.userName.trim().length === 0) {
       errors.userName = "Please input your username";
     }
     if (formData.passWord.length === 0) {
@@ -140,19 +138,19 @@ const Reg = () => {
     ) {
       errors.profilePic = "Please add a picture";
     }
-
+  
     try {
       const response = await axios.post(
         `https://quircom.onrender.com/api/auth/validate`,
         {
           userName: formData.userName,
           eMail: formData.eMail,
-          contactNum: Number(formData.contactNum),
+          contactNum: formData.contactNum,
         }
       );
-      
-      const data = response.data
-
+  
+      const data = response.data;
+  
       if (data.userName.exists) {
         errors.userName = "Username is already taken";
       }
@@ -165,26 +163,22 @@ const Reg = () => {
     } catch (error) {
       console.error("Error validating data:", error);
     }
-
-    // Set invalid fields state
+  
     setInvalidFields(errors);
-
-    // If there are any errors, stop form submission
+  
     if (Object.keys(errors).length > 0) {
       return;
     }
-
+  
     try {
       setLoading(true);
-
-      var formObject = new FormData();
-      formObject.append("file", profilePic); // Append profile picture
-
-      // Check the accType to determine the endpoint
+  
+      const formObject = new FormData();
+      formObject.append("file", profilePic);
+  
       const endpoint = formData.accType === "client" ? "client" : "freelancer";
-      formObject.append(endpoint, JSON.stringify(formData)); // Append form data
-
-      // Send POST request to the appropriate endpoint
+      formObject.append(endpoint, JSON.stringify(formData));
+  
       const response = await axios.post(
         `https://quircom.onrender.com/api/${endpoint}/upload`,
         formObject,
@@ -194,13 +188,12 @@ const Reg = () => {
           },
         }
       );
-
-      setRegionCode(""); // Reset region dropdown
-      setFilteredProvinces([]); // Reset filtered provinces dropdown
-      setProvinceCode(""); // Reset province dropdown
-      setFilteredCity([]); // Reset filtered city dropdown
+  
+      setRegionCode("");
+      setFilteredProvinces([]);
+      setProvinceCode("");
+      setFilteredCity([]);
       setCityCode("");
-
       setFormData({
         firstName: "",
         surName: "",
@@ -214,19 +207,28 @@ const Reg = () => {
         accType: "",
         aggRee: false,
       });
-      formRef.current.reset();   
-
+      formRef.current.reset();
+  
       const { result, emailToken } = response.data;
-      localStorage.setItem('verifyToken', emailToken)
+      localStorage.setItem("verifyToken", emailToken);
+  
       toast.success("Registration successful!", {
         autoClose: 1000,
-        onClose: () => {
-          setTimeout(() => {
-            navigate(`/verify/${result._id}`)
+        onClose: async () => {
+          setTimeout(async () => {
+            try {
+              const verifyResponse = await axios.post(
+                "https://quircom.onrender.com/api/auth/verify",
+                { eMail: formData.eMail }
+              );
+              localStorage.setItem("verifyToken", emailToken);
+              navigate(`/verify/${result._id}`);
+            } catch (error) {
+              console.error("Error during verification request:", error);
+            }
           }, 1000);
         },
       });
-
     } catch (error) {
       toast.error("Error during registration");
       console.error("Error during registration ", error.message);
@@ -234,6 +236,7 @@ const Reg = () => {
       setLoading(false);
     }
   };
+  
 
   return (
     <section className="">
@@ -391,6 +394,10 @@ const Reg = () => {
                       }`}
                       placeholder="Enter your contact number"
                       maxLength="10"
+                      pattern="\d*"
+                      onInput={(e) => {
+                        e.target.value = e.target.value.replace(/[^\d]/g, ""); // Ensure only numbers are input
+                      }}
                     />
                     {invalidFields.contactNum && (
                       <p className="text-red-500 text-[12px]">
@@ -504,14 +511,14 @@ const Reg = () => {
               <div className="flex flex-col md:flex-row md:justify-center -mx-3">
                 <div className="w-full md:w-1/2 px-3 mb-4">
                   <label
-                    htmlFor="email"
+                    htmlFor="eMail"
                     className="block text-[#1D5B79] text-sm font-bold mb-2"
                   >
                     Email
                   </label>
                   <input
                     type="email"
-                    id="email"
+                    id="eMail"
                     name="eMail"
                     value={formData.eMail}
                     onChange={handleChange}

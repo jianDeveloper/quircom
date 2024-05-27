@@ -118,7 +118,7 @@ const chatModal = ({requestInfos}) => {
       }
     } catch (error) {
       console.error("Error during patch ", error.response);
-      console.log(error.message);
+      // console.log(error.message);
       toast.error("Failed to send chat");
     }
   };

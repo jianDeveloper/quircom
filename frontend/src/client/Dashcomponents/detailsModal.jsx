@@ -98,12 +98,12 @@ const detailsModal = ({ setdetailsModal, requestInfos }) => {
         toast.success("Service uploaded successfully");
         setaddModal(false);
       } else {
-        console.log("Response data not available");
+        // console.log("Response data not available");
         toast.error("Failed to upload Service");
       }
     } catch (error) {
       console.error("Error during patch ", error.response);
-      console.log(error.message);
+      // console.log(error.message);
       toast.error("Failed to upload Service");
     }
   };

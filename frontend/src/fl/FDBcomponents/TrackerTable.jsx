@@ -40,7 +40,6 @@ const FTable = () => {
           );
           setRequest(filteredRequests);
           setLoading(false);
-          console.log(filteredRequests)
         } else {
           console.error(
             "Error fetching requests: Unexpected status code",

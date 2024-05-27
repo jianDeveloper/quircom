@@ -92,7 +92,7 @@ const AddServiceModal = ({ setaddModal }) => {
       const response = await axios.post(
         `https://quircom.onrender.com/api/service/create/`,
         formObj,
-        {headers}
+        { headers }
       );
 
       if (response && response.data) {
@@ -243,6 +243,13 @@ const AddServiceModal = ({ setaddModal }) => {
                           className={` focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-r-md sm:text-sm p-2 shadow-sm border border-gray-300 ${
                             invalidFields.price ? "border-red-500" : ""
                           }`}
+                          pattern="\d*"
+                          onInput={(e) => {
+                            e.target.value = e.target.value.replace(
+                              /[^\d]/g,
+                              ""
+                            ); // Ensure only numbers are input
+                          }}
                         />
                       </div>
                       {invalidFields.price && (

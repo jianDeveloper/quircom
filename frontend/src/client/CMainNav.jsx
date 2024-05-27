@@ -85,7 +85,7 @@ const CMainNav = () => {
 
   const handleIconClick = (index) => {
     setSelectedIcon(index);
-    console.log(icons[index].path);
+    // console.log(icons[index].path);
   };
 
   const handleAvatarClick = (event) => {
