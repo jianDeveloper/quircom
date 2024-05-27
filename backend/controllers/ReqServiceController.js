@@ -80,7 +80,7 @@ const CreateRequest = async (req, res) => {
         reportType: "",
         details: ""
       },
-      contract: "",
+      contract: false,
       deadLine: request.deadLine,
       dateUploaded: new Date()
     });
