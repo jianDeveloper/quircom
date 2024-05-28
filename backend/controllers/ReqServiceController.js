@@ -32,7 +32,7 @@ const GetSpecificRequest = async (req, res) => {
     const result = await RequestModel.findById(id).populate("freelancerId").populate("serviceId");
 
     if (!result) {
-        return res.status(404).json({ message: "Service not found" });
+        return res.status(404).json({ message: "Request not found" });
     }
 
     res.status(200).json(result);
@@ -73,8 +73,8 @@ const CreateRequest = async (req, res) => {
       // taskPicture: requestPicture,
       // feedbackNum: request.feedbackNum,
       // feedbackInfo: request.feedbackInfo,
-      feedbackNum: 0,
-      feedbackInfo: "",
+      feedbackNum: null,
+      feedbackInfo: null,
       report: {
         status: false,
         reportType: "",

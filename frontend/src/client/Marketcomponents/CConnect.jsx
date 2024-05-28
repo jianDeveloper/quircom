@@ -149,72 +149,105 @@ function CConnect() {
 
               <div className="mt-5 flex items-center">
                 <div className="flex items-center">
-                  {(() => {
-                    const maxRating = 5;
-                    const feedbackNums = userServices.requestId.map(
-                      (service) => service.feedbackNum
-                    );
-                    const totalFeedbackNum = feedbackNums.reduce(
-                      (acc, num) => acc + num,
-                      0
-                    );
-                    const averageRating =
-                      totalFeedbackNum / feedbackNums.length;
-                    const filledStars = Math.floor(averageRating);
-                    const fractionalPart = averageRating % 1;
+                  {userServices.requestId.length > 0 ? (
+                    (() => {
+                      const maxRating = 5;
+                      // Filter out services with null or 0 feedback numbers
+                      const filteredServices = userServices.requestId.filter(
+                        (service) => service.feedbackNum > 0
+                      );
+                      const feedbackNums = filteredServices.map(
+                        (service) => service.feedbackNum
+                      );
+                      const totalFeedbackNum = feedbackNums.reduce(
+                        (acc, num) => acc + num,
+                        0
+                      );
+                      const averageRating = feedbackNums.length
+                        ? totalFeedbackNum / feedbackNums.length
+                        : 0;
+                      const filledStars = Math.floor(averageRating);
+                      const fractionalPart = averageRating % 1;
 
-                    return (
-                      <>
-                        {Array.from({ length: maxRating }).map((_, i) => (
-                          <svg
-                            key={i}
-                            className={`block h-4 w-4 align-middle ${
-                              i < filledStars
-                                ? "text-yellow-500"
-                                : i === filledStars
-                                ? "text-yellow-500"
-                                : "text-gray-200"
-                            }`}
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            style={{
-                              clipPath:
-                                i === filledStars && fractionalPart > 0
-                                  ? `polygon(0 0, ${fractionalPart * 100}% 0, ${
-                                      fractionalPart * 100
-                                    }% 100%, 0 100%)`
-                                  : undefined,
-                              mask:
-                                i === filledStars && fractionalPart > 0
-                                  ? `url(#star-mask-${i})`
-                                  : undefined,
-                              WebkitMask:
-                                i === filledStars && fractionalPart > 0
-                                  ? `url(#star-mask-${i})`
-                                  : undefined,
-                            }}
-                          >
-                            <defs>
-                              <mask id={`star-mask-${i}`}>
-                                <rect width="100%" height="100%" fill="white" />
-                                <rect
-                                  width={`${fractionalPart * 100}%`}
-                                  height="100%"
-                                  fill="black"
-                                />
-                              </mask>
-                            </defs>
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                          </svg>
-                        ))}
-                      </>
-                    );
-                  })()}
+                      return (
+                        <>
+                          {Array.from({ length: maxRating }).map((_, i) => (
+                            <svg
+                              key={i}
+                              className={`block h-4 w-4 align-middle ${
+                                i < filledStars
+                                  ? "text-yellow-500"
+                                  : "text-gray-200"
+                              }`}
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              style={{
+                                clipPath:
+                                  i === filledStars && fractionalPart > 0
+                                    ? `polygon(0 0, ${
+                                        fractionalPart * 100
+                                      }% 0, ${
+                                        fractionalPart * 100
+                                      }% 100%, 0 100%)`
+                                    : undefined,
+                                mask:
+                                  i === filledStars && fractionalPart > 0
+                                    ? `url(#star-mask-${i})`
+                                    : undefined,
+                                WebkitMask:
+                                  i === filledStars && fractionalPart > 0
+                                    ? `url(#star-mask-${i})`
+                                    : undefined,
+                              }}
+                            >
+                              <defs>
+                                <mask id={`star-mask-${i}`}>
+                                  <rect
+                                    width="100%"
+                                    height="100%"
+                                    fill="white"
+                                  />
+                                  <rect
+                                    width={`${fractionalPart * 100}%`}
+                                    height="100%"
+                                    fill="black"
+                                  />
+                                </mask>
+                              </defs>
+                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                          ))}
+                        </>
+                      );
+                    })()
+                  ) : (
+                    <>
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <svg
+                          key={i}
+                          className="block h-4 w-4 align-middle text-gray-200"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </>
+                  )}
+                  <p className="ml-2 text-sm font-medium text-gray-500">
+                    {userServices.requestId.filter(
+                      (service) => service.feedbackNum > 0
+                    ).length
+                      ? `${
+                          userServices.requestId.filter(
+                            (service) => service.feedbackNum > 0
+                          ).length
+                        } Reviews`
+                      : "0 Reviews"}
+                  </p>
                 </div>
-                <p className="ml-2 text-sm font-medium text-gray-500">
-                  {userServices.requestId.length} Reviews
-                </p>
               </div>
 
               <div className="mt-10 flex flex-col items-center justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0 text-[#1D5B79]">
@@ -344,11 +377,19 @@ function CConnect() {
                                 {userServices.requestId.length > 0 ? (
                                   <span className="ml-2">
                                     {(
-                                      userServices.requestId.reduce(
-                                        (acc, curr) => acc + curr.feedbackNum,
-                                        0
-                                      ) / userServices.requestId.length
-                                    ).toFixed(1)}
+                                      userServices.requestId
+                                        .filter(
+                                          (service) => service.feedbackNum > 0
+                                        ) // Filter out entries with feedbackNum as 0 or null
+                                        .reduce(
+                                          (acc, curr) => acc + curr.feedbackNum,
+                                          0
+                                        ) /
+                                      (userServices.requestId.filter(
+                                        (service) => service.feedbackNum > 0
+                                      ).length || 1)
+                                    ) // Prevent division by zero
+                                      .toFixed(1)}
                                   </span>
                                 ) : (
                                   <span className="ml-2"> 0.0 </span>
@@ -370,15 +411,22 @@ function CConnect() {
                                     userServices.requestId.filter((service) => {
                                       const rating = service.feedbackNum;
                                       return (
+                                        rating !== null && // Exclude requests with null feedbackNum
                                         Math.ceil((rating / 5) * 5) ===
-                                        feedbackNum
+                                          feedbackNum
                                       );
                                     }).length;
 
-                                  // Calculate the ratio of feedbackCount to the total number of users who provided feedback
+                                  // Calculate the ratio of feedbackCount to the total number of non-null feedback for the current feedbackNum
+                                  const totalNonNullFeedbackCount =
+                                    userServices.requestId.filter(
+                                      (service) => service.feedbackNum !== null
+                                    ).length;
                                   const ratio =
-                                    feedbackCount /
-                                    userServices.requestId.length;
+                                    totalNonNullFeedbackCount > 0
+                                      ? feedbackCount /
+                                        totalNonNullFeedbackCount
+                                      : 0;
 
                                   return (
                                     <li
@@ -398,7 +446,7 @@ function CConnect() {
                                       </span>
                                       <div className="mr-4 h-2 w-96 overflow-hidden rounded-full bg-gray-300">
                                         <div
-                                          className={`h-full bg-yellow-400`}
+                                          className="h-full bg-yellow-400"
                                           style={{ width: `${ratio * 100}%` }}
                                         ></div>
                                       </div>
@@ -412,60 +460,9 @@ function CConnect() {
                             </div>
                           ) : (
                             <div className="text-[#1D5B79]">
-                              <p className="font-medium">Reviews</p>
-                              <ul className="mb-6 mt-2 space-y-2">
-                                {[...Array(5)].map((_, index) => {
-                                  const feedbackNum =
-                                    index === 4 ? 1 : 5 - index; // Adjust arrangement
-                                  const feedbackCount =
-                                    userServices.requestId.filter((service) => {
-                                      const rating = service.feedbackNum;
-                                      return (
-                                        Math.ceil((rating / 5) * 5) ===
-                                        feedbackNum
-                                      );
-                                    }).length;
-
-                                  // Calculate the ratio of feedbackCount to the total number of users who provided feedback
-                                  const ratio =
-                                    feedbackCount /
-                                    userServices.requestId.length;
-
-                                  // Determine the bar color based on feedbackCount
-                                  const barColor =
-                                    feedbackCount > 0
-                                      ? "bg-yellow-400"
-                                      : "bg-gray-300"; // Gray if feedbackCount is 0
-
-                                  return (
-                                    <li
-                                      className="flex items-center text-sm font-medium"
-                                      key={index}
-                                    >
-                                      <span className="w-3">{feedbackNum}</span>
-                                      <span className="mr-4 text-yellow-400">
-                                        <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          className="h-5 w-5"
-                                          viewBox="0 0 20 20"
-                                          fill="currentColor"
-                                        >
-                                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                      </span>
-                                      <div className="mr-4 h-2 w-96 overflow-hidden rounded-full">
-                                        <div
-                                          className={`h-full ${barColor}`}
-                                          style={{ width: `${ratio * 100}%` }}
-                                        ></div>
-                                      </div>
-                                      <span className="w-3">
-                                        {feedbackCount}
-                                      </span>
-                                    </li>
-                                  );
-                                })}
-                              </ul>
+                              <p className="font-medium">
+                                No reviews available
+                              </p>
                             </div>
                           )}
                         </div>
@@ -481,9 +478,9 @@ function CConnect() {
                                 (rating / maxRating) * 5
                               );
 
-                              // Check if feedbackNum and feedbackInfo are not null
+                              // Check if feedbackNum is greater than 0 and feedbackInfo is not null
                               if (
-                                feedbackNum !== null &&
+                                feedbackNum > 0 &&
                                 service.feedbackInfo !== null
                               ) {
                                 return (
@@ -544,7 +541,7 @@ function CConnect() {
                                   </li>
                                 );
                               } else {
-                                return null; // Don't render anything if feedbackNum or feedbackInfo is null
+                                return null; // Don't render anything if feedbackNum is 0 or null or if feedbackInfo is null
                               }
                             })}
                           </ul>
