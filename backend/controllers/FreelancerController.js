@@ -214,6 +214,32 @@ const VerifyUser = async (req, res) => {
   }
 };
 
+const AddRating = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const freelancer = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid ID" });
+    }
+
+    const update = {
+      $set: {
+        ratings: freelancer.ratings
+      },
+    };
+
+    const result = await UserModel.findByIdAndUpdate(id, update, { new: true });
+    if (result) {
+      res.status(200).json(result);
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (err) {
+      res.status(500).json({ message: err.message });
+  }
+};
+
 const DeleteUser = async (req, res) => {
   try {
     const { id } = req.params;
