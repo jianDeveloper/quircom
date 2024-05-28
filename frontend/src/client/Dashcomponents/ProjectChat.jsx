@@ -2,19 +2,11 @@ import React, { useEffect, useState, useRef, useMemo } from "react";
 import WithAuth from "../../auth/WithAuth";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import {
-  Avatar,
-  IconButton,
-  Popover,
-} from "@mui/material";
-import {
-  FaFileImport,
-  FaFileSignature,
-  FaInfoCircle,
-} from "react-icons/fa";
+import { Avatar, IconButton, Popover } from "@mui/material";
+import { FaFileImport, FaFileSignature, FaInfoCircle } from "react-icons/fa";
 import ProjectFiles from "./ProjectFiles";
 import { Link } from "react-router-dom";
-import Contract from "./contractmodal"
+import Contract from "./contractmodal";
 
 const ProjectChat = ({ requestInfos }) => {
   const [message, setMessage] = useState([]);
@@ -568,7 +560,7 @@ const ProjectChat = ({ requestInfos }) => {
           </div>
         </>
       )}
-      {activeTab === "files" && <ProjectFiles />}
+      {activeTab === "files" && <ProjectFiles requestInfos={requestInfos} />}
     </div>
   );
 };
