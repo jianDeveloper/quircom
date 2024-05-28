@@ -73,7 +73,7 @@ const CreateUser = async (req, res) => {
         name: "",
         link: ""
       },
-      ratings: freelancer.ratings,
+      ratings: null,
     });
 
     const emailToken = jwt.sign(

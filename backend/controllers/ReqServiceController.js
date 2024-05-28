@@ -29,7 +29,13 @@ const GetSpecificRequest = async (req, res) => {
       return res.status(400).json({ message: "Invalid ID" });
     }
 
-    const result = await RequestModel.findById(id).populate("freelancerId").populate("serviceId");
+    const result = await RequestModel.findById(id).populate("clientId").populate({
+      path: "serviceId",
+      populate: {
+        path: "freelancerId",
+        model: "freelancer", 
+      },
+    });
 
     if (!result) {
         return res.status(404).json({ message: "Request not found" });
