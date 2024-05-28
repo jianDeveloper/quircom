@@ -108,10 +108,6 @@ const FMainNav = () => {
             { ratings: averageFeedback },
             { headers }
           );
-
-          if (response.status === 200) {
-            console.log("Rating updated successfully");
-          }
         } catch (error) {
           console.error("Error updating rating:", error);
         }

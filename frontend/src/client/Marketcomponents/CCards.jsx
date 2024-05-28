@@ -26,7 +26,8 @@ const CCards = ({ image, serviceId, subtitle, title, author, button }) => {
         };
 
         const response = await axios.get(
-          `https://quircom.onrender.com/api/client/${userId}`, {headers}
+          `https://quircom.onrender.com/api/client/${userId}`,
+          { headers }
         );
         if (response.status === 200) {
           setUsers(response.data);
@@ -49,7 +50,8 @@ const CCards = ({ image, serviceId, subtitle, title, author, button }) => {
         };
 
         const response = await axios.get(
-          `https://quircom.onrender.com/api/service/${serviceId}`, {headers}
+          `https://quircom.onrender.com/api/service/${serviceId}`,
+          { headers }
         );
         if (response.status === 200) {
           setServices(response.data);
@@ -79,11 +81,14 @@ const CCards = ({ image, serviceId, subtitle, title, author, button }) => {
           </Typography>
           <Typography className="text-[#1D5B79]">{author}</Typography>
         </div>
-        <div className="align-bottom  mt-10 w-full flex justify-center bg-orange-600 rounded-md hover:bg-[#1D5B79] active:bg-blue-800">
-          {" "}
-          {/* Added flexbox properties */}
-          <Link to={`/client/service-connect/${userId}/${serviceId}`}>
-            <Button className=" h-10 text-center p-2 ">{button}</Button>
+        <div className="align-bottom mt-10 w-full flex justify-center">
+          <Link
+            to={`/client/service-connect/${userId}/${serviceId}`}
+            className="w-full"
+          >
+            <Button className="w-full h-10 p-2 text-center bg-orange-600 rounded-md hover:bg-[#1D5B79] active:bg-blue-800">
+              {button}
+            </Button>
           </Link>
         </div>
       </CardBody>
