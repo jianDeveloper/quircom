@@ -73,8 +73,8 @@ const CreateRequest = async (req, res) => {
       // taskPicture: requestPicture,
       // feedbackNum: request.feedbackNum,
       // feedbackInfo: request.feedbackInfo,
-      feedbackNum: null,
-      feedbackInfo: null,
+      feedbackNum: 0,
+      feedbackInfo: "",
       report: {
         status: false,
         reportType: "",

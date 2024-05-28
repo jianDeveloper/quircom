@@ -41,7 +41,7 @@ const ReqServiceSchema = new Schema({
   },
   feedbackNum: {
     type: Number,
-    default: 1
+    default: 0
   },
   feedbackInfo:{
     type: String,
