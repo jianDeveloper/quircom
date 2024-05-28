@@ -60,7 +60,7 @@ const WithAuth = (WrappedComponent) => {
           const isExpired = isTokenExpired(decodedToken.exp);
     
           if (isExpired) {
-            localStorage.removeItem("authToken");
+            localStorage.clear();
             navigate("/");
           } else {
             setIsLoading(false);
@@ -68,6 +68,18 @@ const WithAuth = (WrappedComponent) => {
         }
       }
     }, [userData, navigate]);
+
+    useEffect(() => {
+      const token = localStorage.getItem("emailToken");
+    
+      if (token) {
+        const decodedToken = decodeToken(token);
+        const isExpired = isTokenExpired(decodedToken.exp);
+        if (isExpired) {
+          localStorage.removeItem("emailToken");
+        }
+      }
+    }, []);
     
 
     const decodeToken = (token) => {

@@ -11,7 +11,8 @@ const {
   EditPortfolioWithAuth,
   VerifyUserWithAuth,
   DeleteUserWithAuth,
-  ValidateUserData
+  ValidateUserData,
+  AddRatingWithAuth
 } = require("../controllers/FreelancerController.js");
 
 router.post("/upload", upload.single("file"), CreateUser);
@@ -21,6 +22,7 @@ router.get("/:id", GetSpecificUserWithAuth);
 router.patch("/update/:id", upload.single("file"), EditUserWithAuth);
 router.patch("/update/portfolio/:id", upload.single("file"), EditPortfolioWithAuth);
 router.patch("/verify/:id", VerifyUserWithAuth);
+router.patch("/rating/:id", AddRatingWithAuth)
 router.delete("/delete/:id", DeleteUserWithAuth);
 router.post("/validate", ValidateUserData);
 

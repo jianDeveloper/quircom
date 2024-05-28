@@ -42,17 +42,6 @@ function FRank() {
     fetchFreelancers();
   }, []);
 
-  const calculateAverageRating = (feedbackNumArray) => {
-    if (!feedbackNumArray || feedbackNumArray.length === 0) return 0;
-
-    const totalFeedbacks = feedbackNumArray.length;
-    const totalRating = feedbackNumArray.reduce(
-      (acc, feedback) => acc + feedback,
-      0
-    );
-    const averageRating = totalRating / totalFeedbacks;
-    return averageRating.toFixed(1);
-  };
   return (
     <div className="relative flex flex-col w-full min-w-0 mb-0 break-words border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
       <div>
@@ -83,50 +72,31 @@ function FRank() {
             <tbody>
               {freelancers
                 .sort((a, b) => {
-                  // Calculate average ratings for freelancer a
-                  const avgRatingA = calculateAverageRating(
-                    serviceDetails
-                      .filter((service) => service?.freelancerId?._id === a._id)
-                      .flatMap((service) =>
-                        service?.requestId?.map(
-                          (request) => request?.feedbackNum
-                        )
-                      )
-                  );
-                  // Calculate average ratings for freelancer b
-                  const avgRatingB = calculateAverageRating(
-                    serviceDetails
-                      .filter((service) => service?.freelancerId?._id === b._id)
-                      .flatMap((service) =>
-                        service?.requestId?.map(
-                          (request) => request?.feedbackNum
-                        )
-                      )
-                  );
-                  // If theres is equalk ratings
-                  if (avgRatingA === avgRatingB) {
-                    // Count the number of service
+                  const ratingA = a.ratings !== null ? a.ratings : 0;
+                  const ratingB = b.ratings !== null ? b.ratings : 0;
+
+                  // If there are equal ratings
+                  if (ratingA === ratingB) {
+                    // Count the number of service feedbacks
                     const serviceCountA = serviceDetails
                       .filter((service) => service?.freelancerId?._id === a._id)
                       .flatMap((service) =>
                         service?.requestId?.map(
                           (request) => request?.feedbackNum
                         )
-                      )
-                      .filter((feedback) => feedback !== undefined).length;
+                      ).length;
                     const serviceCountB = serviceDetails
                       .filter((service) => service?.freelancerId?._id === b._id)
                       .flatMap((service) =>
                         service?.requestId?.map(
                           (request) => request?.feedbackNum
                         )
-                      )
-                      .filter((feedback) => feedback !== undefined).length;
+                      ).length;
                     // Sort by number of service feedbacks
                     return serviceCountB - serviceCountA;
                   }
-                  // Sort in descending order based on average ratings
-                  return avgRatingB - avgRatingA;
+                  // Sort in descending order based on ratings
+                  return ratingB - ratingA;
                 })
                 .map((freelancer, index) => (
                   <tr key={index}>
@@ -169,19 +139,8 @@ function FRank() {
                       ))}
                     </td>
                     <td className="p-2 leading-normal text-center align-middle bg-transparent border-b text-sm whitespace-nowrap shadow-transparent">
-                      <span className="bg-gradient-to-tl px-3.6  text-xs rounded-1.8 py-2.2 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-[#1D5B79]">
-                        {calculateAverageRating(
-                          serviceDetails
-                            .filter(
-                              (service) =>
-                                service?.freelancerId?._id === freelancer._id
-                            )
-                            .flatMap((service) =>
-                              service?.requestId?.map(
-                                (request) => request?.feedbackNum
-                              )
-                            )
-                        )}
+                      <span className="bg-gradient-to-tl px-3.6 text-xs rounded-1.8 py-2.2 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-[#1D5B79]">
+                        {freelancer.ratings !== null ? freelancer.ratings : 0}
                       </span>
                       <FaStar className="inline-block ml-1 mt-[-2px]" />
                     </td>

@@ -57,10 +57,10 @@ const addReqModal = ({ setReqModal }) => {
     if (formData.taskDetails.length <= 20) {
       errors.taskDetails = "Please input atleast 20 characters";
     }
-    if (!formData.deadline) {
+    if (!formData.deadLine) {
       // If deadline is not provided
       errors.deadLine = "Deadline is required";
-    } else if (new Date(formData.deadline) - new Date() <= 3 * 24 * 60 * 60 * 1000) {
+    } else if (new Date(formData.deadLine) - new Date() <= 3 * 24 * 60 * 60 * 1000) {
       // If deadline is less than 3 days from now
       errors.deadLine = "Deadline must be at least 3 days from now";
     }

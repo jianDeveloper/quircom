@@ -324,6 +324,11 @@ const VerifyUserWithAuth = (req, res) => {
     await VerifyUser(req, res);
   });
 };
+const AddRatingWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await AddRating(req, res);
+  });
+};
 const DeleteUserWithAuth = (req, res) => {
   requireAuth(req, res, async () => {
     await DeleteUser(req, res);
@@ -337,6 +342,7 @@ module.exports = {
   EditUserWithAuth,
   EditPortfolioWithAuth,
   VerifyUserWithAuth,
+  AddRatingWithAuth,
   DeleteUserWithAuth,
   ValidateUserData
 };

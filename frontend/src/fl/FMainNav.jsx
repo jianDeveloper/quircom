@@ -34,6 +34,7 @@ const FMainNav = () => {
   const [requestDetails, setRequest] = useState([]);
   const [nav, setNav] = useState(false);
   const { userId } = useParams();
+  const [averageFeedback, setAverageFeedback] = useState();
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -45,8 +46,6 @@ const FMainNav = () => {
     axios
       .get(`https://quircom.onrender.com/api/freelancer/${userId}`, { headers })
       .then((response) => {
-        //console.log("User ID in Dashboard:", userId);
-        //console.log("User data:", response.data);
         setUser(response.data);
       })
       .catch((error) => {
@@ -62,7 +61,7 @@ const FMainNav = () => {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         };
-  
+
         const response = await axios.get(
           `https://quircom.onrender.com/api/request/`,
           { headers }
@@ -70,18 +69,16 @@ const FMainNav = () => {
         if (response.status === 200) {
           const filteredServices = response.data.filter(
             (request) =>
-              request.serviceId.freelancerId._id && 
+              request.serviceId.freelancerId._id &&
               request.serviceId.freelancerId._id === userId &&
               request.feedbackNum !== null
           );
           setRequest(filteredServices);
-          
-          // Extract feedbackNum values and calculate average
+
           const feedbackNums = filteredServices.map((request) => request.feedbackNum);
           const totalFeedback = feedbackNums.reduce((acc, curr) => acc + curr, 0);
-          const averageFeedback = totalFeedback / feedbackNums.length;
-          console.log("Feedback Numbers:", feedbackNums);
-          console.log("Average Feedback:", averageFeedback);
+          const average = totalFeedback / feedbackNums.length;
+          setAverageFeedback(average);
         } else {
           console.error(
             "Error fetching services: Unexpected status code",
@@ -92,9 +89,37 @@ const FMainNav = () => {
         console.error("Error fetching services:", error);
       }
     };
-  
+
     fetchRequest();
-  }, [userId]);  
+  }, [userId]);
+
+  useEffect(() => {
+    if (averageFeedback > 0) {
+      const saveRating = async () => {
+        try {
+          const token = localStorage.getItem("authToken");
+          const headers = {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          };
+
+          const response = await axios.patch(
+            `https://quircom.onrender.com/api/freelancer/rating/${userId}`,
+            { ratings: averageFeedback },
+            { headers }
+          );
+
+          if (response.status === 200) {
+            console.log("Rating updated successfully");
+          }
+        } catch (error) {
+          console.error("Error updating rating:", error);
+        }
+      };
+
+      saveRating();
+    }
+  }, [averageFeedback, userId]);
   
   const icons = [
     {
