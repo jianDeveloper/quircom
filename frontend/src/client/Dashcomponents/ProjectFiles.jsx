@@ -1,21 +1,19 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { MdFileDownload, MdFileOpen } from "react-icons/md";
-import { ToastContainer, toast } from "react-toastify";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Loader from "../../assets/quircomloading.gif";
+import WithAuth from "../../auth/WithAuth";
 
-const ProjectFiles = (requestInfos) => {
+const ProjectFiles = ({ requestInfos }) => {
   const [activeTab, setActiveTab] = useState("image");
   const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState([]);
+  const [attachments, setAttachments] = useState([]);
 
-  console.log(requestInfos.requestInfos._id);
-
-  const handleTab = (Tabs) => {
-    setActiveTab(Tabs);
+  const handleTab = (tab) => {
+    setActiveTab(tab);
   };
 
   useEffect(() => {
-    if (!requestInfos) {
+    if (!requestInfos || !requestInfos._id) {
       setLoading(false);
       return;
     }
@@ -33,13 +31,13 @@ const ProjectFiles = (requestInfos) => {
           { headers }
         );
 
-        const filteredMessage = response.data.filter(
-          (msg) => msg.requestId?._id === requestInfos._id
-        );
-        setMessage(filteredMessage);
+        const filteredAttachments = response.data
+          .filter((msg) => msg.requestId?._id === requestInfos._id && msg.attachment && msg.attachment.link)
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+        setAttachments(filteredAttachments);
       } catch (error) {
         console.error("Error fetching messages:", error);
-        setLoading(false);
       } finally {
         setLoading(false);
       }
@@ -56,19 +54,6 @@ const ProjectFiles = (requestInfos) => {
     };
   }, [requestInfos]);
 
-  const messagesWithDate = useMemo(() => {
-    if (!requestInfos || !message.length) return [];
-
-    let currentDate = "";
-    return message.map((chat) => {
-      const messageDate = new Date(chat.createdAt).toLocaleDateString();
-      const isFirstMessageOfDate = messageDate !== currentDate;
-      currentDate = messageDate;
-
-      return { ...chat, messageDate, isFirstMessageOfDate };
-    });
-  }, [requestInfos, message]);
-
   const handleDownload = async (fileId, fileName) => {
     try {
       const token = localStorage.getItem("authToken");
@@ -84,7 +69,6 @@ const ProjectFiles = (requestInfos) => {
         }
       );
 
-      // Create a temporary URL for the downloaded file
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = url;
@@ -92,160 +76,83 @@ const ProjectFiles = (requestInfos) => {
       document.body.appendChild(link);
       link.click();
 
-      // Clean up
       link.parentNode.removeChild(link);
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error("Error downloading file:", error);
-      // Handle error
     }
+  };
+
+  const isImage = (fileName) => {
+    const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp", "webp"];
+    const fileExtension = fileName.split(".").pop().toLowerCase();
+    return imageExtensions.includes(fileExtension);
+  };
+
+  const isDocument = (fileName) => {
+    const documentExtensions = ["pdf", "doc", "docx", "zip", "rar"];
+    const fileExtension = fileName.split(".").pop().toLowerCase();
+    return documentExtensions.includes(fileExtension);
   };
 
   return (
     <div className="flex flex-col h-full rounded-lg">
-      <div className="text-white font-medium text-sm  rounded-t-lg">
+      <div className="text-white font-medium text-sm rounded-t-lg flex">
         <button
-          className="rounded-t-lg py-1 w-[50%] h-full bg-[#1D5B79]"
+          className={`rounded-t-lg py-1 w-1/2 ${activeTab === "image" ? "bg-[#1D5B79]" : "bg-[#204355]"}`}
           onClick={() => handleTab("image")}
         >
           Image
         </button>
         <button
-          className="rounded-t-lg py-1 w-[50%] bg-[#204355]"
+          className={`rounded-t-lg py-1 w-1/2 ${activeTab === "docx" ? "bg-[#1D5B79]" : "bg-[#204355]"}`}
           onClick={() => handleTab("docx")}
         >
           Documents
         </button>
       </div>
-      {activeTab === "docx" && (
+      {loading ? (
+        <div className="flex justify-center items-center h-full bg-white">
+          <img src={Loader} alt="Loading..." className="w-16 h-16" />
+        </div>
+      ) : (
         <>
-          <div className="h-full bg-white rounded-b-lg">
-            <table className="min-w-full shadow-md overflow-y-auto">
-              <tbody>
-                <tr>
-                  <td className="pl-16 pr-8 py-2 text-left text-sm font-bold">
-                    <span className="flex flex-row items-center text-xl text-gray-500 gap-2">
-                      <MdFileOpen />
-                      <span className="text-[16px] pt-1 text-black whitespace-nowrap overflow-hidden text-ellipsis">
-                        file name
-                      </span>
-                    </span>
-                  </td>
-                  <td className="pr-16 w-[70px] py-1 text-left text-sm font-bold">
-                    <button className="rounded-full px-2 border-solid border-[1px] border-gray-600 hover:bg-blue-100">
-                      <span className="flex flex-row items-center text-lg text-gray-500 gap-1">
-                        <MdFileDownload />
-                        <span className="text-[14px] text-black">Download</span>
-                      </span>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </>
-      )}
-      {activeTab === "image" && (
-        <div className="h-full bg-white rounded-b-lg">
-          {messagesWithDate.map((chat, index) => (
-            <div key={index} className="flex flex-col px-6">
-              {chat.isFirstMessageOfDate && (
-                <div className="flex w-full text-center justify-center mb-2">
-                  <h1 className="text-xs font-medium text-gray-500">
-                    {chat.messageDate}
-                  </h1>
-                </div>
-              )}
-              <div
-                className={`flex items-center mb-2 ${
-                  chat.senderType === "client" ? "justify-end" : ""
-                }`}
-              >
-                {chat.senderType === "freelancer" && (
-                  <img
-                    className="w-8 h-8 rounded-full mr-2 shadow-md"
-                    src={chat.sender.profilePic.link}
-                    alt="Profile"
-                  />
-                )}
-                <p className="p-2 text-sm font-bold text-left">
-                  {chat.sender.firstName}
-                </p>
-                {chat.senderType === "client" && (
-                  <img
-                    className="w-8 h-8 rounded-full ml-2 shadow-md"
-                    src={chat.sender.profilePic.link}
-                    alt="Profile"
-                  />
-                )}
-              </div>
-              <div
-                className={`flex flex-col mb-3 rounded-lg ${
-                  chat.senderType === "client"
-                    ? "bg-blue-200 ml-auto"
-                    : "bg-gray-200 mr-auto"
-                }`}
-                style={{
-                  maxWidth: "60%",
-                  minWidth: "12%",
-                  textAlign: chat.senderType === "client" ? "left" : "right",
-                }}
-              >
-                <p
-                  className={`p-2 text-sm text-left`}
-                  style={{
-                    overflowWrap: "break-word",
-                    wordBreak: "break-all",
-                    textAlign: chat.senderType === "client" ? "right" : "left",
-                  }}
-                >
-                  {chat.message}
-                </p>
-                {chat.attachment &&
-                  chat.attachment.link &&
-                  chat.attachment.type === "image" && (
-                    <div>
-                      <img
-                        src={chat.attachment.link}
-                        alt="Attachment"
-                        className="w-full"
-                        onClick={() =>
-                          window.open(chat.attachment.link, "_blank")
-                        }
-                        style={{ cursor: "pointer" }}
-                      />
-                      <span
-                        onClick={() =>
-                          window.open(chat.attachment.link, "_blank")
-                        }
-                        style={{
-                          cursor: "pointer",
-                          textDecoration: "underline",
-                        }}
-                      >
-                        View Image
-                      </span>
-                    </div>
-                  )}
-                <p
-                  className={`px-2 pb-1 text-xs text-gray-500 ${
-                    chat.senderType === "freelancer"
-                      ? "text-right"
-                      : "text-left"
-                  }`}
-                >
-                  {new Date(chat.createdAt).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </p>
+          {activeTab === "image" && (
+            <div className="h-full bg-white rounded-b-lg overflow-y-auto p-4">
+              <div className="flex flex-wrap">
+                {attachments.filter(att => isImage(att.attachment.name)).map((att, index) => (
+                  <div key={index} className="w-1/4 p-2">
+                    <img
+                      src={att.attachment.link}
+                      alt="Attachment"
+                      className="w-full h-auto max-h-48 object-cover rounded-md"
+                      onClick={() => window.open(att.attachment.link, "_blank")}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
+          )}
+          {activeTab === "docx" && (
+            <div className="h-full bg-white rounded-b-lg overflow-y-auto p-4">
+              {attachments.filter(att => isDocument(att.attachment.name)).map((att, index) => (
+                <div key={index} className="flex items-center justify-between p-2 border-b border-gray-200">
+                  <span className="text-gray-800">{att.attachment.name}</span>
+                  <button
+                    className="text-blue-600 underline"
+                    onClick={() => handleDownload(att.attachment.id, att.attachment.name)}
+                  >
+                    Download
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </>
       )}
     </div>
   );
 };
 
-export default ProjectFiles;
+export default WithAuth(ProjectFiles);
