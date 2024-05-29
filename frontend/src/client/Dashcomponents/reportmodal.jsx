@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { useParams } from "react-router-dom";
@@ -17,43 +17,36 @@ const reportmodal = ({ requestInfos, setreportModal }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
-  
+
     setInvalidFields({});
-  
+
     const errors = {};
-    if (formData.taskTitle.length === 0) {
-      errors.taskTitle = "Please input your title";
+    if (!formData.reportType) {
+      errors.reportType = "Please input type";
     }
-    if (formData.taskDetails.length <= 20) {
-      errors.taskDetails = "Please input atleast 20 characters";
+    if (formData.details.length <= 5) {
+      errors.details = "Please input atleast 5 characters";
     }
-    if (!formData.deadLine) {
-      // If deadline is not provided
-      errors.deadLine = "Deadline is required";
-    } else if (new Date(formData.deadLine) - new Date() <= 3 * 24 * 60 * 60 * 1000) {
-      // If deadline is less than 3 days from now
-      errors.deadLine = "Deadline must be at least 3 days from now";
-    }
-    
-  
+
     setInvalidFields(errors);
-  
+
     if (Object.keys(errors).length > 0) {
       return;
     }
-  
+
     try {
       const token = localStorage.getItem("authToken");
       const headers = {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       };
-  
+
       const response = await axios.post(
         `https://quircom.onrender.com/api/request/create`,
-        formData, {headers}
+        formData,
+        { headers }
       );
-  
+
       if (response && response.data) {
         toast.success("Request uploaded successfully", {
           autoClose: 1000,
@@ -63,7 +56,6 @@ const reportmodal = ({ requestInfos, setreportModal }) => {
             }, 1000);
           },
         });
-        
       } else {
         // console.log("Response data not available");
         toast.error("Failed to upload request");
@@ -79,7 +71,27 @@ const reportmodal = ({ requestInfos, setreportModal }) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-  
+
+  const handleReport = async (id) => {
+    try {
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+      await axios.patch(
+        `https://quircom.onrender.com/api/request/report/${id}`,
+        {
+          status: true,
+        },
+        { headers }
+      );
+      fetchRequests();
+    } catch (error) {
+      console.error("Error during approval: ", error.response);
+    }
+  };
+
+  console.log("dwawdadAWDAWDAWDA", requestInfos);
   return (
     <div>
       <ToastContainer />
@@ -105,41 +117,61 @@ const reportmodal = ({ requestInfos, setreportModal }) => {
                     htmlFor="taskTitle"
                     className="block text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
                   >
-                    Task Title
+                    Project
                   </label>
                   <input
                     type="text"
-                    id="taskTitle"
-                    name="taskTitle"
-                    value={formData.taskTitle}
-                    onChange={handleChange}
+                    value={requestInfos.taskTitle}
+                    disabled
                     className={`mt-1 relative rounded-md shadow-sm border border-gray-300 px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm  ${
                       invalidFields.serviceName ? "border-red-500" : ""
                     }`}
                   />
-
-<label
+                  <label
+                    htmlFor="reportType"
+                    className="block text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
+                  >
+                    Report Type
+                  </label>
+                  <select
+                    id="reportType"
+                    name="reportType"
+                    value={formData.reportType}
+                    onChange={handleChange}
+                    className={`mt-1 relative rounded-md shadow-sm border border-gray-300 px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm  ${
+                      invalidFields.serviceName ? "border-red-500" : ""
+                    }`}
+                  >
+                    <option value="">Select Report Type</option>
+                    <option value="Scammer">Scammer</option>
+                    <option value="Violation of Contract">Violation of Contract</option>
+                    <option value="Inappropriate Speech">Inappropriate Speech</option>
+                    <option value="Project Delay">
+                      Project Delay
+                    </option>
+                    <option value="Other">
+                      Other
+                    </option>
+                  </select>
+                  <label
                     htmlFor="taskDetails"
                     className={`block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300`}
                   >
-                    Explanation
+                    If others, please specify:
                   </label>
                   <div className="mt-1">
                     <textarea
-                      id="taskDetails"
-                      name="taskDetails"
-                      value={formData.taskDetails}
+                      id="details"
+                      name="details"
+                      value={formData.details}
                       onChange={handleChange}
                       rows={4}
+                      disabled={formData.reportType !== "Other"}
                       className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 px-3 py-2 ${
                         invalidFields.serviceInfo ? "border-red-500" : ""
                       }`}
                     />
-                    {invalidFields.taskDetails && (
-                      <p className="text-red-500 text-[12px]">
-                        {invalidFields.taskDetails}
-                      </p>
-                    )}
+
                   </div>
 
                   <div className="flex flex-row justify-between gap-12">
@@ -148,17 +180,19 @@ const reportmodal = ({ requestInfos, setreportModal }) => {
                         htmlFor="freelancerId"
                         className="block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
                       >
-                        Tasked By
+                        Reported By
                       </label>
                       <div className="mt-1 flex px-3 py-2">
                         <input
                           type="text"
                           id="freelancerId"
                           name="freelancerId"
-                          value={`{""} ${
-                            ""
-                          }`}
-                          readOnly
+                          value={
+                            requestInfos.clientId.firstName +
+                            " " +
+                            requestInfos.clientId.surName
+                          }
+                          disabled
                           className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm p-2 shadow-sm border border-gray-300"
                         />
                       </div>
@@ -173,14 +207,20 @@ const reportmodal = ({ requestInfos, setreportModal }) => {
                 <button
                   className="text-emerald-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                   type="button"
-                  onClick={() => setreportModal(false)}
+                  onClick={() => setreportModal(false)
+
+                  }
                 >
                   Cancel
                 </button>
                 <button
                   className="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                   type="submit"
-                  onClick={() => setreportModal(false)}
+                  onClick={() => {
+                      handleReport(requestInfos._id)
+                      setreportModal(false)
+                    }
+                  }
                 >
                   Report
                 </button>
@@ -191,7 +231,7 @@ const reportmodal = ({ requestInfos, setreportModal }) => {
       </div>
       <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
     </div>
-  )
-}
+  );
+};
 
-export default reportmodal
+export default reportmodal;
