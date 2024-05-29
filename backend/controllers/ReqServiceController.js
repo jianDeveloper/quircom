@@ -264,7 +264,7 @@ const ContractRequest = async (req, res) => {
 
     let update = {
       $set: {
-        contract: request.contract
+        contract: true
       },
     };
 

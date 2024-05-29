@@ -1,17 +1,45 @@
 import React, { useState, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useReactToPrint } from "react-to-print";
+import axios from "axios";
 
 import Logo from "../../assets/Icon1.png";
 import { FaPrint } from "react-icons/fa6";
 
-const contractmodal = ({ setContractModal }) => {
+const ContractModal = ({ setContractModal, requestInfos }) => {
   const [isCheckboxDisabled, setCheckboxDisabled] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
   const printRef = useRef();
 
-  const handleProceed = () => {
-    setCheckboxDisabled(true);
-    setContractModal(false);
+  const handleProceed = async () => {
+    if (!isChecked) {
+      toast.error("Please read and accept the contract");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("authToken");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+
+      await axios.put(
+        `https://quircom.onrender.com/api/request/contract/${requestInfos._id}`,
+        {},
+        { headers }
+      );
+      setCheckboxDisabled(true);
+      toast.success("Contract has been successfully updated!", {
+        autoClose: 2000,
+      });
+      setTimeout(() => {
+        setContractModal(false);
+      }, 2000);
+    } catch (error) {
+      console.error("Error updating contract status:", error);
+      toast.error("Failed to update contract status");
+    }
   };
 
   const handlePrint = useReactToPrint({
@@ -120,50 +148,51 @@ const contractmodal = ({ setContractModal }) => {
             </div>
           </div>
         </div>
-          <div className="bg-white py-4">
-            <form className="flex px-10">
-              <input
-                type="checkbox"
-                value={"true"}
-                disabled={isCheckboxDisabled}
-              />
-              <p className="whitespace-wrap ml-4 text-sm italic">
-                I certify and acknowledge that I have read and accepted the
-                contract above
-              </p>
-            </form>
+        <div className="bg-white py-4">
+          <form className="flex px-10">
+            <input
+              type="checkbox"
+              value={isChecked}
+              onChange={(e) => setIsChecked(e.target.checked)}
+              disabled={isCheckboxDisabled}
+            />
+            <p className="whitespace-wrap ml-4 text-sm italic">
+              I certify and acknowledge that I have read and accepted the
+              contract above
+            </p>
+          </form>
+        </div>
+        <div className="flex flex-row items-center justify-between bg-white border-t border-solid border-blueGray-200 rounded-b">
+          <div className="bg-white p-6 ">
+            <button
+              className="flex gap-2 justify-center items-center text-white rounded-md bg-blue-500 font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="button"
+              onClick={handlePrint}
+            >
+              <FaPrint className="" />
+              Print
+            </button>
           </div>
-          <div className="flex flex-row items-center justify-between bg-white border-t border-solid border-blueGray-200 rounded-b">
-            <div className="bg-white p-6 ">
-              <button
-                className="flex gap-2 justify-center items-center text-white rounded-md bg-blue-500 font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="button"
-                onClick={handlePrint}
-              >
-                <FaPrint className="" />
-                Print
-              </button>
-            </div>
-            <div className="bg-white flex items-center justify-end p-6">
-              <button
-                className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="button"
-                onClick={() => setContractModal(false)}
-              >
-                Cancel
-              </button>
-              <button
-                className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="button"
-                onClick={handleProceed}
-              >
-                Proceed
-              </button>
-            </div>
+          <div className="bg-white flex items-center justify-end p-6">
+            <button
+              className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="button"
+              onClick={() => setContractModal(false)}
+            >
+              Cancel
+            </button>
+            <button
+              className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="button"
+              onClick={handleProceed}
+            >
+              Proceed
+            </button>
           </div>
+        </div>
       </div>
     </div>
   );
 };
 
-export default contractmodal;
+export default ContractModal;

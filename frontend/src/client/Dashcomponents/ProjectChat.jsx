@@ -269,7 +269,7 @@ const ProjectChat = ({ requestInfos }) => {
                         <FaFileSignature size={20} color="#1D5B79" />
                       </IconButton>
                       {contractModal && (
-                        <Contract setContractModal={setContractModal} />
+                        <Contract setContractModal={setContractModal} requestInfos={requestInfos} />
                       )}
                       <IconButton onClick={handleAvatarClick}>
                         <FaInfoCircle size={20} color="#1D5B79" />
