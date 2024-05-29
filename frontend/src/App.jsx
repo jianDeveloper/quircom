@@ -12,7 +12,7 @@ import Forgot from "./components/Forgot.jsx";
 import ResetPass from "./components/ResetPass.jsx";
 import NotFoundPage from "./components/NotFoundPage.jsx";
 import Verify from "./components/Verify.jsx";
-import VerifySuccess from './components/VerificationSuccess.jsx';
+import VerifySuccess from "./components/VerificationSuccess.jsx";
 
 // Admin Imports =============================================================
 import ALogPage from "./admin/ALogPage.jsx";
@@ -29,11 +29,13 @@ import CRank from "./client/CRank.jsx";
 import CSubscribe from "./client/CSubscribe.jsx";
 import CConnect from "./client/Marketcomponents/CConnect.jsx";
 import Project from "./client/Dashcomponents/Project.jsx";
+import CViewProfile from "./client/CViewProfile.jsx";
 
 // Freelancer Imports =========================================================
 import FRank from "./fl/FRank.jsx";
 import FDashboard from "./fl/FDashboard.jsx";
 import FProfile from "./fl/FProfile.jsx";
+import FViewProfile from "./fl/FViewProfile.jsx";
 import FSettings from "./fl/FSettings.jsx";
 import FSettingsProfile from "./fl/FSettingsProfile.jsx";
 
@@ -55,11 +57,7 @@ function App() {
             </>
           }
         />
-        <Route 
-        exact 
-        path="/page-not-found" 
-        element={<NotFoundPage />} 
-        />
+        <Route exact path="/page-not-found" element={<NotFoundPage />} />
         <Route
           exact
           path="/registration"
@@ -71,30 +69,14 @@ function App() {
             </>
           }
         />
-        <Route 
-        exact 
-        path="/terms" 
-        element={<Terms />} 
-        />
-        <Route 
-        exact 
-        path="/forgot" 
-        element={<Forgot />} 
-        />
-        <Route 
-        exact 
-        path="/reset-pass/:userId" 
-        element={<ResetPass />} 
-        />
-        <Route 
-        exact 
-        path="/verify/:userId" 
-        element={<Verify />} 
-        />
-        <Route 
-        exact 
-        path="/verify-success/:userId" 
-        element={<VerifySuccess />} 
+        <Route exact path="/terms" element={<Terms />} />
+        <Route exact path="/forgot" element={<Forgot />} />
+        <Route exact path="/reset-pass/:userId" element={<ResetPass />} />
+        <Route exact path="/verify/:userId" element={<Verify />} />
+        <Route
+          exact
+          path="/verify-success/:userId"
+          element={<VerifySuccess />}
         />
         {/* Admin Routes
         <Route
@@ -107,23 +89,24 @@ function App() {
         <Route
           exact
           path="/client/dashboard/:userId"
-          element={<CDashboard />} 
+          element={<CDashboard />}
         />
         <Route 
-        exact 
-        path="/client/profile/:userId" 
-        element={<CProfile />} 
+          exact 
+          path="/client/profile/:userId" 
+          element={<CProfile />} 
+        />
+        <Route
+          exact
+          path="/client/view-profile/:userId/:viewId"
+          element={<CViewProfile />}
         />
         <Route
           exact
           path="/client/browse-service/:userId"
           element={<CMarketplace />}
         />
-        <Route 
-        exact 
-        path="/client/settings/:userId" 
-        element={<CSettings />} 
-        />
+        <Route exact path="/client/settings/:userId" element={<CSettings />} />
         <Route
           exact
           path="/client/settings-profile/:userId"
@@ -139,21 +122,13 @@ function App() {
           path="/client/subscribe/:userId"
           element={<CSubscribe />}
         />
-        <Route
-          exact
-          path="/client/projects/:userId"
-          element={<Project />}
-        />
+        <Route exact path="/client/projects/:userId" element={<Project />} />
         <Route
           exact
           path="/client/service-connect/:userId/:serviceId"
           element={<CConnect />}
         />
-        <Route 
-        exact 
-        path="/client/leaderboard/:userId" 
-        element={<CRank />} 
-        />
+        <Route exact path="/client/leaderboard/:userId" element={<CRank />} />
 
         {/* ROUTE FOR FREELANCER */}
         <Route
@@ -165,6 +140,11 @@ function App() {
           exact
           path="/freelancer/profile/:userId"
           element={<FProfile />}
+        />
+        <Route
+          exact
+          path="/freelancer/view-profile/:userId/:viewId"
+          element={<FViewProfile />}
         />
         <Route
           exact
@@ -183,17 +163,8 @@ function App() {
         />
 
         {/* ROUTE FOR Admin */}
-        <Route
-          exact
-          path="/admin"
-          element={<ALogPage />}
-        />
-        <Route
-          exact
-          path="/admin/dashboard/:userId"
-          element={<ADashboard />}
-        />
-
+        <Route exact path="/admin" element={<ALogPage />} />
+        <Route exact path="/admin/dashboard/:userId" element={<ADashboard />} />
       </Routes>
     </div>
   );

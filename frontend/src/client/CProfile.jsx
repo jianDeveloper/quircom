@@ -14,7 +14,7 @@ import BG1 from "../assets/bg1.png";
 import Loader from "../assets/quircomloading.gif";
 import WithAuth from "../auth/WithAuth";
 
-function CProfile() {
+const CProfile = () => {
   const { userId } = useParams();
   const [userData, setUsers] = useState(null);
   const [nav, setNav] = useState(false);
@@ -111,7 +111,7 @@ function CProfile() {
                     className="py-2 px-3 m-auto text-center font-bold"
                   >
                     <Link
-                      to={`/client/subscription/${userId}`}
+                      to={`/client/settings-bill/${userId}`}
                       className="buttonSettings text-[#1D5B79] bg-[#F5F5DC]"
                     >
                       Subscription
