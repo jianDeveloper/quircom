@@ -13,9 +13,35 @@ const ContractModal = ({ setContractModal, requestInfos }) => {
   const printRef = useRef();
   const { userId } = useParams();
 
-  const handleProceed = () => {
-    setCheckboxDisabled(true);
-    setContractModal(false);
+  const handleProceed = async () => {
+    if (!isChecked) {
+      toast.error("Please read and accept the contract");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("authToken");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+
+      await axios.patch(
+        `https://quircom.onrender.com/api/request/contract/${requestInfos._id}`,
+        {},
+        { headers }
+      );
+      setCheckboxDisabled(true);
+      toast.success("Contract has been successfully updated!", {
+        autoClose: 2000,
+      });
+      setTimeout(() => {
+        setContractModal(false);
+      }, 2000);
+    } catch (error) {
+      console.error("Error updating contract status:", error);
+      toast.error("Failed to update contract status");
+    }
   };
 
   const handlePrint = useReactToPrint({
@@ -24,7 +50,20 @@ const ContractModal = ({ setContractModal, requestInfos }) => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const monthNames = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "Decemeber"];
+    const monthNames = [
+      "January",
+      "Febuary",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "Decemeber",
+    ];
     const formattedDate = `${monthNames[date.getMonth()]} ${date
       .getDate()
       .toString()
@@ -32,8 +71,6 @@ const ContractModal = ({ setContractModal, requestInfos }) => {
     return formattedDate;
   };
 
-
-  console.log("requestDetails : ==> ", requestInfos);
   return (
     <div className="fixed inset-0 z-1 flex flex-col items-center bg-black bg-opacity-[0.30]">
       <ToastContainer />
@@ -51,14 +88,18 @@ const ContractModal = ({ setContractModal, requestInfos }) => {
                 Project Contract
               </h1>
               <br />
-              <p>
-                <h2 className="font-medium mb-1 uppercase"><b>Project Details</b></h2>
-                Title: <b>{requestInfos.taskTitle}</b>
-                <br />
-                Description: {requestInfos.taskDetails}
-                <br />
-                Deadline: <b>{formatDate(requestInfos.deadLine)} </b>
-              </p>
+              <div>
+                <h2 className="font-medium mb-1 uppercase">
+                  <b>Project Details</b>
+                </h2>
+                <p>
+                  Title: <b>{requestInfos.taskTitle}</b>
+                  <br />
+                  Description: {requestInfos.taskDetails}
+                  <br />
+                  Deadline: <b>{formatDate(requestInfos.deadLine)} </b>
+                </p>
+              </div>
               <p>
                 <br />
                 &nbsp;&nbsp;&nbsp;&nbsp;This agreement outlines the terms and
@@ -74,10 +115,10 @@ const ContractModal = ({ setContractModal, requestInfos }) => {
                   Deliverables by the Project Deadline.
                 </li>
                 <li>
-                  2. Payment Terms Total Payment: Payment Schedule: 
-                  <b> 15%</b> of <b>{requestInfos.serviceId.price}</b> upon signing of the contract
-                  and <b>85%</b> upon final delivery and approval by the
-                  Client.
+                  2. Payment Terms Total Payment: Payment Schedule:
+                  <b> 15%</b> of <b>{requestInfos.serviceId.price}</b> upon
+                  signing of the contract and <b>85%</b> upon final delivery and
+                  approval by the Client.
                 </li>
                 <li>
                   3. Revisions The Freelancer agrees to provide up to 3
@@ -103,9 +144,9 @@ const ContractModal = ({ setContractModal, requestInfos }) => {
                 </li>
                 <li>
                   7. Acceptance of Work The Client agrees to review the work
-                  within 3 days of receipt and provide feedback or
-                  approval. If the Client does not respond within this period,
-                  the work will be deemed accepted.
+                  within 3 days of receipt and provide feedback or approval. If
+                  the Client does not respond within this period, the work will
+                  be deemed accepted.
                 </li>
                 <li>
                   8. Dispute Resolution Any disputes arising out of this
@@ -120,15 +161,26 @@ const ContractModal = ({ setContractModal, requestInfos }) => {
                 </li>
               </ol>
               <p className="mt-6">
-                This Contract is made on this <b>{formatDate(new Date().toISOString())}</b>, between:
+                This Contract is made on this{" "}
+                <b>{formatDate(new Date().toISOString())}</b>, between:
                 <br />
                 <br />
-                Client : <b>{requestInfos.clientId.firstName + " " + requestInfos.clientId.surName}</b>
+                Client :{" "}
+                <b>
+                  {requestInfos.clientId.firstName +
+                    " " +
+                    requestInfos.clientId.surName}
+                </b>
                 <br />
                 Email: {requestInfos.clientId.eMail}
                 <br />
                 <br />
-                Freelancer: <b>{requestInfos.serviceId.freelancerId.firstName + " " + requestInfos.serviceId.freelancerId.surName}</b>
+                Freelancer:{" "}
+                <b>
+                  {requestInfos.serviceId.freelancerId.firstName +
+                    " " +
+                    requestInfos.serviceId.freelancerId.surName}
+                </b>
                 <br />
                 Email: {requestInfos.serviceId.freelancerId.eMail}
               </p>

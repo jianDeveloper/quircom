@@ -428,7 +428,6 @@ const ProjectChat = ({ requestInfos }) => {
                                           src={chat.attachment.link}
                                           alt="Attachment"
                                           className="w-full"
-                                          down
                                           onClick={() =>
                                             window.open(
                                               chat.attachment.link,

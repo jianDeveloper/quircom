@@ -256,7 +256,6 @@ const ReportRequest = async (req, res) => {
 const ContractRequest = async (req, res) => {
   try{
     const { id } = req.params;
-    const request = req.body;
     
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: "Invalid ID" });
