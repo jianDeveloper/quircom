@@ -152,7 +152,7 @@ const ContractModal = ({ setContractModal, requestInfos }) => {
           <form className="flex px-10">
             <input
               type="checkbox"
-              value={isChecked}
+              checked={isChecked}
               onChange={(e) => setIsChecked(e.target.checked)}
               disabled={isCheckboxDisabled}
             />
