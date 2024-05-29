@@ -5,12 +5,13 @@ import { ToastContainer, toast } from "react-toastify";
 import { Avatar, IconButton, Popover } from "@mui/material";
 import { FaFileImport, FaFileSignature, FaInfoCircle } from "react-icons/fa";
 import ProjectFiles from "./ProjectFiles";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Contract from "./contractmodal";
 import Report from "./reportmodal";
 
 
 const ProjectChat = ({ requestInfos }) => {
+  const { userId } = useParams();
   const [message, setMessage] = useState([]);
   const [formData, setFormData] = useState({
     requestId: "",
@@ -271,7 +272,7 @@ const ProjectChat = ({ requestInfos }) => {
                         <FaFileSignature size={20} color="#1D5B79" />
                       </IconButton>
                       {contractModal && (
-                        <Contract requestInfos={requestInfos} setContractModal={setContractModal} />
+                        <Contract setContractModal={setContractModal} requestInfos={requestInfos} />
                       )}
                       <IconButton onClick={handleAvatarClick}>
                         <FaInfoCircle size={20} color="#1D5B79" />
@@ -292,7 +293,7 @@ const ProjectChat = ({ requestInfos }) => {
                       >
                         <div className="flex flex-col">
                           <Link
-                            to={`/client/profile/${requestInfos?.serviceId?.freelancerId?._id}`}
+                            to={`/client/view-profile/${userId}/${requestInfos?.serviceId?.freelancerId?._id}`}
                           >
                             <p className="p-2 text-sm font-medium text-[#1D5B79] cursor-pointer">
                               View Profile
