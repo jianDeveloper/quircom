@@ -7,6 +7,8 @@ import { FaFileImport, FaFileSignature, FaInfoCircle } from "react-icons/fa";
 import ProjectFiles from "./ProjectFiles";
 import { Link } from "react-router-dom";
 import Contract from "./contractmodal";
+import Report from "./reportmodal";
+
 
 const ProjectChat = ({ requestInfos }) => {
   const [message, setMessage] = useState([]);
@@ -23,6 +25,7 @@ const ProjectChat = ({ requestInfos }) => {
   const [activeTab, setActiveTab] = useState("chat");
   const [anchorEl, setAnchorEl] = useState(null);
   const [contractModal, setContractModal] = useState(false);
+  const [reportModal, setreportModal] = useState(false);
 
   useEffect(() => {
     if (requestInfos) {
@@ -268,7 +271,7 @@ const ProjectChat = ({ requestInfos }) => {
                         <FaFileSignature size={20} color="#1D5B79" />
                       </IconButton>
                       {contractModal && (
-                        <Contract setContractModal={setContractModal} />
+                        <Contract requestInfos={requestInfos} setContractModal={setContractModal} />
                       )}
                       <IconButton onClick={handleAvatarClick}>
                         <FaInfoCircle size={20} color="#1D5B79" />
@@ -295,12 +298,15 @@ const ProjectChat = ({ requestInfos }) => {
                               View Profile
                             </p>
                           </Link>
-                          <p
+                          <button onClick={() => setreportModal(true)}><p
                             className="p-2 text-sm font-medium text-red-500 cursor-pointer"
-                            onClick={"handleReport"}
+                            
                           >
                             Report
-                          </p>
+                          </p></button>
+                          {reportModal && (
+                        <Report requestInfos={requestInfos} setreportModal={setreportModal} />
+                      )}
                         </div>
                       </Popover>
                     </div>

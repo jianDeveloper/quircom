@@ -1,16 +1,20 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useReactToPrint } from "react-to-print";
+import axios from "axios";
 
 import Logo from "../../assets/Icon1.png";
 import { FaPrint } from "react-icons/fa6";
+import { useParams } from "react-router-dom";
 
-const contractmodal = ({ setContractModal }) => {
+const contractmodal = ({ requestInfos, setContractModal }) => {
   const [isCheckboxDisabled, setCheckboxDisabled] = useState(false);
+  const [requestDetails, setRequest] = useState([]);
   const printRef = useRef();
+  const { userId } = useParams();
 
   const handleProceed = () => {
-    setCheckboxDisabled(true);
+    setCheckboxDisabled(false);
     setContractModal(false);
   };
 
@@ -18,6 +22,18 @@ const contractmodal = ({ setContractModal }) => {
     content: () => printRef.current,
   });
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const monthNames = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "Decemeber"];
+    const formattedDate = `${monthNames[date.getMonth()]} ${date
+      .getDate()
+      .toString()
+      .padStart(2, "0")}, ${date.getFullYear()}`;
+    return formattedDate;
+  };
+
+
+  console.log("requestDetails : ==> ", requestInfos);
   return (
     <div className="fixed inset-0 z-1 flex flex-col items-center bg-black bg-opacity-[0.30]">
       <ToastContainer />
@@ -36,12 +52,12 @@ const contractmodal = ({ setContractModal }) => {
               </h1>
               <br />
               <p>
-                <h2 className="font-medium mb-1">Project Details</h2>
-                Title: [Project Title]
+                <h2 className="font-medium mb-1 uppercase"><b>Project Details</b></h2>
+                Title: <b>{requestInfos.taskTitle}</b>
                 <br />
-                Description: [Brief description of the project]
+                Description: {requestInfos.taskDetails}
                 <br />
-                Deadline: [Project deadline date]
+                Deadline: <b>{formatDate(requestInfos.deadLine)} </b>
               </p>
               <p>
                 <br />
@@ -58,14 +74,13 @@ const contractmodal = ({ setContractModal }) => {
                   Deliverables by the Project Deadline.
                 </li>
                 <li>
-                  2. Payment Terms Total Payment: Payment Schedule:
-                  [Percentage/amount] upon signing of the contract
-                  [Percentage/amount] upon completion of [milestone/deliverable]
-                  [Percentage/amount] upon final delivery and approval by the
+                  2. Payment Terms Total Payment: Payment Schedule: 
+                  <b> 15%</b> of <b>{requestInfos.serviceId.price}</b> upon signing of the contract
+                  and <b>85%</b> upon final delivery and approval by the
                   Client.
                 </li>
                 <li>
-                  3. Revisions The Freelancer agrees to provide up to [number]
+                  3. Revisions The Freelancer agrees to provide up to 3
                   revisions based on the Client's feedback. Additional revisions
                   may be subject to extra charges.
                 </li>
@@ -88,7 +103,7 @@ const contractmodal = ({ setContractModal }) => {
                 </li>
                 <li>
                   7. Acceptance of Work The Client agrees to review the work
-                  within [number] days of receipt and provide feedback or
+                  within 3 days of receipt and provide feedback or
                   approval. If the Client does not respond within this period,
                   the work will be deemed accepted.
                 </li>
@@ -105,17 +120,17 @@ const contractmodal = ({ setContractModal }) => {
                 </li>
               </ol>
               <p className="mt-6">
-                This Contract is made on this [Date], between:
+                This Contract is made on this <b>{formatDate(new Date().toISOString())}</b>, between:
                 <br />
                 <br />
-                Client: Name: [Client's Full Name]
+                Client : <b>{requestInfos.clientId.firstName + " " + requestInfos.clientId.surName}</b>
                 <br />
-                Email: [Client's Email Address]
+                Email: {requestInfos.clientId.eMail}
                 <br />
                 <br />
-                Freelancer: Name: [Freelancer's Full Name]
+                Freelancer: <b>{requestInfos.serviceId.freelancerId.firstName + " " + requestInfos.serviceId.freelancerId.surName}</b>
                 <br />
-                Email: [Freelancer's Email Address]
+                Email: {requestInfos.serviceId.freelancerId.eMail}
               </p>
             </div>
           </div>
@@ -124,7 +139,6 @@ const contractmodal = ({ setContractModal }) => {
             <form className="flex px-10">
               <input
                 type="checkbox"
-                value={"true"}
                 disabled={isCheckboxDisabled}
               />
               <p className="whitespace-wrap ml-4 text-sm italic">
