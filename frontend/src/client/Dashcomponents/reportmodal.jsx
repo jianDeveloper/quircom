@@ -54,12 +54,12 @@ const reportmodal = ({ requestInfos, setreportModal }) => {
         });
       } else {
         // console.log("Response data not available");
-        toast.error("Failed to upload request");
+        toast.error("Failed to submit report");
       }
     } catch (error) {
       console.error("Error during patch ", error.response);
       // console.log(error.message);
-      toast.error("Failed to upload request");
+      toast.error("Failed to submit report");
     }
   };
 
