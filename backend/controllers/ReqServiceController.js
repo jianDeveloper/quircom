@@ -239,7 +239,7 @@ const ReportRequest = async (req, res) => {
 
     let update = {
       $set: {
-        'report.status': request.report.status,
+        'report.status': true,
         'report.reportType': request.report.reportType,
         'report.details': request.report.details,
       },

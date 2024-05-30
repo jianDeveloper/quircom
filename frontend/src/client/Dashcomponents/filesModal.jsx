@@ -1,5 +1,4 @@
 import React from 'react'
-import { ToastContainer, toast } from "react-toastify";
 
 import { FaFileAlt } from "react-icons/fa";
 import WithAuth from '../../auth/WithAuth';
@@ -11,7 +10,6 @@ function filesModal({ setfilesModal }) {
   className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
   style={{ background: "rgba(0,0,0,0.2)" }}
 >
-  <ToastContainer />
   <div>
     {/* Header */}
     <div className="relative w-full my-6 mx-auto">

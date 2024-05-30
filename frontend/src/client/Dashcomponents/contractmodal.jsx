@@ -73,7 +73,6 @@ const ContractModal = ({ setContractModal, requestInfos }) => {
 
   return (
     <div className="fixed inset-0 z-1 flex flex-col items-center bg-black bg-opacity-[0.30]">
-      <ToastContainer />
       <div className="max-w-[980px] min-h-[400px] my-20">
         <div className="h-[350px] overflow-y-auto">
           <div

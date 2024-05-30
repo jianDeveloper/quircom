@@ -1,37 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import { useParams } from "react-router-dom";
 
 const reportmodal = ({ requestInfos, setreportModal }) => {
-  const { userId } = useParams();
-  const { requestId } = useParams();
   const [invalidFields, setInvalidFields] = useState({});
   const [formData, setFormData] = useState({
-    clientId: userId,
-    requestId: requestId,
     details: "",
     reportType: "",
-    dateUploaded: new Date().toISOString(),
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
 
-    setInvalidFields({});
-
-    const errors = {};
     if (!formData.reportType) {
-      errors.reportType = "Please input type";
-    }
-    if (formData.details.length <= 5) {
-      errors.details = "Please input atleast 5 characters";
-    }
-
-    setInvalidFields(errors);
-
-    if (Object.keys(errors).length > 0) {
+      toast.error("Please input report type");
       return;
+    }
+    if(formData.reportType === "Other"){
+      if (formData.details.length <= 5) {
+        toast.error("Please input atleast 5 characters");
+        return;
+      }
     }
 
     try {
@@ -41,18 +30,25 @@ const reportmodal = ({ requestInfos, setreportModal }) => {
         "Content-Type": "application/json",
       };
 
-      const response = await axios.post(
-        `https://quircom.onrender.com/api/request/create`,
-        formData,
+      const requestBody = {
+        report: {
+          reportType: formData.reportType,
+          details: formData.details
+        },
+      };
+
+      const response = await axios.patch(
+        `https://quircom.onrender.com/api/request/report/${requestInfos._id}`,
+          requestBody,
         { headers }
       );
 
       if (response && response.data) {
-        toast.success("Request uploaded successfully", {
+        toast.success("Report has been submitted", {
           autoClose: 1000,
           onClose: () => {
             setTimeout(() => {
-              setReqModal(false);
+              setreportModal(false);
             }, 1000);
           },
         });
@@ -72,29 +68,8 @@ const reportmodal = ({ requestInfos, setreportModal }) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleReport = async (id) => {
-    try {
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      };
-      await axios.patch(
-        `https://quircom.onrender.com/api/request/report/${id}`,
-        {
-          status: true,
-        },
-        { headers }
-      );
-      fetchRequests();
-    } catch (error) {
-      console.error("Error during approval: ", error.response);
-    }
-  };
-
-  console.log("dwawdadAWDAWDAWDA", requestInfos);
   return (
     <div>
-      <ToastContainer />
       <div
         className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
         style={{ background: "rgba(0,0,0,0.2)" }}
@@ -216,11 +191,6 @@ const reportmodal = ({ requestInfos, setreportModal }) => {
                 <button
                   className="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                   type="submit"
-                  onClick={() => {
-                      handleReport(requestInfos._id)
-                      setreportModal(false)
-                    }
-                  }
                 >
                   Report
                 </button>
