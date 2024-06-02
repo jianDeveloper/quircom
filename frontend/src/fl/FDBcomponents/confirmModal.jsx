@@ -1,14 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import WithAuth from "../../auth/WithAuth";
+import axios from "axios";
 
-const confirmModal = ({ id, setConfirmModal }) => {
-
-  const handleApprove = async (id) => {
-    if (!id) {
-      toast.error("Error Approval");
-      return;
-    }
+const ConfirmModal = ({ setConfirmModal, requestInfos }) => {
+  const handleSubmit = async (id) => {
     try {
+      const token = localStorage.getItem("authToken");
       const headers = {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -16,22 +13,16 @@ const confirmModal = ({ id, setConfirmModal }) => {
       await axios.patch(
         `https://quircom.onrender.com/api/request/verify/${id}`,
         {
-          status: "complete",
+          status: "Complete",
         },
         { headers }
       );
-      // Refresh requests after approval
-      fetchRequests();
     } catch (error) {
-      console.error("Error during approval: ", error.response);
+      console.error("Error during completion: ", error.response);
     }
   };
 
-  const handleSubmit = async (id, action) => {
-    if (action === "confirm") {
-      handleApprove(id);
-    }
-  };
+  console.log("RAWRAR:", requestInfos);
   return (
     <div>
       <div className="fixed inset-0 z-10 bg-black bg-opacity-[0.30]"></div>
@@ -39,7 +30,7 @@ const confirmModal = ({ id, setConfirmModal }) => {
         <div className="relative w-1/3 my-6 mx-auto">
           <div className="border-0 rounded-lg relative flex flex-col w-full bg-white">
             <div className="relative flex flex-col bg-white border-2 rounded-t-lg ">
-              <div className="flexitems-start justify-between p-5 bg-[#1d5b79] border-b border-solid border-blueGray-200 rounded-t">
+              <div className="flex items-start justify-between p-5 bg-[#1d5b79] border-b border-solid border-blueGray-200 rounded-t">
                 <h3 className="text-3xl text-white text-center font-semibold">
                   Confirmation
                 </h3>
@@ -65,7 +56,10 @@ const confirmModal = ({ id, setConfirmModal }) => {
                 <button
                   className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                   type="button"
-                  onClick={() => {handleSubmit(id, "confirm"); setConfirmModal(false)}}
+                  onClick={() => {
+                    handleSubmit(requestInfos._id);
+                    setConfirmModal(false);
+                  }}
                 >
                   Proceed
                 </button>
@@ -78,4 +72,4 @@ const confirmModal = ({ id, setConfirmModal }) => {
   );
 };
 
-export default WithAuth(confirmModal);
+export default WithAuth(ConfirmModal);

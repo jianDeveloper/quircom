@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import { FaFileImport } from "react-icons/fa6";
+import { FaFileImport, FaFileSignature } from "react-icons/fa6";
 import WithAuth from "../../auth/WithAuth";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import Contract from "../../client/Dashcomponents/contractmodal";
 
 const ConvoModal = ({ setConvoModal, requestInfos }) => {
   const [message, setMessage] = useState([]);
@@ -15,9 +16,8 @@ const ConvoModal = ({ setConvoModal, requestInfos }) => {
     message: "",
     createdAt: new Date().toISOString(),
   });
-
   const [loading, setLoading] = useState(true); // Add loading state
-
+  const [contractModal, setContractModal] = useState(false);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -130,10 +130,16 @@ const ConvoModal = ({ setConvoModal, requestInfos }) => {
         <div className="relative w-2/3 my-6 mx-auto">
           <div className="border-0 rounded-lg relative flex flex-col w-full bg-white">
             <div className="flex flex-col bg-white border-2 rounded-t-lg">
-              <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200">
+              <div className="flex items-center justify-between p-5 border-b border-solid border-blueGray-200">
                 <h3 className="text-3xl text-blueGray-700 text-center font-semibold">
                   Conversation History
                 </h3>
+                <button onClick={() => setContractModal(true)} className="p-1 border-[1px] border-[#1d7a8c] rounded-md hover:bg-[#1d7a8c] hover:text-white">
+                  <FaFileSignature />
+                </button>
+                {contractModal && (
+                        <Contract setContractModal={setContractModal} requestInfos={requestInfos} />
+                      )}
               </div>
               {loading ? (
                 <div className="animate-pulse flex flex-col bg-white border-0 rounded-lg relative w-2/3 mx-auto my-6 p-5 max-h-[450px] border-blueGray-200">

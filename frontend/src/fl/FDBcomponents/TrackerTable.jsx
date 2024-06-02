@@ -136,7 +136,7 @@ const FTable = () => {
                         {new Date(row.deadLine).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4 text-left">{row.status}</td>
-                      <td className="px-6 py-4 text-left">
+                      <td className="flex items-center justify-center px-6 py-4">
                         <button
                           type="button"
                           onClick={() => {
@@ -149,13 +149,15 @@ const FTable = () => {
                         </button>
                         <button
                           type="button"
-                          onClick={() => setConfirmModal(true)}
+                          onClick={() => {setConfirmModal(true);
+                            handleView({ ...row });}
+                          }
                           className="px-2 py-1 bg-orange-500 rounded text-white"
                         >
                           <FaFileCircleCheck className="inline" />
                         </button>
                         {confirmModal && (
-                          <Confirmation id={row._id} setConfirmModal={setConfirmModal} />
+                          <Confirmation requestInfos={requestInfos} setConfirmModal={setConfirmModal} />
                         )}
                         {convoModal && (
                           <Convo

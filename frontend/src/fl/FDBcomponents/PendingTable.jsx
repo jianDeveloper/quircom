@@ -72,7 +72,6 @@ const PendingTable = () => {
         { headers }
       );
       // Refresh requests after approval
-      fetchRequests();
     } catch (error) {
       console.error("Error during approval: ", error.response);
     }
