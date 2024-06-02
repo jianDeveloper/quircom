@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-
 import WithAuth from "../../auth/WithAuth";
 import Loader from "../../assets/quircomloading.gif";
 
@@ -10,19 +9,13 @@ const TaskList = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [requestDetails, setRequest] = useState([]);
-  const [chatModal, setchatModal] = React.useState(false);
-  const [detailsModal, setdetailsModal] = React.useState(false);
-  const [filesModal, setfilesModal] = React.useState(false);
-  const [requestInfos, setRequestInfos] = useState([]);
-    const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  //console.log(userId);
-  //console.log(requestDetails);
-  //console.log(requestInfos);
+
   useEffect(() => {
     const fetchRequests = async () => {
       try {
@@ -38,7 +31,10 @@ const TaskList = () => {
         );
         if (response.status === 200) {
           const filteredRequests = response.data.filter(
-            (request) => request.clientId._id === userId && request.status === "Pending"
+            (request) =>
+              request.clientId &&
+              request.clientId._id === userId &&
+              request.status === "Pending"
           );
           setRequest(filteredRequests);
           setLoading(false);
@@ -55,8 +51,6 @@ const TaskList = () => {
 
     fetchRequests();
   }, [userId]);
-
-  
 
   return (
     <div className="flex flex-col justify-center items-center w-[100%]">
@@ -98,15 +92,16 @@ const TaskList = () => {
           </thead>
           <tbody>
             {loading ? (
-                <tr className="w-full">
-                  <td colSpan="7" className="py-11">
-                    <img className="mx-auto w-16 h-16"
+              <tr className="w-full">
+                <td colSpan="7" className="py-11">
+                  <img
+                    className="mx-auto w-16 h-16"
                     src={Loader}
                     alt="Loading..."
                   />
-                  </td>
-                </tr>
-              ) :requestDetails.length === 0 ? (
+                </td>
+              </tr>
+            ) : requestDetails.length === 0 ? (
               <tr>
                 <td colSpan="7" className="px-6 py-11 text-center">
                   No client request at the moment...
@@ -120,19 +115,20 @@ const TaskList = () => {
                     <tr key={rowIndex} className="border-b">
                       <td className="px-6 py-4 text-left">{row.requestId}</td>
                       <td className="px-6 py-4 text-left">
-                        {row.serviceId.freelancerId.firstName +
-                          " " +
-                          row.serviceId.freelancerId.surName}
+                        {row.serviceId &&
+                          row.serviceId.freelancerId &&
+                          row.serviceId.freelancerId.firstName +
+                            " " +
+                            row.serviceId.freelancerId.surName}
                       </td>
                       <td className="px-6 py-4 text-left">
-                        {row.serviceId.serviceType}
+                        {row.serviceId && row.serviceId.serviceType}
                       </td>
                       <td className="px-6 py-4 text-left">{row.taskDetails}</td>
                       <td className="px-6 py-4 text-left">
-                        {new Date(row.deadLine).toLocaleDateString()}
+                        {row.deadLine && new Date(row.deadLine).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4 text-left">{row.status}</td>
-                      
                     </tr>
                   );
                 })
