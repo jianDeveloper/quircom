@@ -24,7 +24,7 @@ const ProjectCompleteList = () => {
           const filteredRequests = response.data.filter(
             (request) =>
               request?.clientId?._id === userId &&
-              request?.status === "Completed"
+              request?.status === "Complete"
           );
           setRequest(filteredRequests);
           setLoading(false);
@@ -67,7 +67,7 @@ const ProjectCompleteList = () => {
               Availed Service
             </th>
             <th className="px-2 py-1 text-left text-sm font-bold rounded-tr-lg">
-              Status
+              Review
             </th>
           </tr>
         </thead>
@@ -126,7 +126,7 @@ const ProjectCompleteList = () => {
                     </span>
                   </td>
                   <td className="px-2 py-1 text-left text-sm font-bold ">
-                    {request.status}
+                    <button className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-1 px-2 rounded">Review</button>
                   </td>
                 </tr>
               ))}
