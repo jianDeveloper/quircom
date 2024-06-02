@@ -126,7 +126,7 @@ const ProjectCompleteList = () => {
                     </span>
                   </td>
                   <td className="px-2 py-1 text-left text-sm font-bold ">
-                    <button className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-1 px-2 rounded">Review</button>
+                    <button className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-1 px-2 rounded">Rate</button>
                   </td>
                 </tr>
               ))}
