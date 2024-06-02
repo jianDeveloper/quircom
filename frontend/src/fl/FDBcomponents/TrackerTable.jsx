@@ -155,7 +155,7 @@ const FTable = () => {
                           <FaFileCircleCheck className="inline" />
                         </button>
                         {confirmModal && (
-                          <Confirmation setConfirmModal={setConfirmModal} />
+                          <Confirmation id={row._id} setConfirmModal={setConfirmModal} />
                         )}
                         {convoModal && (
                           <Convo

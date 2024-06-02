@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import WithAuth from "../../auth/WithAuth";
 import Loader from "../../assets/quircomloading.gif";
@@ -26,7 +27,7 @@ const PendingTable = () => {
           "Content-Type": "application/json",
         };
         const response = await axios.get(
-          `https://quircom.onrender.com/api/request/`, 
+          `https://quircom.onrender.com/api/request/`,
           { headers }
         );
         if (response.status === 200) {
@@ -47,13 +48,17 @@ const PendingTable = () => {
         console.error("Error fetching requests:", error);
       }
     };
-  
+
     if (token) {
       fetchRequests();
     }
   }, [userId, token]);
 
   const handleApprove = async (id) => {
+    if (!id) {
+      toast.error("Error Approval");
+      return;
+    }
     try {
       const headers = {
         Authorization: `Bearer ${token}`,
@@ -108,6 +113,7 @@ const PendingTable = () => {
 
   return (
     <div className="flex flex-col justify-center items-center w-[100%]">
+      <ToastContainer />
       <div className="flex w-[100%] justify-end items-center p-2 bg-[#13334C] text-white">
         <span>Rows per page:</span>
         <select
@@ -151,15 +157,16 @@ const PendingTable = () => {
           </thead>
           <tbody>
             {loading ? (
-                <tr className="w-full">
-                  <td colSpan="7" className="py-11">
-                    <img className="mx-auto w-16 h-16"
+              <tr className="w-full">
+                <td colSpan="7" className="py-11">
+                  <img
+                    className="mx-auto w-16 h-16"
                     src={Loader}
                     alt="Loading..."
                   />
-                  </td>
-                </tr>
-              ) :requestDetails.length === 0 ? (
+                </td>
+              </tr>
+            ) : requestDetails.length === 0 ? (
               <tr>
                 <td colSpan="7" className="px-6 py-11 text-center">
                   No client request at the moment...

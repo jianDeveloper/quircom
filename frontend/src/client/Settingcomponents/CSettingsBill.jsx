@@ -216,7 +216,6 @@ function CSettingsBill() {
                     <td className="text-center font-semibold">Date</td>
                     <td className="text-center font-semibold">Reference No.</td>
                     <td className="text-center font-semibold">Amount</td>
-                    <td className="text-center font-semibold"></td>
                   </thead>
                   <tbody>
                   {userData && (
@@ -230,11 +229,6 @@ function CSettingsBill() {
                       </td>
                       <td className="border-b py-2 text-center text-sm">
                       ₱ {formatAmount(userData.billing.amount)}
-                      </td>
-                      <td className="border-b py-2 text-center text-sm">
-                        <button className="text-sm text-blue-600 underline">
-                          PDF
-                        </button>
                       </td>
                     </tr>
                     </>

@@ -1,7 +1,37 @@
 import React from "react";
 import WithAuth from "../../auth/WithAuth";
 
-const confirmModal = ({ setConfirmModal }) => {
+const confirmModal = ({ id, setConfirmModal }) => {
+
+  const handleApprove = async (id) => {
+    if (!id) {
+      toast.error("Error Approval");
+      return;
+    }
+    try {
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+      await axios.patch(
+        `https://quircom.onrender.com/api/request/verify/${id}`,
+        {
+          status: "Ongoing",
+        },
+        { headers }
+      );
+      // Refresh requests after approval
+      fetchRequests();
+    } catch (error) {
+      console.error("Error during approval: ", error.response);
+    }
+  };
+
+  const handleSubmit = async (id, action) => {
+    if (action === "confirm") {
+      handleApprove(id);
+    }
+  };
   return (
     <div>
       <div className="fixed inset-0 z-10 bg-black bg-opacity-[0.30]"></div>
@@ -35,7 +65,7 @@ const confirmModal = ({ setConfirmModal }) => {
                 <button
                   className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                   type="button"
-                  onClick={() => setConfirmModal(false)}
+                  onClick={() => {handleSubmit(id, "confirm"); setConfirmModal(false)}}
                 >
                   Proceed
                 </button>
