@@ -16,7 +16,7 @@ const confirmModal = ({ id, setConfirmModal }) => {
       await axios.patch(
         `https://quircom.onrender.com/api/request/verify/${id}`,
         {
-          status: "completed",
+          status: "complete",
         },
         { headers }
       );
