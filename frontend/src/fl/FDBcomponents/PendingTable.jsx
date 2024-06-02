@@ -4,7 +4,6 @@ import { ToastContainer, toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import WithAuth from "../../auth/WithAuth";
 import Loader from "../../assets/quircomloading.gif";
-
 import { FaCheck, FaXmark } from "react-icons/fa6";
 
 const PendingTable = () => {
@@ -33,6 +32,8 @@ const PendingTable = () => {
         if (response.status === 200) {
           const filteredRequests = response.data.filter(
             (request) =>
+              request.serviceId && 
+              request.serviceId.freelancerId &&
               request.serviceId.freelancerId._id === userId &&
               request.status === "Pending"
           );

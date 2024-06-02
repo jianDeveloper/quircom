@@ -1,6 +1,7 @@
 import React from "react";
 
 import { FaFacebook, FaGithub, FaInstagram, FaTwitter } from "react-icons/fa";
+import WithAuthAdmin from "../auth/WithAuthAdmin";
 
 function AFooter() {
   return (
@@ -96,4 +97,4 @@ function AFooter() {
   );
 }
 
-export default AFooter;
+export default WithAuthAdmin(AFooter);

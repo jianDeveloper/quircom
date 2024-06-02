@@ -33,13 +33,15 @@ const FTable = () => {
           { headers }
         );
         if (response.status === 200) {
+          console.log("Response data:", response.data);
           const filteredRequests = response.data.filter(
             (request) =>
+              request.serviceId &&
+              request.serviceId.freelancerId &&
               request.serviceId.freelancerId._id === userId &&
               request.status === "Ongoing"
           );
           setRequest(filteredRequests);
-          setLoading(false);
         } else {
           console.error(
             "Error fetching requests: Unexpected status code",
@@ -48,6 +50,8 @@ const FTable = () => {
         }
       } catch (error) {
         console.error("Error fetching requests:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -104,15 +108,16 @@ const FTable = () => {
           </thead>
           <tbody>
             {loading ? (
-                <tr className="w-full">
-                  <td colSpan="7" className="py-11">
-                    <img className="mx-auto w-16 h-16"
+              <tr className="w-full">
+                <td colSpan="7" className="py-11">
+                  <img
+                    className="mx-auto w-16 h-16"
                     src={Loader}
                     alt="Loading..."
                   />
-                  </td>
-                </tr>
-              ) :requestDetails.length === 0 ? (
+                </td>
+              </tr>
+            ) : requestDetails.length === 0 ? (
               <tr>
                 <td colSpan="7" className="px-6 py-11 text-center">
                   No client request at the moment...
@@ -122,6 +127,15 @@ const FTable = () => {
               requestDetails
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, rowIndex) => {
+                  // Check for required properties before rendering
+                  if (
+                    !row.serviceId ||
+                    !row.clientId ||
+                    !row.serviceId.freelancerId
+                  ) {
+                    return null; // Skip this row if properties are missing
+                  }
+
                   return (
                     <tr key={rowIndex} className="border-b">
                       <td className="px-6 py-4 text-left">{row.requestId}</td>

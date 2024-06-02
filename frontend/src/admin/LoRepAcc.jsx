@@ -3,6 +3,9 @@ import { FaTrash } from 'react-icons/fa';
 import axios from "axios";
 import { FaPersonDotsFromLine } from 'react-icons/fa6';
 import Loader from "../assets/quircomloading.gif"; // Assuming you have a loading gif
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import WithAuthAdmin from "../auth/WithAuthAdmin";
 
 const LoRepAcc = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -47,8 +50,7 @@ const LoRepAcc = () => {
               freelancer?.reported === true
           );
           setFreelancers(filteredRequests);
-        }
-        else {
+        } else {
           console.error(
             "Error fetching requests: Unexpected status code",
             response.status
@@ -57,6 +59,7 @@ const LoRepAcc = () => {
         }
       } catch (error) {
         console.error("Error fetching requests:", error);
+        setError("Error fetching freelancer data");
       } finally {
         setLoading(false);
       }
@@ -64,6 +67,37 @@ const LoRepAcc = () => {
 
     fetchFreelancers();
   }, []);
+
+  const deleteFreelancer = async (freelancerId) => {
+    try {
+      const token = localStorage.getItem("adminToken");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+
+      const response = await axios.delete(
+        `https://quircom.onrender.com/api/freelancer/delete/${freelancerId}`,
+        { headers }
+      );
+
+      if (response.status === 200) {
+        setFreelancers((prevFreelancers) =>
+          prevFreelancers.filter((freelancer) => freelancer._id !== freelancerId)
+        );
+        toast.success("Freelancer deleted successfully");
+      }
+    } catch (error) {
+      console.error("Error deleting freelancer:", error);
+      toast.error("Error deleting freelancer");
+    }
+  };
+
+  const confirmDeleteFreelancer = (freelancerId) => {
+    if (window.confirm("Are you sure you want to delete this freelancer?")) {
+      deleteFreelancer(freelancerId);
+    }
+  };
 
   if (loading) {
     return (
@@ -91,22 +125,23 @@ const LoRepAcc = () => {
 
   return (
     <div className="flex flex-col bg-blue-200 items-center h-auto w-[90%]">
-      <div className="flex flex-row w-[100%] bg-[#F5F5DC] justify-between  ">
-      <div className="flex items-center py-2 px-5  text-[#13334C] font-medium">
-        <span>Rows per page:</span>
-        <select
-          value={rowsPerPage}
-          onChange={(e) => handleChangeRowsPerPage(e)}
-          className="mx-2 px-2 py-1 bg-blue-100 rounded text-[#13334C] border-[2px] border-[#13334C]"
-        >
-          {[5, 10, 20].map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="flex justify-between items-center py-2 px-5 bg-[#F5F5DC] text-[#13334C] font-medium gap-3">
+      <ToastContainer />
+      <div className="flex flex-row w-[100%] bg-[#F5F5DC] justify-between">
+        <div className="flex items-center py-2 px-5 text-[#13334C] font-medium">
+          <span>Rows per page:</span>
+          <select
+            value={rowsPerPage}
+            onChange={(e) => handleChangeRowsPerPage(e)}
+            className="mx-2 px-2 py-1 bg-blue-100 rounded text-[#13334C] border-[2px] border-[#13334C]"
+          >
+            {[5, 10, 20].map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="flex justify-between items-center py-2 px-5 bg-[#F5F5DC] text-[#13334C] font-medium gap-3">
           <button
             onClick={handlePreviousPage}
             disabled={page === 0}
@@ -142,7 +177,7 @@ const LoRepAcc = () => {
             </tr>
           </thead>
           <tbody>
-          {freelancers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((freelancer, index) => (
+            {freelancers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((freelancer, index) => (
               <tr
                 key={freelancer._id}
                 className={`${
@@ -156,20 +191,20 @@ const LoRepAcc = () => {
                 <td className="px-6 py-2 text-left">{freelancer.eMail}</td>
                 <td className="px-6 py-2 text-left">{freelancer.contactNum}</td>
                 <td className="px-6 py-2 text-left">
-                <button
-                  type="button"
-                  //   onClick={() => handleSubmit(row._id, "approve")}
-                  className="mr-2 px-2 py-1 bg-blue-500 rounded text-white"
-                >
-                  <FaPersonDotsFromLine cl3assName="inline" />
-                </button>
-                <button
-                  type="button"
-                  //   onClick={() => handleSubmit(row._id, "reject")}
-                  className="px-2 py-1 bg-red-500 rounded text-white"
-                >
-                  <FaTrash className="inline" />
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => handlePortfolioClick(freelancer.portfolioLink)}
+                    className="mr-2 px-2 py-1 bg-blue-500 rounded text-white"
+                  >
+                    <FaPersonDotsFromLine />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => confirmDeleteFreelancer(freelancer._id)}
+                    className="px-2 py-1 bg-red-500 rounded text-white"
+                  >
+                    <FaTrash />
+                  </button>
                 </td>
               </tr>
             ))}
@@ -177,7 +212,7 @@ const LoRepAcc = () => {
         </table>
       </div>
     </div>
-  )
+  );
 }
 
-export default LoRepAcc
+export default WithAuthAdmin(LoRepAcc);

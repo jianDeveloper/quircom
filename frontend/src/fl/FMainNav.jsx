@@ -69,15 +69,24 @@ const FMainNav = () => {
         if (response.status === 200) {
           const filteredServices = response.data.filter(
             (request) =>
+              request.serviceId &&
+              request.serviceId.freelancerId &&
               request.serviceId.freelancerId._id &&
               request.serviceId.freelancerId._id === userId &&
               request.feedbackNum !== null
           );
           setRequest(filteredServices);
 
-          const feedbackNums = filteredServices.map((request) => request.feedbackNum);
-          const totalFeedback = feedbackNums.reduce((acc, curr) => acc + curr, 0);
-          const average = totalFeedback / feedbackNums.length;
+          const feedbackNums = filteredServices.map(
+            (request) => request.feedbackNum
+          );
+          const totalFeedback = feedbackNums.reduce(
+            (acc, curr) => acc + curr,
+            0
+          );
+          const average = feedbackNums.length
+            ? totalFeedback / feedbackNums.length
+            : 0;
           setAverageFeedback(average);
         } else {
           console.error(
@@ -116,7 +125,7 @@ const FMainNav = () => {
       saveRating();
     }
   }, [averageFeedback, userId]);
-  
+
   const icons = [
     {
       icon: Dboard,
@@ -155,7 +164,6 @@ const FMainNav = () => {
     localStorage.clear();
   };
 
-
   return (
     <Box
       px={2}
@@ -179,21 +187,28 @@ const FMainNav = () => {
           alignItems="center"
         >
           <Box sx={{ height: "full", width: 180 }}>
-            <div className="sm:flex"><img src={Logo} alt="Logo" /></div>
-            
+            <div className="sm:flex">
+              <img src={Logo} alt="Logo" />
+            </div>
           </Box>
-          <Divider orientation="vertical" sx={{ height: 40,
+          <Divider
+            orientation="vertical"
+            sx={{
+              height: 40,
               "@media (max-width: 958px)": {
                 display: "none", // Hide the icon buttons on medium screens
               },
-           }} 
+            }}
           />
-          <Stack direction={"row"} spacing={2}
-          sx={{
-            "@media (max-width: 958px)": {
-              display: "none", // Hide the icon buttons on medium screens
-            },
-          }}>
+          <Stack
+            direction={"row"}
+            spacing={2}
+            sx={{
+              "@media (max-width: 958px)": {
+                display: "none", // Hide the icon buttons on medium screens
+              },
+            }}
+          >
             {icons.map((icon, index) => (
               <ButtonBase
                 key={index}
@@ -257,18 +272,24 @@ const FMainNav = () => {
               <Typography sx={{ p: 2 }}>Notification 3</Typography>
             </Popover>
           </div> */}
-          
+
           {userData && (
             <div className="lg:flex items-center justify-center hidden ">
-            <p className="text-[#1d5b79] font-bold px-2 my-2 text-nowrap">{userData.firstName}</p>
-            <Divider orientation="vertical" sx={{ height: 40 }} />
-            <IconButton onClick={handleAvatarClick}>
-              {userData.profilePic && userData.profilePic.link !== "" ? (
-                <Avatar sx={{ boxShadow: 3 }} src={userData.profilePic.link} alt="User" />
-              ) : (
-                <Avatar sx={{ boxShadow: 3 }} src={User} alt="User" />
-              )}
-            </IconButton>
+              <p className="text-[#1d5b79] font-bold px-2 my-2 text-nowrap">
+                {userData.firstName}
+              </p>
+              <Divider orientation="vertical" sx={{ height: 40 }} />
+              <IconButton onClick={handleAvatarClick}>
+                {userData.profilePic && userData.profilePic.link !== "" ? (
+                  <Avatar
+                    sx={{ boxShadow: 3 }}
+                    src={userData.profilePic.link}
+                    alt="User"
+                  />
+                ) : (
+                  <Avatar sx={{ boxShadow: 3 }} src={User} alt="User" />
+                )}
+              </IconButton>
             </div>
           )}
 
@@ -335,30 +356,37 @@ const FMainNav = () => {
           >
             <img className="h-[70px] m-[10px] pt-[9px]" src={Logo} />
             <ul>
-            
               <li
                 onClick={() => setNav(false)}
                 className="flex items-center justify-items-start py-4 border-b-2 ml-6 mr-6 border-orange-600"
               >
                 <IconButton>
-                <Link to={`/freelancer/profile/${userId}`}>
-                {userData?.profilePic && userData?.profilePic.link !== "" ? (
-                  <Avatar
-                    sx={{ boxShadow: 3}}
-                    src={userData?.profilePic?.link}
-                    alt="User"
-                  />
-                ) : (
-                  <Avatar sx={{ boxShadow: 3 }} src={User} alt="User" />
-                )} </Link>
-              </IconButton>
-              <p className="font-medium cursor-pointer"><Link to={`/freelancer/profile/${userId}`}>{userData?.firstName + " " + userData?.surName || ""}</Link></p>
+                  <Link to={`/freelancer/profile/${userId}`}>
+                    {userData?.profilePic &&
+                    userData?.profilePic.link !== "" ? (
+                      <Avatar
+                        sx={{ boxShadow: 3 }}
+                        src={userData?.profilePic?.link}
+                        alt="User"
+                      />
+                    ) : (
+                      <Avatar sx={{ boxShadow: 3 }} src={User} alt="User" />
+                    )}{" "}
+                  </Link>
+                </IconButton>
+                <p className="font-medium cursor-pointer">
+                  <Link to={`/freelancer/profile/${userId}`}>
+                    {userData?.firstName + " " + userData?.surName || ""}
+                  </Link>
+                </p>
               </li>
               <li
                 onClick={() => setNav(false)}
                 className="p-4 border-b-2 ml-6 mr-6 border-orange-600 hover:bg-orange-300"
               >
-                <Link to={"/freelancer/dashboard/" + userId || ""}>Dashboard</Link>
+                <Link to={"/freelancer/dashboard/" + userId || ""}>
+                  Dashboard
+                </Link>
               </li>
               <li
                 onClick={() => setNav(false)}
