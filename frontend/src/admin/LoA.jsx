@@ -3,6 +3,7 @@ import { PieChart } from "@mui/x-charts/PieChart";
 import axios from "axios";
 import { useReactToPrint } from "react-to-print";
 import Loader from "../assets/quircomloading.gif"; // Assuming you have a loading gif
+import WithAuthAdmin from "../auth/WithAuthAdmin";
 
 const LoA = () => {
   const [freelancers, setFreelancers] = useState([]);
@@ -242,4 +243,4 @@ const LoA = () => {
   );
 };
 
-export default LoA;
+export default WithAuthAdmin(LoA);

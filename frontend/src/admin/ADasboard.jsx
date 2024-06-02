@@ -12,6 +12,7 @@ import LoRepAcc from "./LoRepAcc";
 import LoA from "./LoA";
 
 import Banner from "../assets/banner.jpg";
+import WithAuthAdmin from "../auth/WithAuthAdmin";
 
 const ADasboard = () => {
   const [activeTab, setActiveTab] = useState("freelancers");
@@ -238,4 +239,4 @@ const ADasboard = () => {
   );
 };
 
-export default ADasboard;
+export default WithAuthAdmin(ADasboard);
