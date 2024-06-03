@@ -8,14 +8,12 @@ import {
   Avatar,
   Menu,
   MenuItem,
-  Popover,
   Chip,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import Logo from "../assets/Icon1.png";
-import Logo2 from "../assets/clientNav.png";
 import Dboard from "../assets/dboard.png";
 import Settings from "../assets/settings.png";
 import LBoard from "../assets/crown.png";
@@ -28,7 +26,6 @@ import { AiOutlineClose } from "react-icons/ai";
 const FMainNav = () => {
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [anchorEl2, setAnchorEl2] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
   const [userData, setUser] = useState(null);
   const [requestDetails, setRequest] = useState([]);
@@ -150,13 +147,8 @@ const FMainNav = () => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleNotifClick = (event) => {
-    setAnchorEl2(event.currentTarget);
-  };
-
   const handleCloseMenu = () => {
     setAnchorEl(null);
-    setAnchorEl2(null);
   };
 
   const handleLogout = () => {

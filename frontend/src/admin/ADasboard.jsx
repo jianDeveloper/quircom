@@ -21,9 +21,11 @@ const ADasboard = () => {
   const [freelancers, setFreelancers] = useState([]);
   const [clients, setClients] = useState([]);
   const [services, setServices] = useState([]);
+  const [report, setReport] = useState([]);
   const freelancerCount = freelancers.length; // Count the freelancers
   const clientCount = clients.length; // Count the clients
   const serviceCount = services.length; // Count the services
+  const reportCount = report.length;
 
   const handleTab = (Tabs) => {
     setActiveTab(Tabs);
@@ -45,6 +47,43 @@ const ADasboard = () => {
         console.error("Error fetching user data:", error);
       });
   }, [userId]);
+
+  useEffect(() => {
+    const fetchRequests = async () => {
+      try {
+        const token = localStorage.getItem("adminToken");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
+
+        const response = await axios.get(
+          `https://quircom.onrender.com/api/request`,
+          { headers }
+        );
+        if (response.status === 200) {
+          const filteredRequests = response.data.filter(
+            (request) =>
+              request?.report?.status === true
+          );
+          setReport(filteredRequests);
+        } else {
+          console.error(
+            "Error fetching requests: Unexpected status code",
+            response.status
+          );
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error("Error fetching requests:", error);
+        setError("Error fetching freelancer data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRequests();
+  }, []);
 
   useEffect(() => {
     const fetchFreelancers = async () => {
@@ -170,7 +209,7 @@ const ADasboard = () => {
                 </h1>
                 <MdDesignServices size={30} color="#13334C" />
               </div>
-              <h1 className="font-medium text-black">11</h1>
+              <h1 className="font-medium text-black">{reportCount}</h1>
             </div>
           </div>
           <div className="flex flex-col items-center h-full">
