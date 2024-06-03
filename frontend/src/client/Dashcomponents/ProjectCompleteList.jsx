@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import axios from "axios";
 
 import ReviewModal from "./reviewmodal";
@@ -7,8 +8,13 @@ import ReviewModal from "./reviewmodal";
 const ProjectCompleteList = () => {
   const { userId } = useParams();
   const [requestDetails, setRequest] = useState([]);
+  const [requestInfos, setRequestInfos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reviewModal, setreviewModal] = useState(false);
+
+  const handleTableRowClick = (request) => {
+    setRequestInfos(request);
+  };
 
   useEffect(() => {
     const fetchRequests = async () => {
@@ -60,6 +66,7 @@ const ProjectCompleteList = () => {
 
   return (
     <div className="bg-white min-h-[500px] rounded-lg">
+      <ToastContainer/>
       <table className="min-w-full rounded-t-lg shadow-md">
         <thead className="bg-[#1d5b79] text-white">
           <tr>
@@ -129,8 +136,18 @@ const ProjectCompleteList = () => {
                     </span>
                   </td>
                   <td className="px-2 py-1 text-left text-sm font-bold ">
-                    <button onClick={() => setreviewModal(true)} className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-1 px-2 rounded">Rate</button>
-                  {reviewModal && (<ReviewModal setreviewModal={setreviewModal}/>)}
+                    <button
+                      onClick={() => {
+                        handleTableRowClick(request);
+                        setreviewModal(true);                       
+                      }}
+                      className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-1 px-2 rounded"
+                    >
+                      Rate
+                    </button>
+                    {reviewModal && (
+                      <ReviewModal requestInfos={requestInfos} setreviewModal={setreviewModal} />
+                    )}
                   </td>
                 </tr>
               ))}

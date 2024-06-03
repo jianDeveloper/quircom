@@ -1,8 +1,62 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
-const reviewmodal = () => {
-  const [rating, setRating] = useState(0);
-  const [hover, setHover] = useState(0);
+const ReviewModal = ({requestInfos, setreviewModal}) => {
+  const [rating, setRating] = useState();
+  const [hover, setHover] = useState();
+  const [formData, setFormData] = useState({
+    feedbackNum: "",
+    feedbackInfo: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleRatingClick = (index) => {
+    setRating(index);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      feedbackNum: index,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+
+    if (!formData.feedbackNum) {
+      toast.error.taskTitle = "Please input ratings";
+      return;
+    }
+    if (formData.feedbackInfo.length === 0) {
+      toast.error.taskDetails = "Please include feedback message";
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("authToken");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+
+      const response = await axios.patch(
+        `https://quircom.onrender.com/api/request/feedback/${requestInfos._id}`,
+        formData, {headers}
+      );
+
+      if (response && response.data) {
+        toast.success("Feedback submitted successfully");
+        setreviewModal(false)
+      } else {
+        toast.error("Failed to submit feedback");
+      }
+    } catch (error) {
+      console.error("Error during patch ", error.response);
+      toast.error("Failed to submit feedback");
+    }
+  };
 
   return (
     <div>
@@ -12,16 +66,15 @@ const reviewmodal = () => {
       >
         <div className="relative w-2/6 my-6 mx-auto">
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full text-black bg-white outline-none focus:outline-none">
-            <div className="flexitems-start justify-between p-5 bg-orange-500 border-b border-solid border-blueGray-200 rounded-t">
+            <div className="flex items-start justify-between p-5 bg-orange-500 border-b border-solid border-blueGray-200 rounded-t">
               <h3 className="text-3xl text-white text-center font-semibold">
                 Review
               </h3>
             </div>
             {/* Creating Form */}
-            <form className="w-full max-w-screen-ss mx-auto">
+            <form className="w-full max-w-screen-ss mx-auto" onSubmit={handleSubmit}>
               <div className="relative flex flex-col overflow-y-auto max-h-[400px] px-6 py-4">
                 <div className="space-y-6">
-                  
                   <label
                     htmlFor="rate"
                     className="block text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
@@ -35,41 +88,36 @@ const reviewmodal = () => {
                         <button
                           type="button"
                           key={index}
-                          value={index}
+                          value={formData.feedbackNum}
                           className={
                             index <= (hover || rating)
                               ? "text-yellow-500 gap-4"
                               : "text-gray-300 gap-4"
                           }
-                          onClick={() => {
-                            setRating(index);
-                          }}
+                          onChange={handleChange}
+                          onClick={() => handleRatingClick(index)}
                           onMouseEnter={() => setHover(index)}
                           onMouseLeave={() => setHover(rating)}
                         >
-                          <span
-                            className="text-[40px] mr-2"
-                            onClick={() => setRating(index)}
-                          >
-                            &#9733;
-                          </span>
+                          <span className="text-[40px] mr-2" >&#9733;</span>
                         </button>
                       );
                     })}
                   </div>
                   <label
-                    htmlFor="taskDetails"
-                    className={`block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300`}
+                    htmlFor="feedbackInfo"
+                    className="block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
                   >
                     Leave a comment:
                   </label>
                   <div className="mt-1">
                     <textarea
-                      id="details"
-                      name="details"
-                      value={""}
+                      id="feedbackInfo"
+                      name="feedbackInfo"
+                      value={formData.feedbackInfo}
+                      onChange={handleChange}
                       rows={4}
-                      className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 px-3 py-2`}
+                      className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 px-3 py-2"
                     />
                   </div>
 
@@ -86,9 +134,9 @@ const reviewmodal = () => {
                           type="text"
                           id="freelancerId"
                           name="freelancerId"
-                          value={""}
+                          value={`${requestInfos.serviceId.freelancerId.firstName + " " + requestInfos.serviceId.freelancerId.surName}`}
                           disabled
-                          // className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm p-2 shadow-sm border border-gray-300"
+                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm p-2 shadow-sm border border-gray-300"
                         />
                       </div>
                     </div>
@@ -122,4 +170,4 @@ const reviewmodal = () => {
   );
 };
 
-export default reviewmodal;
+export default ReviewModal;

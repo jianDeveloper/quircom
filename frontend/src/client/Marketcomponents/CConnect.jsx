@@ -177,7 +177,7 @@ function CConnect() {
                 i < filledStars
                   ? "text-yellow-500"
                   : i < Math.ceil(averageRating)
-                  ? "text-gray-400"
+                  ? "text-gray-200"
                   : "text-gray-200"
               }`}
               xmlns="http://www.w3.org/2000/svg"
