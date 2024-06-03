@@ -857,16 +857,13 @@ function FSettingsProfile() {
                       clipRule="evenodd"
                     />
                   </svg>
-                  Proceed with caution
+                  Caution!
                 </p>
                 <p className="mt-2">
-                  Make sure you have taken backup of your account in case you
-                  ever need to get access to your data. We will completely wipe
-                  your data. There is no way to access your account after this
-                  action.
+                The ability to delete an account is restricted exclusively to the admin. This means that regular users do not have the permission or capability to delete their own accounts or the accounts of other users.
                 </p>
                 <button className="ml-auto text-sm font-semibold text-rose-600 underline decoration-2 hover:text-[#1D5B79]">
-                  Continue with deletion
+                Attempt to Delete
                 </button>
               </div>
             </div>

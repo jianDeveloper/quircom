@@ -258,7 +258,7 @@ const CSubscribe = () => {
                     </p>
                   </div>
                   <p className="mx-auto h-24 max-w-xs px-6 text-xl">
-                    Free Forever
+                    Free Access!
                   </p>
                   <ul className="  ">
                     <li className="relative mx-4 mb-2 rounded-md bg-gray-50">
@@ -316,7 +316,7 @@ const CSubscribe = () => {
                       className="block cursor-pointer rounded bg-sky-800 py-4 px-10 text-base leading-tight text-white duration-200 ease-in-out md:inline-block lg:py-4"
                       href="#"
                     >
-                      Get Started
+                      Current Plan
                     </a>
                   </div>
                 </div>
@@ -336,7 +336,7 @@ const CSubscribe = () => {
                     </p>
                   </div>
                   <p className="mx-auto h-24 max-w-xs px-6 text-xl">
-                    Billed annually or ₱199 billed monthly
+                    Billed Monthly
                   </p>
                   <ul className="  ">
                     <li className="relative mx-4 mb-2 rounded-md bg-gray-50">
