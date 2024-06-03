@@ -9,8 +9,12 @@ const LoA = () => {
   const [freelancers, setFreelancers] = useState([]);
   const [clients, setClients] = useState([]);
   const [services, setServices] = useState([]);
+  const [request, setRequest] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [ongoing, setOngoing] = useState([]);
+  const [pending, setPending] = useState([]);
+  const [complete, setComplete] = useState([]);
 
   useEffect(() => {
     const fetchFreelancers = async () => {
@@ -81,10 +85,70 @@ const LoA = () => {
     fetchServices();
   }, []);
 
+  useEffect(() => {
+    const fetchRequests = async () => {
+      try {
+        const token = localStorage.getItem("adminToken");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
+
+        const response = await axios.get(
+          `https://quircom.onrender.com/api/request`,
+          { headers }
+        );
+        if (response.status === 200) {
+          const filteredRequests = response.data.filter(
+            (request) =>
+              request?.report?.status === true
+          );
+          setRequest(filteredRequests);
+
+          if (response.status === 200) {
+            const filteredO = response.data.filter(
+              (request) =>
+                request?.status === "Ongoing"
+            );
+            setOngoing(filteredO);
+          }
+          if (response.status === 200) {
+            const filteredP = response.data.filter(
+              (request) =>
+                request?.status === "Pending"
+            );
+            setPending(filteredP);
+          }
+          if (response.status === 200) {
+            const filteredC = response.data.filter(
+              (request) =>
+                request?.status === "Complete"
+            );
+            setComplete(filteredC);
+          }
+        } else {
+          console.error(
+            "Error fetching requests: Unexpected status code",
+            response.status
+          );
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error("Error fetching requests:", error);
+        setError("Error fetching freelancer data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRequests();
+  }, []);
+
   const total = freelancers.length + clients.length + services.length;
   const freelancerPercentage = ((freelancers.length / total) * 100).toFixed(2);
   const clientPercentage = ((clients.length / total) * 100).toFixed(2);
   const servicePercentage = ((services.length / total) * 100).toFixed(2);
+  const reportPercentage = ((request.length / total) * 100).toFixed(2);
 
   const printRef = useRef();
 
@@ -105,9 +169,8 @@ const LoA = () => {
     },
   ];
   const data1 = [
-    { id: 0, value: 10, label: "Service" },
-    { id: 1, value: 15, label: "series B" },
-    { id: 2, value: 0, label: "Reported" },
+    { id: 0, value: parseFloat(servicePercentage), label: "Service" },
+    { id: 2, value: parseFloat(reportPercentage) , label: "Reported" },
     
   ];
 
@@ -130,22 +193,22 @@ const LoA = () => {
     {
       id: 3,
       name: "Reported",
-      count: services.length,
+      count: request.length,
     },
     {
       id: 4,
       name: "Completed",
-      count: services.length,
+      count: complete.length,
     },
     {
       id: 5,
       name: "Requested",
-      count: services.length,
+      count: pending.length,
     },
     {
       id: 6,
       name: "Ongoing",
-      count: services.length,
+      count: ongoing.length,
     },
   ];
 

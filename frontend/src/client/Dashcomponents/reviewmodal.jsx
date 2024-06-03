@@ -61,7 +61,7 @@ const ReviewModal = ({requestInfos, setreviewModal}) => {
   return (
     <div>
       <div
-        className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+        className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none cursor-default"
         style={{ background: "rgba(0,0,0,0.2)" }}
       >
         <div className="relative w-2/6 my-6 mx-auto">

@@ -11,6 +11,7 @@ const LoRepAcc = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
   const [freelancers, setFreelancers] = useState([]);
+  const [requests, setRequest] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -32,7 +33,7 @@ const LoRepAcc = () => {
   };
 
   useEffect(() => {
-    const fetchFreelancers = async () => {
+    const fetchRequests = async () => {
       try {
         const token = localStorage.getItem("adminToken");
         const headers = {
@@ -41,15 +42,15 @@ const LoRepAcc = () => {
         };
 
         const response = await axios.get(
-          `https://quircom.onrender.com/api/freelancer`,
+          `https://quircom.onrender.com/api/request`,
           { headers }
         );
         if (response.status === 200) {
           const filteredRequests = response.data.filter(
-            (freelancer) =>
-              freelancer?.reported === true
+            (request) =>
+              request?.report?.status === true
           );
-          setFreelancers(filteredRequests);
+          setRequest(filteredRequests);
         } else {
           console.error(
             "Error fetching requests: Unexpected status code",
@@ -65,9 +66,9 @@ const LoRepAcc = () => {
       }
     };
 
-    fetchFreelancers();
+    fetchRequests();
   }, []);
-
+  console.log("ADEAWDAWDAWD:",requests);
   const deleteFreelancer = async (freelancerId) => {
     try {
       const token = localStorage.getItem("adminToken");
@@ -169,6 +170,9 @@ const LoRepAcc = () => {
                 Name
               </th>
               <th className="px-6 py-3 text-left text-sm font-bold">
+                Report Type
+              </th>
+              <th className="px-6 py-3 text-left text-sm font-bold">
                 Report Details
               </th>
               <th className="px-6 py-3 text-left text-sm font-bold">Email</th>
@@ -177,30 +181,31 @@ const LoRepAcc = () => {
             </tr>
           </thead>
           <tbody>
-            {freelancers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((freelancer, index) => (
+            {requests.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((report, index) => (
               <tr
-                key={freelancer._id}
+                key={index}
                 className={`${
                   index % 2 === 0 ? "bg-blue-200" : "bg-blue-100"
                 } border-b text-[#13334C]`}
               >
                 <td className="px-6 py-2 text-left">
-                  {freelancer.firstName + " " + freelancer.surName}
+                  {report?.serviceId?.freelancerId?.firstName + " " + report?.serviceId?.freelancerId?.surName}
                 </td>
-                <td className="px-6 py-2 text-left">{freelancer.userName}</td>
-                <td className="px-6 py-2 text-left">{freelancer.eMail}</td>
-                <td className="px-6 py-2 text-left">{freelancer.contactNum}</td>
+                <td className="px-6 py-2 text-left">{report?.report?.reportType}</td>
+                <td className="px-6 py-2 text-left">{report?.report?.details}</td>
+                <td className="px-6 py-2 text-left">{report?.serviceId?.freelancerId?.eMail}</td>
+                <td className="px-6 py-2 text-left">{report?.serviceId?.freelancerId?.contactNum}</td>
                 <td className="px-6 py-2 text-left">
                   <button
                     type="button"
-                    onClick={() => handlePortfolioClick(freelancer.portfolioLink)}
+                    onClick={() => handlePortfolioClick(report?.serviceId?.freelancerId?.portFolio?.link)}
                     className="mr-2 px-2 py-1 bg-blue-500 rounded text-white"
                   >
                     <FaPersonDotsFromLine />
                   </button>
                   <button
                     type="button"
-                    onClick={() => confirmDeleteFreelancer(freelancer._id)}
+                    onClick={() => confirmDeleteFreelancer(report?.serviceId?.freelancerId?._id)}
                     className="px-2 py-1 bg-red-500 rounded text-white"
                   >
                     <FaTrash />

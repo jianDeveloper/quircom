@@ -19,7 +19,6 @@ import Logo from "../assets/Icon1.png";
 import Dboard from "../assets/dboard.png";
 import Settings from "../assets/settings.png";
 import Service from "../assets/service.png";
-import Notifs from "../assets/bell.png";
 import Bill from "../assets/bill.png";
 import LBoard from "../assets/crown.png";
 import User from "../assets/user.png";
@@ -31,7 +30,6 @@ import { AiOutlineClose } from "react-icons/ai";
 const CMainNav = () => {
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [anchorEl2, setAnchorEl2] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
   const [userData, setUser] = useState(null);
   const [nav, setNav] = useState(false);
@@ -92,13 +90,8 @@ const CMainNav = () => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleNotifClick = (event) => {
-    setAnchorEl2(event.currentTarget);
-  };
-
   const handleCloseMenu = () => {
     setAnchorEl(null);
-    setAnchorEl2(null);
   };
 
   const handleLogout = () => {
@@ -205,32 +198,6 @@ const CMainNav = () => {
                   <Avatar sx={{ boxShadow: 3 }} src={User} alt="User" />
                 )}
               </IconButton>
-              <Divider orientation="vertical" sx={{ height: 40 }} />
-              <div>
-                <IconButton onClick={handleNotifClick}>
-                  <img
-                    className="w-10 h-6 mx-4 xl:mx-1 hover:scale-150 duration-300"
-                    src={Notifs}
-                    alt="Notifs"
-                  />
-                </IconButton>
-                <Popover
-                  open={Boolean(anchorEl2)}
-                  anchorEl={anchorEl2}
-                  onClose={handleCloseMenu}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "right",
-                  }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                >
-                  <Typography sx={{ p: 2 }}>No Notification</Typography>
-                  {/* add more  typography here */}
-                </Popover>
-              </div>
             </div>
           )}
 
