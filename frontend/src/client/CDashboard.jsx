@@ -150,16 +150,16 @@ function CDashboard() {
                 backgroundSize: "cover",
               }}
             >
+              <Link to={`/client/projects/${userId}`}>
               <div className="flex justify-center items-center py-14">
-                <Link to={`/client/projects/${userId}`}>
                   <button
                     type="button"
                     className="font-extrabold text-xl text-[#F5F5DC]"
                   >
                     Projects
                   </button>
-                </Link>
               </div>
+              </Link>
             </div>
             <Link to={`/client/leaderboard/${userId}`}>
               <div
