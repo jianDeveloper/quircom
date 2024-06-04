@@ -294,7 +294,7 @@ const ConvoModal = ({ setConvoModal, requestInfos }) => {
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  disabled={sign}
+                  disabled={!sign}
                   placeholder="Type message"
                 />
                 <button

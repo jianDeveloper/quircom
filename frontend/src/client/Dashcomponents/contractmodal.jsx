@@ -7,11 +7,10 @@ import Logo from "../../assets/Icon1.png";
 import { FaPrint } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
 
-const ContractModal = ({ setContractModal, requestInfos }) => {
+const ContractModal = ({ setContractModal, setSign, requestInfos }) => {
   const [isCheckboxDisabled, setCheckboxDisabled] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const printRef = useRef();
-  const { userId } = useParams();
 
   const handleProceed = async () => {
     if (!isChecked) {
@@ -71,6 +70,7 @@ const ContractModal = ({ setContractModal, requestInfos }) => {
     return formattedDate;
   };
 
+  console.log("RAR:", requestInfos);
   return (
     <div className="fixed inset-0 z-1 flex flex-col items-center bg-black bg-opacity-[0.30]">
       <div className="max-w-[980px] min-h-[400px] my-20">
@@ -190,9 +190,9 @@ const ContractModal = ({ setContractModal, requestInfos }) => {
           <form className="flex px-10">
             <input
               type="checkbox"
-              checked={isChecked}
-              onChange={(e) => setIsChecked(e.target.checked)}
-              disabled={isCheckboxDisabled}
+              checked={isChecked || requestInfos.contractC} // Set checked if isChecked is true or if contractC is true
+              disabled={requestInfos.contractC} // Disable if contractC is true
+              onChange={() => setIsChecked(!isChecked)} // Toggle isChecked when checkbox is changed
             />
             <p className="whitespace-wrap ml-4 text-sm italic">
               I certify and acknowledge that I have read and accepted the
@@ -212,20 +212,34 @@ const ContractModal = ({ setContractModal, requestInfos }) => {
             </button>
           </div>
           <div className="bg-white flex items-center justify-end p-6">
-            <button
-              className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-              type="button"
-              onClick={() => setContractModal(false)}
-            >
-              Cancel
-            </button>
-            <button
-              className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-              type="button"
-              onClick={handleProceed}
-            >
-              Proceed
-            </button>
+            {requestInfos?.contractC === false ? (
+              <>
+                <button
+                  className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                  type="button"
+                  onClick={() => setContractModal(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                  type="button"
+                  onClick={handleProceed}
+                >
+                  Proceed
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                  type="button"
+                  onClick={() => setContractModal(false)}
+                >
+                  Close
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

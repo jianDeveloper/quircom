@@ -27,7 +27,8 @@ const ProjectChat = ({ requestInfos }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [contractModal, setContractModal] = useState(false);
   const [reportModal, setreportModal] = useState(false);
-
+  const [sign, setSign] = useState(true);
+  
   useEffect(() => {
     if (requestInfos) {
       setFormData({
@@ -272,7 +273,7 @@ const ProjectChat = ({ requestInfos }) => {
                         <FaFileSignature size={20} color="#1D5B79" />
                       </IconButton>
                       {contractModal && (
-                        <Contract setContractModal={setContractModal} requestInfos={requestInfos} />
+                        <Contract setContractModal={setContractModal} setSign={setSign} requestInfos={requestInfos} />
                       )}
                       <IconButton onClick={handleAvatarClick}>
                         <FaInfoCircle size={20} color="#1D5B79" />
@@ -552,6 +553,7 @@ const ProjectChat = ({ requestInfos }) => {
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
+                    disabled={!sign}
                     placeholder="Type message"
                   />
                   <button
