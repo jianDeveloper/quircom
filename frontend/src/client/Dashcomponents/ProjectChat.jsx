@@ -553,7 +553,7 @@ const ProjectChat = ({ requestInfos }) => {
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    disabled={!sign}
+                    disabled={!sign || requestInfos?.status === "Complete"}
                     placeholder="Type message"
                   />
                   <button
