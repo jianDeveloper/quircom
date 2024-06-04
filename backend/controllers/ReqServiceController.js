@@ -253,7 +253,7 @@ const ReportRequest = async (req, res) => {
 };
 
 
-const ContractRequest = async (req, res) => {
+const ContractCRequest = async (req, res) => {
   try{
     const { id } = req.params;
     
@@ -263,7 +263,28 @@ const ContractRequest = async (req, res) => {
 
     let update = {
       $set: {
-        contract: true
+        contractC: true
+      },
+    };
+
+    const result = await RequestModel.findByIdAndUpdate(id, update, { new: true });
+    res.status(201).json(result);
+  } catch (err) {
+      res.status(400).json({ message: err.message });
+  }
+}
+
+const ContractFRequest = async (req, res) => {
+  try{
+    const { id } = req.params;
+    
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid ID" });
+    }
+
+    let update = {
+      $set: {
+        contractF: true
       },
     };
 
@@ -337,9 +358,14 @@ const ReportRequestWithAuth = (req, res) => {
     await ReportRequest(req, res);
   });
 };
-const ContractRequestWithAuth = (req, res) => {
+const ContractCRequestWithAuth = (req, res) => {
   requireAuth(req, res, async () => {
-    await ContractRequest(req, res);
+    await ContractCRequest(req, res);
+  });
+};
+const ContractFRequestWithAuth = (req, res) => {
+  requireAuth(req, res, async () => {
+    await ContractFRequest(req, res);
   });
 };
 const DeleteRequestWithAuth = (req, res) => {
@@ -356,6 +382,7 @@ module.exports = {
     SubmitFeedbackWithAuth,
     VerifyRequestWithAuth,
     ReportRequestWithAuth,
-    ContractRequestWithAuth,
+    ContractCRequestWithAuth,
+    ContractFRequestWithAuth,
     DeleteRequestWithAuth
 };

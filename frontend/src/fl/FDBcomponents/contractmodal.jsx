@@ -27,7 +27,7 @@ const ContractModal = ({ setContractModal, requestInfos }) => {
       };
 
       await axios.patch(
-        `https://quircom.onrender.com/api/request/contractC/${requestInfos._id}`,
+        `https://quircom.onrender.com/api/request/contractF/${requestInfos._id}`,
         {},
         { headers }
       );

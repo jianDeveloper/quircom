@@ -61,7 +61,11 @@ const ReqServiceSchema = new Schema({
       default: "",
     },
   },
-  contract:{
+  contractC:{
+    type: Boolean,
+    default: false
+  },
+  contractF:{
     type: Boolean,
     default: false
   },

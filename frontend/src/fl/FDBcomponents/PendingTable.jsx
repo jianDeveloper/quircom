@@ -191,6 +191,7 @@ const PendingTable = () => {
                         {new Date(row.deadLine).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4 text-left">
+                        <div className="flex">
                         <button
                           type="button"
                           onClick={() => handleSubmit(row._id, "approve")}
@@ -205,6 +206,7 @@ const PendingTable = () => {
                         >
                           <FaXmark className="inline" />
                         </button>
+                        </div>
                       </td>
                     </tr>
                   );

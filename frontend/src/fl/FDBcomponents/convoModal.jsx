@@ -3,7 +3,7 @@ import { FaFileImport, FaFileSignature } from "react-icons/fa6";
 import WithAuth from "../../auth/WithAuth";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import Contract from "../../client/Dashcomponents/contractmodal";
+import Contract from "./contractmodal";
 
 const ConvoModal = ({ setConvoModal, requestInfos }) => {
   const [message, setMessage] = useState([]);
@@ -19,6 +19,8 @@ const ConvoModal = ({ setConvoModal, requestInfos }) => {
   const [loading, setLoading] = useState(true); // Add loading state
   const [contractModal, setContractModal] = useState(false);
   const messagesEndRef = useRef(null);
+  const [sign, setSign] = useState(true);
+
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -138,7 +140,7 @@ const ConvoModal = ({ setConvoModal, requestInfos }) => {
                   <FaFileSignature />
                 </button>
                 {contractModal && (
-                        <Contract setContractModal={setContractModal} requestInfos={requestInfos} />
+                        <Contract setContractModal={setContractModal} setSign={setSign} requestInfos={requestInfos} />
                       )}
               </div>
               {loading ? (
@@ -292,6 +294,7 @@ const ConvoModal = ({ setConvoModal, requestInfos }) => {
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
+                  disabled={sign}
                   placeholder="Type message"
                 />
                 <button
