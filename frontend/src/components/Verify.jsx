@@ -120,8 +120,8 @@ const Verify = () => {
               disabled={isButtonDisabled}
             >
               {isButtonDisabled
-                ? `Resend Verification (${remainingTime}s)`
-                : "Resend Verification Link"}
+                ? `Send Verification (${remainingTime}s)`
+                : "Send Verification Link"}
             </button>
           </form>
           <div className="mt-4 text-center">
