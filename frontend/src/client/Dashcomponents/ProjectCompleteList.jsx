@@ -5,10 +5,10 @@ import axios from "axios";
 
 import ReviewModal from "./reviewmodal";
 
-const ProjectCompleteList = () => {
+const ProjectCompleteList = ({setReq}) => {
   const { userId } = useParams();
-  const [requestDetails, setRequest] = useState([]);
   const [requestInfos, setRequestInfos] = useState([]);
+  const [requestDetails, setRequest] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reviewModal, setreviewModal] = useState(false);
 
@@ -126,6 +126,7 @@ const ProjectCompleteList = () => {
                   className={`${
                     index % 2 === 0 ? "bg-blue-100" : "bg-white"
                   } hover:bg-orange-100 border-l border-r border-gray-200 cursor-pointer`}
+                  onClick={() =>setReq(request)}
                 >
                   <td className="px-2 py-1 text-left text-sm font-bold">
                     {request.requestId}

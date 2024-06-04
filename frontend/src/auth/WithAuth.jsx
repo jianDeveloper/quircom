@@ -97,7 +97,7 @@ const WithAuth = (WrappedComponent) => {
     };
 
     // Render the wrapped component if not loading
-    return <>  <WrappedComponent {...props} /></>;
+    return <> {console.clear()} <WrappedComponent {...props} /></>;
   };
 
   return WithAuthWrapper;

@@ -57,7 +57,6 @@ const ReviewModal = ({requestInfos, setreviewModal}) => {
       toast.error("Failed to submit feedback");
     }
   };
-
   return (
     <div>
       <div
@@ -134,7 +133,7 @@ const ReviewModal = ({requestInfos, setreviewModal}) => {
                           type="text"
                           id="freelancerId"
                           name="freelancerId"
-                          value={`${requestInfos.serviceId.freelancerId.firstName + " " + requestInfos.serviceId.freelancerId.surName}`}
+                          value={`${requestInfos?.serviceId?.freelancerId.firstName + " " + requestInfos?.serviceId?.freelancerId?.surName}`}
                           disabled
                           className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm p-2 shadow-sm border border-gray-300"
                         />
