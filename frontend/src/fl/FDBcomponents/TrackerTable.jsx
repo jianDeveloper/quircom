@@ -8,6 +8,7 @@ import { MdDesignServices } from "react-icons/md";
 import { FaFileCircleCheck } from "react-icons/fa6";
 import WithAuth from "../../auth/WithAuth";
 import Loader from "../../assets/quircomloading.gif";
+import { ToastContainer } from "react-toastify";
 
 const FTable = () => {
   const { userId } = useParams();
@@ -69,6 +70,7 @@ const FTable = () => {
 
   return (
     <div className="flex flex-col justify-center items-center w-[100%]">
+      <ToastContainer/>
       <div className="flex w-full justify-end items-center p-2 bg-[#13334C] text-white">
         <span>Rows per page:</span>
         <select

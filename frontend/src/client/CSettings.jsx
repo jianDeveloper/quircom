@@ -103,18 +103,15 @@ function CSettings() {
       );
 
       if (response && response.data) {
-        setUsers({ ...userData, profilePic: response.data.profilePic });
-        setProfile({});
         toast.success("Profile picture uploaded successfully");
         setDisabled(false);
+        setProfile(null);
       } else {
-        // console.log("Response data not available");
         toast.error("Failed to upload profile picture");
         setDisabled(false);
       }
     } catch (error) {
       console.error("Error during patch ", error.response);
-      // console.log(error.message);
       toast.error("Failed to upload profile picture");
       setDisabled(false);
     }
@@ -419,11 +416,11 @@ function CSettings() {
                   />
                   <button
                     onClick={handleSubmit}
-                    disabled={disabled}
+                    disabled={!profilePic || disabled}
                     className={`ml-2 rounded font-bold py-2 px-4 ${
-                      disabled
+                      !profilePic || disabled
                         ? "bg-gray-400 cursor-not-allowed"
-                        : "bg-blue-500 hover:bg-blue-700 text-white"
+                        : "bg-sky-700 hover:bg-sky-800 text-white"
                     }`}
                   >
                     Upload New Profile Picture

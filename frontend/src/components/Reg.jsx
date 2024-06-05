@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import phil from "philippine-location-json-for-geer";
 import { ToastContainer, toast } from "react-toastify";
+import { FaEyeSlash, FaEye } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
 
 import { Spinner } from "@material-tailwind/react";
@@ -360,7 +361,7 @@ const Reg = () => {
                       className="absolute top-1/2 right-3 transform -translate-y-1/2 text-sm"
                       onClick={togglePasswordVisibility}
                     >
-                      {showPassword ? "Hide" : "Show"}
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}
                     </button>
                   </div>
                   {invalidFields.passWord && (

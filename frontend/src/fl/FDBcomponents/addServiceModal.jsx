@@ -22,7 +22,7 @@ const AddServiceModal = ({ setaddModal }) => {
   });
 
   const subcategories = {
-    Animation: [
+    "Animation": [
       "2D Animation",
       "3D Animation",
       "Motion Graphics",
@@ -161,15 +161,18 @@ const AddServiceModal = ({ setaddModal }) => {
 
       if (response && response.data) {
         console.log(response.data);
-        toast.success("Service uploaded successfully");
-        setaddModal(false);
+        toast.success("Service uploaded successfully", {
+          autoClose: 2000,
+          onClose: () => {
+            setTimeout(() => {
+              setaddModal(false)
+            }, 2000);
+          },
+        });
       } else {
-        console.log("Response data not available");
         toast.error("Failed to upload Service");
       }
     } catch (error) {
-      console.error("Error during patch ", error.response);
-      console.log(error.message);
       toast.error("Failed to upload Service");
     }
   };

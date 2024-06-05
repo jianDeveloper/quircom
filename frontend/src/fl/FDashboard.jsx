@@ -17,7 +17,7 @@ import PendingTable from "./FDBcomponents/PendingTable";
 
 function FDashboard() {
   const { userId } = useParams();
-  const [userData, setUserData] = useState(); 
+  const [userData, setUserData] = useState();
   const [activeTab, setActiveTab] = useState("track");
   const [serviceDetails, setService] = useState([]);
   const [pendingDetails, setPending] = useState([]);
@@ -67,28 +67,47 @@ function FDashboard() {
 
         if (response.status === 200 && response.data) {
           const filteredServices = response.data.filter(
-            (service) => service.freelancerId && service.freelancerId._id === userId
+            (service) =>
+              service.freelancerId && service.freelancerId._id === userId
           );
           setService(filteredServices);
         } else {
-          console.error("Error fetching services: Unexpected status code", response.status);
+          console.error(
+            "Error fetching services: Unexpected status code",
+            response.status
+          );
         }
 
         if (response2.status === 200 && response2.data) {
           const filteredPending = response2.data.filter(
-            (request) => request.serviceId && request.serviceId.freelancerId && request.serviceId.freelancerId._id === userId && request.status === "Pending"
+            (request) =>
+              request.serviceId &&
+              request.serviceId.freelancerId &&
+              request.serviceId.freelancerId._id === userId &&
+              request.status === "Pending"
           );
           const filteredRequest = response2.data.filter(
-            (request) => request.serviceId && request.serviceId.freelancerId && request.serviceId.freelancerId._id === userId && request.status === "Ongoing"
+            (request) =>
+              request.serviceId &&
+              request.serviceId.freelancerId &&
+              request.serviceId.freelancerId._id === userId &&
+              request.status === "Ongoing"
           );
           const filteredFinished = response2.data.filter(
-            (request) => request.serviceId && request.serviceId.freelancerId && request.serviceId.freelancerId._id === userId && request.status === "Complete"
+            (request) =>
+              request.serviceId &&
+              request.serviceId.freelancerId &&
+              request.serviceId.freelancerId._id === userId &&
+              request.status === "Complete"
           );
           setPending(filteredPending);
           setRequest(filteredRequest);
           setFinish(filteredFinished);
         } else {
-          console.error("Error fetching requests: Unexpected status code", response2.status);
+          console.error(
+            "Error fetching requests: Unexpected status code",
+            response2.status
+          );
         }
       } catch (error) {
         console.error("Error fetching services:", error);

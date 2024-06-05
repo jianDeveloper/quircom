@@ -19,11 +19,63 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
   });
 
   const subcategories = {
-    "Animation": ["2D Animation", "3D Animation", "Motion Graphics", "Whiteboard Animation", "Character Animation", "Stop Motion", "Explainer Videos", "Visual Effects", "Title Animation", "Medical Animation"],
-    "Graphic Design": ["Logo Design", "Brochure Design", "Business Cards", "Infographics", "Illustration", "Packaging Design", "Flyer Design", "Poster Design", "Social Media Graphics", "Presentation Design"],
-    "Graphic Motion": ["2D Motion Graphics", "3D Motion Graphics", "Typography Animation", "Explainer Videos", "Infographics Animation", "Animated GIFs", "Logo Animation", "Promotional Videos", "Tutorial Videos", "Intro & Outro"],
-    "Software Development": ["Web Application", "Mobile Application", "Desktop Software", "Database Design", "API Development", "Software Testing", "Cloud Computing", "Game Development", "DevOps", "UI/UX Design"],
-    "Web Development": ["Front-End Development", "Back-End Development", "Full-Stack Development", "E-commerce Development", "CMS Development", "Web Maintenance", "Web Optimization", "Web Security", "Progressive Web Apps", "Landing Page Development"]
+    "Animation": [
+      "2D Animation",
+      "3D Animation",
+      "Motion Graphics",
+      "Whiteboard Animation",
+      "Stop Motion",
+      "Character Animation",
+      "Explainer Videos",
+      "Logo Animation",
+      "Product Animation",
+      "Visual Effects",
+    ],
+    "Graphic Design": [
+      "Logo Design",
+      "Illustration",
+      "UI/UX Design",
+      "Banner Design",
+      "Brochure Design",
+      "Business Card Design",
+      "Flyer Design",
+      "Infographic Design",
+      "Packaging Design",
+      "Print Design",
+    ],
+    "Graphic Motion": [
+      "Animated Logos",
+      "Title Sequences",
+      "Promotional Videos",
+      "Social Media Videos",
+      "Corporate Videos",
+      "Event Videos",
+      "Training Videos",
+      "Demo Videos",
+      "Music Videos",
+    ],
+    "Software Development": [
+      "Web Apps",
+      "Mobile Apps",
+      "Desktop Apps",
+      "Game Development",
+      "API Development",
+      "Database Design",
+      "E-commerce Development",
+      "Software Testing",
+      "DevOps",
+      "System Integration",
+    ],
+    "Web Development": [
+      "Frontend Development",
+      "Backend Development",
+      "Full Stack Development",
+      "WordPress Development",
+      "Shopify Development",
+      "Web Optimization",
+      "Web Maintenance",
+      "Web Security",
+    ],
   };
 
   const handleImage = (e) => {
@@ -107,9 +159,6 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
     if (formData.price.length === 0) {
       errors.price = "Please input your price";
     }
-    if (!thumbNail || !thumbNail.type.startsWith("image/")) {
-      errors.thumbNail = "Please upload a thumbnail";
-    }
 
     setInvalidFields(errors);
 
@@ -148,8 +197,14 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
       );
 
       if (response && response.data) {
-        toast.success("Service updated successfully");
-        setUpdateModal(false);
+        toast.success("Service updated successfully", {
+          autoClose: 2000,
+          onClose: () => {
+            setTimeout(() => {
+              setUpdateModal(false)
+            }, 2000);
+          },
+        });
       } else {
         toast.error("Failed to update Service");
       }
@@ -159,15 +214,15 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
   };
 
   return (
-    <div>
-      <ToastContainer />
+    <div>  
       <div
         className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
         style={{ background: "rgba(0,0,0,0.2)" }}
       >
+        <ToastContainer />
         <div className="relative w-2/4 my-6 mx-auto">
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-            <div className="flexitems-start justify-between p-5 bg-[#1d5b79] border-b border-solid border-blueGray-200 rounded-t">
+            <div className="flex items-start justify-between p-5 bg-[#1d5b79] border-b border-solid border-blueGray-200 rounded-t">
               <h3 className="text-3xl text-white text-center font-semibold">
                 Update Services
               </h3>
@@ -227,26 +282,33 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
                       <option value="Web Development">Web Development</option>
                     </select>
                   </div>
-                  <div className="mt-4">
-                    {subcategories[formData.serviceType]?.map((subcat) => (
-                      <label key={subcat} className="block text-left">
-                        <input
-                          type="checkbox"
-                          name="serviceSubCat"
-                          value={subcat}
-                          checked={formData.serviceSubCat.includes(subcat)}
-                          onChange={handleChange}
-                          className="mr-2"
-                        />
-                        {subcat}
+                  {formData.serviceType && subcategories[formData.serviceType] && (
+                    <div className="mt-4">
+                      <label className="block text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300">
+                        Service Subcategories
                       </label>
-                    ))}
-                    {invalidFields.serviceSubCat && (
-                      <p className="text-red-500 text-sm mt-1">
-                        {invalidFields.serviceSubCat}
-                      </p>
-                    )}
-                  </div>
+                      <div className="mt-2 grid grid-cols-2 gap-2">
+                        {subcategories[formData.serviceType].map((subcat) => (
+                          <label key={subcat} className="inline-flex items-center">
+                            <input
+                              type="checkbox"
+                              name="serviceSubCat"
+                              value={subcat}
+                              checked={formData.serviceSubCat.includes(subcat)}
+                              onChange={handleChange}
+                              className="form-checkbox"
+                            />
+                            <span className="ml-2">{subcat}</span>
+                          </label>
+                        ))}
+                      </div>
+                      {invalidFields.serviceSubCat && (
+                        <p className="text-red-500 text-[12px]">
+                          {invalidFields.serviceSubCat}
+                        </p>
+                      )}
+                    </div>
+                  )}
                   <label
                     htmlFor="serviceInfo"
                     className="block text-left mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
@@ -373,3 +435,4 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
 };
 
 export default WithAuth(UpdateServiceModal);
+

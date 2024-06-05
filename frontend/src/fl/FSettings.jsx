@@ -102,17 +102,15 @@ function FSettings() {
       );
 
       if (response && response.data) {
-        //console.log(response.data);
         toast.success("Profile picture uploaded successfully");
         setDisabled(false);
+        setProfile(null);
       } else {
-        // console.log("Response data not available");
         toast.error("Failed to upload profile picture");
         setDisabled(false);
       }
     } catch (error) {
       console.error("Error during patch ", error.response);
-      // console.log(error.message);
       toast.error("Failed to upload profile picture");
       setDisabled(false);
     }
@@ -434,9 +432,9 @@ function FSettings() {
                   />
                   <button
                     onClick={handleSubmit}
-                    disabled={disabled}
+                    disabled={!profilePic || disabled}
                     className={`ml-2 rounded font-bold py-2 px-4 ${
-                      disabled
+                      !profilePic || disabled
                         ? "bg-gray-400 cursor-not-allowed"
                         : "bg-sky-700 hover:bg-sky-800 text-white"
                     }`}
@@ -460,13 +458,15 @@ function FSettings() {
                         rel="noopener noreferrer"
                         className="flex items-center justify-center w-[50%] border-2 border-dashed border-orange-600 text-orange-600 hover:text-white hover:bg-sky-800 hover:border-transparent px-4 py-2 rounded transition duration-300"
                       >
-                        <BsFileEarmarkPdfFill className="mr-2 "/> View Portfolio
+                        <BsFileEarmarkPdfFill className="mr-2 " /> View
+                        Portfolio
                       </a>
-                  </div>
-                    
+                    </div>
                   ) : (
                     <div>
-                      <span className="flex items-center justify-center w-[50%] border-2 border-dashed border-orange-600 text-orange-600 hover:text-white hover:bg-sky-800 hover:border-transparent px-4 py-2 rounded transition duration-300">No portfolio yet</span>
+                      <span className="flex items-center justify-center w-[50%] border-2 border-dashed border-orange-600 text-orange-600 hover:text-white hover:bg-sky-800 hover:border-transparent px-4 py-2 rounded transition duration-300">
+                        No portfolio yet
+                      </span>
                     </div>
                   )}
                 </div>
@@ -480,9 +480,9 @@ function FSettings() {
                   />
                   <button
                     onClick={handleSubmit3}
-                    disabled={disabled3}
+                    disabled={!portFolio || disabled3}
                     className={`ml-2 rounded font-bold py-2 px-4 ${
-                      disabled3
+                      !portFolio || disabled3
                         ? "bg-gray-400 cursor-not-allowed"
                         : "bg-sky-700 hover:bg-sky-800 text-white"
                     }`}
@@ -666,7 +666,10 @@ function FSettings() {
                   Caution!
                 </p>
                 <p className="mt-2">
-                The ability to delete an account is restricted exclusively to the admin. This means that regular users do not have the permission or capability to delete their own accounts or the accounts of other users.
+                  The ability to delete an account is restricted exclusively to
+                  the admin. This means that regular users do not have the
+                  permission or capability to delete their own accounts or the
+                  accounts of other users.
                 </p>
                 <button className="ml-auto text-sm font-semibold text-rose-600 underline decoration-2">
                   Attempt to Delete
