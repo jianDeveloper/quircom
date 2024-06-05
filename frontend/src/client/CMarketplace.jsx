@@ -130,24 +130,12 @@ const CMarketplace = () => {
                   />
                 </div>
               </form>
-              <div className="flex mt-6 space-x-3 justify-center">
+              <div className="flex mt-6 space-x-3 justify-center">               
                 <button
                   onClick={() => handleFilter(null)}
                   className="px-4 py-1 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md"
                 >
                   All
-                </button>
-                <button
-                  onClick={() => handleFilter("Software Development")}
-                  className="px-4 py-1 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md"
-                >
-                  Software Development
-                </button>
-                <button
-                  onClick={() => handleFilter("Web Development")}
-                  className="px-4 py-1 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md"
-                >
-                  Web Development
                 </button>
                 <button
                   onClick={() => handleFilter("Animation")}
@@ -161,6 +149,24 @@ const CMarketplace = () => {
                 >
                   Graphic Design
                 </button>
+                <button
+                  onClick={() => handleFilter("Graphic Motion")}
+                  className="px-4 py-1 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md"
+                >
+                  Graphic Motion
+                </button>
+                <button
+                  onClick={() => handleFilter("Software Development")}
+                  className="px-4 py-1 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md"
+                >
+                  Software Development
+                </button>
+                <button
+                  onClick={() => handleFilter("Web Development")}
+                  className="px-4 py-1 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md"
+                >
+                  Web Development
+                </button>    
               </div>
             </div>
           </div>

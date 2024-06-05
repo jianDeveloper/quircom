@@ -8,6 +8,7 @@ const addReqModal = ({ setReqModal }) => {
   const { userId } = useParams();
   const { serviceId } = useParams();
   const [userData, setUsers] = useState();
+  const [serviceData, setService] = useState();
   const [invalidFields, setInvalidFields] = useState({});
 
   const [formData, setFormData] = useState({
@@ -34,8 +35,6 @@ const addReqModal = ({ setReqModal }) => {
         );
         if (response.status === 200) {
           setUsers(response.data);
-          // setFormData({ requestId: response.data.requestId });
-          // setFormData({ freelancerId: response.data._id });
         }
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -44,6 +43,54 @@ const addReqModal = ({ setReqModal }) => {
 
     fetchUsers();
   }, [userId]);
+
+  useEffect(() => {
+    const fetchService = async () => {
+      try {
+        const token = localStorage.getItem("authToken");
+
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        };
+        const response = await axios.get(
+          `https://quircom.onrender.com/api/service/${serviceId}`,
+          { headers }
+        );
+        if (response.status === 200) {
+          setService(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching service:", error);
+      }
+    };
+
+    fetchService();
+  }, [serviceId]);
+
+  useEffect(() => {
+    if (serviceData?.serviceType) {
+      const currentDate = new Date();
+      let offsetDays = 0;
+
+      if (["Animation", "Graphic Design", "Graphic Motion"].includes(serviceData.serviceType)) {
+        offsetDays = 14; // 2 weeks
+      } else if (["Software Development", "Web Development"].includes(serviceData.serviceType)) {
+        offsetDays = 30; // 1 month
+      }
+
+      const minDate = new Date(currentDate.setDate(currentDate.getDate() + offsetDays))
+        .toISOString()
+        .slice(0, 10);
+
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        deadLine: minDate,
+      }));
+    }
+  }, [serviceData]);
+
+  console.log(serviceData?.serviceType);
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
@@ -55,7 +102,7 @@ const addReqModal = ({ setReqModal }) => {
       errors.taskTitle = "Please input your title";
     }
     if (formData.taskDetails.length <= 20) {
-      errors.taskDetails = "Please input atleast 20 characters";
+      errors.taskDetails = "Please input at least 20 characters";
     }
     if (!formData.deadLine) {
       // If deadline is not provided
@@ -64,7 +111,6 @@ const addReqModal = ({ setReqModal }) => {
       // If deadline is less than 3 days from now
       errors.deadLine = "Deadline must be at least 3 days from now";
     }
-    
 
     setInvalidFields(errors);
 
@@ -81,7 +127,8 @@ const addReqModal = ({ setReqModal }) => {
 
       const response = await axios.post(
         `https://quircom.onrender.com/api/request/create`,
-        formData, {headers}
+        formData,
+        { headers }
       );
 
       if (response && response.data) {
@@ -93,14 +140,11 @@ const addReqModal = ({ setReqModal }) => {
             }, 1000);
           },
         });
-        
       } else {
-        // console.log("Response data not available");
         toast.error("Failed to upload request");
       }
     } catch (error) {
       console.error("Error during patch ", error.response);
-      // console.log(error.message);
       toast.error("Failed to upload request");
     }
   };
@@ -119,12 +163,11 @@ const addReqModal = ({ setReqModal }) => {
       >
         <div className="relative w-2/4 my-6 mx-auto">
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full text-black bg-white outline-none focus:outline-none">
-            <div className="flexitems-start justify-between p-5 bg-[#1d5b79] border-b border-solid border-blueGray-200 rounded-t">
+            <div className="flex items-start justify-between p-5 bg-[#1d5b79] border-b border-solid border-blueGray-200 rounded-t">
               <h3 className="text-3xl text-white text-center font-semibold">
                 Request Form
               </h3>
             </div>
-            {/* Creating Form */}
             <form
               className="w-full max-w-screen-ss mx-auto"
               onSubmit={handleSubmit}
@@ -189,7 +232,7 @@ const addReqModal = ({ setReqModal }) => {
                           type="date"
                           id="deadLine"
                           name="deadLine"
-                          min={new Date().toISOString().slice(0, 10)}
+                          min={formData.deadLine}
                           value={formData.deadLine}
                           onChange={handleChange}
                           className={`focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm p-2 shadow-sm border border-gray-300 ${
@@ -215,9 +258,7 @@ const addReqModal = ({ setReqModal }) => {
                           type="text"
                           id="dateUploaded"
                           name="dateUploaded"
-                          value={new Date(
-                            formData.dateUploaded
-                          ).toLocaleString()}
+                          value={new Date(formData.dateUploaded).toLocaleString()}
                           readOnly
                           className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm p-2 shadow-sm border border-gray-300"
                         />
@@ -262,7 +303,6 @@ const addReqModal = ({ setReqModal }) => {
                 <button
                   className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                   type="submit"
-                  // onClick={() => setReqModal(false)}
                 >
                   Request
                 </button>
