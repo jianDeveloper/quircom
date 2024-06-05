@@ -161,12 +161,6 @@ const CMarketplace = () => {
                 >
                   Graphic Design
                 </button>
-                <button
-                  onClick={() => handleFilter("Marketing")}
-                  className="px-4 py-1 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md"
-                >
-                  Marketing
-                </button>
               </div>
             </div>
           </div>

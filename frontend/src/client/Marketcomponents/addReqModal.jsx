@@ -144,7 +144,7 @@ const addReqModal = ({ setReqModal }) => {
                     value={formData.taskTitle}
                     onChange={handleChange}
                     className={`mt-1 relative rounded-md shadow-sm border border-gray-300 px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm  ${
-                      invalidFields.serviceName ? "border-red-500" : ""
+                      invalidFields.taskTitle ? "border-red-500" : ""
                     }`}
                   />
                   {invalidFields.taskTitle && (
@@ -167,7 +167,7 @@ const addReqModal = ({ setReqModal }) => {
                       onChange={handleChange}
                       rows={4}
                       className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 px-3 py-2 ${
-                        invalidFields.serviceInfo ? "border-red-500" : ""
+                        invalidFields.taskDetails ? "border-red-500" : ""
                       }`}
                     />
                     {invalidFields.taskDetails && (
