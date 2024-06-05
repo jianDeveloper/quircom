@@ -14,11 +14,72 @@ const AddServiceModal = ({ setaddModal }) => {
     serviceName: "",
     serviceType: "",
     serviceInfo: "",
+    serviceSubCat: [],
     price: "",
     requestId: [],
     freelancerId: userId,
     dateUploaded: new Date().toISOString(),
   });
+
+  const subcategories = {
+    Animation: [
+      "2D Animation",
+      "3D Animation",
+      "Motion Graphics",
+      "Whiteboard Animation",
+      "Stop Motion",
+      "Character Animation",
+      "Explainer Videos",
+      "Logo Animation",
+      "Product Animation",
+      "Visual Effects",
+    ],
+    "Graphic Design": [
+      "Logo Design",
+      "Illustration",
+      "UI/UX Design",
+      "Banner Design",
+      "Brochure Design",
+      "Business Card Design",
+      "Flyer Design",
+      "Infographic Design",
+      "Packaging Design",
+      "Print Design",
+    ],
+    "Graphic Motion": [
+      "Animated Logos",
+      "Title Sequences",
+      "Promotional Videos",
+      "Social Media Videos",
+      "Corporate Videos",
+      "Event Videos",
+      "Training Videos",
+      "Demo Videos",
+      "Music Videos",
+    ],
+    "Software Development": [
+      "Web Apps",
+      "Mobile Apps",
+      "Desktop Apps",
+      "Game Development",
+      "API Development",
+      "Database Design",
+      "E-commerce Development",
+      "Software Testing",
+      "DevOps",
+      "System Integration",
+    ],
+    "Web Development": [
+      "Frontend Development",
+      "Backend Development",
+      "Full Stack Development",
+      "WordPress Development",
+      "Shopify Development",
+      "Web Optimization",
+      "Web Maintenance",
+      "Web Security",
+    ],
+  };
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -62,13 +123,16 @@ const AddServiceModal = ({ setaddModal }) => {
       errors.serviceType = "Please select a service type";
     }
     if (formData.serviceInfo.length <= 20) {
-      errors.serviceInfo = "Please input atleast 20 characters";
+      errors.serviceInfo = "Please input at least 20 characters";
     }
     if (formData.price.length === 0) {
       errors.price = "Please input your price";
     }
     if (!thumbNail || !thumbNail.type.startsWith("image/")) {
       errors.thumbNail = "Please upload a thumbnail";
+    }
+    if (formData.serviceSubCat.length === 0) {
+      errors.serviceSubCat = "Please select at least one subcategory";
     }
 
     setInvalidFields(errors);
@@ -117,7 +181,16 @@ const AddServiceModal = ({ setaddModal }) => {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
-    setFormData({ ...formData, [name]: value });
+    if (name === "serviceType") {
+      setFormData({ ...formData, [name]: value, serviceSubCat: [] });
+    } else if (name === "serviceSubCat") {
+      const updatedSubCats = checked
+        ? [...formData.serviceSubCat, value]
+        : formData.serviceSubCat.filter((subcat) => subcat !== value);
+      setFormData({ ...formData, serviceSubCat: updatedSubCats });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   return (
@@ -129,7 +202,7 @@ const AddServiceModal = ({ setaddModal }) => {
       >
         <div className="relative w-2/4 my-6 mx-auto">
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full text-black bg-white outline-none focus:outline-none">
-            <div className="flexitems-start justify-between p-5 bg-[#1d5b79] border-b border-solid border-blueGray-200 rounded-t">
+            <div className="flex items-start justify-between p-5 bg-[#1d5b79] border-b border-solid border-blueGray-200 rounded-t">
               <h3 className="text-3xl text-white text-center font-semibold">
                 Add Services
               </h3>
@@ -186,12 +259,6 @@ const AddServiceModal = ({ setaddModal }) => {
                         Software Development
                       </option>
                       <option value="Web Development">Web Development</option>
-
-                      {/* {options.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))} */}
                     </select>
                     {invalidFields.serviceType && (
                       <p className="text-red-500 text-[12px]">
@@ -199,29 +266,59 @@ const AddServiceModal = ({ setaddModal }) => {
                       </p>
                     )}
                   </div>
+
+                  {/* Render Subcategories */}
+                  {formData.serviceType && subcategories[formData.serviceType] && (
+                    <div className="mt-4">
+                      <label
+                        className={`block text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300`}
+                      >
+                        Service Subcategories
+                      </label>
+                      <div className="mt-2 grid grid-cols-2 gap-2">
+                        {subcategories[formData.serviceType].map((subcat) => (
+                          <label key={subcat} className="inline-flex items-center">
+                            <input
+                              type="checkbox"
+                              name="serviceSubCat"
+                              value={subcat}
+                              checked={formData.serviceSubCat.includes(subcat)}
+                              onChange={handleChange}
+                              className="form-checkbox"
+                            />
+                            <span className="ml-2">{subcat}</span>
+                          </label>
+                        ))}
+                      </div>
+                      {invalidFields.serviceSubCat && (
+                        <p className="text-red-500 text-[12px]">
+                          {invalidFields.serviceSubCat}
+                        </p>
+                      )}
+                    </div>
+                  )}
+
                   <label
                     htmlFor="serviceInfo"
                     className={`block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300`}
                   >
-                    Description
+                    Service Info
                   </label>
-                  <div className="mt-1">
-                    <textarea
-                      id="serviceInfo"
-                      name="serviceInfo"
-                      value={formData.serviceInfo}
-                      onChange={handleChange}
-                      rows={4}
-                      className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 px-3 py-2 ${
-                        invalidFields.serviceInfo ? "border-red-500" : ""
-                      }`}
-                    />
-                    {invalidFields.serviceInfo && (
-                      <p className="text-red-500 text-[12px]">
-                        {invalidFields.serviceInfo}
-                      </p>
-                    )}
-                  </div>
+                  <textarea
+                    id="serviceInfo"
+                    name="serviceInfo"
+                    value={formData.serviceInfo}
+                    onChange={handleChange}
+                    rows="3"
+                    className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 px-3 py-2 ${
+                      invalidFields.serviceInfo ? "border-red-500" : ""
+                    }`}
+                  />
+                  {invalidFields.serviceInfo && (
+                    <p className="text-red-500 text-[12px]">
+                      {invalidFields.serviceInfo}
+                    </p>
+                  )}
                   <div className="flex flex-row justify-between gap-12">
                     <div className="w-[50%]">
                       <label
@@ -270,7 +367,6 @@ const AddServiceModal = ({ setaddModal }) => {
                           type="file"
                           id="thumbNail"
                           name="thumbNail"
-                          value={formData.thumbNail}
                           onChange={handleImage}
                           accept="image/*"
                           className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-md border border-gray-300 px-3 py-2 ${
@@ -342,7 +438,6 @@ const AddServiceModal = ({ setaddModal }) => {
                 <button
                   className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                   type="submit"
-                  // onClick={() => setaddModal(false)}
                 >
                   Add Service
                 </button>

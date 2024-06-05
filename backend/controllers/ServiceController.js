@@ -82,6 +82,7 @@ const CreateService = async (req, res) => {
       serviceId: uniqueServiceId,
       serviceName: service.serviceName,
       serviceType: service.serviceType,
+      serviceSubCat: service.serviceSubCat,
       serviceInfo: service.serviceInfo,
       price: service.price,
       requestId: requestIds, // Assign requestIds to requestId
@@ -147,6 +148,7 @@ const EditService = async (req, res) => {
             : service.thumbNail,
           serviceName: service.serviceName,
           serviceType: service.serviceType,
+          serviceSubCat: service.serviceSubCat,
           serviceInfo: service.serviceInfo,
           price: service.price,
           dateUpdated: new Date(),

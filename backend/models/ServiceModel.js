@@ -22,6 +22,11 @@ const ServiceSchema = new Schema({
     default: "",
     required: true
   },
+  serviceSubCat: [{
+    type: String,
+    default: "",
+    required: true
+  }],
   serviceInfo: {
     type: String,
     default: "",

@@ -12,10 +12,19 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
   const [formData, setFormData] = useState({
     serviceName: "",
     serviceType: "",
+    serviceSubCat: [],
     serviceInfo: "",
     price: "",
     dateUpdated: "",
   });
+
+  const subcategories = {
+    "Animation": ["2D Animation", "3D Animation", "Motion Graphics", "Whiteboard Animation", "Character Animation", "Stop Motion", "Explainer Videos", "Visual Effects", "Title Animation", "Medical Animation"],
+    "Graphic Design": ["Logo Design", "Brochure Design", "Business Cards", "Infographics", "Illustration", "Packaging Design", "Flyer Design", "Poster Design", "Social Media Graphics", "Presentation Design"],
+    "Graphic Motion": ["2D Motion Graphics", "3D Motion Graphics", "Typography Animation", "Explainer Videos", "Infographics Animation", "Animated GIFs", "Logo Animation", "Promotional Videos", "Tutorial Videos", "Intro & Outro"],
+    "Software Development": ["Web Application", "Mobile Application", "Desktop Software", "Database Design", "API Development", "Software Testing", "Cloud Computing", "Game Development", "DevOps", "UI/UX Design"],
+    "Web Development": ["Front-End Development", "Back-End Development", "Full-Stack Development", "E-commerce Development", "CMS Development", "Web Maintenance", "Web Optimization", "Web Security", "Progressive Web Apps", "Landing Page Development"]
+  };
 
   const handleImage = (e) => {
     const file = e.target.files[0];
@@ -23,8 +32,15 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const { name, value, type, checked } = e.target;
+    if (type === "checkbox") {
+      const newSubCat = checked
+        ? [...formData.serviceSubCat, value]
+        : formData.serviceSubCat.filter((subcat) => subcat !== value);
+      setFormData({ ...formData, serviceSubCat: newSubCat });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   useEffect(() => {
@@ -37,13 +53,14 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
         };
 
         const response = await axios.get(
-          `https://quircom.onrender.com/api/service/${serviceInfos._id}`, {headers}
+          `https://quircom.onrender.com/api/service/${serviceInfos._id}`, { headers }
         );
         if (response.status === 200) {
           setUsers(response.data);
           setFormData({
             serviceName: response.data.serviceName,
             serviceType: response.data.serviceType,
+            serviceSubCat: response.data.serviceSubCat,
             serviceInfo: response.data.serviceInfo,
             price: response.data.price,
             dateUpdated: new Date().toISOString(),
@@ -55,7 +72,7 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
     };
 
     fetchUsers();
-  }, []);
+  }, [serviceInfos._id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
@@ -65,6 +82,7 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
     const isFormDataChanged =
       formData.serviceName !== userData.serviceName ||
       formData.serviceType !== userData.serviceType ||
+      formData.serviceSubCat.join(",") !== userData.serviceSubCat.join(",") ||
       formData.serviceInfo !== userData.serviceInfo ||
       formData.price !== userData.price ||
       thumbNail !== userData.thumbNail;
@@ -80,8 +98,11 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
     if (!formData.serviceType) {
       errors.serviceType = "Please select a Service type";
     }
+    if (formData.serviceSubCat.length === 0) {
+      errors.serviceSubCat = "Please select at least one subcategory";
+    }
     if (formData.serviceInfo.length <= 20) {
-      errors.serviceInfo = "Please input atleast 20 characters";
+      errors.serviceInfo = "Please input at least 20 characters";
     }
     if (formData.price.length === 0) {
       errors.price = "Please input your price";
@@ -110,6 +131,7 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
           ...userData,
           serviceName: formData.serviceName,
           serviceType: formData.serviceType,
+          serviceSubCat: formData.serviceSubCat,
           serviceInfo: formData.serviceInfo,
           price: formData.price,
           dateUpdated: formData.dateUpdated,
@@ -126,16 +148,12 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
       );
 
       if (response && response.data) {
-        //console.log(response.data);
         toast.success("Service updated successfully");
         setUpdateModal(false);
       } else {
-        // console.log("Response data not available");
         toast.error("Failed to update Service");
       }
     } catch (error) {
-      // console.error("Error during patch ", error.response);
-      // console.log(error.message);
       toast.error("Failed to update Service");
     }
   };
@@ -154,7 +172,6 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
                 Update Services
               </h3>
             </div>
-            {/* Creating Form */}
             <form
               className="w-full max-w-screen-ss mx-auto"
               onSubmit={handleSubmit}
@@ -209,6 +226,26 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
                       </option>
                       <option value="Web Development">Web Development</option>
                     </select>
+                  </div>
+                  <div className="mt-4">
+                    {subcategories[formData.serviceType]?.map((subcat) => (
+                      <label key={subcat} className="block text-left">
+                        <input
+                          type="checkbox"
+                          name="serviceSubCat"
+                          value={subcat}
+                          checked={formData.serviceSubCat.includes(subcat)}
+                          onChange={handleChange}
+                          className="mr-2"
+                        />
+                        {subcat}
+                      </label>
+                    ))}
+                    {invalidFields.serviceSubCat && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {invalidFields.serviceSubCat}
+                      </p>
+                    )}
                   </div>
                   <label
                     htmlFor="serviceInfo"
@@ -312,8 +349,6 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
                   </div>
                 </div>
               </div>
-
-              {/* Add Close Button and Add Button */}
               <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
                 <button
                   className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
@@ -325,7 +360,6 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
                 <button
                   className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                   type="submit"
-                  // onClick={() => setUpdateModal(false)}
                 >
                   Update Service
                 </button>
