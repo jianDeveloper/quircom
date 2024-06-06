@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-
 import NavHeader from "./CMainNav";
 import CFooter from "./CFooter";
-
 import mpTop from "../assets/mpTop.jpg";
 import CCards from "./Marketcomponents/CCards";
 import WithAuth from "../auth/WithAuth";
-
+import { FaFilter } from "react-icons/fa";
+import { IoFilter } from "react-icons/io5";
 import {
   Card,
   CardBody,
@@ -20,9 +19,11 @@ import {
 const CMarketplace = () => {
   const { serviceId } = useParams();
   const [services, setServices] = useState([]);
+  const [filterTab, setFilterTab] = useState("");
   const [selectedServiceType, setSelectedServiceType] = useState(null);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showSubcategories, setShowSubcategories] = useState(false);
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -39,10 +40,10 @@ const CMarketplace = () => {
         );
         if (response.status === 200) {
           setServices(response.data);
-          setLoading(false);
         }
       } catch (error) {
         console.error("Error fetching services:", error);
+      } finally {
         setLoading(false);
       }
     };
@@ -63,6 +64,8 @@ const CMarketplace = () => {
 
   const handleFilter = (type) => {
     setSelectedServiceType(type);
+    setFilterTab(type ? "Filter" : "");
+    setShowSubcategories(false);
   };
 
   const handleInputChange = (event) => {
@@ -73,30 +76,88 @@ const CMarketplace = () => {
     event.preventDefault();
   };
 
+  const handleFilterTab = () => {
+    setShowSubcategories(!showSubcategories);
+  };
+
+  const subcategories = {
+    Animation: [
+      "2D Animation",
+      "3D Animation",
+      "Motion Graphics",
+      "Whiteboard Animation",
+      "Stop Motion",
+      "Character Animation",
+      "Explainer Videos",
+      "Logo Animation",
+      "Product Animation",
+      "Visual Effects",
+    ],
+    "Graphic Design": [
+      "Logo Design",
+      "Illustration",
+      "UI/UX Design",
+      "Banner Design",
+      "Brochure Design",
+      "Business Card Design",
+      "Flyer Design",
+      "Infographic Design",
+      "Packaging Design",
+      "Print Design",
+    ],
+    "Graphic Motion": [
+      "Animated Logos",
+      "Title Sequences",
+      "Promotional Videos",
+      "Social Media Videos",
+      "Corporate Videos",
+      "Event Videos",
+      "Training Videos",
+      "Demo Videos",
+      "Music Videos",
+    ],
+    "Software Development": [
+      "Web Apps",
+      "Mobile Apps",
+      "Desktop Apps",
+      "Game Development",
+      "API Development",
+      "Database Design",
+      "E-commerce Development",
+      "Software Testing",
+      "DevOps",
+      "System Integration",
+    ],
+    "Web Development": [
+      "Frontend Development",
+      "Backend Development",
+      "Full Stack Development",
+      "WordPress Development",
+      "Shopify Development",
+      "Web Optimization",
+      "Web Maintenance",
+      "Web Security",
+    ],
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <NavHeader />
       <div className="flex items-center">
-        <div className="flex-col mx-10 my-10 w-[100%]">
-          <h1 className="font-extrabold text-[30px] text-[#1D5B79]">
-            MARKETPLACE
-          </h1>
+        <div className="flex-col mx-10 my-10 w-full">
           <div
             className="w-full h-[300px] relative rounded-lg"
             style={{
-              background: `url(${mpTop})`,
-              backgroundRepeat: "no-repeat",
+              background: `url(${mpTop}) no-repeat center center`,
               backgroundSize: "cover",
             }}
           >
             <div className="absolute bottom-10 left-10 text-white p-2">
-              <h1 className="text-[50px] font-bold mb-5">
-                Freelancing Services
-              </h1>
+              <h1 className="text-[50px] font-bold mb-5">Freelancing Services</h1>
             </div>
           </div>
           <div className="flex items-center justify-center">
-            <div className="flex flex-col w-[100%] mt-10 px-[20rem]">
+            <div className="flex flex-col w-full mt-10 px-[20rem]">
               <form onSubmit={handleSearchSubmit}>
                 <div className="relative w-full flex border border-[#1d5b79] items-center justify-between rounded-md">
                   <svg
@@ -112,13 +173,7 @@ const CMarketplace = () => {
                     strokeLinejoin="round"
                   >
                     <circle cx="11" cy="11" r="8" className=""></circle>
-                    <line
-                      x1="21"
-                      y1="21"
-                      x2="16.65"
-                      y2="16.65"
-                      className=""
-                    ></line>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" className=""></line>
                   </svg>
                   <input
                     type="text"
@@ -130,44 +185,47 @@ const CMarketplace = () => {
                   />
                 </div>
               </form>
-              <div className="flex mt-6 space-x-3 justify-center">               
+              <div className="flex mt-6 space-x-3 justify-center">
+                {selectedServiceType && (
+                  <button
+                    onClick={handleFilterTab}
+                    className="flex items-center justify-center px-2 py-1 border-2 border-[#1D5B79] text-[#1D5B79] rounded-md"
+                  >
+                    <FaFilter />
+                    <IoFilter />
+                  </button>
+                )}
                 <button
                   onClick={() => handleFilter(null)}
                   className="px-4 py-1 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md"
                 >
                   All
                 </button>
-                <button
-                  onClick={() => handleFilter("Animation")}
-                  className="px-4 py-1 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md"
-                >
-                  Animation
-                </button>
-                <button
-                  onClick={() => handleFilter("Graphic Design")}
-                  className="px-4 py-1 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md"
-                >
-                  Graphic Design
-                </button>
-                <button
-                  onClick={() => handleFilter("Graphic Motion")}
-                  className="px-4 py-1 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md"
-                >
-                  Graphic Motion
-                </button>
-                <button
-                  onClick={() => handleFilter("Software Development")}
-                  className="px-4 py-1 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md"
-                >
-                  Software Development
-                </button>
-                <button
-                  onClick={() => handleFilter("Web Development")}
-                  className="px-4 py-1 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md"
-                >
-                  Web Development
-                </button>    
+                {Object.keys(subcategories).map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => handleFilter(category)}
+                    className="px-4 py-1 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md"
+                  >
+                    {category}
+                  </button>
+                ))}
               </div>
+              {showSubcategories && (
+                <div className="mt-2 grid grid-cols-3 gap-2">
+                  {subcategories[selectedServiceType]?.map((subcat) => (
+                    <label key={subcat} className="inline-flex items-center">
+                      <input
+                        type="checkbox"
+                        name="serviceSubCat"
+                        value={subcat}
+                        className="form-checkbox"
+                      />
+                      <span className="ml-2">{subcat}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
           <div className="flex-grow">
