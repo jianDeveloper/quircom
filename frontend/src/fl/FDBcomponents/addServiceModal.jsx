@@ -22,7 +22,7 @@ const AddServiceModal = ({ setaddModal }) => {
   });
 
   const subcategories = {
-    "Animation": [
+    Animation: [
       "2D Animation",
       "3D Animation",
       "Motion Graphics",
@@ -165,7 +165,7 @@ const AddServiceModal = ({ setaddModal }) => {
           autoClose: 2000,
           onClose: () => {
             setTimeout(() => {
-              setaddModal(false)
+              setaddModal(false);
             }, 2000);
           },
         });
@@ -218,27 +218,6 @@ const AddServiceModal = ({ setaddModal }) => {
               <div className="relative flex flex-col overflow-y-auto max-h-[400px] px-6 py-4">
                 <div className="space-y-6">
                   <label
-                    htmlFor="serviceName"
-                    className="block text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
-                  >
-                    Service Title
-                  </label>
-                  <input
-                    type="text"
-                    id="serviceName"
-                    name="serviceName"
-                    value={formData.serviceName}
-                    onChange={handleChange}
-                    className={`mt-1 relative rounded-md shadow-sm border border-gray-300 px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm  ${
-                      invalidFields.serviceName ? "border-red-500" : ""
-                    }`}
-                  />
-                  {invalidFields.serviceName && (
-                    <p className="text-red-500 text-[12px]">
-                      {invalidFields.serviceName}
-                    </p>
-                  )}
-                  <label
                     htmlFor="serviceType"
                     className={`block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300`}
                   >
@@ -271,36 +250,62 @@ const AddServiceModal = ({ setaddModal }) => {
                   </div>
 
                   {/* Render Subcategories */}
-                  {formData.serviceType && subcategories[formData.serviceType] && (
-                    <div className="mt-4">
-                      <label
-                        className={`block text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300`}
-                      >
-                        Service Subcategories
-                      </label>
-                      <div className="mt-2 grid grid-cols-2 gap-2">
-                        {subcategories[formData.serviceType].map((subcat) => (
-                          <label key={subcat} className="inline-flex items-center">
-                            <input
-                              type="checkbox"
-                              name="serviceSubCat"
-                              value={subcat}
-                              checked={formData.serviceSubCat.includes(subcat)}
-                              onChange={handleChange}
-                              className="form-checkbox"
-                            />
-                            <span className="ml-2">{subcat}</span>
-                          </label>
-                        ))}
+                  {formData.serviceType &&
+                    subcategories[formData.serviceType] && (
+                      <div className="mt-4">
+                        <label
+                          className={`block text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300`}
+                        >
+                          Service Subcategories
+                        </label>
+                        <div className="mt-2 grid grid-cols-2 gap-2">
+                          {subcategories[formData.serviceType].map((subcat) => (
+                            <label
+                              key={subcat}
+                              className="inline-flex items-center"
+                            >
+                              <input
+                                type="checkbox"
+                                name="serviceSubCat"
+                                value={subcat}
+                                checked={formData.serviceSubCat.includes(
+                                  subcat
+                                )}
+                                onChange={handleChange}
+                                className="form-checkbox"
+                              />
+                              <span className="ml-2">{subcat}</span>
+                            </label>
+                          ))}
+                        </div>
+                        {invalidFields.serviceSubCat && (
+                          <p className="text-red-500 text-[12px]">
+                            {invalidFields.serviceSubCat}
+                          </p>
+                        )}
                       </div>
-                      {invalidFields.serviceSubCat && (
-                        <p className="text-red-500 text-[12px]">
-                          {invalidFields.serviceSubCat}
-                        </p>
-                      )}
-                    </div>
+                    )}
+                  <label
+                    htmlFor="serviceName"
+                    className="block text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
+                  >
+                    Service Title
+                  </label>
+                  <input
+                    type="text"
+                    id="serviceName"
+                    name="serviceName"
+                    value={formData.serviceName}
+                    onChange={handleChange}
+                    className={`mt-1 relative rounded-md shadow-sm border border-gray-300 px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm  ${
+                      invalidFields.serviceName ? "border-red-500" : ""
+                    }`}
+                  />
+                  {invalidFields.serviceName && (
+                    <p className="text-red-500 text-[12px]">
+                      {invalidFields.serviceName}
+                    </p>
                   )}
-
                   <label
                     htmlFor="serviceInfo"
                     className={`block mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300`}
@@ -313,6 +318,7 @@ const AddServiceModal = ({ setaddModal }) => {
                     value={formData.serviceInfo}
                     onChange={handleChange}
                     rows="3"
+                    placeholder={`Input the Information of the service here. Such as Self Introduction, Specialized In & etc...`}
                     className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 px-3 py-2 ${
                       invalidFields.serviceInfo ? "border-red-500" : ""
                     }`}

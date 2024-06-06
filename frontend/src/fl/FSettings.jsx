@@ -580,20 +580,20 @@ function FSettings() {
                               onChange={handleChange}
                               placeholder="Current Password"
                             />
-                            {invalidFields.currentPassword && (
+                          </>
+                        )}
+                      </div>
+                      {invalidFields.currentPassword && (
                               <p className="text-red-500 text-xs mt-1">
                                 {invalidFields.currentPassword}
                               </p>
                             )}
-                          </>
-                        )}
-                      </div>
                     </label>
                     <label htmlFor="login-password">
                       <span className="text-sm text-gray-500">
                         New Password
                       </span>
-                      <div className="relative flex overflow-hidden rounded-md border-2 transition focus-within:border-blue-600">
+                      <div className="relative flex flex-col overflow-hidden rounded-md border-2 transition focus-within:border-blue-600">
                         {userData && (
                           <>
                             <input
@@ -606,15 +606,15 @@ function FSettings() {
                               value={formData.passWord}
                               onChange={handleChange}
                               placeholder="New Password"
-                            />
-                            {invalidFields.passWord && (
+                            />                        
+                          </>              
+                        )}
+                      </div>
+                      {invalidFields.passWord && (
                               <p className="text-red-500 text-xs mt-1">
                                 {invalidFields.passWord}
                               </p>
                             )}
-                          </>
-                        )}
-                      </div>
                     </label>
                     <div className="">
                       <button

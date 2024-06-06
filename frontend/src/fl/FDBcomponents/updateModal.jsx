@@ -19,7 +19,7 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
   });
 
   const subcategories = {
-    "Animation": [
+    Animation: [
       "2D Animation",
       "3D Animation",
       "Motion Graphics",
@@ -105,7 +105,8 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
         };
 
         const response = await axios.get(
-          `https://quircom.onrender.com/api/service/${serviceInfos._id}`, { headers }
+          `https://quircom.onrender.com/api/service/${serviceInfos._id}`,
+          { headers }
         );
         if (response.status === 200) {
           setUsers(response.data);
@@ -201,7 +202,7 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
           autoClose: 2000,
           onClose: () => {
             setTimeout(() => {
-              setUpdateModal(false)
+              setUpdateModal(false);
             }, 2000);
           },
         });
@@ -214,7 +215,7 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
   };
 
   return (
-    <div>  
+    <div>
       <div
         className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
         style={{ background: "rgba(0,0,0,0.2)" }}
@@ -243,20 +244,6 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
                     )}
                   </div>
                   <label
-                    htmlFor="serviceName"
-                    className="block text-left text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
-                  >
-                    Service Title
-                  </label>
-                  <input
-                    type="text"
-                    id="serviceName"
-                    name="serviceName"
-                    value={formData.serviceName}
-                    onChange={handleChange}
-                    className="mt-1 relative rounded-md shadow-sm border border-gray-300 px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm"
-                  />
-                  <label
                     htmlFor="serviceType"
                     className="block text-left mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
                   >
@@ -282,33 +269,53 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
                       <option value="Web Development">Web Development</option>
                     </select>
                   </div>
-                  {formData.serviceType && subcategories[formData.serviceType] && (
-                    <div className="mt-4">
-                      <label className="block text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300">
-                        Service Subcategories
-                      </label>
-                      <div className="mt-2 grid grid-cols-2 gap-2">
-                        {subcategories[formData.serviceType].map((subcat) => (
-                          <label key={subcat} className="inline-flex items-center">
-                            <input
-                              type="checkbox"
-                              name="serviceSubCat"
-                              value={subcat}
-                              checked={formData.serviceSubCat.includes(subcat)}
-                              onChange={handleChange}
-                              className="form-checkbox"
-                            />
-                            <span className="ml-2">{subcat}</span>
-                          </label>
-                        ))}
+                  {formData.serviceType &&
+                    subcategories[formData.serviceType] && (
+                      <div className="mt-4">
+                        <label className="block text-left font-extrabold text-gray-700 pb-1 border-b border-gray-300">
+                          Service Subcategories
+                        </label>
+                        <div className="mt-2 grid grid-cols-2 gap-2">
+                          {subcategories[formData.serviceType].map((subcat) => (
+                            <label
+                              key={subcat}
+                              className="inline-flex items-center"
+                            >
+                              <input
+                                type="checkbox"
+                                name="serviceSubCat"
+                                value={subcat}
+                                checked={formData.serviceSubCat.includes(
+                                  subcat
+                                )}
+                                onChange={handleChange}
+                                className="form-checkbox"
+                              />
+                              <span className="ml-2">{subcat}</span>
+                            </label>
+                          ))}
+                        </div>
+                        {invalidFields.serviceSubCat && (
+                          <p className="text-red-500 text-[12px]">
+                            {invalidFields.serviceSubCat}
+                          </p>
+                        )}
                       </div>
-                      {invalidFields.serviceSubCat && (
-                        <p className="text-red-500 text-[12px]">
-                          {invalidFields.serviceSubCat}
-                        </p>
-                      )}
-                    </div>
-                  )}
+                    )}
+                  <label
+                    htmlFor="serviceName"
+                    className="block text-left text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
+                  >
+                    Service Title
+                  </label>
+                  <input
+                    type="text"
+                    id="serviceName"
+                    name="serviceName"
+                    value={formData.serviceName}
+                    onChange={handleChange}
+                    className="mt-1 relative rounded-md shadow-sm border border-gray-300 px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm"
+                  />
                   <label
                     htmlFor="serviceInfo"
                     className="block text-left mt-4 text-md font-extrabold text-gray-700 pb-1 border-b border-gray-300"
@@ -435,4 +442,3 @@ const UpdateServiceModal = ({ setUpdateModal, serviceInfos }) => {
 };
 
 export default WithAuth(UpdateServiceModal);
-
