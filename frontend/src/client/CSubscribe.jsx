@@ -153,7 +153,9 @@ const CSubscribe = () => {
                   paymentNum:
                     response.data.data[0].attributes.payments[0].data.attributes
                       .billing.phone,
-                  paymentMethod: response.data.data[0].attributes.payments[0].data.attributes.source.type
+                  paymentMethod:
+                    response.data.data[0].attributes.payments[0].data.attributes
+                      .source.type,
                 },
               };
 
@@ -215,7 +217,7 @@ const CSubscribe = () => {
           <div className="mb-20 text-center">
             <div className="mb-4 text-gray-800">
               <h2 className="text-4xl font-bold md:text-5xl md:leading-none">
-                Welcome to Quircom!
+                Find Services Now!
               </h2>
             </div>
             <p className="mx-auto mb-8 max-w-3xl text-gray-800">
@@ -223,15 +225,18 @@ const CSubscribe = () => {
               life should be a breeze. Let's make it easy and exhilarating
               together.
             </p>
-            <div className="mx-auto w-1/4 relative rounded-tl-none rounded-br-none shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] bg-gradient-to-tr from-sky-600 to-sky-800 p-6 ">
-              <Link to={`/client/browse-service/${userId}`}>
+            <Link to={`/client/browse-service/${userId}`}>
+              <div className="mx-auto w-1/4 relative rounded-md shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] bg-gradient-to-tr from-sky-600 to-sky-800 p-6 ">
+                <button className="text-white font-bold text-2xl">
+                  Go to Marketplace!
+                </button>
                 <img
-                  className="max-w-full h-auto rounded-lg transition-transform duration-300 shadow-lg hover:rotate-12"
+                  className="max-w-full rounded-lg transition-transform duration-300 hover:rotate-12"
                   src={BGSubs}
                   alt="Quircom Motion"
                 />
-              </Link>
-            </div>
+              </div>
+            </Link>
           </div>
         ) : (
           <div className="pt-16 pb-8 text-center leading-8 text-gray-800 md:pb-16 lg:pt-20">
