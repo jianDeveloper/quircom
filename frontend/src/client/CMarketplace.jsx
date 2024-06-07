@@ -212,7 +212,7 @@ const CMarketplace = () => {
                 ))}
               </div>
               {showSubcategories && (
-                <div className="mt-2 grid grid-cols-3 gap-2">
+                <div className="bg-white px-4 py-2 mt-2 grid grid-cols-4 gap-2 rounded-lg border-[1px] shadow-sm">
                   {subcategories[selectedServiceType]?.map((subcat) => (
                     <label key={subcat} className="inline-flex items-center">
                       <input

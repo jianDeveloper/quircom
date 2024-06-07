@@ -7,6 +7,8 @@ import WithAuth from "../auth/WithAuth";
 import { FaStar } from "react-icons/fa6";
 import Loader from "../assets/quircomloading.gif";
 import BGSubs from "../assets/icon00.png";
+import { FaFilter } from "react-icons/fa";
+import { IoFilter } from "react-icons/io5";
 
 function CRank() {
   const [freelancers, setFreelancers] = useState([]); // State to hold the freelancer data
@@ -14,6 +16,9 @@ function CRank() {
   const { userId } = useParams();
   const [loading, setLoading] = useState(true);
   const [userData, setUsers] = useState();
+  const [filterTab, setFilterTab] = useState("");
+  const [selectedServiceType, setSelectedServiceType] = useState(null);
+  const [showSubcategories, setShowSubcategories] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -85,6 +90,76 @@ function CRank() {
     const averageRating = totalRating / totalFeedbacks;
     return averageRating.toFixed(1);
   };
+
+  const subcategories = {
+    Animation: [
+      "2D Animation",
+      "3D Animation",
+      "Motion Graphics",
+      "Whiteboard Animation",
+      "Stop Motion",
+      "Character Animation",
+      "Explainer Videos",
+      "Logo Animation",
+      "Product Animation",
+      "Visual Effects",
+    ],
+    "Graphic Design": [
+      "Logo Design",
+      "Illustration",
+      "UI/UX Design",
+      "Banner Design",
+      "Brochure Design",
+      "Business Card Design",
+      "Flyer Design",
+      "Infographic Design",
+      "Packaging Design",
+      "Print Design",
+    ],
+    "Graphic Motion": [
+      "Animated Logos",
+      "Title Sequences",
+      "Promotional Videos",
+      "Social Media Videos",
+      "Corporate Videos",
+      "Event Videos",
+      "Training Videos",
+      "Demo Videos",
+      "Music Videos",
+    ],
+    "Software Development": [
+      "Web Apps",
+      "Mobile Apps",
+      "Desktop Apps",
+      "Game Development",
+      "API Development",
+      "Database Design",
+      "E-commerce Development",
+      "Software Testing",
+      "DevOps",
+      "System Integration",
+    ],
+    "Web Development": [
+      "Frontend Development",
+      "Backend Development",
+      "Full Stack Development",
+      "WordPress Development",
+      "Shopify Development",
+      "Web Optimization",
+      "Web Maintenance",
+      "Web Security",
+    ],
+  };
+
+  const handleFilter = (type) => {
+    setSelectedServiceType(type);
+    setFilterTab(type ? "Filter" : "");
+    setShowSubcategories(false);
+  };
+  const handleFilterTab = () => {
+    setShowSubcategories(!showSubcategories);
+  };
+
   return (
     <div className="relative flex flex-col w-full min-w-0 mb-0 break-words border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
       <div>
@@ -120,9 +195,54 @@ function CRank() {
         </div>
       ) : (
         <>
-          <div className="mt-[60px] mx-4 md:mx-[100px] font-extrabold text-[30px] text-[#1D5B79]">
-            <h6>LEADERBOARD</h6>
+          <div className="flex items-center mt-[60px] mx-4 md:mx-[100px] font-extrabold  text-[#1D5B79] gap-6">
+            <h6 className="text-[30px]">LEADERBOARD</h6>
+            <div>
+            <div className="flex space-x-3 justify-center w-full ">
+              {selectedServiceType && (
+                <button
+                  onClick={handleFilterTab}
+                  className="flex items-center justify-center px-2 py-1 border-2 border-[#1D5B79] text-[#1D5B79] rounded-md"
+                >
+                  <FaFilter />
+                  <IoFilter />
+                </button>
+              )}
+              <button
+                onClick={() => handleFilter(null)}
+                className="px-4 py-1 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md"
+              >
+                All
+              </button>
+              {Object.keys(subcategories).map((category) => (
+                <button
+                  key={category}
+                  onClick={() => handleFilter(category)}
+                  className="px-4 py-1 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md"
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+            </div>
           </div>
+          <div className="flex justify-center">
+          {showSubcategories && (
+              <div className="w-[900px] bg-white px-4 py-2 mt-2 grid grid-cols-4 gap-2 rounded-lg border-[1px] shadow-sm">
+                {subcategories[selectedServiceType]?.map((subcat) => (
+                  <label key={subcat} className="inline-flex items-center">
+                    <input
+                      type="checkbox"
+                      name="serviceSubCat"
+                      value={subcat}
+                      className="form-checkbox"
+                    />
+                    <span className="ml-2">{subcat}</span>
+                  </label>
+                ))}
+              </div>
+            )}
+            </div>
           <div className="flex-auto px-0 pt-0 pb-2 mx-4 md:mx-[100px]">
             <div className="p-0 overflow-x-auto">
               <table className="items-center w-full mb-0 align-top border-gray-200 text-[#1D5B79]">
