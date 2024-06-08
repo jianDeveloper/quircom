@@ -3,14 +3,12 @@ import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 
 import NavHeader from "../CMainNav";
-
-import Connect from "../../assets/link.png";
 import AddReqModal from "./addReqModal";
-
 import WithAuth from "../../auth/WithAuth";
 
 import Loader from "../../assets/quircomloading.gif";
 import BGSubs from "../../assets/icon00.png";
+import Connect from "../../assets/link.png";
 
 function CConnect() {
   const [userData, setUsers] = useState();
@@ -209,7 +207,16 @@ function CConnect() {
                   </p>
                 </div>
               </div>
-
+              <div className="mt-2">
+                  {userServices?.serviceSubCat.map((subcategory) => (
+                    <button
+                      key={subcategory}
+                      className="text-[10px] p-2 m-1 rounded-lg font-bold text-[#1D5B79] border-solid border-2 border-[#1D5B79] bg-[#EBF5FF] hover:bg-[#1D5B79] hover:text-white"
+                    >
+                      {subcategory}
+                    </button>
+                  ))}
+              </div>
               <div className="mt-10 flex flex-col items-center justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0 text-[#1D5B79]">
                 <div className="flex items-end">
                   <h1 className="text-3xl font-bold">
@@ -250,25 +257,6 @@ function CConnect() {
                     ></path>
                   </svg>
                   Quircom Philippines Services
-                </li>
-
-                <li className="flex items-center text-left text-sm font-medium text-gray-600">
-                  <svg
-                    className="mr-2 block h-5 w-5 align-middle text-gray-500"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-                      className=""
-                    ></path>
-                  </svg>
-                  Cancel Anytime
                 </li>
               </ul>
             </div>

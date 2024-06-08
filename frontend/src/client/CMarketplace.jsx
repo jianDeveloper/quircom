@@ -252,9 +252,6 @@ const CMarketplace = () => {
                         <div className="align-bottom mt-10 w-full flex justify-center bg-gray-200 rounded-md hover:bg-gray-300 active:bg-gray-400">
                           <div className="h-10 w-24 bg-gray-200 rounded-md"></div>
                         </div>
-                        <div>
-                        <p>Hello World</p>
-                        </div>
                       </CardBody>
                       <CardFooter>
                         
