@@ -12,6 +12,7 @@ import {
   Card,
   CardBody,
   CardHeader,
+  CardFooter,
   Typography,
   Button,
 } from "@material-tailwind/react";
@@ -139,6 +140,7 @@ const CMarketplace = () => {
       "Web Security",
     ],
   };
+  console.log("Category", services.serviceSubCat)
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -250,7 +252,13 @@ const CMarketplace = () => {
                         <div className="align-bottom mt-10 w-full flex justify-center bg-gray-200 rounded-md hover:bg-gray-300 active:bg-gray-400">
                           <div className="h-10 w-24 bg-gray-200 rounded-md"></div>
                         </div>
+                        <div>
+                        <p>Hello World</p>
+                        </div>
                       </CardBody>
+                      <CardFooter>
+                        
+                      </CardFooter>
                     </Card>
                   </div>
                 ))}
@@ -275,6 +283,7 @@ const CMarketplace = () => {
                           " " +
                           (item?.freelancerId?.surName || "")
                         }
+                        subCat={item.serviceSubCat}
                         button="Avail"
                       />
                     ))}

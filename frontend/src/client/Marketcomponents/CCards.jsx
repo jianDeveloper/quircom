@@ -3,6 +3,7 @@ import {
   Card,
   CardHeader,
   CardBody,
+  CardFooter,
   Typography,
   Button,
 } from "@material-tailwind/react";
@@ -11,7 +12,8 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import WithAuth from "../../auth/WithAuth";
 
-const CCards = ({ image, serviceId, subtitle, title, author, button }) => {
+
+const CCards = ({ image, serviceId, subtitle, title, author, button, subCat }) => {
   const [userData, setUsers] = useState();
   const { userId } = useParams();
   const [userServices, setServices] = useState();
@@ -57,7 +59,7 @@ const CCards = ({ image, serviceId, subtitle, title, author, button }) => {
           setServices(response.data);
         }
       } catch (error) {
-        console.error("Error fetching users:", error);
+        console.error("Error fetching services:", error);
       }
     };
 
@@ -81,7 +83,19 @@ const CCards = ({ image, serviceId, subtitle, title, author, button }) => {
           </Typography>
           <Typography className="text-[#1D5B79]">{author}</Typography>
         </div>
-        <div className="align-bottom mt-10 w-full flex justify-center">
+        <div className="flex flex-wrap">
+          {subCat.map((subcategory) => (
+            <button
+              key={subcategory}
+              className="text-[10px] p-2 m-1 rounded-lg font-bold text-[#1D5B79] border-solid border-2 border-[#1D5B79] bg-[#EBF5FF] hover:bg-[#1D5B79] hover:text-white"
+            >
+              {subcategory}
+            </button>
+          ))}
+        </div>
+      </CardBody>
+      <CardFooter>
+        <div className="align-bottom w-full flex justify-center">
           <Link
             to={`/client/service-connect/${userId}/${serviceId}`}
             className="w-full"
@@ -91,7 +105,7 @@ const CCards = ({ image, serviceId, subtitle, title, author, button }) => {
             </Button>
           </Link>
         </div>
-      </CardBody>
+      </CardFooter>
     </Card>
   );
 };
