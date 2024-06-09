@@ -38,6 +38,8 @@ import FProfile from "./fl/FProfile.jsx";
 import FViewProfile from "./fl/FViewProfile.jsx";
 import FSettings from "./fl/FSettings.jsx";
 import FSettingsProfile from "./fl/FSettingsProfile.jsx";
+import FMarketplace from "./fl/FMarketplace.jsx";
+import FConnect from "./fl/FMarketComponents/FConnect.jsx";
 
 function App() {
   return (
@@ -160,6 +162,16 @@ function App() {
           exact
           path="/freelancer/settings-profile/:userId"
           element={<FSettingsProfile />}
+        />
+        <Route
+          exact
+          path="/freelancer/browse-commission/:userId"
+          element={<FMarketplace />}
+        />
+        <Route
+          exact
+          path="/freelancer/commission-connect/:userId"
+          element={<FConnect />}
         />
 
         {/* ROUTE FOR Admin */}

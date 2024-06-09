@@ -18,6 +18,7 @@ import Dboard from "../assets/dboard.png";
 import Settings from "../assets/settings.png";
 import LBoard from "../assets/crown.png";
 import User from "../assets/user.png";
+import Service from "../assets/service.png";
 
 import WithAuth from "../auth/WithAuth";
 import { TiThMenu } from "react-icons/ti";
@@ -131,10 +132,16 @@ const FMainNav = () => {
       index: 0,
     },
     {
+      icon: Service,
+      component: `/freelancer/browse-commission/${userId}`,
+      text: "Commission",
+      index: 1,
+    },
+    {
       icon: LBoard,
       component: `/freelancer/leaderboard/${userId}`,
       text: "Leaderboard",
-      index: 1,
+      index: 2,
     },
   ];
 

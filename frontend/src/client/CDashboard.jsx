@@ -14,6 +14,8 @@ import BG1 from "../assets/bg1.png";
 import BGmark from "../assets/ser.png";
 import BGtrack from "../assets/tra.png";
 import BGsubs from "../assets/sub.png";
+import BGfl from "../assets/BGfl.png";
+import BGcoms from "../assets/BGcoms.png";
 import CMainNav from "./CMainNav";
 import WithAuth from "../auth/WithAuth";
 
@@ -124,6 +126,40 @@ function CDashboard() {
                 {finishDetails.length + requestDetails.length}
               </h1>
             </div>
+          </div>
+          <div className="grid grid-cols-1 gap-[20px] my-[15px] md:grid-cols-2">
+          <Link to={`/client/browse-service/${userId}`}>
+              <div
+                className="flex flex-col justify-around rounded-lg"
+                style={{
+                  background: `url(${BGcoms})`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "cover",
+                }}
+              >
+                <div className="flex justify-center items-center py-10">
+                  <h3 className="flex font-extrabold text-xl text-[#F5F5DC] gap-2">
+                    Post <p>a</p><p>Commission</p>
+                  </h3>
+                </div>
+              </div>
+            </Link>
+            <Link to={`/client/browse-service/${userId}`}>
+              <div
+                className="flex flex-col justify-around rounded-lg"
+                style={{
+                  background: `url(${BGfl})`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "cover",
+                }}
+              >
+                <div className="flex justify-center items-center py-10">
+                  <h3 className="flex font-extrabold text-xl text-[#F5F5DC] gap-2">
+                  List <p>of</p><p>Applicants</p>
+                  </h3>
+                </div>
+              </div>
+            </Link>
           </div>
           <div className="grid grid-cols-1 gap-[20px] my-[15px] md:grid-cols-3">
             <Link to={`/client/browse-service/${userId}`}>
