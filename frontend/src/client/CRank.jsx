@@ -19,6 +19,7 @@ function CRank() {
   const [filterTab, setFilterTab] = useState("");
   const [selectedServiceType, setSelectedServiceType] = useState(null);
   const [showSubcategories, setShowSubcategories] = useState(false);
+  const [selectedSubCategories, setSelectedSubCategories] = useState([]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -160,6 +161,10 @@ function CRank() {
     setShowSubcategories(!showSubcategories);
   };
 
+  const handleRemoveFilter = () => {
+    setSelectedSubCategories([]);
+  };
+
   return (
     <div className="relative flex flex-col w-full min-w-0 mb-0 break-words border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
       <div>
@@ -201,51 +206,77 @@ function CRank() {
           <div className="flex items-center mt-[60px] mx-4 md:mx-[100px] font-extrabold  text-[#1D5B79] gap-6">
             <h6 className="text-[30px]">LEADERBOARD</h6>
             <div>
-            <div className="flex space-x-3 justify-center w-full ">
-              {selectedServiceType && (
+              <div className="flex space-x-3 justify-center w-full ">
+                {selectedServiceType && (
+                  <button
+                    onClick={handleFilterTab}
+                    className="flex items-center justify-center px-2 py-1 border-2 border-[#1D5B79] text-[#1D5B79] rounded-md"
+                  >
+                    <FaFilter />
+                    <IoFilter />
+                  </button>
+                )}
                 <button
-                  onClick={handleFilterTab}
-                  className="flex items-center justify-center px-2 py-1 border-2 border-[#1D5B79] text-[#1D5B79] rounded-md"
-                >
-                  <FaFilter />
-                  <IoFilter />
-                </button>
-              )}
-              <button
-                onClick={() => handleFilter(null)}
-                className="px-4 py-1 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md"
-              >
-                All
-              </button>
-              {Object.keys(subcategories).map((category) => (
-                <button
-                  key={category}
-                  onClick={() => handleFilter(category)}
+                  onClick={() => handleFilter(null)}
                   className="px-4 py-1 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md"
                 >
-                  {category}
+                  All
                 </button>
-              ))}
-            </div>
+                {Object.keys(subcategories).map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => handleFilter(category)}
+                    className="px-4 py-1 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md"
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
           <div className="flex justify-center">
-          {showSubcategories && (
-              <div className="w-[900px] bg-white px-4 py-2 mt-2 grid grid-cols-4 gap-2 rounded-lg border-[1px] shadow-sm">
-                {subcategories[selectedServiceType]?.map((subcat) => (
-                  <label key={subcat} className="inline-flex items-center">
-                    <input
-                      type="checkbox"
-                      name="serviceSubCat"
-                      value={subcat}
-                      className="form-checkbox"
-                    />
-                    <span className="ml-2">{subcat}</span>
-                  </label>
-                ))}
-              </div>
+            {showSubcategories && selectedServiceType && (
+              <>
+                <div className="bg-white px-4 py-2 mt-2 grid grid-cols-4 gap-2 rounded-lg border-[1px] shadow-sm">
+                  {subcategories[selectedServiceType]?.map((subcat) => (
+                    <label key={subcat} className="inline-flex items-center">
+                      <input
+                        type="checkbox"
+                        name="serviceSubCat"
+                        value={subcat}
+                        checked={selectedSubCategories.includes(subcat)}
+                        onChange={(e) => {
+                          const { checked } = e.target;
+                          if (checked) {
+                            setSelectedSubCategories((prevSubCategories) => [
+                              ...prevSubCategories,
+                              subcat,
+                            ]);
+                          } else {
+                            setSelectedSubCategories((prevSubCategories) =>
+                              prevSubCategories.filter(
+                                (category) => category !== subcat
+                              )
+                            );
+                          }
+                        }}
+                        className="form-checkbox"
+                      />
+                      <span className="ml-2">{subcat}</span>
+                    </label>
+                  ))}
+                  <div className="col-span-4 flex justify-end px-4">
+                    <button
+                      className="bg-blue-100 px-2 rounded-md border-[1px] border-[#1D5B79] hover:bg-blue-200"
+                      onClick={handleRemoveFilter}
+                    >
+                      Remove Filter
+                    </button>
+                  </div>
+                </div>
+              </>
             )}
-            </div>
+          </div>
           <div className="flex-auto px-0 pt-0 pb-2 mx-4 md:mx-[100px]">
             <div className="p-0 overflow-x-auto">
               <table className="items-center w-full mb-0 align-top border-gray-200 text-[#1D5B79]">
@@ -267,13 +298,22 @@ function CRank() {
                 </thead>
                 <tbody>
                   {freelancers
+                    .filter((freelancer) => {
+                      // Filter the freelancers based on the selected service type
+                      if (selectedServiceType) {
+                        return serviceDetails.some(
+                          (service) =>
+                            service?.freelancerId?._id === freelancer._id &&
+                            service.serviceType === selectedServiceType
+                        );
+                      }
+                      return true; // If no service type is selected, include all freelancers
+                    })
                     .sort((a, b) => {
+                      // Sorting logic remains the same as before
                       const ratingA = a.ratings !== null ? a.ratings : 0;
                       const ratingB = b.ratings !== null ? b.ratings : 0;
-
-                      // If there are equal ratings
                       if (ratingA === ratingB) {
-                        // Count the number of service feedbacks
                         const serviceCountA = serviceDetails
                           .filter(
                             (service) => service?.freelancerId?._id === a._id
@@ -292,10 +332,8 @@ function CRank() {
                               (request) => request?.feedbackNum
                             )
                           ).length;
-                        // Sort by number of service feedbacks
                         return serviceCountB - serviceCountA;
                       }
-                      // Sort in descending order based on ratings
                       return ratingB - ratingA;
                     })
                     .map((freelancer, index) => (
