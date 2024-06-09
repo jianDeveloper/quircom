@@ -22,6 +22,7 @@ const CMarketplace = () => {
   const [services, setServices] = useState([]);
   const [filterTab, setFilterTab] = useState("");
   const [selectedServiceType, setSelectedServiceType] = useState(null);
+  const [selectedSubCategories, setSelectedSubCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [showSubcategories, setShowSubcategories] = useState(false);
@@ -56,17 +57,30 @@ const CMarketplace = () => {
     const matchesType = selectedServiceType
       ? service.serviceType === selectedServiceType
       : true;
+    const matchesSubCategory = selectedSubCategories.length
+      ? selectedSubCategories.includes(service.serviceSubCat)
+      : true;
     const matchesSearch = searchQuery
       ? service.serviceName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         service.serviceType.toLowerCase().includes(searchQuery.toLowerCase())
       : true;
-    return matchesType && matchesSearch;
+    return matchesType && matchesSubCategory && matchesSearch;
   });
 
   const handleFilter = (type) => {
     setSelectedServiceType(type);
     setFilterTab(type ? "Filter" : "");
-    setShowSubcategories(false);
+    setSelectedSubCategories([]);
+    setShowSubcategories(true);
+  };
+
+  const handleSubCategoryChange = (event) => {
+    const subCategory = event.target.value;
+    setSelectedSubCategories((prev) =>
+      prev.includes(subCategory)
+        ? prev.filter((item) => item !== subCategory)
+        : [...prev, subCategory]
+    );
   };
 
   const handleInputChange = (event) => {
@@ -140,7 +154,9 @@ const CMarketplace = () => {
       "Web Security",
     ],
   };
-  console.log("Category", services.serviceSubCat)
+
+  console.log("categories", selectedServiceType);
+  console.log("subcategories: ", selectedSubCategories);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -198,7 +214,10 @@ const CMarketplace = () => {
                   </button>
                 )}
                 <button
-                  onClick={() => handleFilter(null)}
+                  onClick={() => {
+                    handleFilter(null);
+                    setShowSubcategories(false);
+                  }}
                   className="px-4 py-1 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md"
                 >
                   All
@@ -213,7 +232,7 @@ const CMarketplace = () => {
                   </button>
                 ))}
               </div>
-              {showSubcategories && (
+              {showSubcategories && selectedServiceType && (
                 <div className="bg-white px-4 py-2 mt-2 grid grid-cols-4 gap-2 rounded-lg border-[1px] shadow-sm">
                   {subcategories[selectedServiceType]?.map((subcat) => (
                     <label key={subcat} className="inline-flex items-center">
@@ -221,6 +240,8 @@ const CMarketplace = () => {
                         type="checkbox"
                         name="serviceSubCat"
                         value={subcat}
+                        checked={selectedSubCategories.includes(subcat)}
+                        onChange={handleSubCategoryChange}
                         className="form-checkbox"
                       />
                       <span className="ml-2">{subcat}</span>
@@ -253,9 +274,7 @@ const CMarketplace = () => {
                           <div className="h-10 w-24 bg-gray-200 rounded-md"></div>
                         </div>
                       </CardBody>
-                      <CardFooter>
-                        
-                      </CardFooter>
+                      <CardFooter></CardFooter>
                     </Card>
                   </div>
                 ))}
