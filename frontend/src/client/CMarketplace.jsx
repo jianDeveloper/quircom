@@ -58,7 +58,7 @@ const CMarketplace = () => {
       ? service.serviceType === selectedServiceType
       : true;
     const matchesSubCategory = selectedSubCategories.length
-      ? selectedSubCategories.includes(service.serviceSubCat)
+      ? selectedSubCategories.some(subCat => service.serviceSubCat.includes(subCat))
       : true;
     const matchesSearch = searchQuery
       ? service.serviceName.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -155,8 +155,9 @@ const CMarketplace = () => {
     ],
   };
 
-  console.log("categories", selectedServiceType);
-  console.log("subcategories: ", selectedSubCategories);
+  const handleRemoveFilter = () => {
+    setSelectedSubCategories([]);
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -225,7 +226,9 @@ const CMarketplace = () => {
                 {Object.keys(subcategories).map((category) => (
                   <button
                     key={category}
-                    onClick={() => handleFilter(category)}
+                    onClick={() => {handleFilter(category);
+                      setShowSubcategories(false);
+                    }}
                     className="px-4 py-1 bg-[#1D5B79] hover:bg-[#2069A3] text-white rounded-md"
                   >
                     {category}
@@ -233,6 +236,7 @@ const CMarketplace = () => {
                 ))}
               </div>
               {showSubcategories && selectedServiceType && (
+                <>
                 <div className="bg-white px-4 py-2 mt-2 grid grid-cols-4 gap-2 rounded-lg border-[1px] shadow-sm">
                   {subcategories[selectedServiceType]?.map((subcat) => (
                     <label key={subcat} className="inline-flex items-center">
@@ -247,8 +251,12 @@ const CMarketplace = () => {
                       <span className="ml-2">{subcat}</span>
                     </label>
                   ))}
+                  <div className="col-span-4 flex justify-end px-4">
+                  <button className="bg-blue-100 px-2 rounded-md border-[1px] border-[#1D5B79] hover:bg-blue-200" onClick={handleRemoveFilter}>Remove Filter</button>
+                  </div>
+                  
                 </div>
-              )}
+                </>)}
             </div>
           </div>
           <div className="flex-grow">
