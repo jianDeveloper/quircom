@@ -18,10 +18,12 @@ import BGfl from "../assets/BGfl.png";
 import BGcoms from "../assets/BGcoms.png";
 import CMainNav from "./CMainNav";
 import WithAuth from "../auth/WithAuth";
+import AddModal from "./Dashcomponents/addComsModal";
 
 function CDashboard() {
   const { userId } = useParams();
   const [userData, setUserData] = useState(null);
+  const [addModal, setaddModal] = useState(false);
   const [pendingDetails, setPending] = useState([]);
   const [requestDetails, setRequest] = useState([]);
   const [finishDetails, setFinish] = useState([]);
@@ -128,25 +130,26 @@ function CDashboard() {
             </div>
           </div>
           <div className="grid grid-cols-1 gap-[20px] my-[15px] md:grid-cols-2">
-          <Link to={`/client/browse-service/${userId}`}>
-              <div
-                className="flex flex-col justify-around rounded-lg"
-                style={{
-                  background: `url(${BGcoms})`,
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "cover",
-                }}
-              >
-                <div className="flex justify-center items-center py-10">
-                  <h3 className="flex font-extrabold text-xl text-[#F5F5DC] gap-2">
-                    Post <p>a</p><p>Commission</p>
-                  </h3>
-                </div>
+            <button
+              onClick={() => setaddModal(true)}
+              className="flex justify-around rounded-lg"
+              style={{
+                background: `url(${BGcoms})`,
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+              }}
+            >
+              <div className="flex justify-center items-center py-10">
+                <h3 className="flex font-extrabold text-xl text-[#F5F5DC] gap-2">
+                  Post <p>a</p>
+                  <p>Commission</p>
+                </h3>
               </div>
-            </Link>
+            </button>
+            {addModal && <AddModal setaddModal={setaddModal} />}
             <Link to={`/client/browse-service/${userId}`}>
               <div
-                className="flex flex-col justify-around rounded-lg"
+                className="flex justify-around rounded-lg"
                 style={{
                   background: `url(${BGfl})`,
                   backgroundRepeat: "no-repeat",
@@ -155,7 +158,8 @@ function CDashboard() {
               >
                 <div className="flex justify-center items-center py-10">
                   <h3 className="flex font-extrabold text-xl text-[#F5F5DC] gap-2">
-                  List <p>of</p><p>Applicants</p>
+                    List <p>of</p>
+                    <p>Applicants</p>
                   </h3>
                 </div>
               </div>
@@ -187,14 +191,14 @@ function CDashboard() {
               }}
             >
               <Link to={`/client/projects/${userId}`}>
-              <div className="flex justify-center items-center py-14">
+                <div className="flex justify-center items-center py-14">
                   <button
                     type="button"
                     className="font-extrabold text-xl text-[#F5F5DC]"
                   >
                     Projects
                   </button>
-              </div>
+                </div>
               </Link>
             </div>
             <Link to={`/client/leaderboard/${userId}`}>
