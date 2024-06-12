@@ -23,6 +23,30 @@ This platform focuses on providing quality services and job opportunities tailor
 4. Usage
 - To start the application, run: npm run dev (frontend) / npm start (backend)
 
+## Accounts for Administrator
+- username: administrator
+- password: 123
+
+## Accounts for Clients
+- username: james
+- password: 123
+<br></br>
+- username: pol
+- password: 123
+<br></br>
+- username: vinsu
+- password: 123
+
+## Accounts for Freelancers
+- username: jj123
+- password: 123
+<br></br>
+- username: john123
+- password: 123
+<br></br>
+- username: mowi
+- password: 123
+
 ## Contributing
 We welcome contributions! Please fork the repository and create a pull request with your changes. Ensure your code follows our coding guidelines and is well-documented.
 
