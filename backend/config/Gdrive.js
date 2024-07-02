@@ -16,7 +16,7 @@ JWTClient.authorize(function (err, tokens) {
   if (err) {
     console.log(err.message);
   } else {
-    console.log("Google Autorization Complete");
+    console.log("Google Authorization Complete");
   }
 });
 
